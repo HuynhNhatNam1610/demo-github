@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng Nhập</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <h1 class="login-title">ĐĂNG NHẬP</h1>
+
+      <div class="progress-bar">
+        <div class="progress-bar-gray"></div>
+        <div class="progress-bar-red"></div>
+        <div class="progress-bar-gray"></div>
+      </div>
+
+      <!-- Login form fields -->
+      <div id="login-form">
+        <input type="email" class="input-field" placeholder="Email" />
+        <input type="password" class="input-field" placeholder="Mật khẩu" />
+
+        <button class="login-button">ĐĂNG NHẬP</button>
+
+        <div class="login-links">
+          <a href="#" id="forgot-password-link">Quên mật khẩu?</a>
+          <a href="dangki.html">Đăng ký tại đây</a>
+        </div>
+      </div>
+
+      <!-- Forgot password form fields -->
+      <div id="forgot-password-form" style="display: none">
+        <input type="email" class="input-field" placeholder="Email" />
+
+        <button class="login-button">LẤY LẠI MẬT KHẨU</button>
+      </div>
+
+      <div class="alt-login-text">hoặc đăng nhập qua</div>
+
+      <div class="social-buttons">
+        <a
+          href="https://www.facebook.com/hao23nhat/"
+          class="social-button facebook-button"
+        >
+          <i>f</i> Facebook
+        </a>
+        <a
+          href="https://www.google.com.vn/"
+          class="social-button google-button"
+        >
+          <i>G+</i> Google
+        </a>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("forgot-password-link")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          document.getElementById("login-form").style.display = "none";
+          document.getElementById("forgot-password-form").style.display =
+            "block";
+        });
+    </script>
+  </body>
+</html>
