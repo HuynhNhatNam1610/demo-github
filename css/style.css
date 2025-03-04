@@ -1,3 +1,14 @@
+
+.policy-title a {
+    color: #d10000; /* Matches the .policy-title color from your CSS */
+    text-decoration: none; /* Removes the underline */
+    transition: filter 0.3ss ease;
+}
+.policy-title a:hover {
+    color: #d10000; /* Keeps the color consistent on hover */
+    text-decoration: none; /* No underline on hover */
+    filter: brightness(0.8); 
+}
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     color: #333;
