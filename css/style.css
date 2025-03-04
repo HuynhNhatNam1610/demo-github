@@ -1,0 +1,83 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+}
+
+/* Header Styles */
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand img {
+    height: 40px;
+}
+
+.nav-link {
+    color: #333;
+    font-weight: 500;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #222;
+    color: #fff;
+    padding: 40px 0 20px;
+}
+
+.footer-title {
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    padding: 5px 0;
+}
+
+.footer-links a {
+    color: #bbb;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: #fff;
+}
+
+/* Policy Page Styles */
+.policy-header {
+    background-color: #f8f9fa;
+    padding: 30px 0;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.policy-section {
+    margin-bottom: 30px;
+}
+
+.policy-title {
+    color: #d10000;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.policy-content {
+    line-height: 1.8;
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 10px 0;
+}
+
+.breadcrumb-item a {
+    color: #d10000;
+    text-decoration: none;
+}
