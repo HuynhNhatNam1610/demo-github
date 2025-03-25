@@ -64,7 +64,6 @@
           <p class="description">
             Đã có tài khoản, <a id="login-link">đăng nhập tại đây</a>
           </p>
-
           <input type="text" name="fullname" class="input-field" placeholder="Họ và tên" required />
           <input type="text" name="username" class="input-field" placeholder="Tài khoản" required />
           <input type="password" name="password" class="input-field" placeholder="Mật khẩu" required/>
@@ -93,19 +92,22 @@
         </div>
       </form>
 
-      <div id="forgot-password-form">
-        <h1 class="title">QUÊN MẬT KHẨU</h1>
-        <p class="description">Nhập email của bạn để lấy lại mật khẩu</p>
+      <form action="../../controller/UserController.php" method="POST">
+        <div id="forgot-password-form">
+          <h1 class="title">QUÊN MẬT KHẨU</h1>
+          <p class="description">Nhập email của bạn để lấy lại mật khẩu</p>
 
-        <input type="email" class="input-field" placeholder="Email" />
+          <input type="email" class="input-field" placeholder="Email" name="email" />
 
-        <button class="button">LẤY LẠI MẬT KHẨU</button>
+          <button class="button" type="submit" name="forgot">LẤY LẠI MẬT KHẨU</button>
 
-        <p class="description">
-          <a id="back-to-login-link">Quay lại đăng nhập</a>
-        </p>
-      </div>
+          <p class="description">
+            <a id="back-to-login-link">Quay lại đăng nhập</a>
+          </p>
+        </div>
+      </form>
     </div>
+
     <footer> <?php include "footer.php"; ?></footer>
     <script src="../js/login.js"></script>
   </body>
