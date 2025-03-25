@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thời Trang Thể Thao Nam</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/trangchitiet.css" />
+    <link rel="stylesheet" href="../css/trangchude.css" />
   </head>
   <body>
     <header> <?php include "header.php";?> </header>

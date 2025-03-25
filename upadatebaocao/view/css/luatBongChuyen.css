@@ -1,0 +1,247 @@
+/* Áp dụng font và màu cơ bản */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Thay thế class container */
+.custom-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+/* Policy Header */
+.policy-header {
+    background-color: #f8f9fa;
+    padding: 15px 0;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: #e9ecef;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    display: flex;
+    list-style: none;
+    font-size: 0.9rem;
+}
+
+.breadcrumb-item {
+    margin-right: 5px;
+}
+
+.breadcrumb-item a {
+    color: #d10000;
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #333;
+}
+
+/* Tiêu đề chính */
+.policy-title-main {
+    color: #000000;
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.8rem;
+    line-height: 1.2;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.main-content {
+    width: 82%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.main-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 15px 0;
+}
+
+.image-caption {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.sidebar {
+    width: 18%;
+    font-size: 0.8rem;
+}
+
+.policy-title {
+    color: #d10000;
+    font-weight: 600;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px;
+    font-size: 1rem;
+}
+
+.policy-content {
+    line-height: 1.5;
+}
+
+.sidebar .policy-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #d10000;
+    font-weight: bold;
+}
+
+.sidebar-item {
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-item:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-thumbnail {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.sidebar-item a {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: #000;
+    text-decoration: none;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.ms-2 {
+    margin-left: 8px;
+}
+
+.small.text-muted {
+    font-size: 0.7rem;
+    margin-top: 2px;
+    margin-bottom: 0;
+    color: #666;
+}
+
+.tag {
+    display: inline-block;
+    margin: 2px;
+    padding: 2px 5px;
+    background-color: #f1f1f1;
+    border-radius: 2px;
+    font-size: 0.7rem;
+}
+
+.tag a {
+    color: #333;
+    text-decoration: none;
+}
+
+.share-section {
+    margin-top: 20px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.comment-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment-box h4 {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.input-group input {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 100px;
+    resize: none;
+    margin-bottom: 10px;
+}
+
+.submit-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #c82333;
+}
+
+@media (max-width: 992px) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+    .main-content, .sidebar {
+        width: 100%;
+    }
+}

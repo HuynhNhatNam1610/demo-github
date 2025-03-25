@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>NHL SPORTS</title>
-    <link rel="stylesheet" href="../css/trangchitiet.css" />
+    <link rel="stylesheet" href="../css/trangchude.css" />
   </head>
   <body>
   <header> <?php include"header.php";?> </header>

@@ -10,43 +10,43 @@
 <body>
 <div class="logo-slider">
       <div class="logos">
-          <div>
-              <a href="">
+          <div class="slide-item">
+              <a href="#" class="item-link">
                   <img src="../img/nhanhang.png" alt="Brand 1">
               </a>
           </div>
-          <div>
-              <a href="">
+          <div class="slide-item" >
+              <a href="#" class="item-link">
                   <img src="../img/nhanhang.png" alt="Brand 1">
               </a>
           </div>
-          <div>
-              <a href="">
+          <div class="slide-item" >
+              <a href="#" class="item-link">
                   <img src="../img/nhanhang.png" alt="Brand 1">
               </a>
           </div>
-          <div>
-              <a href="">
+          <div class="slide-item">
+              <a href="#" class="item-link">
                   <img src="../img/nhanhang.png" alt="Brand 1">
               </a>
           </div>
-          <div>
-              <a href="">
+          <div class="slide-item">
+              <a href="#" class="item-link">
                   <img src="../img/nhanhang.png" alt="Brand 1">
               </a>
           </div>
-          <div>
-              <a href="">
+          <div class="slide-item">
+              <a href="#" class="item-link">
                   <img src="../img/nhanhang.png" alt="Brand 1">
               </a>
           </div>
-          <div>
-              <a href="">
+          <div class="slide-item">
+              <a href="#" class="item-link">
                   <img src="../img/nhanhang.png" alt="Brand 1">
               </a>
           </div>
-          <div>
-              <a href="">
+          <div class="slide-item">
+              <a href="#" class="item-link">
                   <img src="../img/nhanhang.png" alt="Brand 1">
               </a>
           </div>
