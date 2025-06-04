@@ -1,0 +1,2118 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  background-color: #eff8f0;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto; /* Căn giữa nội dung */
+}
+
+.homepage {
+  display: flex;
+  min-height: 70vh;
+  position: relative;
+  padding-top: 80px;
+}
+/* Thêm hoặc chỉnh sửa */
+.service-carousel-wrapper,
+.reviews-carousel-wrapper {
+  position: relative;
+  z-index: 100; /* Thấp hơn header */
+}
+
+.service-carousel-btn,
+.reviews-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 200; /* Cao hơn container cha nhưng thấp hơn header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.container,
+.customer-reviews-section {
+  position: relative;
+  z-index: 50; /* Thấp hơn header */
+}
+.left-panel {
+  color: #002c24;
+  padding: 30px 0px;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+  position: relative;
+}
+
+.left-panel h1 {
+  font-size: 30px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.left-panel p {
+  font-size: 14px;
+  margin-bottom: 150px;
+}
+
+.right-panel {
+  width: 55%;
+  position: relative;
+  overflow: hidden;
+}
+
+.slideshow-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slideshow-slide {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slideshow-slide.active {
+  opacity: 1;
+}
+
+.slideshow-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.booking-overlay {
+  position: absolute;
+  bottom: 40px;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 10px 20px;
+  display: flex;
+  gap: 20px;
+  align-items: end;
+  flex-wrap: wrap;
+  z-index: 2;
+  border: 1px solid #ccc;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.form-field input,
+.form-field select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 160px;
+}
+
+.btn-find {
+  background-color: #cbb69d;
+  color: #000;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.service-icons {
+  background: linear-gradient(90deg, #1a3c34, #2e7d7a);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 20px 20px 0px 20px; /* top, right, bottom, left */
+  gap: 70px;
+}
+
+.service-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center;
+}
+
+.service-item i {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.feature-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.feature-row.reverse {
+  flex-direction: row-reverse;
+}
+
+.feature-image {
+  flex: 1 1 48%;
+}
+
+.feature-image img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Phần hiện tại của .feature-text */
+.feature-text {
+  flex: 1 1 48%;
+  color: rgb(90, 89, 89);
+  padding: 20px; /* Thêm padding để tạo khoảng cách */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Đảm bảo nội dung và nút được phân bố đều */
+  min-height: 300px; /* Đặt chiều cao tối thiểu để chứa nội dung */
+}
+
+.feature-text .subheading {
+  font-size: 14px;
+  color: #8bbb82;
+  margin-bottom: 8px;
+}
+
+.feature-text h2 {
+  font-size: 28px;
+  margin: 0 0 20px;
+  color: #262726;
+}
+
+.feature-text p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.btn-more {
+  background-color: #dfdbb8;
+  color: #000;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  align-self: self-start;
+}
+
+.btn-more:hover {
+  background-color: #b49d83;
+  transform: scale(1.05);
+}
+
+.room-highlight-section {
+  padding: 10px 0;
+}
+
+.highlight-title {
+  text-align: center;
+  color: #002c24;
+  font-size: 32px;
+  margin-bottom: 50px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Thay thế các kiểu room-block từ danhsachphong.css */
+.room-block {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 0 0 40px;
+  align-items: center;
+  gap: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.room-block.reverse {
+  flex-direction: row-reverse;
+}
+
+.room-info-box {
+  width: 40%;
+  height: 400px;
+  background-color: #003c32;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+
+.room-info-box h3 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.room-price {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0 20px;
+  color: #cbb69d;
+}
+
+.room-price span {
+  font-weight: normal;
+  font-size: 16px;
+  color: #f5f4f4;
+}
+
+.room-specs p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #e3d4b4;
+}
+
+.room-info-box h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.room-amenities {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 20px;
+  font-size: 13px;
+  color: #e3d4b4;
+}
+
+.room-amenities li {
+  display: flex;
+  align-items: center;
+}
+
+.room-amenities li i {
+  margin-right: 6px;
+  font-size: 14px;
+  color: #cbb69d;
+}
+
+.btn-booking {
+  background-color: #cbb69d;
+  color: #003c32;
+  border: none;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.btn-booking:hover {
+  background-color: #d4c4a8;
+  transform: translateY(-2px);
+}
+
+.room-image-box {
+  width: 60%;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  border-radius: 25px;
+}
+
+.carousel-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #003c32;
+  transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+.carousel-counter {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Các kiểu còn lại từ trangchu.css */
+.view-all-rooms-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+.view-all-rooms-btn {
+  position: relative;
+  display: inline-block;
+  padding: 16px 40px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #172719;
+  background-color: #ddccb7;
+  text-decoration: none;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+.view-all-rooms-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  transition: left 0.5s ease;
+  z-index: 1;
+}
+
+.view-all-rooms-btn:hover::before {
+  left: 100%;
+}
+
+.view-all-rooms-btn:hover {
+  color: #000;
+  background-color: #ddccb7;
+  border-color: #ddccb7;
+}
+
+.custom-banner {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.custom-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.banner-overlay h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.banner-overlay p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.banner-button {
+  background-color: #cbb69d;
+  color: black;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.banner-button:hover {
+  background-color: #ddccb7;
+}
+
+.album-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+}
+
+.album-title {
+  padding-left: 10px;
+}
+.album-subtitle {
+  padding-left: 10px;
+}
+.album-item {
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.album-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.album-item:hover img {
+  transform: scale(1.05);
+}
+
+.album-item .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.album-item:hover .overlay {
+  opacity: 1;
+}
+
+.album-item .overlay i {
+  font-size: 32px;
+  color: white;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+/* Responsive Design for 1024px */
+@media (max-width: 1024px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: 95%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  /* Homepage */
+  .homepage {
+    flex-direction: row;
+    min-height: 60vh;
+    padding-top: 70px;
+  }
+
+  .left-panel {
+    width: 50%;
+    padding: 30px 20px;
+    text-align: left;
+  }
+
+  .left-panel h1 {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+
+  .left-panel p {
+    font-size: 15px;
+    margin-bottom: 100px;
+  }
+
+  .right-panel {
+    width: 50%;
+  }
+
+  .booking-overlay {
+    left: 30%;
+    bottom: 10px;
+    padding: 15px;
+    gap: 10px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-field {
+    flex: 0 0 auto;
+  }
+
+  .form-field input,
+  .form-field select {
+    min-width: 120px;
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .btn-find {
+    padding: 8px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  /* Service Icons */
+  .service-icons {
+    gap: 50px;
+    padding: 20px 15px;
+  }
+
+  .service-item {
+    font-size: 13px;
+  }
+
+  .service-item i {
+    font-size: 32px;
+  }
+
+  /* Room Blocks */
+  .room-block {
+    flex-direction: row;
+    margin: 0 0 30px;
+  }
+
+  .room-block.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .room-image-box {
+    width: 55%;
+    height: 350px;
+  }
+
+  .room-info-box {
+    width: 45%;
+    padding: 30px;
+    height: 350px;
+  }
+
+  .room-info-box h3 {
+    font-size: 26px;
+  }
+
+  .room-price {
+    font-size: 22px;
+  }
+
+  .room-specs p {
+    font-size: 13px;
+  }
+
+  .room-amenities {
+    grid-template-columns: repeat(2, 1fr);
+    font-size: 12px;
+    gap: 6px 15px;
+  }
+
+  .btn-booking {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  /* Feature Section */
+  .feature-row {
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  .feature-image,
+  .feature-text {
+    flex: 1 1 48%;
+  }
+
+  .feature-text h2 {
+    font-size: 26px;
+  }
+
+  .feature-text p {
+    font-size: 15px;
+  }
+
+  /* Service Carousel */
+  .other-services-container {
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  .service-text {
+    flex: 0 0 40%;
+  }
+
+  .service-carousel-wrapper {
+    flex: 0 0 60%;
+  }
+
+  .service-slide {
+    flex: 0 0 50%;
+    padding: 0 8px;
+  }
+
+  .service-slide img {
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .service-carousel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  /* Customer Reviews */
+  .customer-reviews-section h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+
+  .review-slide {
+    flex: 0 0 50%; /* Hiển thị 2 slide cùng lúc */
+    padding: 0 8px;
+  }
+
+  .review-content {
+    padding: 15px;
+    min-height: 180px;
+  }
+
+  .review-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .review-text {
+    font-size: 13px;
+  }
+
+  .reviews-carousel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  /* Album Grid */
+  .album-grid-6 {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+
+  .album-item img {
+    height: 180px;
+  }
+}
+@media (max-width: 768px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: 90%;
+    padding: 0 15px;
+  }
+
+  .homepage {
+    flex-direction: column;
+    min-height: 50vh;
+    background-image: url("https://libertylaocai.vn/_next/image?url=%2Fphong%2Fsofa.jpg&w=1080&q=75");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .homepage::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+
+  .left-panel {
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+    color: white;
+    z-index: 2;
+    position: relative;
+  }
+
+  .left-panel h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .left-panel p {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+
+  .right-panel {
+    display: none;
+  }
+
+  .booking-overlay {
+    position: static;
+    transform: none;
+    left: auto;
+    align-items: center;
+    justify-content: center;
+    bottom: auto;
+    margin: 0 auto;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 320px;
+    width: 90%;
+  }
+
+  .form-field input,
+  .form-field select {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .service-icons {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 30px;
+    padding: 20px 10px;
+  }
+
+  .room-block {
+    flex-direction: column; /* Đảm bảo xếp chồng dọc */
+    align-items: center; /* Căn giữa các thành phần */
+  }
+
+  .room-block.reverse {
+    flex-direction: column; /* Đảm bảo cả reverse cũng xếp chồng dọc */
+  }
+
+  .room-image-box {
+    width: 100%;
+    height: 300px;
+    order: -1; /* Đặt hình ảnh lên trước mô tả */
+  }
+
+  .room-info-box {
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    text-align: center; /* Căn giữa nội dung mô tả */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Căn giữa các phần tử bên trong */
+  }
+
+  .room-amenities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Chuyển thành 3 cột */
+    grid-template-rows: repeat(2, auto); /* 2 hàng */
+    gap: 8px 20px;
+    justify-items: center; /* Căn giữa các mục trong cột */
+    width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng */
+  }
+
+  .room-amenities li {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Căn giữa nội dung mỗi mục */
+    text-align: center;
+  }
+
+  .service-item i {
+    font-size: 28px;
+  }
+
+  .feature-row {
+    flex-direction: column !important;
+  }
+
+  .feature-image,
+  .feature-text {
+    flex: 1 1 100%;
+  }
+
+  .feature-text h2 {
+    font-size: 24px;
+  }
+
+  .highlight-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  .banner-overlay h2 {
+    font-size: 24px;
+  }
+
+  .banner-overlay p {
+    font-size: 16px;
+  }
+
+  .album-grid-6 {
+    display: flex;
+    flex-direction: column; /* Sắp xếp thành cột để có 3 hàng */
+    gap: 0; /* Loại bỏ khoảng cách giữa các ảnh */
+  }
+
+  .album-item {
+    display: none; /* Ẩn tất cả các mục ban đầu */
+  }
+
+  .album-item:nth-child(-n + 3) {
+    display: block; /* Chỉ hiển thị 3 mục đầu tiên */
+  }
+
+  .album-item img {
+    width: 100%;
+    height: 90%; /* Giữ chiều cao cố định, có thể điều chỉnh */
+    object-fit: cover;
+    display: block;
+    margin: 0; /* Đảm bảo không có lề */
+  }
+}
+
+@media (max-width: 480px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .container {
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .booking-overlay {
+    padding: 15px;
+    width: 95%;
+    max-width: 60%;
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-field input,
+  .form-field select {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .room-amenities {
+    display: flex !important;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 12px;
+    padding: 10px;
+  }
+
+  .room-amenities::-webkit-scrollbar {
+    display: none;
+  }
+
+  .room-amenities li {
+    flex: 0 0 90px;
+    width: 90px;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .album-grid-6 {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .album-grid-6 .album-item {
+    display: none;
+  }
+
+  .album-grid-6 .album-item:nth-child(-n + 3) {
+    display: block;
+  }
+
+  .album-grid-6 .album-item img {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.news-section {
+  padding: 20px 0;
+}
+
+.news-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.news-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(135deg, #1c624f, #25965a);
+  margin: 20px auto;
+  border-radius: 2px;
+}
+
+.news-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+/* Carousel styles for mobile */
+.news-carousel {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.news-carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.news-carousel .news-item {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.news-item {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.news-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.news-image {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.news-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.news-item:hover .news-image img {
+  transform: scale(1.05);
+}
+
+.news-date {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(42, 79, 66, 0.95);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 60px;
+  backdrop-filter: blur(10px);
+}
+
+.news-date .day {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.news-date .month {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.news-content {
+  padding: 25px;
+}
+
+.news-category {
+  display: inline-block;
+  background: linear-gradient(135deg, #1d5c45, #0ff197);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+}
+
+.news-content h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-content p {
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-link {
+  display: inline-flex;
+  align-items: center;
+  color: #d4af37;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  gap: 5px;
+}
+
+.news-link:hover {
+  color: #219326;
+  gap: 10px;
+}
+
+.news-link i {
+  transition: transform 0.3s ease;
+}
+
+.news-link:hover i {
+  transform: translateX(5px);
+}
+
+.news-view-all {
+  text-align: center;
+}
+
+.btn-view-all {
+  display: inline-block;
+  background: linear-gradient(135deg, #d4af37, #f1c40f);
+  color: white;
+  padding: 10px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-view-all:hover {
+  background: linear-gradient(135deg, #b8941f, #d4af37);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+/* Customer Reviews Section */
+.customer-reviews-section {
+  padding: 40px 0;
+  background-color: #f5f4e9; /* Màu nền nhẹ nhàng */
+}
+
+.customer-reviews-section h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #002c24; /* Đồng bộ với màu sắc giao diện */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.reviews-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.reviews-carousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform; /* Tối ưu hiệu ứng chuyển động */
+}
+
+.review-slide {
+  flex: 0 0 33.33%; /* Hiển thị 3 slide cùng lúc (mỗi slide chiếm 1/3 chiều rộng) */
+  padding: 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.review-content {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review-content:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+.review-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.review-stars {
+  color: #f5c518; /* Màu vàng cho ngôi sao */
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.review-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.reviews-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.reviews-carousel-btn.left {
+  left: 10px;
+}
+
+.reviews-carousel-btn.right {
+  right: 10px;
+}
+
+.reviews-carousel-btn:hover {
+  background-color: #ddd;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.reviews-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.review-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.review-dot.active {
+  background: #003c32;
+  transform: scale(1.2);
+}
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .news-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .customer-reviews-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .review-slide {
+    flex: 0 0 50%; /* Hiển thị 2 slide cùng lúc */
+    padding: 0 5px;
+  }
+
+  .review-content {
+    padding: 15px;
+  }
+
+  .review-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .review-text {
+    font-size: 13px;
+  }
+
+  .reviews-carousel-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .service-text,
+  .service-carousel-wrapper {
+    flex: 0 0 100%;
+  }
+
+  .service-carousel {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .service-slide {
+    flex: 0 0 50%;
+    padding: 0 5px;
+  }
+
+  .service-slide img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+  }
+
+  .service-carousel-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+  .news-section {
+    padding: 0 0 30px;
+  }
+
+  .news-title {
+    font-size: 2rem;
+  }
+
+  .news-grid {
+    display: none;
+  }
+
+  .news-item {
+    margin-bottom: 20px;
+  }
+
+  .news-carousel {
+    display: block;
+  }
+
+  .news-image {
+    height: 200px;
+  }
+
+  .news-content {
+    padding: 20px;
+  }
+
+  .news-content h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .review-slide {
+    flex: 0 0 100%;
+    padding: 0 5px;
+  }
+
+  .review-content {
+    padding: 10px;
+  }
+
+  .review-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .review-text {
+    font-size: 12px;
+  }
+
+  .reviews-carousel-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+  .other-services-container {
+    flex-direction: column;
+  }
+
+  .service-text,
+  .service-carousel-wrapper {
+    flex: 0 0 100%;
+  }
+
+  .service-carousel {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .service-slide {
+    flex: 0 0 100%;
+    padding: 0 5px;
+  }
+
+  .service-slide img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+  }
+
+  .service-carousel-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+  .service-icons {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 20px 10px;
+    scrollbar-width: none;
+  }
+
+  .service-icons::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Mặc định 3 cột cho màn hình từ 360px đến 480px */
+  .service-item {
+    flex: 0 0 33.33%;
+    min-width: 100px;
+    font-size: 12px;
+  }
+
+  .service-item i {
+    font-size: 24px;
+  }
+
+  .news-container {
+    padding: 0 15px;
+  }
+
+  .news-title {
+    font-size: 1.8rem;
+  }
+
+  .news-subtitle {
+    font-size: 1rem;
+  }
+
+  .news-content {
+    padding: 15px;
+  }
+}
+
+/* 2 cột cho màn hình nhỏ hơn 360px */
+@media (max-width: 360px) {
+  .service-item {
+    flex: 0 0 50%;
+    min-width: 120px;
+  }
+}
+
+.quality-recognition-section {
+  padding: 30px 0;
+  color: rgb(6, 6, 6);
+  position: relative;
+  overflow: hidden;
+}
+
+.quality-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 2;
+}
+
+.quality-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 60px;
+  opacity: 0.9;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Desktop Grid */
+.quality-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Hiển thị 5 cột */
+  gap: 20px; /* Khoảng cách giữa các phần tử */
+  position: relative;
+  z-index: 2;
+  justify-items: center;
+  padding: 0 15px; /* Thêm padding để căn chỉnh tốt hơn */
+}
+
+/* Mobile Carousel */
+.quality-carousel {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  animation: infiniteScroll 20s linear infinite;
+  width: fit-content;
+}
+
+.carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes infiniteScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.quality-item {
+  width: 100%;
+  max-width: 280px;
+  flex-shrink: 0;
+  margin-right: 30px;
+}
+
+.quality-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  color: #333;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+  width: 100%;
+}
+
+.quality-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.quality-icon {
+  margin-bottom: 20px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quality-icon img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.booking-icon img {
+  width: 120px !important;
+  height: auto !important;
+}
+
+.quality-badge {
+  background: linear-gradient(45deg, #2c5f2d, #4a8f4f);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  display: inline-block;
+  letter-spacing: 1px;
+}
+
+.quality-card h3 {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #2c5f2d;
+  line-height: 1.4;
+}
+
+.quality-card p {
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.quality-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.hotel-name {
+  font-size: 0.9rem;
+  color: #888;
+  display: block;
+  margin-bottom: 10px;
+  color: #2c5f2d;
+  font-weight: bold;
+}
+
+.certified-badge {
+  background: #2c5f2d;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.year {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.certified-text {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Always show carousel */
+.quality-grid {
+  display: none;
+}
+
+.quality-carousel {
+  display: block;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 992px) {
+  .quality-title {
+    font-size: 2rem;
+  }
+}
+
+.quality-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.quality-subtitle {
+  font-size: 1rem;
+  margin-bottom: 40px;
+}
+
+.quality-item {
+  max-width: 250px;
+  margin-right: 20px;
+}
+
+.quality-card {
+  min-height: 350px;
+  padding: 25px 15px;
+}
+
+@media (max-width: 480px) {
+  .quality-title {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .quality-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .quality-item {
+    max-width: 220px;
+    margin-right: 15px;
+  }
+
+  .quality-card {
+    min-height: 320px;
+    padding: 20px 12px;
+  }
+
+  .quality-icon {
+    height: 70px;
+  }
+
+  .quality-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .booking-icon img {
+    width: 100px !important;
+  }
+}
+
+/* Fade in/out edges for carousel */
+.quality-carousel::before,
+.quality-carousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.quality-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 1), transparent);
+}
+
+.quality-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 1), transparent);
+}
+
+@media (max-width: 480px) {
+  .quality-carousel::before,
+  .quality-carousel::after {
+    width: 30px;
+  }
+}
+
+.other-services-section {
+  padding: 40px 0 0;
+  background-color: #f5f4e9;
+}
+
+.other-services-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.services-title {
+  font-size: 32px;
+  color: #002c24;
+  margin-bottom: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.services-subtitle {
+  font-size: 16px;
+  color: #6c757d;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Services Content */
+.services-content {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+/* Service Text */
+.service-text {
+  flex: 0 0 35%;
+  max-width: 35%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.service-text h3 {
+  font-size: 28px;
+  color: #262726;
+  margin-bottom: 15px;
+}
+
+.service-text p {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.service-text .btn-more {
+  background-color: #a97a3c;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.service-text .btn-more:hover {
+  background-color: #8c6239;
+  transform: scale(1.05);
+}
+
+/* Service Carousel */
+.service-carousel-wrapper {
+  flex: 0 0 65%;
+  max-width: 65%;
+  position: relative;
+  overflow: hidden;
+  min-height: 350px;
+}
+
+.service-carousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
+
+.service-slide {
+  flex: 0 0 50%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.service-slide img {
+  width: 100%;
+  height: 400px; /* Tăng chiều cao ảnh từ 200px lên 300px */
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.service-slide p {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.service-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.service-carousel-btn.left {
+  left: 10px;
+}
+
+.service-carousel-btn.right {
+  right: 10px;
+}
+
+.service-carousel-btn:hover {
+  background-color: #ddd;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .other-services-section {
+    padding: 20px 0 0;
+  }
+
+  .services-content {
+    gap: 15px;
+  }
+
+  .service-text {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
+
+  .service-carousel-wrapper {
+    flex: 0 0 60%;
+    max-width: 60%;
+    min-height: 330px; /* Điều chỉnh min-height */
+  }
+
+  .service-slide img {
+    height: 280px; /* Giảm chiều cao ảnh */
+  }
+
+  .service-carousel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .other-services-section {
+    padding: 20px 0 0;
+  }
+
+  .services-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-text {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .service-text .btn-more {
+    align-self: center;
+  }
+
+  .service-carousel-wrapper {
+    flex: 0 0 100%;
+    max-width: 100%;
+    min-height: 310px;
+  }
+
+  .service-slide {
+    flex: 0 0 50%;
+  }
+
+  .service-slide img {
+    height: 260px; /* Giảm chiều cao ảnh */
+  }
+
+  .services-title {
+    font-size: 28px;
+  }
+
+  .services-subtitle {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .other-services-section {
+    padding: 20px 0 0;
+  }
+  .service-slide {
+    flex: 0 0 100%;
+  }
+
+  .service-slide img {
+    height: 200px; /* Giảm chiều cao ảnh để phù hợp mobile */
+  }
+
+  .service-carousel-wrapper {
+    min-height: 250px; /* Điều chỉnh min-height */
+  }
+
+  .service-carousel-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .service-text h3 {
+    font-size: 24px;
+  }
+
+  .service-text p {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,1393 @@
+/* Reset và Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.duadonsanbay-container{
+    padding: 100px 0;
+    width: 100%;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(108, 99, 255, 0.6));
+    z-index: -1;
+}
+
+.hero-content {
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.hero-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    margin-bottom: 1.5rem;
+    opacity: 0.95;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+.cta-btn {
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 120px; /* Ensure touch-friendly size */
+    touch-action: manipulation;
+}
+
+.cta-btn.primary {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.cta-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+}
+
+.cta-btn.secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.cta-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Service Overview */
+.service-overview {
+    padding: 50px 0;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+.text-content h2 {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.lead {
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+
+.service-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1;
+    min-width: 100px;
+}
+
+.stat-number {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    font-weight: 700;
+    color: #007bff;
+    display: block;
+}
+
+.stat-label {
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.image-content {
+    position: relative;
+    width: 100%;
+}
+
+.service-image.main {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.service-image.overlay {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 120px;
+    height: 80px;
+    border-radius: 10px;
+    border: 3px solid white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Features Section */
+.features-section {
+    padding: 50px 0;
+    background: white;
+}
+
+.section-title {
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.feature-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #007bff, #6c63ff);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+}
+
+.feature-card h3 {
+    font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+    color: #2c3e50;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.6;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+}
+
+/* Vehicle Section */
+.vehicle-section {
+    padding: 50px 0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.vehicle-section .section-title {
+    color: white;
+}
+
+.vehicle-carousel {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 0;
+    overflow: hidden;
+}
+
+.vehicle-wrapper {
+    display: flex;
+    transition: transform 0.5s ease;
+    will-change: transform;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.vehicle-slide {
+    flex: 0 0 calc(100% - 10px); /* 1 slide on mobile */
+    min-width: 0;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.vehicle-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+}
+
+.vehicle-image {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.vehicle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover .vehicle-image img {
+    transform: scale(1.05);
+}
+
+.vehicle-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.vehicle-info {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-info h3 {
+    font-size: clamp(1.2rem, 3vw, 1.3rem);
+    color: #2c3e50;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.vehicle-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 10px 0;
+}
+
+.vehicle-features span {
+    background: rgba(0, 123, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: #007bff;
+    display: inline-flex;
+    align-items: center;
+}
+
+.vehicle-features i {
+    color: #007bff;
+    margin-right: 5px;
+    font-size: 0.8rem;
+}
+
+.vehicle-price {
+    margin: 1rem 0;
+}
+
+.price {
+    font-size: clamp(1.5rem, 3.5vw, 1.6rem);
+    font-weight: 700;
+    color: #007bff;
+}
+
+.price-unit {
+    color: #666;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+.book-btn {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(45deg, #007bff, #6c63ff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+    min-height: 44px; /* WCAG touch target size */
+}
+
+.book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+}
+
+/* Navigation Arrows */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    color: #007bff;
+    font-size: 1rem;
+}
+
+.nav-arrow:hover {
+    background: #007bff;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.nav-arrow.prev {
+    left: 5px;
+}
+
+.nav-arrow.next {
+    right: 5px;
+}
+
+.nav-arrow:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Carousel Indicators */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+/* Route Section */
+.route-section {
+    padding: 50px 0;
+    background: #f8f9fa;
+}
+
+.route-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.route-details {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.route-header {
+    margin-bottom: 1.5rem;
+}
+
+.route-header h3 {
+    font-size: clamp(1.2rem, 3vw, 1.3rem);
+    color: #2c3e50;
+    margin-bottom: 0.8rem;
+}
+
+.route-badges {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge.distance {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.badge.time {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.badge.highway {
+    background: #e8f5e8;
+    color: #388e3c;
+}
+
+.route-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+
+}
+
+.timeline-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.timeline-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #007bff, #6c63ff);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+    z-index: 1;
+}
+
+.timeline-content h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+}
+
+.timeline-content p {
+    color: #666;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+.route-map {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.map-placeholder i {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 0.8rem;
+}
+
+/* Booking Section */
+.booking-section {
+    padding: 50px 0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.booking-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.booking-info {
+    color: white;
+    text-align: center;
+}
+
+.booking-info h2 {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.booking-info p {
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.booking-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.benefit-item i {
+    color: #4caf50;
+    font-size: 1.1rem;
+}
+
+.booking-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-group label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    color: #666;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    background: white;
+    padding: 0 5px;
+}
+
+.form-group input:focus + label,
+.form-group input:valid + label,
+.form-group select:focus + label,
+.form-group select:valid + label,
+.form-group textarea:focus + label,
+.form-group textarea:valid + label {
+    top: -8px;
+    font-size: 0.75rem;
+    color: #007bff;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, #007bff, #6c63ff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 44px; /* WCAG touch target size */
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 50px 0;
+    background: #f8f9fa;
+}
+
+.contact-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.contact-info h2 {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.contact-info p {
+    color: #666;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    marge-bottom: 1.5rem;
+}
+
+.contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-method {
+    background: white;
+    padding: 1rem;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.method-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.contact-method.hotline .method-icon {
+    background: linear-gradient(45deg, #4caf50, #8bc34a);
+}
+
+.contact-method.email .method-icon {
+    background: linear-gradient(45deg, #2196f3, #03a9f4);
+}
+
+.contact-method.zalo .method-icon {
+    background: linear-gradient(45deg, #9c27b0, #e91e63);
+}
+
+.method-info h4 {
+    color: #2c3e50;
+    font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+    margin-bottom: 0.5rem;
+}
+
+.method-info p {
+    color: #007bff;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    margin-bottom: 0.3rem;
+}
+
+.method-info small {
+    color: #666;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+/* FAQ Section */
+.faq-section {
+    padding: 50px 0;
+}
+
+.faq-section h3 {
+    font-size: clamp(1.6rem, 3.5vw, 2rem);
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.faq-question {
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+    background: #f8f9fa;
+}
+
+.faq-question h4 {
+    color: #2c3e50;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    font-weight: 600;
+}
+
+.faq-question i {
+    color: #007bff;
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    padding: 0 1.2rem 1.2rem;
+    color: #666;
+    line-height: 1.6;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    display: none;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(45deg);
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries for Responsive Design */
+
+
+/* Desktop Devices (>1024px) */
+@media (min-width: 1025px) {
+    .container {
+        padding: 0 30px;
+    }
+
+    .hero {
+        min-height: 60vh;
+    }
+
+    .content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+    }
+
+    .service-image.main {
+        max-height: 350px;
+    }
+
+    .service-image.overlay {
+        width: 200px;
+        height: 150px;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .vehicle-slide {
+        flex: 0 0 calc(33.33% - 14px); /* 3 slides */
+    }
+
+    .route-info {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 4rem;
+    }
+
+    .booking-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .contact-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+    }
+}
+/* Tablet Devices (768px–1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .hero {
+        min-height: 50vh;
+    }
+
+    .hero-title {
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+    }
+
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .service-image.main {
+        max-height: 250px;
+    }
+
+    .service-image.overlay {
+        width: 150px;
+        height: 100px;
+        bottom: -15px;
+        right: -15px;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .vehicle-slide {
+        flex: 0 0 calc(50% - 10px); /* 2 slides on tablet */
+    }
+
+    .vehicle-image {
+        height: 150px;
+    }
+
+    .route-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .booking-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .contact-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .nav-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile Devices (<768px) */
+@media (max-width: 767px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .duadonsanbay-container {
+        padding: 50px 15px;
+    }
+
+    .hero {
+        min-height: 40vh;
+    }
+
+    .hero-title {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.8rem, 3vw, 0.9rem);
+    }
+
+    .hero-cta {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .cta-btn {
+        width: 100%;
+        max-width: 200px;
+        padding: 10px;
+        font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    .service-overview {
+        padding: 30px 0;
+    }
+
+    .content-wrapper {
+        gap: 20px;
+    }
+
+    .text-content h2 {
+        font-size: clamp(1.5rem, 4vw, 1.8rem);
+    }
+
+    .lead {
+        font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    .service-stats {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .stat-item {
+        min-width: 80px;
+    }
+
+    .stat-number {
+        font-size: clamp(1.5rem, 4vw, 1.8rem);
+    }
+
+    .service-image.main {
+        max-height: 200px;
+    }
+
+    .service-image.overlay {
+        width: 100px;
+        height: 60px;
+        bottom: -10px;
+        right: -10px;
+    }
+
+    .features-section {
+        padding: 30px 0;
+    }
+
+    .section-title {
+        font-size: clamp(1.5rem, 4vw, 1.8rem);
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .feature-card {
+        padding: 1rem;
+    }
+
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .vehicle-section {
+        padding: 30px 0;
+    }
+
+    .vehicle-slide {
+        flex: 0 0 calc(100% - 10px); /* 1 slide on mobile */
+    }
+
+    .vehicle-image {
+        height: 120px;
+    }
+
+    .vehicle-info {
+        padding: 1rem;
+    }
+
+    .vehicle-info h3 {
+        font-size: clamp(1rem, 3vw, 1.1rem);
+    }
+
+    .vehicle-features span {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+
+    .price {
+        font-size: clamp(1.2rem, 3.5vw, 1.3rem);
+    }
+
+    .price-unit {
+        font-size: 0.75rem;
+    }
+
+    .book-btn {
+        padding: 8px;
+        font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    .nav-arrow {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .carousel-indicators {
+        gap: 6px;
+    }
+
+    .indicator {
+        width: 8px;
+        height: 8px;
+    }
+
+    .route-section {
+        padding: 30px 0;
+    }
+
+    .route-details {
+        padding: 1.5rem;
+    }
+
+    .route-header h3 {
+        font-size: clamp(1rem, 3vw, 1.1rem);
+    }
+
+    .badge {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+
+    .timeline-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .timeline-content h4 {
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+    }
+
+    .timeline-content p {
+        font-size: clamp(0.75rem, 2vw, 0.85rem);
+    }
+
+    .route-map {
+        min-height: 150px;
+    }
+
+    .map-placeholder i {
+        font-size: 2rem;
+    }
+
+    .booking-section {
+        padding: 30px 0;
+    }
+
+    .booking-info h2 {
+        font-size: clamp(1.5rem, 4vw, 1.8rem);
+    }
+
+    .booking-info p {
+        font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    .booking-form {
+        padding: 1.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px;
+        font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    .form-group label {
+        top: 10px;
+        left: 10px;
+        font-size: clamp(0.8rem, 2vw, 0.9rem);
+    }
+
+    .form-group input:focus + label,
+    .form-group input:valid + label,
+    .form-group select:focus + label,
+    .form-group select:valid + label,
+    .form-group textarea:focus + label,
+    .form-group textarea:valid + label {
+        top: -6px;
+        font-size: 0.7rem;
+    }
+
+    .submit-btn {
+        padding: 12px;
+        font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    .contact-section {
+        padding: 30px 0;
+    }
+
+    .contact-info h2 {
+        font-size: clamp(1.5rem, 4vw, 1.8rem);
+    }
+
+    .contact-info p {
+        font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    .contact-method {
+        padding: 0.8rem;
+    }
+
+    .method-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .method-info h4 {
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+    }
+
+    .method-info p {
+        font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    .method-info small {
+        font-size: 0.75rem;
+    }
+
+    .faq-section {
+        padding: 30px 0;
+    }
+
+    .faq-section h3 {
+        font-size: clamp(1.4rem, 3.5vw, 1.6rem);
+    }
+
+    .faq-question h4 {
+        font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    }
+
+    .faq-answer {
+        font-size: clamp(0.75rem, 2vw, 0.85rem);
+    }
+}
+
+/* Small Mobile Devices (<576px) */
+@media (max-width: 575px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    .duadonsanbay-container {
+        padding: 30px 10px;
+    }
+
+    .hero {
+        min-height: 35vh;
+    }
+
+    .hero-title {
+        font-size: clamp(1.3rem, 5vw, 1.6rem);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.75rem, 3vw, 0.85rem);
+    }
+
+    .service-overview {
+        padding: 20px 0;
+    }
+
+    .text-content h2 {
+        font-size: clamp(1.3rem, 4vw, 1.5rem);
+    }
+
+    .service-image.main {
+        max-height: 180px;
+    }
+
+    .service-image.overlay {
+        width: 80px;
+        height: 50px;
+    }
+
+    .vehicle-section {
+        padding: 20px 0;
+    }
+
+    .vehicle-image {
+        height: 100px;
+    }
+
+    .nav-arrow {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+    }
+
+    .route-section {
+        padding: 20px 0;
+    }
+
+    .booking-section {
+        padding: 20px 0;
+    }
+
+    .contact-section {
+        padding: 20px 0;
+    }
+
+    .faq-section {
+        padding: 20px 0;
+    }
+}
+@media (max-width: 767px) {
+    .hero-cta {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: center; /* Căn giữa các nút */
+    }
+
+    .cta-btn {
+        width: 100%;
+        max-width: 180px; /* Giảm max-width để nút không quá rộng */
+        padding: 12px; /* Tăng padding để nút trông cân đối hơn */
+        font-size: clamp(0.9rem, 2.5vw, 1rem); /* Tăng nhẹ kích thước chữ */
+        text-align: center; /* Đảm bảo văn bản trong nút được căn giữa */
+    }
+}
+@media (max-width: 767px) {
+    .duadonsanbay-container {
+        padding: 40px 20px; /* Điều chỉnh padding để nội dung cân đối hơn */
+    }
+}
