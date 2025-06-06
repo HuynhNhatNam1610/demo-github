@@ -10,8 +10,7 @@ body {
   padding-top: 100px;
 }
 .hero-content {
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url("https://thewesternhill.com/storage/anh-moi-t6/phong-nghi/deluxe-family/deluxe-family-5.jpg");
+
   background-size: cover;
   background-position: center;
   height: 300px;
@@ -285,8 +284,19 @@ body {
   font-size: 28px;
   margin-bottom: 10px;
   color: #fff;
+  font-weight: 600; /* Tăng độ đậm để tên phòng nổi bật hơn */
+  line-height: 1.3; /* Đảm bảo khoảng cách dòng hợp lý */
+}
+.room-info-box h3 a {
+  color: #fff; /* Đảm bảo màu của liên kết đồng bộ với h3 */
+  text-decoration: none; /* Bỏ gạch chân mặc định của liên kết */
+  transition: color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà khi hover */
 }
 
+.room-info-box h3 a:hover {
+  color: #cbb69d; /* Khi hover, đổi màu thành màu vàng nhạt để nổi bật */
+  text-decoration: underline; /* Thêm gạch chân nhẹ khi hover */
+}
 .room-price {
   font-size: 24px;
   font-weight: bold;

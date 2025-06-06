@@ -376,12 +376,15 @@ body {
 
 .room-card {
   flex: 0 0 var(--card-width, 31.33%);
-  background: white;
+  background: #fff;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border: 1px solid #f0f0f0;
+  position: relative;
+  text-align: center;
+  padding-bottom: 10px;
 }
 
 .room-card:hover {
@@ -407,10 +410,18 @@ body {
 .room-card h3 {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #333;
   margin-bottom: 8px;
+  color: #070407; /* Màu tím nhạt cho tên phòng */
 }
-
+.room-card h3 a {
+  color: #130213; /* Đồng bộ màu tím nhạt với h3 */
+  text-decoration: none; /* Bỏ gạch chân mặc định */
+  transition: color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà khi hover */
+}
+.room-card h3 a:hover {
+  color: #28a745;
+  text-decoration: underline;
+}
 .room-card p {
   color: #666;
   font-size: 0.95rem;
@@ -420,14 +431,13 @@ body {
 .room-card-price {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #0f341e;
+  color: #28a745; /* Màu xanh lá nhạt cho giá phòng */
   margin-bottom: 15px;
 }
-
 .view-room-btn {
   width: 100%;
   padding: 10px;
-  background: linear-gradient(135deg, #00ff80, #00b36b);
+  background: linear-gradient(135deg, #28a745, #20c997); /* Màu xanh lá nhạt */
   color: white;
   border: none;
   border-radius: 8px;
@@ -435,6 +445,8 @@ body {
   font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .view-room-btn:hover {
