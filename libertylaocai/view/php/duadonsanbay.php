@@ -225,12 +225,7 @@ $faqs_stmt->close();
                                         <div class="vehicle-features">
                                             <span><i class="fas fa-users"></i> 1-<?php echo htmlspecialchars($vehicle['number_seat']); ?> <?php echo $language_id == 1 ? 'người' : 'people'; ?></span>
                                             <span><i class="fas fa-suitcase"></i> <?php echo htmlspecialchars($vehicle['number_seat'] <= 4 ? '2-3 vali' : ($vehicle['number_seat'] <= 7 ? '4-5 vali' : 'Nhiều hành lý')); ?></span>
-                                            <span><i class="fas fa-fan"></i> <?php echo $language_id == 1 ? 'Điều hòa' : 'Air Conditioning'; ?></span>
-                                            <?php if ($vehicle['name'] == 'Xe VIP'): ?>
-                                                <span><i class="fas fa-wifi"></i> <?php echo $language_id == 1 ? 'WiFi miễn phí' : 'Free WiFi'; ?></span>
-                                            <?php elseif ($vehicle['name'] == 'Limousine'): ?>
-                                                <span><i class="fas fa-bed"></i> <?php echo $language_id == 1 ? 'Ghế nằm' : 'Reclining Seats'; ?></span>
-                                            <?php endif; ?>
+
                                         </div>
                                         <div class="vehicle-price">
                                             <span class="price"><?php echo htmlspecialchars($vehicle['price']); ?></span>
