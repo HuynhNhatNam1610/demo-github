@@ -300,7 +300,7 @@ $halls = getConferenceHalls($languageId);
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="quickDescription"><?= htmlspecialchars($trans['note_label']) ?> </label>
+                                        <label for="quickDescription"><?= htmlspecialchars($trans['note_label']) ?> <span class="required">*</span></label>
                                         <textarea id="quickDescription" name="description" placeholder="<?= htmlspecialchars($trans['note_placeholder']) ?>" required></textarea>
                                     </div>
                                 </div>

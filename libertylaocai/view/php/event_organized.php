@@ -7,7 +7,7 @@ if (!empty($_SESSION['head_banner'])) {
 }
 
 // Lấy ưu đãi
-$promotions = getPromotions($languageId, $conn);
+$getEventOrganized = getEventOrganized($languageId, $conn);
 
 
 ?>
@@ -18,36 +18,36 @@ $promotions = getPromotions($languageId, $conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sự kiện</title>
-    <link rel="stylesheet" href="/libertylaocai/view/css/sale.css">
+    <link rel="stylesheet" href="/libertylaocai/view/css/event_organized.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
     <?php include "header.php" ?>
     <div class="sale-container">
-        <div class="sale-banner">
+        <div class="event-organized-banner">
             <img src="/libertylaocai/view/img/<?= $getSelectedBanner['image']; ?>" alt="Banner Image" class="banner-image">
-            <h1><?php echo $languageId == 1 ? 'KHUYẾN MÃI' : 'PROMOTION'; ?></h1>
+            <h1><?php echo $languageId == 1 ? 'SỰ KIỆN ĐÃ TỔ CHỨC' : 'EVENTS ORGANIZED'; ?></h1>
         </div>
         <div class="promotions-section">
             <div class="section-title">
-                <h2><?php echo $languageId == 1 ? 'Ưu Đãi Đặc Biệt' : 'Special Offers'; ?></h2>
+                <h2><?php echo $languageId == 1 ? 'Sự kiện gần đây' : 'Recent events'; ?></h2>
             </div>
             <div class="promotions-grid">
                 <?php
                 // Hiển thị các ưu đãi
-                foreach ($promotions as $promotion) {
+                foreach ($getEventOrganized as $organized) {
                     echo '<div class="promotion-card">';
                     echo '<div class="promotion-image">';
-                    echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promotion['image']) . '" alt="' . htmlspecialchars($promotion['title']) . '">';
-                    echo '<span class="corner-text">'.date('Y-m-d', strtotime($promotion['created_at'])).'</span>';
+                    echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($organized['image']) . '" alt="' . htmlspecialchars($organized['title']) . '">';
+                    echo '<span class="corner-text">' . date('Y-m-d', strtotime($organized['create_at'])) . '</span>';
                     echo '</div>';
                     echo '<div class="promotion-content">';
-                    echo '<h3 class="promotion-title">' . htmlspecialchars($promotion['title']) . '</h3>';
-                    echo '<p class="promotion-description">' . truncateContent($promotion['content'], 100) . '</p>';
+                    echo '<h3 class="promotion-title">' . htmlspecialchars($organized['title']) . '</h3>';
+                    echo '<p class="promotion-description">' . truncateContent($organized['content'], 100) . '</p>';
                 ?>
                     <form action="/libertylaocai/user/submit" method="POST" style="display: inline; ">
-                        <input type="hidden" name="id_uudai" value="<?php echo htmlspecialchars($promotion['id']); ?>">
+                        <input type="hidden" name="id_sukiendatochuc" value="<?php echo htmlspecialchars($organized['id']); ?>">
                         <?php echo '<button type="submit" class="promotion-button">CHI TIẾT</button>'; ?>
                     </form>
                 <?php
@@ -55,16 +55,6 @@ $promotions = getPromotions($languageId, $conn);
                     echo '</div>';
                 }
                 ?>
-                <!-- <div class="promotion-card">
-                    <div class="promotion-image">
-                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Khuyến mãi phòng deluxe">
-                    </div>
-                    <div class="promotion-content">
-                        <h3 class="promotion-title">Gói Nghỉ Dưỡng Cuối Tuần</h3>
-                        <p class="promotion-description">Tận hưởng kỳ nghỉ cuối tuần thư giãn với gói ưu đãi đặc biệt bao gồm phòng deluxe, ăn sáng buffet và spa miễn phí.</p>
-                        <button class="promotion-button">CHI TIẾT</button>
-                    </div>
-                </div> -->
             </div>
 
             <!-- Thêm phần tử phân trang -->
@@ -75,7 +65,7 @@ $promotions = getPromotions($languageId, $conn);
         </div>
     </div>
     <?php include "footer.php" ?>
-    <script src="/libertylaocai/view/js/sale.js"></script>
+    <script src="/libertylaocai/view/js/event_organized.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 

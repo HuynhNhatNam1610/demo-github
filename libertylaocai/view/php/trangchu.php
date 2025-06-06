@@ -377,9 +377,11 @@ foreach ($roomTypes as $room) {
                 <span class="news-category">Sự kiện</span>
                 <h3><?php echo htmlspecialchars($news['title']); ?></h3>
                 <p><?php echo htmlspecialchars(mb_substr($news['content'], 0, 100, 'UTF-8')) . '...'; ?></p>
-                <a href="/libertylaocai/tin-tuc/<?php echo $news['id']; ?>" class="news-link">
-                  <?php echo $languageId == 1 ? 'Đọc thêm' : 'Read More'; ?> <i class="bi bi-arrow-right"></i>
-                </a>
+                <form action="/libertylaocai/user/submit" method="POST" style="display: inline; ">
+                  <button class="promotion-button" type="submit" class="news-link" name="id_tintuc" value="<?php echo htmlspecialchars($news['id']); ?>">
+                    <?php echo $languageId == 1 ? 'Đọc thêm' : 'Read More'; ?> <i class="bi bi-arrow-right"></i>
+                  </button>
+                </form>
               </div>
             </article>
           <?php endforeach; ?>
@@ -399,16 +401,20 @@ foreach ($roomTypes as $room) {
                 <span class="news-category"><?php echo $languageId == 1 ? 'Sự kiện' : 'Event'; ?></span>
                 <h3><?php echo htmlspecialchars($news['title']); ?></h3>
                 <p><?php echo htmlspecialchars(mb_substr($news['content'], 0, 100, 'UTF-8')) . '...'; ?></p>
-                <a href="/libertylaocai/tin-tuc/<?php echo $news['id']; ?>" class="news-link">
-                  <?php echo $languageId == 1 ? 'Đọc thêm' : 'Read More'; ?> <i class="bi bi-arrow-right"></i>
-                </a>
+                <form action="/libertylaocai/user/submit" method="POST" style="display: inline; ">
+                  <button class="promotion-button" type="submit" class="news-link" name="id_tintuc" value="<?php echo htmlspecialchars($news['id']); ?>">
+                    <?php echo $languageId == 1 ? 'Đọc thêm' : 'Read More'; ?> <i class="bi bi-arrow-right"></i>
+                  </button>
+                </form>
               </div>
             </article>
           <?php endforeach; ?>
         </div>
 
         <div class="news-view-all">
-          <a href="#" class="btn-view-all"><?php echo $languageId == 1 ? 'Xem tất cả tin tức' : 'View all news'; ?></a>
+          <form action="/libertylaocai/user/submit" method="POST" style="display: inline; ">
+            <button type="submit" name="xem_them_tin" class="btn-view-all" value="tin-tuc"><?php echo $languageId == 1 ? 'Xem tất cả tin tức' : 'View all news'; ?></button>
+          </form>
         </div>
       </div>
     </section>

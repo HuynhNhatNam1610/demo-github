@@ -42,6 +42,33 @@ function getMessage($key, $languageId)
     return $messages[$key][$languageId] ?? $messages[$key][2]; // Mặc định tiếng Anh nếu không tìm thấy
 }
 
+function to_slug($str)
+{
+    // Chuyển tiếng Việt có dấu thành không dấu
+    $str = mb_strtolower($str, 'UTF-8');
+    $str = preg_replace('/[áàảãạâấầẩẫậăắằẳẵặ]/u', 'a', $str);
+    $str = preg_replace('/[éèẻẽẹêếềểễệ]/u', 'e', $str);
+    $str = preg_replace('/[iíìỉĩị]/u', 'i', $str);
+    $str = preg_replace('/[óòỏõọôốồổỗộơớờởỡợ]/u', 'o', $str);
+    $str = preg_replace('/[úùủũụưứừửữự]/u', 'u', $str);
+    $str = preg_replace('/[ýỳỷỹỵ]/u', 'y', $str);
+    $str = preg_replace('/đ/u', 'd', $str);
+
+    // Loại bỏ ký tự đặc biệt
+    $str = preg_replace('/[^a-z0-9\s-]/', '', $str);
+
+    // Thay dấu cách bằng gạch ngang
+    $str = preg_replace('/[\s]+/', '-', $str);
+
+    return trim($str, '-');
+}
+
+function to_short_slug($productName, $slug)
+{
+    $words = explode(" ", $productName);
+    return to_slug(implode("-", array_slice($words, 0, $slug)));
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     file_put_contents('debug.log', date('Y-m-d H:i:s') . " - POST: " . print_r($_POST, true) . "\n", FILE_APPEND);
     file_put_contents('debug.log', date('Y-m-d H:i:s') . " - FILES: " . print_r($_FILES, true) . "\n", FILE_APPEND);
@@ -52,6 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['head_banner'] = getSelectedBanner('event', 'event-banner');
         } elseif ($categoryCode === 'nhahang&bar') {
             $_SESSION['head_banner'] = getSelectedBanner('nhahang&bar', 'service-banner');
+        } elseif ($categoryCode === 'khuyen-mai') {
+            $_SESSION['head_banner'] = getSelectedBanner('sale', 'sale-banner');
         }
         header("location: /libertylaocai/$categoryCode");
         exit();
@@ -78,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['head_banner'] = getSelectedBanner('pagedetail', 'pagedetail-banner-gala');
             $_SESSION['image_organized_event'] = getImageOrganizedEvents('gala-dinner', 10);
         } elseif ($subcategory_code === 'nha-hang') {            /////// nhahang
-
+            $_SESSION['restaurant_images'] = getRestaurantImages();
         } elseif ($subcategory_code === 'sky-bar') {             /////// bar
 
         } elseif ($subcategory_code === 'dua-don') {            ////duadonsanbay
@@ -358,7 +387,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Lỗi khi lưu đánh giá']);
         }
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Yêu cầu không hợp lệ']);
+    }
+
+    if (isset($_POST['comment_bar']) && $_POST['comment_bar'] === 'true') {
+        $name = $_POST['reviewer-name'] ?? '';
+        $email = $_POST['reviewer-email'] ?? '';
+        $content = $_POST['review-content'] ?? '';
+        $rating = $_POST['rating'] ?? 0;
+
+        if (!$name || !$email || !$content || !$rating) {
+            echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
+            exit;
+        }
+
+        if (insertCommentBar($name, $email, $content, $rating)) {
+            echo json_encode(['status' => 'success', 'message' => 'Đánh giá đã được gửi thành công']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Lỗi khi lưu đánh giá']);
+        }
+    }
+
+    if (isset($_POST['id_uudai'])) {
+        $id_uudai = $_POST['id_uudai'];
+        $getPromotionById = getPromotionById(1, $id_uudai);
+        $_SESSION['id_uudai'] = $id_uudai;
+        $_SESSION['head_banner'] = getSelectedBanner('saledetail', 'saledetail-banner');
+        header("location: /libertylaocai/khuyen-mai/" . to_short_slug($getPromotionById['title'], 5));
+    }
+
+    if (isset($_POST['id_tintuc'])) {
+        $id_tintuc = $_POST['id_tintuc'];
+        $getNewById = getNewById(1, $id_tintuc);
+        $_SESSION['id_tintuc'] = $id_tintuc;
+        $_SESSION['head_banner'] = getSelectedBanner('tintuc-detail', 'tintuc-detail-banner');
+        header("location: /libertylaocai/tin-tuc/" . to_short_slug($getNewById['title'], 5));
+    }
+
+    if (isset($_POST['footer_category_code'])) {
+        $footer_category_code = $_POST['footer_category_code'];
+        if ($footer_category_code === 'tin-tuc') {
+            $_SESSION['head_banner'] = getSelectedBanner('tintuc', 'tintuc-banner');
+        }
+        header("location: /libertylaocai/$footer_category_code");
+    }
+
+    if (isset($_POST['xem_them_tin'])) {
+        $footer_category_code = $_POST['xem_them_tin'];
+        $_SESSION['head_banner'] = getSelectedBanner('tintuc', 'tintuc-banner');
+        header("location: /libertylaocai/$footer_category_code");
+    }
+
+    if (isset($_POST['sukiendatochuc'])) {
+        $_SESSION['head_banner'] = getSelectedBanner('su-kien-da-to-chuc', 'event-organized-banner');
+        header("location: /libertylaocai/su-kien-da-to-chuc");
+    }
+
+    if (isset($_POST['id_sukiendatochuc'])) {
+        $id_sukiendatochuc = $_POST['id_sukiendatochuc'];
+        $getEventOrganizedById = getEventOrganizedById(1, $id_sukiendatochuc);
+        $_SESSION['id_sukiendatochuc'] = $id_sukiendatochuc;
+        $_SESSION['head_banner'] = getSelectedBanner('chi-tiet-su-kien-da-to-chuc', 'tintuc-detail-banner');
+        header("location: /libertylaocai/su-kien-da-to-chuc/" . to_short_slug($getEventOrganizedById['title'], 5));
     }
 }

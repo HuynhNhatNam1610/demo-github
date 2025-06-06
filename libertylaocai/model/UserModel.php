@@ -116,7 +116,7 @@ function getHeaderCategories($languageId = null)
     return $categories;
 }
 
-function getGreetingByLanguage($languageId = null, $page)
+function getGreetingByLanguage($languageId = null, $page = null)
 {
     global $conn;
     $greetings = null;
@@ -730,53 +730,66 @@ function getPrimaryEventData($languageId)
     return $results;
 }
 
-function getOrganizedEvents($languageId)
+function getOrganizedEvents($languageId, $limit = null)
 {
     global $conn;
     $events = [];
 
-    $sql = "SELECT 
-                skdt.id,
-                skdt.type_serviced,
-                skdt.create_at,
-                skdt_ngonngu.title,
-                skdt_ngonngu.content,
-                askdt.image
-            FROM sukiendatochuc skdt
-            LEFT JOIN sukiendatochuc_ngonngu skdt_ngonngu ON skdt.id = skdt_ngonngu.id_sukiendatochuc
-            LEFT JOIN anhsukiendatochuc askdt ON skdt.id = askdt.id_sukiendatochuc AND askdt.is_primary = 1
-            WHERE skdt.active = 1 AND skdt_ngonngu.id_ngonngu = ?
-            GROUP BY skdt.type_serviced
-            ORDER BY skdt.create_at DESC";
+    $sql = "
+        SELECT DISTINCT
+            skdt.id,
+            skdt.type_serviced,
+            skdt.create_at,
+            skdt_ngonngu.title,
+            skdt_ngonngu.content,
+            askdt.image
+        FROM sukiendatochuc AS skdt
+        LEFT JOIN sukiendatochuc_ngonngu AS skdt_ngonngu
+               ON  skdt.id = skdt_ngonngu.id_sukiendatochuc
+               AND skdt_ngonngu.id_ngonngu = ?
+        LEFT JOIN anhsukiendatochuc AS askdt
+               ON  skdt.id = askdt.id_sukiendatochuc
+               AND askdt.is_primary = 1
+        WHERE skdt.active = 1
+        ORDER BY skdt.create_at DESC";
 
-    $stmt = mysqli_prepare($conn, $sql);
-
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "i", $languageId);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            // Định dạng ngày tháng
-            $date = new DateTime($row['create_at']);
-            $day = $date->format('d/m/Y');
-            $events[] = [
-                'id' => $row['id'],
-                'type_serviced' => $row['type_serviced'],
-                'create_at' => $day,
-                'title' => $row['title'] ?? ($languageId == 1 ? 'Sự kiện không xác định' : 'Undefined Event'),
-                'content' => $row['content'] ?? ($languageId == 1 ? 'Nội dung không có' : 'No content available'),
-                'image' => $row['image'] ?? 'default-event-image.jpg'
-            ];
-        }
-
-        mysqli_stmt_close($stmt);
-    } else {
-        error_log("Lỗi chuẩn bị truy vấn getOrganizedEvents: " . mysqli_error($conn));
+    if ($limit !== null) {
+        $sql .= " LIMIT ?";
     }
 
+    $stmt = mysqli_prepare($conn, $sql);
+    if (!$stmt) {
+        error_log('Lỗi chuẩn bị truy vấn getOrganizedEvents: ' . mysqli_error($conn));
+        return $events;
+    }
+
+    if ($limit !== null) {
+
+        mysqli_stmt_bind_param($stmt, "ii", $languageId, $limit);
+    } else {
+        mysqli_stmt_bind_param($stmt, "i", $languageId);
+    }
+
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $date  = DateTime::createFromFormat('Y-m-d H:i:s', $row['create_at'] ?? '');
+        $event = [
+            'id'            => $row['id'],
+            'type_serviced' => $row['type_serviced'],
+            'create_at'     => $date ? $date->format('d/m/Y') : '',
+            'title'         => $row['title'],
+            'content'       => $row['content'],
+            'image'         => $row['image'],
+        ];
+        $events[] = $event;
+    }
+
+    mysqli_stmt_close($stmt);
     return $events;
 }
+
 
 function getImageOrganizedEvents($type_serviced, $limit = null)
 {
@@ -1325,66 +1338,6 @@ function getRestaurantImages($limit = null)
     return $images;
 }
 
-// function getAllMenuImages($languageId, $id_amthuc)
-// {
-//     global $conn; // Sử dụng kết nối toàn cục
-//     // Khởi tạo mảng kết quả
-//     $menuImages = [];
-
-//     // Truy vấn SQL để lấy tất cả món ăn và ảnh tương ứng
-//     $sql = "
-//         SELECT 
-//             t.id,
-//             t.price,
-//             tn.name AS title,
-//             tn.content AS description,
-//             a.image
-//         FROM 
-//             thucdon t
-//         LEFT JOIN 
-//             thucdon_ngonngu tn ON t.id = tn.id_thucdon AND tn.id_ngonngu = ?
-//         LEFT JOIN 
-//             anhthucdon a ON t.id = a.id_menu
-//         WHERE 
-//             t.id_amthuc = ?
-//             AND t.active = 1
-//         ORDER BY 
-//             t.id ASC
-//     ";
-
-//     // Chuẩn bị câu truy vấn để tránh SQL Injection
-//     if ($stmt = $conn->prepare($sql)) {
-//         // Bind tham số
-//         $stmt->bind_param("ii", $languageId, $id_amthuc);
-
-//         // Thực thi truy vấn
-//         $stmt->execute();
-
-//         // Lấy kết quả
-//         $result = $stmt->get_result();
-
-//         // Lặp qua kết quả và lưu vào mảng
-//         while ($row = $result->fetch_assoc()) {
-//             $menuImages[] = [
-//                 'id' => $row['id'],
-//                 'price' => $row['price'],
-//                 'title' => $row['title'],
-//                 'description' => $row['description'],
-//                 'image' => $row['image']
-//             ];
-//         }
-
-//         // Đóng statement
-//         $stmt->close();
-//     } else {
-//         // Ghi lỗi nếu có
-//         error_log("Error preparing statement: " . $conn->error);
-//     }
-
-//     // Trả về mảng dữ liệu
-//     return $menuImages;
-// }
-
 function getAllMenuImages($languageId, $id_amthuc, $page = 1, $limit = 9)
 {
     global $conn;
@@ -1482,36 +1435,6 @@ function getAmThucNgonNgu($id_ngonngu, $id_amthuc)
     // Trả về mảng dữ liệu hoặc mảng rỗng nếu không tìm thấy
     return $data;
 }
-
-// function getRestaurantReviews()
-// {
-//     global $conn; // Sử dụng kết nối toàn cục
-
-//     $reviews = [];
-
-//     // Truy vấn SQL để lấy bình luận từ các bảng liên quan
-//     $sql = "
-//         SELECT b.id, b.content, b.create_at, b.rate, k.name
-//         FROM binhluan b
-//         JOIN khachhang k ON b.id_khachhang = k.id
-//         JOIN binhluan_nhahang bn ON b.id = bn.id_binhluan
-//         WHERE b.active = 1
-//         ORDER BY b.create_at DESC
-//     ";
-
-//     $result = $conn->query($sql);
-
-//     if ($result) {
-//         while ($row = $result->fetch_assoc()) {
-//             $reviews[] = $row;
-//         }
-//         $result->free();
-//     } else {
-//         error_log("Error executing query: " . $conn->error);
-//     }
-
-//     return $reviews;
-// }
 
 function insertCommentRestaurant($name, $email, $content, $rating)
 {
@@ -1628,4 +1551,463 @@ function getAllRestaurantReviews()
         $reviews[] = $row;
     }
     return $reviews;
+}
+
+// Hàm lấy đánh giá của Sky Bar với phân trang
+function getBarReviews($page = 1, $limit = 5)
+{
+    global $conn;
+    $reviews = [];
+    $offset = ($page - 1) * $limit;
+
+    $sql = "
+        SELECT b.id, b.content, b.create_at, b.rate, k.name
+        FROM binhluan b
+        JOIN khachhang k ON b.id_khachhang = k.id
+        JOIN binhluan_bar bn ON b.id = bn.id_binhluan
+        WHERE b.active = 1
+        ORDER BY b.create_at DESC
+        LIMIT ? OFFSET ?
+    ";
+
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $reviews[] = [
+                'id' => $row['id'],
+                'content' => $row['content'],
+                'create_at' => $row['create_at'],
+                'rate' => $row['rate'],
+                'name' => $row['name']
+            ];
+        }
+
+        $result->free();
+        $stmt->close();
+    } else {
+        error_log("Error preparing statement in getBarReviews: " . $conn->error);
+    }
+
+    return $reviews;
+}
+
+// Hàm lấy tổng số đánh giá của Sky Bar
+function getTotalBarReviews()
+{
+    global $conn;
+    $sql = "
+        SELECT COUNT(*) as total
+        FROM binhluan b
+        JOIN binhluan_bar bn ON b.id = bn.id_binhluan
+        WHERE b.active = 1
+    ";
+
+    $result = $conn->query($sql);
+    if ($result) {
+        $row = $result->fetch_assoc();
+        $total = (int)$row['total'];
+        $result->free();
+        return $total;
+    } else {
+        error_log("Error executing query in getTotalBarReviews: " . $conn->error);
+    }
+
+    return 0;
+}
+
+// Hàm tính điểm đánh giá trung bình của Sky Bar
+function calculateBarAverageRating()
+{
+    global $conn;
+    $sql = "
+        SELECT AVG(b.rate) as average_rating
+        FROM binhluan b
+        JOIN binhluan_bar bn ON b.id = bn.id_binhluan
+        WHERE b.active = 1
+    ";
+
+    $result = $conn->query($sql);
+    if ($result) {
+        $row = $result->fetch_assoc();
+        $average = $row['average_rating'] ? number_format($row['average_rating'], 1) : "0.0";
+        $result->free();
+        return $average;
+    } else {
+        error_log("Error executing query in calculateBarAverageRating: " . $conn->error);
+    }
+
+    return "0.0";
+}
+
+// Hàm tính phân bố tỷ lệ phần trăm các mức sao của Sky Bar
+function calculateBarRatingBreakdown()
+{
+    global $conn;
+    $ratingBreakdown = [1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0];
+    $totalReviews = getTotalBarReviews();
+
+    if ($totalReviews == 0) {
+        return array_map(function () {
+            return ['count' => 0, 'percentage' => 0];
+        }, $ratingBreakdown);
+    }
+
+    $sql = "
+        SELECT b.rate, COUNT(*) as count
+        FROM binhluan b
+        JOIN binhluan_bar bn ON b.id = bn.id_binhluan
+        WHERE b.active = 1
+        GROUP BY b.rate
+    ";
+
+    $result = $conn->query($sql);
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $rate = (int)$row['rate'];
+            if ($rate >= 1 && $rate <= 5) {
+                $percentage = ($row['count'] / $totalReviews) * 100;
+                $ratingBreakdown[$rate] = [
+                    'count' => (int)$row['count'],
+                    'percentage' => round($percentage, 1)
+                ];
+            }
+        }
+        $result->free();
+    } else {
+        error_log("Error executing query in calculateBarRatingBreakdown: " . $conn->error);
+    }
+
+    // Điền các mức sao không có đánh giá
+    foreach ($ratingBreakdown as $rate => &$data) {
+        if (!is_array($data)) {
+            $data = ['count' => 0, 'percentage' => 0];
+        }
+    }
+
+    return $ratingBreakdown;
+}
+
+// Hàm chèn bình luận mới cho Sky Bar
+function insertCommentBar($name, $email, $content, $rating)
+{
+    global $conn;
+
+    // Chèn hoặc lấy id_khachhang từ bảng khachhang
+    $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
+            ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("ss", $name, $email);
+        $result = $stmt->execute();
+        $id_khachhang = $conn->insert_id;
+        $stmt->close();
+        if (!$result) {
+            error_log("Error inserting customer in insertCommentBar: " . $conn->error);
+            return false;
+        }
+    } else {
+        error_log("Error preparing statement in insertCommentBar (khachhang): " . $conn->error);
+        return false;
+    }
+
+    // Chèn bình luận vào bảng binhluan
+    $create_at = date('Y-m-d H:i:s');
+    $active = 1;
+    $sql = "INSERT INTO binhluan (content, create_at, rate, active, id_khachhang) VALUES (?, ?, ?, ?, ?)";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("ssiii", $content, $create_at, $rating, $active, $id_khachhang);
+        $result = $stmt->execute();
+        $id_binhluan = $conn->insert_id;
+        $stmt->close();
+        if (!$result) {
+            error_log("Error inserting comment in insertCommentBar: " . $conn->error);
+            return false;
+        }
+    } else {
+        error_log("Error preparing statement in insertCommentBar (binhluan): " . $conn->error);
+        return false;
+    }
+
+    // Chèn vào bảng binhluan_bar
+    $sql = "INSERT INTO binhluan_bar (id_binhluan) VALUES (?)";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("i", $id_binhluan);
+        $result = $stmt->execute();
+        $stmt->close();
+        if (!$result) {
+            error_log("Error inserting into binhluan_bar: " . $conn->error);
+            return false;
+        }
+        return true;
+    } else {
+        error_log("Error preparing statement in insertCommentBar (binhluan_bar): " . $conn->error);
+        return false;
+    }
+
+    return false;
+}
+
+
+function getMenuItemsByType($languageId, $type, $page = 1, $limit = 9)
+{
+    global $conn;
+    $offset = ($page - 1) * $limit;
+
+    // Truy vấn tổng số món ăn
+    $totalQuery = "SELECT COUNT(*) as total 
+                   FROM thucdon t 
+                   LEFT JOIN thucdon_ngonngu tn ON t.id = tn.id_thucdon 
+                   WHERE tn.id_ngonngu = ? AND t.type = ? AND t.id_amthuc = 2";
+    $stmt = $conn->prepare($totalQuery);
+    $stmt->bind_param("is", $languageId, $type);
+    $stmt->execute();
+    $totalResult = $stmt->get_result()->fetch_assoc();
+    $totalItems = $totalResult['total'];
+    $totalPages = ceil($totalItems / $limit);
+
+    // Truy vấn danh sách món ăn
+    $query = "SELECT t.id, t.price, a.image, tn.name, tn.content 
+              FROM thucdon t 
+              LEFT JOIN thucdon_ngonngu tn ON t.id = tn.id_thucdon 
+              LEFT JOIN anhthucdon a ON t.id = a.id_menu
+              WHERE tn.id_ngonngu = ? AND t.type = ? AND t.id_amthuc = 2
+              LIMIT ? OFFSET ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("isii", $languageId, $type, $limit, $offset);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $menuItems = [];
+    while ($row = $result->fetch_assoc()) {
+        $menuItems[] = $row;
+    }
+
+    return [
+        'menuItems' => $menuItems,
+        'totalPages' => $totalPages,
+        'currentPage' => $page,
+        'totalItems' => $totalItems
+    ];
+}
+
+
+//Lấy ưu đãi
+function getPromotions($language)
+{
+    global $conn;
+    $promotions = [];
+    $sql = "SELECT u.id, u.created_at, a.image, un.title, un.content
+            FROM uudai u
+            JOIN anhuudai a ON u.id = a.id_uudai
+            JOIN uudai_ngonngu un ON u.id = un.id_uudai
+            WHERE a.is_primary = 1 AND un.id_ngonngu = ? AND u.active = 1";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $language);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $promotions[] = $row;
+    }
+
+    $stmt->close();
+    return $promotions;
+}
+
+// Hàm cắt ngắn nội dung đến độ dài xác định
+function truncateContent($content, $maxLength = 100)
+{
+    // Loại bỏ các thẻ HTML nhưng giữ <p> và <br> để định dạng cơ bản
+    $cleanContent = strip_tags($content, '<p><br>');
+    // Xóa khoảng trắng thừa
+    $cleanContent = preg_replace('/\s+/', ' ', trim($cleanContent));
+
+    if (strlen($cleanContent) <= $maxLength) {
+        return $cleanContent;
+    }
+
+    // Cắt đến maxLength, đảm bảo không cắt giữa từ
+    $truncated = substr($cleanContent, 0, $maxLength);
+    $lastSpace = strrpos($truncated, ' ');
+    if ($lastSpace !== false) {
+        $truncated = substr($truncated, 0, $lastSpace);
+    }
+
+    return $truncated . '...';
+}
+
+
+//Lấy ưu đãi
+function getPromotionById($language, $id_uudai)
+{
+    global $conn;
+
+    $sql = "SELECT u.id, u.created_at, a.image, un.title, un.content
+            FROM uudai u
+            LEFT JOIN anhuudai a ON u.id = a.id_uudai 
+            JOIN uudai_ngonngu un ON u.id = un.id_uudai
+            WHERE un.id_ngonngu = ? AND u.id = ? AND u.active = 1";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $language, $id_uudai);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result->fetch_assoc(); // chỉ trả về 1 bản ghi
+}
+
+
+function getRelatedPromotions($language, $id_uudai, $limit)
+{
+    global $conn;
+
+    $sql = "SELECT u.id, u.created_at, a.image, un.title, un.content
+            FROM uudai u
+            LEFT JOIN anhuudai a ON u.id = a.id_uudai 
+            JOIN uudai_ngonngu un ON u.id = un.id_uudai
+            WHERE un.id_ngonngu = ? AND u.id != ? AND u.active = 1
+            GROUP BY u.id
+            ORDER BY ABS(u.id - ?) ASC
+            LIMIT ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iiii", $language, $id_uudai, $id_uudai, $limit);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result->fetch_all(MYSQLI_ASSOC); // Trả về mảng chứa tối đa 6 bản ghi
+}
+
+//Lấy tin tức
+function getNews($language)
+{
+    global $conn;
+    $promotions = [];
+    $sql = "SELECT t.id, t.create_at, a.image, tn.title, tn.content
+            FROM tintuc t
+            JOIN anhtintuc a ON t.id = a.id_tintuc
+            JOIN tintuc_ngonngu tn ON t.id = tn.id_tintuc
+            WHERE a.is_primary = 1 AND tn.id_ngonngu = ? AND t.active = 1";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $language);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $promotions[] = $row;
+    }
+
+    $stmt->close();
+    return $promotions;
+}
+
+//Lấy ưu đãi
+function getNewById($language, $id_tintuc)
+{
+    global $conn;
+
+    $sql = "SELECT t.id, t.create_at, a.image, tn.title, tn.content
+            FROM tintuc t
+            LEFT JOIN anhtintuc a ON t.id = a.id_tintuc 
+            JOIN tintuc_ngonngu tn ON t.id = tn.id_tintuc
+            WHERE tn.id_ngonngu = ? AND t.id = ? AND t.active = 1";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $language, $id_tintuc);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result->fetch_assoc(); // chỉ trả về 1 bản ghi
+}
+
+
+function getRelatedNews($language, $id_tintuc, $limit)
+{
+    global $conn;
+
+    $sql = "SELECT t.id, t.create_at, a.image, tn.title, tn.content
+            FROM tintuc t
+            LEFT JOIN anhtintuc a ON t.id = a.id_tintuc 
+            JOIN tintuc_ngonngu tn ON t.id = tn.id_tintuc
+            WHERE tn.id_ngonngu = ? AND t.id != ? AND t.active = 1
+            GROUP BY t.id
+            ORDER BY ABS(t.id - ?) ASC
+            LIMIT ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iiii", $language, $id_tintuc, $id_tintuc, $limit);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result->fetch_all(MYSQLI_ASSOC); // Trả về mảng chứa tối đa 6 bản ghi
+}
+
+//Lấy tin tức
+function getEventOrganized($language)
+{
+    global $conn;
+    $promotions = [];
+    $sql = "SELECT t.id, t.create_at, a.image, tn.title, tn.content
+            FROM sukiendatochuc t
+            JOIN anhsukiendatochuc a ON t.id = a.id_sukiendatochuc
+            JOIN sukiendatochuc_ngonngu tn ON t.id = tn.id_sukiendatochuc
+            WHERE a.is_primary = 1 AND tn.id_ngonngu = ? AND t.active = 1";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $language);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $promotions[] = $row;
+    }
+
+    $stmt->close();
+    return $promotions;
+}
+
+//Lấy ưu đãi
+function getEventOrganizedById($language, $id_sukiendatochuc)
+{
+    global $conn;
+
+    $sql = "SELECT t.id, t.create_at, a.image, tn.title, tn.content
+            FROM sukiendatochuc t
+            LEFT JOIN anhsukiendatochuc a ON t.id = a.id_sukiendatochuc 
+            JOIN sukiendatochuc_ngonngu tn ON t.id = tn.id_sukiendatochuc
+            WHERE tn.id_ngonngu = ? AND t.id = ? AND t.active = 1";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $language, $id_sukiendatochuc);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result->fetch_assoc(); // chỉ trả về 1 bản ghi
+}
+
+
+function getRelatedEventOrganized($language, $id_sukiendatochuc, $limit)
+{
+    global $conn;
+
+    $sql = "SELECT t.id, t.create_at, a.image, tn.title, tn.content
+            FROM sukiendatochuc t
+            LEFT JOIN anhsukiendatochuc a ON t.id = a.id_sukiendatochuc 
+            JOIN sukiendatochuc_ngonngu tn ON t.id = tn.id_sukiendatochuc
+            WHERE tn.id_ngonngu = ? AND t.id != ? AND t.active = 1 
+            GROUP BY t.id
+            ORDER BY ABS(t.id - ?) ASC
+            LIMIT ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iiii", $language, $id_sukiendatochuc, $id_sukiendatochuc, $limit);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result->fetch_all(MYSQLI_ASSOC); // Trả về mảng chứa tối đa 6 bản ghi
 }

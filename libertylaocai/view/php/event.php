@@ -12,7 +12,7 @@ $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
 $eventData = getPrimaryEventData($languageId);
 
 //Lấy sự kiện đã tổ chức
-$organizedEvents = getOrganizedEvents($languageId);
+$organizedEvents = getOrganizedEvents($languageId, 4);
 
 // Lấy mô tả cho hero-content
 $descriptionHeroContent = getSelectedDescription($languageId, 'hero-content');
@@ -100,9 +100,12 @@ $halls = getConferenceHalls($languageId);
                                 <div class="organized-description">
                                     <?php echo htmlspecialchars($event['content']); ?>
                                 </div>
-                                <div class="organized-more">
-                                    <?php echo $languageId == 1 ? 'Xem Thêm' : 'See More'; ?>
-                                </div>
+                                <form action="/libertylaocai/user/submit" method="POST" style="display:inline;">
+                                    <input type="hidden" name="sukiendatochuc" value="<?php echo htmlspecialchars($event['id']); ?>">
+                                    <div class="organized-more" onclick="this.closest('form').submit()" style="cursor:pointer;">
+                                        <?php echo $languageId == 1 ? 'Xem Thêm' : 'See More'; ?>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     <?php
@@ -260,7 +263,7 @@ $halls = getConferenceHalls($languageId);
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description"><?php echo $languageId == 1 ? 'Mô tả chi tiết sự kiện' : 'Event Description'; ?> </label>
+                            <label for="description"><?php echo $languageId == 1 ? 'Mô tả chi tiết sự kiện' : 'Event Description'; ?> <span class="required">*</span></label>
                             <textarea id="description" name="description" placeholder="<?php echo $languageId == 1 ? 'Mô tả chi tiết về sự kiện bạn muốn tổ chức' : 'Describe the event details'; ?>" required></textarea>
                         </div>
                     </div>

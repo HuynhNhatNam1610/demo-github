@@ -1,3523 +1,2445 @@
-2025-06-02 23:18:43 - POST: Array
+2025-06-04 22:02:36 - POST: Array
 (
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 20
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-03
-    [endDate] => 2025-06-03
-    [startTime] => 14:18
-    [endTime] => 15:18
-    [description] => hahaha
-    [submit_booking] => true
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaha
+    [comment_bar] => true
 )
 
-2025-06-02 23:18:43 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                    [2] => IMG_9885.jpg
-                    [3] => IMG_9901.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                    [2] => IMG_9885.jpg
-                    [3] => IMG_9901.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                    [2] => image/jpeg
-                    [3] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\phpEEF4.tmp
-                    [2] => C:\xampp\tmp\phpEF04.tmp
-                    [3] => C:\xampp\tmp\phpEF05.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                    [2] => 0
-                    [3] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2313327
-                    [2] => 2168831
-                    [3] => 1577822
-                )
-
-        )
-
-)
-
-2025-06-02 23:25:11 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 20
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-03
-    [endDate] => 2025-06-03
-    [startTime] => 15:24
-    [endTime] => 16:24
-    [description] => haha
-    [submit_booking] => true
-)
-
-2025-06-02 23:25:11 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9901.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9901.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\phpDAA6.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 1577822
-                )
-
-        )
-
-)
-
-2025-06-02 23:25:11 - Date error: {"status":"error","message":"Start date cannot be in the past"}
-2025-06-03 08:15:31 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 20
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-03
-    [endDate] => 2025-06-03
-    [startTime] => 10:15
-    [endTime] => 13:15
-    [description] => hahaha
-    [submit_booking] => true
-)
-
-2025-06-03 08:15:31 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\php6414.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2313327
-                )
-
-        )
-
-)
-
-2025-06-03 08:17:23 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 2
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-03
-    [endDate] => 2025-06-03
-    [startTime] => 10:17
-    [endTime] => 13:17
-    [description] => hhh
-    [submit_booking] => true
-)
-
-2025-06-03 08:17:23 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9885.jpg
-                    [2] => IMG_9901.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9885.jpg
-                    [2] => IMG_9901.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                    [2] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\php1918.tmp
-                    [2] => C:\xampp\tmp\php1919.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                    [2] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2168831
-                    [2] => 1577822
-                )
-
-        )
-
-)
-
-2025-06-03 08:26:11 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => hoi-nghi
-    [guestCount] => 212
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:24
-    [endTime] => 13:24
-    [description] => hhh
-    [submit_booking] => true
-)
-
-2025-06-03 08:26:11 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                    [2] => IMG_9885.jpg
-                    [3] => IMG_9901.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                    [2] => IMG_9885.jpg
-                    [3] => IMG_9901.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                    [2] => image/jpeg
-                    [3] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\php277B.tmp
-                    [2] => C:\xampp\tmp\php278B.tmp
-                    [3] => C:\xampp\tmp\php279C.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                    [2] => 0
-                    [3] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2313327
-                    [2] => 2168831
-                    [3] => 1577822
-                )
-
-        )
-
-)
-
-2025-06-03 08:29:31 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => sinh-nhat
-    [guestCount] => 22
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:29
-    [endTime] => 13:29
-    [description] => hhh
-    [submit_booking] => true
-)
-
-2025-06-03 08:29:31 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9885.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9885.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\php3356.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2168831
-                )
-
-        )
-
-)
-
-2025-06-03 08:35:47 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 22
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:35
-    [endTime] => 13:35
-    [description] => hhh
-    [submit_booking] => true
-)
-
-2025-06-03 08:35:47 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9885.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9885.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\phpF150.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2168831
-                )
-
-        )
-
-)
-
-2025-06-03 08:36:54 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 22
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:36
-    [endTime] => 13:36
-    [description] => hh
-    [submit_booking] => true
-)
-
-2025-06-03 08:36:54 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\phpF5C1.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2313327
-                )
-
-        )
-
-)
-
-2025-06-03 08:40:18 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 22
-    [venue] => 5
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 01:40
-    [endTime] => 02:40
-    [description] => hhh
-    [submit_booking] => true
-)
-
-2025-06-03 08:40:18 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\php1438.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2313327
-                )
-
-        )
-
-)
-
-2025-06-03 08:41:40 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => phuquoc22711@gmail.com
-    [eventType] => sinh-nhat
-    [guestCount] => 212
-    [venue] => 3
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 11:41
-    [endTime] => 00:41
-    [description] => ahaha
-    [submit_booking] => true
-)
-
-2025-06-03 08:41:40 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\php563E.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2313327
-                )
-
-        )
-
-)
-
-2025-06-03 08:42:23 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => phuquoc22711@gmail.com
-    [eventType] => sinh-nhat
-    [guestCount] => 212
-    [venue] => 3
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 11:41
-    [endTime] => 13:41
-    [description] => ahaha
-    [submit_booking] => true
-)
-
-2025-06-03 08:42:23 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\phpFAAD.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2313327
-                )
-
-        )
-
-)
-
-2025-06-03 09:00:23 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 222
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 01:00
-    [endTime] => 02:00
-    [description] => shahaha
-    [submit_booking] => true
-)
-
-2025-06-03 09:00:23 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                )
-
-        )
-
-)
-
-2025-06-03 09:03:52 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 20
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 13:03
-    [endTime] => 14:03
-    [description] => hahaha
-    [submit_booking] => true
-)
-
-2025-06-03 09:03:52 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                )
-
-        )
-
-)
-
-2025-06-03 09:12:51 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 22
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:12
-    [endTime] => 09:12
-    [description] => aa
-    [submit_booking] => true
-)
-
-2025-06-03 09:12:51 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                )
-
-        )
-
-)
-
-2025-06-03 09:13:15 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 222
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:13
-    [endTime] => 09:13
-    [description] => sấ
-    [submit_booking] => true
-)
-
-2025-06-03 09:13:15 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                )
-
-        )
-
-)
-
-2025-06-03 09:15:04 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 22
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:14
-    [endTime] => 09:14
-    [description] => jj
-    [submit_booking] => true
-)
-
-2025-06-03 09:15:04 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                )
-
-        )
-
-)
-
-2025-06-03 09:25:58 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 22
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 01:25
-    [endTime] => 01:12
-    [description] => hhh
-    [submit_booking] => true
-)
-
-2025-06-03 09:25:58 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                )
-
-        )
-
-)
-
-2025-06-03 09:26:32 - POST: Array
-(
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => hoi-nghi
-    [guestCount] => 55
-    [venue] => 7
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 01:26
-    [endTime] => 01:22
-    [description] => aa
-    [submit_booking] => true
-)
-
-2025-06-03 09:26:32 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                )
-
-        )
-
-)
-
-2025-06-03 09:26:43 - POST: Array
-(
-    [event_code] => sinh-nhat
-)
-
-2025-06-03 09:26:43 - FILES: Array
+2025-06-04 22:02:36 - FILES: Array
 (
 )
 
-2025-06-03 09:47:41 - POST: Array
+2025-06-04 22:03:06 - POST: Array
 (
-    [submit_booking] => true
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [eventType] => tiec-cuoi
-    [guestCount] => 22
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:47
-    [endTime] => 11:47
-    [description] => hhh
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaha
+    [comment_bar] => true
 )
 
-2025-06-03 09:47:41 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                )
-
-        )
-
-)
-
-2025-06-03 09:48:31 - POST: Array
-(
-    [submit_booking] => true
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => phuquoc22711@gmail.com
-    [eventType] => hoi-nghi
-    [guestCount] => 22
-    [venue] => 3
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:48
-    [endTime] => 13:48
-    [description] => hhhy
-)
-
-2025-06-03 09:48:31 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                    [2] => IMG_9885.jpg
-                    [3] => IMG_9901.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9874.jpg
-                    [2] => IMG_9885.jpg
-                    [3] => IMG_9901.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                    [2] => image/jpeg
-                    [3] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\php8A67.tmp
-                    [2] => C:\xampp\tmp\php8A68.tmp
-                    [3] => C:\xampp\tmp\php8A69.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                    [2] => 0
-                    [3] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2313327
-                    [2] => 2168831
-                    [3] => 1577822
-                )
-
-        )
-
-)
-
-2025-06-03 09:50:02 - POST: Array
-(
-    [submit_booking] => true
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => admin@gmail.com
-    [eventType] => hoi-nghi
-    [guestCount] => 2222
-    [venue] => 3
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 11:49
-    [endTime] => 10:49
-    [description] => hh
-)
-
-2025-06-03 09:50:02 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                )
-
-        )
-
-)
-
-2025-06-03 09:56:28 - POST: Array
-(
-    [submit_booking] => true
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => admin@gmail.com
-    [eventType] => gala-dinner
-    [guestCount] => 222
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 10:56
-    [endTime] => 13:56
-    [description] => hhh
-)
-
-2025-06-03 09:56:28 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9885.jpg
-                    [2] => IMG_9901.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9885.jpg
-                    [2] => IMG_9901.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                    [2] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\phpD135.tmp
-                    [2] => C:\xampp\tmp\phpD136.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                    [2] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2168831
-                    [2] => 1577822
-                )
-
-        )
-
-)
-
-2025-06-03 09:57:40 - POST: Array
-(
-    [submit_booking] => true
-    [fullName] => Huynh Nhat Nam
-    [phone] => 0777566324
-    [email] => phuquoc22711@gmail.com
-    [eventType] => hoi-nghi
-    [guestCount] => 22
-    [venue] => 1
-    [budget] => 20000000
-    [eventDate] => 2025-06-04
-    [endDate] => 2025-06-04
-    [startTime] => 13:57
-    [endTime] => 14:57
-    [description] => hhh
-)
-
-2025-06-03 09:57:40 - FILES: Array
-(
-    [images] => Array
-        (
-            [name] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9918.jpg
-                )
-
-            [full_path] => Array
-                (
-                    [0] => 
-                    [1] => IMG_9918.jpg
-                )
-
-            [type] => Array
-                (
-                    [0] => 
-                    [1] => image/jpeg
-                )
-
-            [tmp_name] => Array
-                (
-                    [0] => 
-                    [1] => C:\xampp\tmp\phpEA39.tmp
-                )
-
-            [error] => Array
-                (
-                    [0] => 4
-                    [1] => 0
-                )
-
-            [size] => Array
-                (
-                    [0] => 0
-                    [1] => 2074797
-                )
-
-        )
-
-)
-
-2025-06-03 10:08:03 - POST: Array
-(
-    [subcategory_code] => gala-dinner
-)
-
-2025-06-03 10:08:03 - FILES: Array
+2025-06-04 22:03:06 - FILES: Array
 (
 )
 
-2025-06-03 10:08:30 - POST: Array
+2025-06-04 22:06:00 - POST: Array
 (
-    [category_code] => nhahang&bar
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaha
+    [comment_bar] => true
 )
 
-2025-06-03 10:08:30 - FILES: Array
-(
-)
-
-2025-06-03 10:10:52 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 10:10:52 - FILES: Array
+2025-06-04 22:06:00 - FILES: Array
 (
 )
 
-2025-06-03 10:10:58 - POST: Array
+2025-06-04 22:06:09 - POST: Array
 (
-    [subcategory_code] => hoi-nghi
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaha
+    [comment_bar] => true
 )
 
-2025-06-03 10:10:58 - FILES: Array
-(
-)
-
-2025-06-03 10:11:00 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 10:11:00 - FILES: Array
+2025-06-04 22:06:09 - FILES: Array
 (
 )
 
-2025-06-03 10:11:01 - POST: Array
+2025-06-04 22:11:38 - POST: Array
 (
-    [category_code] => nhahang&bar
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => nânnha
+    [comment_bar] => true
 )
 
-2025-06-03 10:11:01 - FILES: Array
+2025-06-04 22:11:38 - FILES: Array
 (
 )
 
-2025-06-03 10:11:03 - POST: Array
+2025-06-04 22:13:02 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => nânnha
+    [comment_bar] => true
+)
+
+2025-06-04 22:13:02 - FILES: Array
+(
+)
+
+2025-06-04 22:13:51 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hjahah
+    [comment_bar] => true
+)
+
+2025-06-04 22:13:51 - FILES: Array
+(
+)
+
+2025-06-04 22:15:35 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_bar] => true
+)
+
+2025-06-04 22:15:35 - FILES: Array
+(
+)
+
+2025-06-04 22:15:46 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_bar] => true
+)
+
+2025-06-04 22:15:46 - FILES: Array
+(
+)
+
+2025-06-04 22:17:23 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => haha
+    [comment_bar] => true
+)
+
+2025-06-04 22:17:23 - FILES: Array
+(
+)
+
+2025-06-04 22:19:32 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahah
+    [comment_bar] => true
+)
+
+2025-06-04 22:19:32 - FILES: Array
+(
+)
+
+2025-06-04 22:20:54 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => aa
+    [comment_bar] => true
+)
+
+2025-06-04 22:20:54 - FILES: Array
+(
+)
+
+2025-06-04 22:23:14 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaha
+    [comment_bar] => true
+)
+
+2025-06-04 22:23:14 - FILES: Array
+(
+)
+
+2025-06-04 22:24:20 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahah
+    [comment_bar] => true
+)
+
+2025-06-04 22:24:20 - FILES: Array
+(
+)
+
+2025-06-04 22:25:20 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaah
+    [comment_bar] => true
+)
+
+2025-06-04 22:25:20 - FILES: Array
+(
+)
+
+2025-06-04 22:26:24 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hâhah
+    [comment_bar] => true
+)
+
+2025-06-04 22:26:24 - FILES: Array
+(
+)
+
+2025-06-04 22:28:45 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaha
+    [comment_bar] => true
+)
+
+2025-06-04 22:28:45 - FILES: Array
+(
+)
+
+2025-06-04 22:57:35 - POST: Array
 (
     [subcategory_code] => nha-hang
 )
 
-2025-06-03 10:11:03 - FILES: Array
+2025-06-04 22:57:35 - FILES: Array
 (
 )
 
-2025-06-03 10:14:15 - POST: Array
+2025-06-04 22:57:44 - POST: Array
 (
     [category_code] => nhahang&bar
 )
 
-2025-06-03 10:14:15 - FILES: Array
+2025-06-04 22:57:44 - FILES: Array
 (
 )
 
-2025-06-03 10:26:28 - POST: Array
+2025-06-04 22:57:46 - POST: Array
+(
+    [cuisine_code] => sky-bar
+)
+
+2025-06-04 22:57:46 - FILES: Array
+(
+)
+
+2025-06-04 23:48:01 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => Nguyễn Văn Quyền
+    [reviewer-email] => nguyenvanquyen@gmail.com
+    [review-content] => bgjhfghjf
+    [comment_bar] => true
+)
+
+2025-06-04 23:48:01 - FILES: Array
+(
+)
+
+2025-06-05 10:08:54 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 10:08:54 - FILES: Array
+(
+)
+
+2025-06-05 10:08:56 - POST: Array
+(
+    [cuisine_code] => sky-bar
+)
+
+2025-06-05 10:08:56 - FILES: Array
+(
+)
+
+2025-06-05 10:10:15 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 10:10:15 - FILES: Array
+(
+)
+
+2025-06-05 10:10:16 - POST: Array
+(
+    [cuisine_code] => nha-hang
+)
+
+2025-06-05 10:10:16 - FILES: Array
+(
+)
+
+2025-06-05 10:11:45 - POST: Array
+(
+    [subcategory_code] => sky-bar
+)
+
+2025-06-05 10:11:45 - FILES: Array
+(
+)
+
+2025-06-05 10:14:32 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => hello@gmail.com
+    [review-content] => ahahaha
+    [comment_bar] => true
+)
+
+2025-06-05 10:14:32 - FILES: Array
+(
+)
+
+2025-06-05 10:19:06 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => sáaa
+    [comment_bar] => true
+)
+
+2025-06-05 10:19:06 - FILES: Array
+(
+)
+
+2025-06-05 10:39:24 - POST: Array
 (
     [category_code] => event
 )
 
-2025-06-03 10:26:28 - FILES: Array
+2025-06-05 10:39:24 - FILES: Array
 (
 )
 
-2025-06-03 10:26:29 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 10:26:29 - FILES: Array
-(
-)
-
-2025-06-03 10:32:49 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 10:32:49 - FILES: Array
-(
-)
-
-2025-06-03 10:33:35 - POST: Array
+2025-06-05 10:39:25 - POST: Array
 (
     [category_code] => nhahang&bar
 )
 
-2025-06-03 10:33:35 - FILES: Array
+2025-06-05 10:39:25 - FILES: Array
 (
 )
 
-2025-06-03 11:29:19 - POST: Array
+2025-06-05 10:39:26 - POST: Array
+(
+    [subcategory_code] => sky-bar
+)
+
+2025-06-05 10:39:26 - FILES: Array
+(
+)
+
+2025-06-05 14:11:59 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 14:11:59 - FILES: Array
+(
+)
+
+2025-06-05 14:12:00 - POST: Array
+(
+    [cuisine_code] => nha-hang
+)
+
+2025-06-05 14:12:00 - FILES: Array
+(
+)
+
+2025-06-05 14:12:08 - POST: Array
+(
+    [subcategory_code] => sky-bar
+)
+
+2025-06-05 14:12:08 - FILES: Array
+(
+)
+
+2025-06-05 14:12:14 - POST: Array
 (
     [subcategory_code] => nha-hang
 )
 
-2025-06-03 11:29:19 - FILES: Array
+2025-06-05 14:12:14 - FILES: Array
 (
 )
 
-2025-06-03 11:29:22 - POST: Array
+2025-06-05 14:12:20 - POST: Array
 (
-    [category_code] => nhahang&bar
+    [subcategory_code] => nha-hang
 )
 
-2025-06-03 11:29:22 - FILES: Array
-(
-)
-
-2025-06-03 11:56:28 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 11:56:28 - FILES: Array
+2025-06-05 14:12:20 - FILES: Array
 (
 )
 
-2025-06-03 11:59:47 - POST: Array
+2025-06-05 14:12:22 - POST: Array
 (
-    [cuisine_code] => nha-hang
+    [subcategory_code] => nha-hang
 )
 
-2025-06-03 11:59:47 - FILES: Array
-(
-)
-
-2025-06-03 12:00:25 - POST: Array
-(
-    [cuisine_code] => sky-bar
-)
-
-2025-06-03 12:00:25 - FILES: Array
+2025-06-05 14:12:22 - FILES: Array
 (
 )
 
-2025-06-03 14:20:35 - POST: Array
-(
-    [cuisine_code] => sky-bar
-)
-
-2025-06-03 14:20:35 - FILES: Array
-(
-)
-
-2025-06-03 14:21:54 - POST: Array
-(
-    [cuisine_code] => sky-bar
-)
-
-2025-06-03 14:21:54 - FILES: Array
-(
-)
-
-2025-06-03 14:21:57 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 14:21:57 - FILES: Array
-(
-)
-
-2025-06-03 14:22:09 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 14:22:09 - FILES: Array
-(
-)
-
-2025-06-03 14:23:07 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 14:23:07 - FILES: Array
-(
-)
-
-2025-06-03 14:23:34 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 14:23:34 - FILES: Array
-(
-)
-
-2025-06-03 14:23:40 - POST: Array
-(
-    [cuisine_code] => sky-bar
-)
-
-2025-06-03 14:23:40 - FILES: Array
-(
-)
-
-2025-06-03 14:24:27 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 14:24:27 - FILES: Array
-(
-)
-
-2025-06-03 14:24:51 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 14:24:51 - FILES: Array
-(
-)
-
-2025-06-03 14:25:21 - POST: Array
-(
-    [category_code] => sale
-)
-
-2025-06-03 14:25:21 - FILES: Array
-(
-)
-
-2025-06-03 14:25:22 - POST: Array
-(
-    [category_code] => dich-vu
-)
-
-2025-06-03 14:25:22 - FILES: Array
-(
-)
-
-2025-06-03 14:25:24 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 14:25:24 - FILES: Array
-(
-)
-
-2025-06-03 14:25:27 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 14:25:27 - FILES: Array
-(
-)
-
-2025-06-03 14:25:38 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 14:25:38 - FILES: Array
-(
-)
-
-2025-06-03 14:25:39 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 14:25:39 - FILES: Array
-(
-)
-
-2025-06-03 14:25:44 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 14:25:44 - FILES: Array
-(
-)
-
-2025-06-03 14:26:16 - POST: Array
+2025-06-05 14:12:27 - POST: Array
 (
     [subcategory_code] => sky-bar
 )
 
-2025-06-03 14:26:16 - FILES: Array
+2025-06-05 14:12:27 - FILES: Array
 (
 )
 
-2025-06-03 14:26:25 - POST: Array
+2025-06-05 14:12:30 - POST: Array
 (
     [category_code] => nhahang&bar
 )
 
-2025-06-03 14:26:25 - FILES: Array
+2025-06-05 14:12:30 - FILES: Array
 (
 )
 
-2025-06-03 14:55:25 - POST: Array
+2025-06-05 14:12:31 - POST: Array
 (
-    [category_code] => event
+    [cuisine_code] => nha-hang
 )
 
-2025-06-03 14:55:25 - FILES: Array
+2025-06-05 14:12:31 - FILES: Array
 (
 )
 
-2025-06-03 14:58:39 - POST: Array
+2025-06-05 14:15:20 - POST: Array
 (
     [subcategory_code] => sky-bar
 )
 
-2025-06-03 14:58:39 - FILES: Array
+2025-06-05 14:15:20 - FILES: Array
 (
 )
 
-2025-06-03 14:58:39 - POST: Array
+2025-06-05 14:15:26 - POST: Array
 (
-    [category_code] => nhahang&bar
+    [subcategory_code] => nha-hang
 )
 
-2025-06-03 14:58:39 - FILES: Array
+2025-06-05 14:15:26 - FILES: Array
 (
 )
 
-2025-06-03 15:06:24 - POST: Array
-(
-    [category_code] => dich-vu
-)
-
-2025-06-03 15:06:24 - FILES: Array
-(
-)
-
-2025-06-03 15:06:25 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 15:06:25 - FILES: Array
-(
-)
-
-2025-06-03 15:06:27 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 15:06:27 - FILES: Array
-(
-)
-
-2025-06-03 15:06:31 - POST: Array
-(
-    [event_code] => tiec-cuoi
-)
-
-2025-06-03 15:06:31 - FILES: Array
-(
-)
-
-2025-06-03 15:13:30 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 15:13:30 - FILES: Array
-(
-)
-
-2025-06-03 16:17:03 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 16:17:03 - FILES: Array
-(
-)
-
-2025-06-03 16:17:18 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 16:17:18 - FILES: Array
-(
-)
-
-2025-06-03 16:22:31 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 16:22:31 - FILES: Array
-(
-)
-
-2025-06-03 16:22:36 - POST: Array
-(
-    [event_code] => hoi-nghi
-)
-
-2025-06-03 16:22:36 - FILES: Array
-(
-)
-
-2025-06-03 16:22:40 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 16:22:40 - FILES: Array
-(
-)
-
-2025-06-03 16:23:04 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 16:23:04 - FILES: Array
-(
-)
-
-2025-06-03 16:30:43 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 16:30:43 - FILES: Array
-(
-)
-
-2025-06-03 16:30:50 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 16:30:50 - FILES: Array
-(
-)
-
-2025-06-03 16:55:52 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 16:55:52 - FILES: Array
-(
-)
-
-2025-06-03 16:56:15 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 16:56:15 - FILES: Array
-(
-)
-
-2025-06-03 20:00:34 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:00
-    [guestCount] => 4
-    [diningArea] => 1
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:00:34 - FILES: Array
-(
-)
-
-2025-06-03 20:02:18 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:02
-    [guestCount] => 4
-    [diningArea] => 1
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:02:18 - FILES: Array
-(
-)
-
-2025-06-03 20:05:45 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 20:05:45 - FILES: Array
-(
-)
-
-2025-06-03 20:06:01 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 20:06:01 - FILES: Array
-(
-)
-
-2025-06-03 20:12:43 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:12
-    [guestCount] => 2
-    [diningArea] => 1
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:12:43 - FILES: Array
-(
-)
-
-2025-06-03 20:14:12 - POST: Array
-(
-    [category_code] => danhsachphong
-)
-
-2025-06-03 20:14:12 - FILES: Array
-(
-)
-
-2025-06-03 20:14:12 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 20:14:12 - FILES: Array
-(
-)
-
-2025-06-03 20:18:18 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => 
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:18
-    [guestCount] => 22
-    [diningArea] => 1
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:18:18 - FILES: Array
-(
-)
-
-2025-06-03 20:18:35 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:18
-    [guestCount] => 4
-    [diningArea] => 1
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:18:35 - FILES: Array
-(
-)
-
-2025-06-03 20:22:39 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:22
-    [guestCount] => 2
-    [diningArea] => Phòng 1 - Nhà Hàng
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:22:39 - FILES: Array
-(
-)
-
-2025-06-03 20:50:08 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 20:50:08 - FILES: Array
-(
-)
-
-2025-06-03 20:50:14 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 20:50:14 - FILES: Array
-(
-)
-
-2025-06-03 20:50:38 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:50
-    [guestCount] => 4
-    [diningArea] => Sky Bar
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:50:38 - FILES: Array
-(
-)
-
-2025-06-03 20:52:35 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:52
-    [guestCount] => 3
-    [diningArea] => Sky Bar
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:52:35 - FILES: Array
-(
-)
-
-2025-06-03 20:53:34 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:53
-    [guestCount] => 4
-    [diningArea] => Sky Bar
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:53:34 - FILES: Array
-(
-)
-
-2025-06-03 20:55:16 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:55
-    [guestCount] => 22
-    [diningArea] => Phòng 1 - Nhà Hàng
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 20:55:16 - FILES: Array
-(
-)
-
-2025-06-03 21:04:28 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:04
-    [guestCount] => 2
-    [diningArea] => Sky Bar
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 21:04:28 - FILES: Array
-(
-)
-
-2025-06-03 21:07:31 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:07
-    [guestCount] => 4
-    [diningArea] => Sky Bar
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 21:07:31 - FILES: Array
-(
-)
-
-2025-06-03 21:08:10 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 21:08:10 - FILES: Array
-(
-)
-
-2025-06-03 21:08:25 - POST: Array
-(
-    [subcategory_code] => tiec-cuoi
-)
-
-2025-06-03 21:08:25 - FILES: Array
-(
-)
-
-2025-06-03 21:11:51 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => 
-    [bookingDate] => 2025-06-04
-    [startTime] => 22:11
-    [guestCount] => 4
-    [diningArea] => Phòng 1 - Nhà Hàng
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 21:11:51 - FILES: Array
-(
-)
-
-2025-06-03 21:12:32 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => 
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:12
-    [guestCount] => 4
-    [diningArea] => Sky Bar
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 21:12:32 - FILES: Array
-(
-)
-
-2025-06-03 21:15:12 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 21:15:12 - FILES: Array
-(
-)
-
-2025-06-03 21:17:20 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => 
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:17
-    [guestCount] => 4
-    [diningArea] => Phòng 1 - Nhà Hàng
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 21:17:20 - FILES: Array
-(
-)
-
-2025-06-03 21:18:47 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => 
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:18
-    [guestCount] => 4
-    [diningArea] => Sky Bar
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 21:18:47 - FILES: Array
-(
-)
-
-2025-06-03 21:25:50 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => 
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:25
-    [guestCount] => 4
-    [diningArea] => Sky Bar
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 21:25:50 - FILES: Array
-(
-)
-
-2025-06-03 21:26:52 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:26
-    [guestCount] => 14
-    [diningArea] => 
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 21:26:52 - FILES: Array
-(
-)
-
-2025-06-03 21:43:50 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-04
-    [startTime] => 13:43
-    [guestCount] => 4
-    [diningArea] => Room 1 - Restaurant
-    [occasion] => 
-    [specialRequests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-03 21:43:50 - FILES: Array
-(
-)
-
-2025-06-03 22:10:45 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 22:10:45 - FILES: Array
-(
-)
-
-2025-06-03 22:11:19 - POST: Array
+2025-06-05 14:15:51 - POST: Array
 (
     [subcategory_code] => sky-bar
 )
 
-2025-06-03 22:11:19 - FILES: Array
+2025-06-05 14:15:51 - FILES: Array
 (
 )
 
-2025-06-03 22:12:03 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 22:12:03 - FILES: Array
-(
-)
-
-2025-06-03 22:13:02 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 22:13:02 - FILES: Array
-(
-)
-
-2025-06-03 22:14:02 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 22:14:02 - FILES: Array
-(
-)
-
-2025-06-03 22:16:21 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-03 22:16:21 - FILES: Array
-(
-)
-
-2025-06-03 22:21:07 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 22:21:07 - FILES: Array
-(
-)
-
-2025-06-03 22:21:10 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 22:21:10 - FILES: Array
-(
-)
-
-2025-06-03 22:22:38 - POST: Array
-(
-    [category_code] => gallery
-)
-
-2025-06-03 22:22:38 - FILES: Array
-(
-)
-
-2025-06-03 22:22:41 - POST: Array
+2025-06-05 14:28:14 - POST: Array
 (
     [category_code] => trangchu
 )
 
-2025-06-03 22:22:41 - FILES: Array
+2025-06-05 14:28:14 - FILES: Array
 (
 )
 
-2025-06-03 22:23:24 - POST: Array
+2025-06-05 14:28:27 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-05 14:28:27 - FILES: Array
+(
+)
+
+2025-06-05 14:28:28 - POST: Array
 (
     [category_code] => event
 )
 
-2025-06-03 22:23:24 - FILES: Array
+2025-06-05 14:28:28 - FILES: Array
 (
 )
 
-2025-06-03 22:23:24 - POST: Array
+2025-06-05 14:28:29 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-05 14:28:29 - FILES: Array
+(
+)
+
+2025-06-05 14:28:58 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-05 14:28:58 - FILES: Array
+(
+)
+
+2025-06-05 14:28:59 - POST: Array
 (
     [category_code] => nhahang&bar
 )
 
-2025-06-03 22:23:24 - FILES: Array
+2025-06-05 14:28:59 - FILES: Array
 (
 )
 
-2025-06-03 22:23:29 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 22:23:29 - FILES: Array
-(
-)
-
-2025-06-03 22:24:16 - POST: Array
+2025-06-05 14:29:01 - POST: Array
 (
     [subcategory_code] => sky-bar
 )
 
-2025-06-03 22:24:16 - FILES: Array
+2025-06-05 14:29:01 - FILES: Array
 (
 )
 
-2025-06-03 22:25:18 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 22:25:18 - FILES: Array
-(
-)
-
-2025-06-03 22:25:21 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 22:25:21 - FILES: Array
-(
-)
-
-2025-06-03 22:26:57 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 22:26:57 - FILES: Array
-(
-)
-
-2025-06-03 22:29:22 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 22:29:22 - FILES: Array
-(
-)
-
-2025-06-03 22:55:29 - POST: Array
-(
-    [category_code] => danhsachphong
-)
-
-2025-06-03 22:55:29 - FILES: Array
-(
-)
-
-2025-06-03 22:55:30 - POST: Array
+2025-06-05 14:29:45 - POST: Array
 (
     [category_code] => event
 )
 
-2025-06-03 22:55:30 - FILES: Array
+2025-06-05 14:29:45 - FILES: Array
 (
 )
 
-2025-06-03 22:55:30 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 22:55:30 - FILES: Array
-(
-)
-
-2025-06-03 22:55:35 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 22:55:35 - FILES: Array
-(
-)
-
-2025-06-03 23:03:22 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-03 23:03:22 - FILES: Array
-(
-)
-
-2025-06-03 23:03:32 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-03 23:03:32 - FILES: Array
-(
-)
-
-2025-06-04 08:12:30 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-04 08:12:30 - FILES: Array
-(
-)
-
-2025-06-04 08:12:35 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-04 08:12:35 - FILES: Array
-(
-)
-
-2025-06-04 08:28:16 - POST: Array
+2025-06-05 14:29:46 - POST: Array
 (
     [category_code] => danhsachphong
 )
 
-2025-06-04 08:28:16 - FILES: Array
+2025-06-05 14:29:46 - FILES: Array
 (
 )
 
-2025-06-04 08:28:19 - POST: Array
-(
-    [subcategory_code] => phong-don
-)
-
-2025-06-04 08:28:19 - FILES: Array
-(
-)
-
-2025-06-04 08:28:23 - POST: Array
+2025-06-05 14:30:08 - POST: Array
 (
     [category_code] => nhahang&bar
 )
 
-2025-06-04 08:28:23 - FILES: Array
+2025-06-05 14:30:08 - FILES: Array
 (
 )
 
-2025-06-04 08:28:28 - POST: Array
+2025-06-05 14:30:15 - POST: Array
 (
-    [cuisine_code] => nha-hang
+    [cuisine_code] => sky-bar
 )
 
-2025-06-04 08:28:28 - FILES: Array
-(
-)
-
-2025-06-04 09:05:05 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => Nguyễn Nhật Hào
-    [reviewer-email] => hao23nhat@gmail.com
-    [review-content] => Nhân viên phục vụ tận tình
-    [comment_restaurant] => true
-)
-
-2025-06-04 09:05:05 - FILES: Array
+2025-06-05 14:30:15 - FILES: Array
 (
 )
 
-2025-06-04 09:06:25 - POST: Array
+2025-06-05 14:30:32 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-05 14:30:32 - FILES: Array
+(
+)
+
+2025-06-05 14:30:34 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-05 14:30:34 - FILES: Array
+(
+)
+
+2025-06-05 14:44:58 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-05 14:44:58 - FILES: Array
+(
+)
+
+2025-06-05 14:46:52 - POST: Array
 (
     [category_code] => event
 )
 
-2025-06-04 09:06:25 - FILES: Array
+2025-06-05 14:46:52 - FILES: Array
 (
 )
 
-2025-06-04 09:06:26 - POST: Array
+2025-06-05 14:46:53 - POST: Array
 (
     [category_code] => nhahang&bar
 )
 
-2025-06-04 09:06:26 - FILES: Array
+2025-06-05 14:46:53 - FILES: Array
 (
 )
 
-2025-06-04 09:06:30 - POST: Array
+2025-06-05 14:46:54 - POST: Array
 (
-    [cuisine_code] => nha-hang
+    [category_code] => nhahang&bar
 )
 
-2025-06-04 09:06:30 - FILES: Array
-(
-)
-
-2025-06-04 09:28:05 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => Nguyễn Văn Quyền
-    [reviewer-email] => nguyenvanquyen@gmail.com
-    [review-content] => Rất hài lòng với thái độ phục vụ của nhân viên
-    [comment_restaurant] => true
-)
-
-2025-06-04 09:28:05 - FILES: Array
+2025-06-05 14:46:54 - FILES: Array
 (
 )
 
-2025-06-04 10:03:04 - POST: Array
+2025-06-05 14:46:55 - POST: Array
 (
-    [rating] => 3
-    [reviewer-name] => Huỳnh Quốc
-    [reviewer-email] => hello1@gmail.com
-    [review-content] => âccac
-    [comment_restaurant] => true
+    [category_code] => nhahang&bar
 )
 
-2025-06-04 10:03:04 - FILES: Array
+2025-06-05 14:46:55 - FILES: Array
 (
 )
 
-2025-06-04 10:04:23 - POST: Array
+2025-06-05 14:46:56 - POST: Array
 (
-    [rating] => 2
-    [reviewer-name] => Nguyễn Văn Quyền
-    [reviewer-email] => nguyenvanquyen1@gmail.com
-    [review-content] => abab
-    [comment_restaurant] => true
+    [cuisine_code] => sky-bar
 )
 
-2025-06-04 10:04:23 - FILES: Array
+2025-06-05 14:46:56 - FILES: Array
 (
 )
 
-2025-06-04 10:28:29 - POST: Array
+2025-06-05 14:47:04 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => Nguyễn Văn Quyền
-    [reviewer-email] => nguyenvanquyen1@gmail.com
-    [review-content] => sâs
-    [comment_restaurant] => true
+    [category_code] => danhsachphong
 )
 
-2025-06-04 10:28:29 - FILES: Array
+2025-06-05 14:47:04 - FILES: Array
 (
 )
 
-2025-06-04 10:28:53 - POST: Array
+2025-06-05 14:47:14 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => sấccasc
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => sâs
-    [comment_restaurant] => true
+    [category_code] => nhahang&bar
 )
 
-2025-06-04 10:28:53 - FILES: Array
+2025-06-05 14:47:14 - FILES: Array
 (
 )
 
-2025-06-04 10:41:19 - POST: Array
+2025-06-05 14:47:16 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => Nguyễn Văn Quyền
-    [reviewer-email] => hao23nhat@gmail.com
-    [review-content] => sấ
-    [comment_restaurant] => true
+    [cuisine_code] => sky-bar
 )
 
-2025-06-04 10:41:19 - FILES: Array
+2025-06-05 14:47:16 - FILES: Array
 (
 )
 
-2025-06-04 10:41:31 - POST: Array
+2025-06-05 15:03:18 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => sấ
-    [reviewer-email] => nguyenvanquyen@gmail.com
-    [review-content] => sấ
-    [comment_restaurant] => true
+    [category_code] => danhsachphong
 )
 
-2025-06-04 10:41:31 - FILES: Array
+2025-06-05 15:03:18 - FILES: Array
 (
 )
 
-2025-06-04 10:41:41 - POST: Array
+2025-06-05 15:03:20 - POST: Array
 (
-    [rating] => 1
-    [reviewer-name] => âcc
-    [reviewer-email] => hello1@gmail.com
-    [review-content] => sác
-    [comment_restaurant] => true
+    [category_code] => trangchu
 )
 
-2025-06-04 10:41:41 - FILES: Array
+2025-06-05 15:03:20 - FILES: Array
 (
 )
 
-2025-06-04 10:42:09 - POST: Array
+2025-06-05 15:03:22 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => Nguyễn Văn Quyền
-    [reviewer-email] => hao23nhat@gmail.com
-    [review-content] => saqsas
-    [comment_restaurant] => true
+    [category_code] => danhsachphong
 )
 
-2025-06-04 10:42:09 - FILES: Array
+2025-06-05 15:03:22 - FILES: Array
 (
 )
 
-2025-06-04 10:42:22 - POST: Array
+2025-06-05 15:03:25 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => sacsa
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => sáccaasc
-    [comment_restaurant] => true
+    [category_code] => danhsachphong
 )
 
-2025-06-04 10:42:22 - FILES: Array
+2025-06-05 15:03:25 - FILES: Array
 (
 )
 
-2025-06-04 14:12:39 - POST: Array
+2025-06-05 15:03:27 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => sáda
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => aaaa
-    [comment_restaurant] => true
+    [category_code] => trangchu
 )
 
-2025-06-04 14:12:39 - FILES: Array
+2025-06-05 15:03:27 - FILES: Array
 (
 )
 
-2025-06-04 14:12:51 - POST: Array
+2025-06-05 15:03:34 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
+    [category_code] => danhsachphong
 )
 
-2025-06-04 14:12:51 - FILES: Array
+2025-06-05 15:03:34 - FILES: Array
 (
 )
 
-2025-06-04 14:13:19 - POST: Array
+2025-06-05 15:03:36 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
+    [category_code] => event
 )
 
-2025-06-04 14:13:19 - FILES: Array
+2025-06-05 15:03:36 - FILES: Array
 (
 )
 
-2025-06-04 14:13:30 - POST: Array
+2025-06-05 15:03:52 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-05 15:03:52 - FILES: Array
+(
+)
+
+2025-06-05 15:03:53 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-05 15:03:53 - FILES: Array
+(
+)
+
+2025-06-05 15:03:55 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 15:03:55 - FILES: Array
+(
+)
+
+2025-06-05 15:03:56 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-05 15:03:56 - FILES: Array
+(
+)
+
+2025-06-05 15:04:02 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 15:04:02 - FILES: Array
+(
+)
+
+2025-06-05 15:04:06 - POST: Array
+(
+    [cuisine_code] => sky-bar
+)
+
+2025-06-05 15:04:06 - FILES: Array
+(
+)
+
+2025-06-05 15:11:43 - POST: Array
 (
     [rating] => 5
     [reviewer-name] => nhatnam161005@gmail.com
     [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
+    [review-content] => aâs
+    [comment_bar] => true
 )
 
-2025-06-04 14:13:30 - FILES: Array
+2025-06-05 15:11:43 - FILES: Array
 (
 )
 
-2025-06-04 14:13:37 - POST: Array
+2025-06-05 15:11:52 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => sa
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ấ
+    [comment_bar] => true
+)
+
+2025-06-05 15:11:52 - FILES: Array
+(
+)
+
+2025-06-05 15:12:02 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => sa
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => âs
+    [comment_bar] => true
+)
+
+2025-06-05 15:12:02 - FILES: Array
+(
+)
+
+2025-06-05 15:12:17 - POST: Array
 (
     [rating] => 5
     [reviewer-name] => nhatnam161005@gmail.com
     [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
+    [review-content] => âs
+    [comment_bar] => true
 )
 
-2025-06-04 14:13:37 - FILES: Array
+2025-06-05 15:12:17 - FILES: Array
 (
 )
 
-2025-06-04 14:13:46 - POST: Array
+2025-06-05 15:57:13 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
+    [category_code] => nhahang&bar
 )
 
-2025-06-04 14:13:46 - FILES: Array
+2025-06-05 15:57:13 - FILES: Array
 (
 )
 
-2025-06-04 14:13:58 - POST: Array
+2025-06-05 15:57:15 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
+    [subcategory_code] => nha-hang
 )
 
-2025-06-04 14:13:58 - FILES: Array
+2025-06-05 15:57:15 - FILES: Array
 (
 )
 
-2025-06-04 14:14:13 - POST: Array
+2025-06-05 15:57:19 - POST: Array
 (
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
+    [subcategory_code] => sky-bar
 )
 
-2025-06-04 14:14:13 - FILES: Array
+2025-06-05 15:57:19 - FILES: Array
 (
 )
 
-2025-06-04 14:14:22 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:14:22 - FILES: Array
-(
-)
-
-2025-06-04 14:14:30 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:14:30 - FILES: Array
-(
-)
-
-2025-06-04 14:14:45 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:14:45 - FILES: Array
-(
-)
-
-2025-06-04 14:14:51 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:14:51 - FILES: Array
-(
-)
-
-2025-06-04 14:14:59 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:14:59 - FILES: Array
-(
-)
-
-2025-06-04 14:15:08 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:15:08 - FILES: Array
-(
-)
-
-2025-06-04 14:15:15 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:15:15 - FILES: Array
-(
-)
-
-2025-06-04 14:15:23 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:15:23 - FILES: Array
-(
-)
-
-2025-06-04 14:15:30 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:15:30 - FILES: Array
-(
-)
-
-2025-06-04 14:15:37 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:15:37 - FILES: Array
-(
-)
-
-2025-06-04 14:15:44 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:15:44 - FILES: Array
-(
-)
-
-2025-06-04 14:15:50 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:15:50 - FILES: Array
-(
-)
-
-2025-06-04 14:16:05 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:16:05 - FILES: Array
-(
-)
-
-2025-06-04 14:16:12 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:16:12 - FILES: Array
-(
-)
-
-2025-06-04 14:16:19 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:16:19 - FILES: Array
-(
-)
-
-2025-06-04 14:16:26 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:16:26 - FILES: Array
-(
-)
-
-2025-06-04 14:16:40 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:16:40 - FILES: Array
-(
-)
-
-2025-06-04 14:16:46 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:16:46 - FILES: Array
-(
-)
-
-2025-06-04 14:16:52 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:16:52 - FILES: Array
-(
-)
-
-2025-06-04 14:17:00 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:17:00 - FILES: Array
-(
-)
-
-2025-06-04 14:17:07 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:17:07 - FILES: Array
-(
-)
-
-2025-06-04 14:17:13 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:17:13 - FILES: Array
-(
-)
-
-2025-06-04 14:17:28 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:17:28 - FILES: Array
-(
-)
-
-2025-06-04 14:17:35 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:17:35 - FILES: Array
-(
-)
-
-2025-06-04 14:17:43 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:17:43 - FILES: Array
-(
-)
-
-2025-06-04 14:17:51 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:17:51 - FILES: Array
-(
-)
-
-2025-06-04 14:17:59 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:17:59 - FILES: Array
-(
-)
-
-2025-06-04 14:18:07 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:18:07 - FILES: Array
-(
-)
-
-2025-06-04 14:18:16 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:18:16 - FILES: Array
-(
-)
-
-2025-06-04 14:18:24 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:18:24 - FILES: Array
-(
-)
-
-2025-06-04 14:18:31 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:18:31 - FILES: Array
-(
-)
-
-2025-06-04 14:18:41 - POST: Array
-(
-    [rating] => 5
-    [reviewer-name] => nhatnam161005@gmail.com
-    [reviewer-email] => nhatnam161005@gmail.com
-    [review-content] => nhatnam161005@gmail.com
-    [comment_restaurant] => true
-)
-
-2025-06-04 14:18:41 - FILES: Array
-(
-)
-
-2025-06-04 15:15:56 - POST: Array
+2025-06-05 16:13:55 - POST: Array
 (
     [customerName] => Huynh Nhat Nam
-    [phone] => 0777 566 324
+    [phoneNumber] => 0777 566 324
     [email] => nhatnam161005@gmail.com
-    [date] => 2025-06-05
-    [time] => 19:15
+    [bookingDate] => 2025-06-06
+    [startTime] => 19:13
     [guestCount] => 4
-    [diningArea] => Phòng 1 - Nhà Hàng
-    [special-requests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-04 15:15:56 - FILES: Array
-(
-)
-
-2025-06-04 15:16:38 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phone] => 0777 566 324
-    [email] => nhatnam161005@gmail.com
-    [date] => 2025-06-05
-    [time] => 19:15
-    [guestCount] => 4
-    [diningArea] => Phòng 1 - Nhà Hàng
-    [special-requests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-04 15:16:38 - FILES: Array
-(
-)
-
-2025-06-04 15:17:29 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phone] => 0777 566 324
-    [email] => nhatnam161005@gmail.com
-    [date] => 2025-06-06
-    [time] => 18:17
-    [guestCount] => 4
-    [diningArea] => Phòng 1 - Nhà Hàng
-    [special-requests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-04 15:17:29 - FILES: Array
-(
-)
-
-2025-06-04 15:19:37 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phone] => 0777 566 324
-    [email] => nhatnam161005@gmail.com
-    [date] => 2025-06-05
-    [time] => 18:19
-    [guestCount] => 4
-    [diningArea] => Phòng 1 - Nhà Hàng
-    [special-requests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-04 15:19:37 - FILES: Array
-(
-)
-
-2025-06-04 15:23:47 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phone] => 0777 566 324
-    [email] => nhatnam161005@gmail.com
-    [date] => 2025-06-05
-    [time] => 19:23
-    [guestCount] => 4
-    [diningArea] => Phòng 1 - Nhà Hàng
-    [special-requests] => 
-    [submit_booking_restaurant] => true
-)
-
-2025-06-04 15:23:47 - FILES: Array
-(
-)
-
-2025-06-04 15:36:30 - POST: Array
-(
-    [customerName] => Huynh Nhat Nam
-    [phoneNumber] => 0777566324
-    [email] => nhatnam161005@gmail.com
-    [bookingDate] => 2025-06-05
-    [startTime] => 19:36
-    [guestCount] => 4
-    [diningArea] => Room 1 - Restaurant
+    [diningArea] => Sky Bar
     [occasion] => 
     [specialRequests] => 
     [submit_booking_restaurant] => true
 )
 
-2025-06-04 15:36:30 - FILES: Array
+2025-06-05 16:13:55 - FILES: Array
 (
 )
 
-2025-06-04 16:41:41 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-04 16:41:41 - FILES: Array
-(
-)
-
-2025-06-04 16:41:45 - POST: Array
-(
-    [event_code] => tiec-cuoi
-)
-
-2025-06-04 16:41:45 - FILES: Array
-(
-)
-
-2025-06-04 16:41:49 - POST: Array
-(
-    [category_code] => event
-)
-
-2025-06-04 16:41:49 - FILES: Array
-(
-)
-
-2025-06-04 16:41:51 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-04 16:41:51 - FILES: Array
-(
-)
-
-2025-06-04 16:41:54 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-04 16:41:54 - FILES: Array
-(
-)
-
-2025-06-04 16:42:19 - POST: Array
+2025-06-05 16:19:35 - POST: Array
 (
     [category_code] => sale
 )
 
-2025-06-04 16:42:19 - FILES: Array
+2025-06-05 16:19:35 - FILES: Array
 (
 )
 
-2025-06-04 16:43:32 - POST: Array
-(
-    [category_code] => nhahang&bar
-)
-
-2025-06-04 16:43:32 - FILES: Array
-(
-)
-
-2025-06-04 16:43:33 - POST: Array
-(
-    [cuisine_code] => nha-hang
-)
-
-2025-06-04 16:43:33 - FILES: Array
-(
-)
-
-2025-06-04 16:56:19 - POST: Array
+2025-06-05 16:27:52 - POST: Array
 (
     [category_code] => sale
 )
 
-2025-06-04 16:56:20 - FILES: Array
+2025-06-05 16:27:52 - FILES: Array
 (
 )
 
-2025-06-04 16:56:28 - POST: Array
+2025-06-05 16:32:45 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 16:32:45 - FILES: Array
+(
+)
+
+2025-06-05 16:32:46 - POST: Array
+(
+    [category_code] => sale
+)
+
+2025-06-05 16:32:46 - FILES: Array
+(
+)
+
+2025-06-05 16:33:15 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 16:33:15 - FILES: Array
+(
+)
+
+2025-06-05 16:34:56 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-05 16:34:56 - FILES: Array
+(
+)
+
+2025-06-05 16:34:57 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 16:34:57 - FILES: Array
+(
+)
+
+2025-06-05 16:34:58 - POST: Array
 (
     [category_code] => dich-vu
 )
 
-2025-06-04 16:56:28 - FILES: Array
+2025-06-05 16:34:58 - FILES: Array
 (
 )
 
-2025-06-04 16:56:31 - POST: Array
+2025-06-05 16:34:58 - POST: Array
 (
-    [category_code] => sale
+    [category_code] => khuyen-mai
 )
 
-2025-06-04 16:56:31 - FILES: Array
+2025-06-05 16:34:58 - FILES: Array
 (
 )
 
-2025-06-04 16:56:43 - POST: Array
+2025-06-05 20:17:22 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-05 20:17:22 - FILES: Array
+(
+)
+
+2025-06-05 20:18:29 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 20:18:29 - FILES: Array
+(
+)
+
+2025-06-05 20:18:31 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-05 20:18:31 - FILES: Array
+(
+)
+
+2025-06-05 21:01:41 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:01:41 - FILES: Array
+(
+)
+
+2025-06-05 21:02:48 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:02:48 - FILES: Array
+(
+)
+
+2025-06-05 21:02:54 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:02:54 - FILES: Array
+(
+)
+
+2025-06-05 21:03:11 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:03:11 - FILES: Array
+(
+)
+
+2025-06-05 21:05:18 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-05 21:05:18 - FILES: Array
+(
+)
+
+2025-06-05 21:09:29 - POST: Array
 (
     [category_code] => dich-vu
 )
 
-2025-06-04 16:56:43 - FILES: Array
+2025-06-05 21:09:29 - FILES: Array
 (
 )
 
-2025-06-04 16:56:46 - POST: Array
+2025-06-05 21:09:30 - POST: Array
 (
     [category_code] => nhahang&bar
 )
 
-2025-06-04 16:56:46 - FILES: Array
+2025-06-05 21:09:30 - FILES: Array
 (
 )
 
-2025-06-04 16:59:24 - POST: Array
+2025-06-05 21:09:33 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 21:09:33 - FILES: Array
+(
+)
+
+2025-06-05 21:09:35 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:09:35 - FILES: Array
+(
+)
+
+2025-06-05 21:10:00 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 21:10:00 - FILES: Array
+(
+)
+
+2025-06-05 21:10:02 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 21:10:02 - FILES: Array
+(
+)
+
+2025-06-05 21:10:03 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:10:03 - FILES: Array
+(
+)
+
+2025-06-05 21:10:08 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-05 21:10:08 - FILES: Array
+(
+)
+
+2025-06-05 21:10:09 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 21:10:09 - FILES: Array
+(
+)
+
+2025-06-05 21:10:10 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:10:10 - FILES: Array
+(
+)
+
+2025-06-05 21:10:31 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 21:10:31 - FILES: Array
+(
+)
+
+2025-06-05 21:10:32 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 21:10:32 - FILES: Array
+(
+)
+
+2025-06-05 21:10:34 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-05 21:10:34 - FILES: Array
+(
+)
+
+2025-06-05 21:16:12 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 21:16:12 - FILES: Array
+(
+)
+
+2025-06-05 21:16:13 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 21:16:13 - FILES: Array
+(
+)
+
+2025-06-05 21:16:14 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:16:14 - FILES: Array
+(
+)
+
+2025-06-05 21:17:52 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-05 21:17:52 - FILES: Array
+(
+)
+
+2025-06-05 21:17:53 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 21:17:53 - FILES: Array
+(
+)
+
+2025-06-05 21:17:55 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:17:55 - FILES: Array
+(
+)
+
+2025-06-05 21:26:55 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-05 21:26:55 - FILES: Array
+(
+)
+
+2025-06-05 21:26:56 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 21:26:56 - FILES: Array
+(
+)
+
+2025-06-05 21:27:01 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 21:27:01 - FILES: Array
+(
+)
+
+2025-06-05 21:37:17 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 21:37:17 - FILES: Array
+(
+)
+
+2025-06-05 21:37:18 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 21:37:18 - FILES: Array
+(
+)
+
+2025-06-05 21:37:20 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-05 21:37:20 - FILES: Array
+(
+)
+
+2025-06-05 22:01:40 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 22:01:40 - FILES: Array
+(
+)
+
+2025-06-05 22:01:43 - POST: Array
+(
+    [id_uudai] => 4
+)
+
+2025-06-05 22:01:43 - FILES: Array
+(
+)
+
+2025-06-05 22:02:13 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 22:02:13 - FILES: Array
+(
+)
+
+2025-06-05 22:02:14 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 22:02:14 - FILES: Array
+(
+)
+
+2025-06-05 22:04:42 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 22:04:42 - FILES: Array
+(
+)
+
+2025-06-05 22:04:44 - POST: Array
+(
+    [id_uudai] => 3
+)
+
+2025-06-05 22:04:44 - FILES: Array
+(
+)
+
+2025-06-05 22:05:05 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-05 22:05:05 - FILES: Array
+(
+)
+
+2025-06-05 22:05:07 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-05 22:05:07 - FILES: Array
+(
+)
+
+2025-06-05 22:05:08 - POST: Array
 (
     [category_code] => event
 )
 
-2025-06-04 16:59:24 - FILES: Array
+2025-06-05 22:05:08 - FILES: Array
 (
 )
 
-2025-06-04 17:01:52 - POST: Array
+2025-06-05 22:05:09 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-05 22:05:09 - FILES: Array
+(
+)
+
+2025-06-05 22:05:10 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 22:05:10 - FILES: Array
+(
+)
+
+2025-06-05 22:05:12 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-05 22:05:12 - FILES: Array
+(
+)
+
+2025-06-05 22:05:13 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 22:05:13 - FILES: Array
+(
+)
+
+2025-06-05 22:05:17 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-05 22:05:17 - FILES: Array
+(
+)
+
+2025-06-05 22:07:59 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-05 22:07:59 - FILES: Array
+(
+)
+
+2025-06-05 22:08:00 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-05 22:08:00 - FILES: Array
+(
+)
+
+2025-06-05 22:08:01 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-05 22:08:01 - FILES: Array
+(
+)
+
+2025-06-05 22:08:02 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 22:08:02 - FILES: Array
+(
+)
+
+2025-06-05 22:08:08 - POST: Array
+(
+    [id_uudai] => 4
+)
+
+2025-06-05 22:08:08 - FILES: Array
+(
+)
+
+2025-06-05 22:08:25 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-05 22:08:25 - FILES: Array
+(
+)
+
+2025-06-05 22:09:17 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 22:09:17 - FILES: Array
+(
+)
+
+2025-06-05 22:09:22 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-05 22:09:22 - FILES: Array
+(
+)
+
+2025-06-05 22:26:36 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-05 22:26:36 - FILES: Array
+(
+)
+
+2025-06-05 22:36:58 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-05 22:36:58 - FILES: Array
+(
+)
+
+2025-06-05 22:37:10 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 22:37:10 - FILES: Array
+(
+)
+
+2025-06-05 22:40:55 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 22:40:55 - FILES: Array
+(
+)
+
+2025-06-05 22:44:38 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-05 22:44:38 - FILES: Array
+(
+)
+
+2025-06-05 22:47:32 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 22:47:32 - FILES: Array
+(
+)
+
+2025-06-05 22:51:11 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-05 22:51:11 - FILES: Array
+(
+)
+
+2025-06-05 22:51:13 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 22:51:13 - FILES: Array
+(
+)
+
+2025-06-05 22:51:54 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 22:51:54 - FILES: Array
+(
+)
+
+2025-06-05 22:52:14 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 22:52:14 - FILES: Array
+(
+)
+
+2025-06-05 22:57:00 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 22:57:00 - FILES: Array
+(
+)
+
+2025-06-05 22:57:41 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 22:57:41 - FILES: Array
+(
+)
+
+2025-06-05 23:01:49 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-05 23:01:49 - FILES: Array
+(
+)
+
+2025-06-05 23:02:00 - POST: Array
+(
+    [id_tintuc] => 3
+)
+
+2025-06-05 23:02:00 - FILES: Array
+(
+)
+
+2025-06-05 23:02:34 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 23:02:34 - FILES: Array
+(
+)
+
+2025-06-05 23:02:37 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-05 23:02:37 - FILES: Array
+(
+)
+
+2025-06-05 23:04:04 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 23:04:04 - FILES: Array
+(
+)
+
+2025-06-05 23:04:07 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 23:04:07 - FILES: Array
+(
+)
+
+2025-06-05 23:04:10 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-05 23:04:10 - FILES: Array
+(
+)
+
+2025-06-05 23:04:35 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 23:04:35 - FILES: Array
+(
+)
+
+2025-06-05 23:11:20 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-05 23:11:20 - FILES: Array
+(
+)
+
+2025-06-05 23:12:56 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-05 23:12:56 - FILES: Array
+(
+)
+
+2025-06-05 23:12:59 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-05 23:12:59 - FILES: Array
+(
+)
+
+2025-06-05 23:14:44 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-05 23:14:44 - FILES: Array
+(
+)
+
+2025-06-05 23:14:45 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 23:14:45 - FILES: Array
+(
+)
+
+2025-06-05 23:14:48 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 23:14:48 - FILES: Array
+(
+)
+
+2025-06-05 23:14:50 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-05 23:14:50 - FILES: Array
+(
+)
+
+2025-06-05 23:15:41 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 23:15:41 - FILES: Array
+(
+)
+
+2025-06-05 23:15:59 - POST: Array
+(
+    [category_code] => sale
+)
+
+2025-06-05 23:15:59 - FILES: Array
+(
+)
+
+2025-06-05 23:16:18 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-05 23:16:18 - FILES: Array
+(
+)
+
+2025-06-05 23:17:04 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-05 23:17:04 - FILES: Array
+(
+)
+
+2025-06-05 23:17:21 - POST: Array
+(
+    [id_tintuc] => 3
+)
+
+2025-06-05 23:17:21 - FILES: Array
+(
+)
+
+2025-06-06 09:07:23 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-06 09:07:23 - FILES: Array
+(
+)
+
+2025-06-06 09:07:25 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-06 09:07:25 - FILES: Array
+(
+)
+
+2025-06-06 09:10:15 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 09:10:15 - FILES: Array
+(
+)
+
+2025-06-06 09:10:16 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 09:10:16 - FILES: Array
+(
+)
+
+2025-06-06 09:10:17 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-06 09:10:17 - FILES: Array
+(
+)
+
+2025-06-06 09:10:18 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 09:10:18 - FILES: Array
+(
+)
+
+2025-06-06 09:10:22 - POST: Array
+(
+    [subcategory_code] => tiec-cuoi
+)
+
+2025-06-06 09:10:22 - FILES: Array
+(
+)
+
+2025-06-06 09:10:25 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-06 09:10:25 - FILES: Array
+(
+)
+
+2025-06-06 09:10:28 - POST: Array
+(
+    [cuisine_code] => nha-hang
+)
+
+2025-06-06 09:10:28 - FILES: Array
+(
+)
+
+2025-06-06 09:10:30 - POST: Array
+(
+    [cuisine_code] => sky-bar
+)
+
+2025-06-06 09:10:30 - FILES: Array
+(
+)
+
+2025-06-06 09:10:37 - POST: Array
+(
+    [subcategory_code] => sky-bar
+)
+
+2025-06-06 09:10:37 - FILES: Array
+(
+)
+
+2025-06-06 09:12:22 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-06 09:12:22 - FILES: Array
+(
+)
+
+2025-06-06 09:12:23 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-06 09:12:23 - FILES: Array
+(
+)
+
+2025-06-06 09:12:25 - POST: Array
+(
+    [id_uudai] => 4
+)
+
+2025-06-06 09:12:25 - FILES: Array
+(
+)
+
+2025-06-06 09:12:29 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-06 09:12:29 - FILES: Array
+(
+)
+
+2025-06-06 09:12:31 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-06 09:12:31 - FILES: Array
+(
+)
+
+2025-06-06 09:12:43 - POST: Array
+(
+    [footer_category_code] => lien-he
+)
+
+2025-06-06 09:12:43 - FILES: Array
+(
+)
+
+2025-06-06 09:12:52 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-06 09:12:52 - FILES: Array
+(
+)
+
+2025-06-06 09:13:35 - POST: Array
+(
+    [footer_category_code] => lien-he
+)
+
+2025-06-06 09:13:35 - FILES: Array
+(
+)
+
+2025-06-06 09:13:57 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-06 09:13:57 - FILES: Array
+(
+)
+
+2025-06-06 09:13:58 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 09:13:58 - FILES: Array
+(
+)
+
+2025-06-06 09:14:01 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 09:14:01 - FILES: Array
+(
+)
+
+2025-06-06 09:16:01 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 09:16:01 - FILES: Array
+(
+)
+
+2025-06-06 09:21:24 - POST: Array
+(
+    [id_tintuc] => 3
+)
+
+2025-06-06 09:21:24 - FILES: Array
+(
+)
+
+2025-06-06 09:22:31 - POST: Array
+(
+    [id_tintuc] => 3
+)
+
+2025-06-06 09:22:31 - FILES: Array
+(
+)
+
+2025-06-06 09:23:34 - POST: Array
+(
+    [id_tintuc] => 3
+)
+
+2025-06-06 09:23:34 - FILES: Array
+(
+)
+
+2025-06-06 09:28:07 - POST: Array
+(
+    [xem_them_tin] => 
+)
+
+2025-06-06 09:28:07 - FILES: Array
+(
+)
+
+2025-06-06 09:29:28 - POST: Array
+(
+    [xem_them_tin] => tin-tuc
+)
+
+2025-06-06 09:29:28 - FILES: Array
+(
+)
+
+2025-06-06 09:29:31 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 09:29:31 - FILES: Array
+(
+)
+
+2025-06-06 09:29:55 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 09:29:55 - FILES: Array
+(
+)
+
+2025-06-06 09:42:14 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 09:42:14 - FILES: Array
+(
+)
+
+2025-06-06 09:48:43 - POST: Array
+(
+    [id_sukiendatochuc] => 1
+)
+
+2025-06-06 09:48:43 - FILES: Array
+(
+)
+
+2025-06-06 09:53:53 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-06 09:53:53 - FILES: Array
+(
+)
+
+2025-06-06 09:53:53 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-06 09:53:53 - FILES: Array
+(
+)
+
+2025-06-06 09:53:56 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-06 09:53:56 - FILES: Array
+(
+)
+
+2025-06-06 09:54:00 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 09:54:00 - FILES: Array
+(
+)
+
+2025-06-06 09:54:03 - POST: Array
+(
+    [id_sukiendatochuc] => 2
+)
+
+2025-06-06 09:54:03 - FILES: Array
+(
+)
+
+2025-06-06 10:02:56 - POST: Array
+(
+    [id_sukiendatochuc] => 1
+)
+
+2025-06-06 10:02:56 - FILES: Array
+(
+)
+
+2025-06-06 10:08:30 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-06 10:08:30 - FILES: Array
+(
+)
+
+2025-06-06 10:08:40 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-06 10:08:40 - FILES: Array
+(
+)
+
+2025-06-06 10:08:47 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-06 10:08:47 - FILES: Array
+(
+)
+
+2025-06-06 10:12:40 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 10:12:40 - FILES: Array
+(
+)
+
+2025-06-06 10:12:43 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-06 10:12:43 - FILES: Array
+(
+)
+
+2025-06-06 10:13:49 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-06 10:13:49 - FILES: Array
+(
+)
+
+2025-06-06 10:14:26 - POST: Array
+(
+    [id_sukiendatochuc] => 2
+)
+
+2025-06-06 10:14:26 - FILES: Array
+(
+)
+
+2025-06-06 10:19:39 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-06 10:19:39 - FILES: Array
+(
+)
+
+2025-06-06 10:19:41 - POST: Array
+(
+    [id_sukiendatochuc] => 1
+)
+
+2025-06-06 10:19:41 - FILES: Array
+(
+)
+
+2025-06-06 10:23:12 - POST: Array
+(
+    [id_sukiendatochuc] => 1
+)
+
+2025-06-06 10:23:12 - FILES: Array
+(
+)
+
+2025-06-06 10:23:22 - POST: Array
+(
+    [id_sukiendatochuc] => 1
+)
+
+2025-06-06 10:23:22 - FILES: Array
+(
+)
+
+2025-06-06 10:25:12 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-06 10:25:12 - FILES: Array
+(
+)
+
+2025-06-06 10:25:12 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-06 10:25:12 - FILES: Array
+(
+)
+
+2025-06-06 10:25:15 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 10:25:15 - FILES: Array
+(
+)
+
+2025-06-06 10:25:16 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-06 10:25:16 - FILES: Array
+(
+)
+
+2025-06-06 10:25:18 - POST: Array
+(
+    [id_sukiendatochuc] => 2
+)
+
+2025-06-06 10:25:18 - FILES: Array
+(
+)
+
+2025-06-06 10:29:30 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 10:29:30 - FILES: Array
+(
+)
+
+2025-06-06 10:41:28 - POST: Array
+(
+    [sukiendatochuc] => 2
+)
+
+2025-06-06 10:41:28 - FILES: Array
+(
+)
+
+2025-06-06 10:41:30 - POST: Array
+(
+    [id_sukiendatochuc] => 2
+)
+
+2025-06-06 10:41:30 - FILES: Array
+(
+)
+
+2025-06-06 10:42:33 - POST: Array
+(
+    [id_sukiendatochuc] => 1
+)
+
+2025-06-06 10:42:33 - FILES: Array
+(
+)
+
+2025-06-06 10:44:01 - POST: Array
+(
+    [id_sukiendatochuc] => 1
+)
+
+2025-06-06 10:44:01 - FILES: Array
+(
+)
+
+2025-06-06 10:44:07 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 10:44:07 - FILES: Array
+(
+)
+
+2025-06-06 10:44:18 - POST: Array
+(
+    [xem_them_tin] => tin-tuc
+)
+
+2025-06-06 10:44:18 - FILES: Array
+(
+)
+
+2025-06-06 10:53:35 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 10:53:35 - FILES: Array
+(
+)
+
+2025-06-06 10:53:43 - POST: Array
 (
     [event_code] => tiec-cuoi
 )
 
-2025-06-04 17:01:52 - FILES: Array
+2025-06-06 10:53:43 - FILES: Array
 (
 )
 
-2025-06-04 17:02:22 - POST: Array
+2025-06-06 10:53:44 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-06 10:53:44 - FILES: Array
+(
+)
+
+2025-06-06 10:53:46 - POST: Array
 (
     [category_code] => nhahang&bar
 )
 
-2025-06-04 17:02:22 - FILES: Array
+2025-06-06 10:53:46 - FILES: Array
 (
 )
 
-2025-06-04 17:08:36 - POST: Array
+2025-06-06 10:53:48 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-06 10:53:48 - FILES: Array
+(
+)
+
+2025-06-06 10:55:25 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 10:55:25 - FILES: Array
+(
+)
+
+2025-06-06 11:11:24 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-06 11:11:24 - FILES: Array
+(
+)
+
+2025-06-06 11:11:42 - POST: Array
+(
+    [id_tintuc] => 3
+)
+
+2025-06-06 11:11:42 - FILES: Array
+(
+)
+
+2025-06-06 11:11:48 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-06 11:11:48 - FILES: Array
+(
+)
+
+2025-06-06 11:22:28 - POST: Array
+(
+    [id_tintuc] => 3
+)
+
+2025-06-06 11:22:28 - FILES: Array
+(
+)
+
+2025-06-06 11:25:11 - POST: Array
+(
+    [xem_them_tin] => tin-tuc
+)
+
+2025-06-06 11:25:11 - FILES: Array
+(
+)
+
+2025-06-06 14:26:04 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-06 14:26:04 - FILES: Array
+(
+)
+
+2025-06-06 14:26:22 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-06 14:26:22 - FILES: Array
+(
+)
+
+2025-06-06 14:26:23 - POST: Array
 (
     [category_code] => event
 )
 
-2025-06-04 17:08:36 - FILES: Array
+2025-06-06 14:26:23 - FILES: Array
+(
+)
+
+2025-06-06 14:26:25 - POST: Array
+(
+    [sukiendatochuc] => 2
+)
+
+2025-06-06 14:26:25 - FILES: Array
+(
+)
+
+2025-06-06 14:26:44 - POST: Array
+(
+    [id_sukiendatochuc] => 3
+)
+
+2025-06-06 14:26:44 - FILES: Array
+(
+)
+
+2025-06-06 14:28:56 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-06 14:28:56 - FILES: Array
 (
 )
 

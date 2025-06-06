@@ -744,8 +744,12 @@ body {
 }
 .service-featured-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(320px, 320px)
+  ); /* Cố định chiều rộng cột là 320px */
   gap: 30px;
+  justify-content: center; /* Căn giữa các cột */
   margin-bottom: 60px;
 }
 .service-featured-detail {

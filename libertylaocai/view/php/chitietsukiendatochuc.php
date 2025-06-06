@@ -6,11 +6,11 @@ if (!empty($_SESSION['head_banner'])) {
     $getSelectedBanner = $_SESSION['head_banner'];
 }
 
-if (!empty($_SESSION['id_uudai'])) {
-    $id_uudai = $_SESSION['id_uudai'];
+if (!empty($_SESSION['id_sukiendatochuc'])) {
+    $id_sukiendatochuc = $_SESSION['id_sukiendatochuc'];
 }
-$getPromotionById = getPromotionById($languageId, $id_uudai);
-$relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
+$getEventOrganizedById = getEventOrganizedById($languageId, $id_sukiendatochuc);
+$getRelatedEventOrganized = getRelatedEventOrganized($languageId, $id_sukiendatochuc, 6);
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@ $relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHI TIẾT KHUYẾN MÃI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/libertylaocai/view/css/saledetail.css">
+    <link rel="stylesheet" href="/libertylaocai/view/css/chitietsukiendatochuc.css">
 </head>
 
 <body>
@@ -29,19 +29,19 @@ $relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
 
     <body>
         <div class="saledetail-container">
-            <div class="saledetail-banner">
+            <div class="organized-detail-banner">
                 <img src="/libertylaocai/view/img/<?= $getSelectedBanner['image']; ?>" alt="Banner Image" class="banner-image">
-                <h1><?php echo $languageId == 1 ? 'KHUYẾN MÃI' : 'PROMOTION'; ?></h1>
+                <h1><?php echo $languageId == 1 ? 'SỰ KIỆN ĐÃ TỔ CHỨC' : 'EVENTS ORGANIZED'; ?></h1>
             </div>
 
             <div class="saledetail-content">
                 <div class="content-wrapper">
                     <div class="promotion-content">
-                        <?php if (!empty($getPromotionById)): ?>
-                            <h2><?= $getPromotionById['title']; ?></h2>
-                            <p class="promotion-meta"><?php echo $languageId == 1 ? 'Ngày đăng' : 'Date posted'; ?>: <?= $getPromotionById['created_at']; ?></p>
+                        <?php if (!empty($getEventOrganizedById)): ?>
+                            <h2><?= $getEventOrganizedById['title']; ?></h2>
+                            <p class="promotion-meta"><?php echo $languageId == 1 ? 'Ngày đăng' : 'Date posted'; ?>: <?= $getEventOrganizedById['create_at']; ?></p>
                             <div class="content-text">
-                                <?= $getPromotionById['content']; ?>
+                                <?= $getEventOrganizedById['content']; ?>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -58,13 +58,13 @@ $relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
                         <div class="promotions-grid-wrapper">
                             <div class="promotions-grid" id="promotionsGrid">
                                 <?php
-                                foreach ($relatedPromotions as $promo) {
+                                foreach ($getRelatedEventOrganized as $promo) {
                                     echo '<div class="promotion-item">';
                                     echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promo['image']) . '" alt="Khuyến mãi">';
                                     echo '<div class="promotion-item-content">';
                                     echo '<h3>' . htmlspecialchars($promo['title']) . '</h3>';
                                     echo '<p>' . htmlspecialchars(mb_substr($promo['content'], 0, 100, 'UTF-8')) . '...</p>';
-                                    echo '<div class="promotion-date">' . htmlspecialchars($promo['created_at']) . '</div>';
+                                    echo '<div class="promotion-date">' . htmlspecialchars($promo['create_at']) . '</div>';
                                     echo '</div>
                                 </div>';
                                 }
@@ -80,7 +80,7 @@ $relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
             </div>
         </div>
         <?php include "footer.php" ?>
-        <script src="/libertylaocai/view/js/saledetail.js"></script>
+        <script src="/libertylaocai/view/js/chitietsukiendatochuc.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </body>
 </body>

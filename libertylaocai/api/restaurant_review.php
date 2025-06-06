@@ -3,32 +3,6 @@ header('Content-Type: application/json');
 
 require_once "../model/UserModel.php";
 
-// $reviews = getRestaurantReviews();
-// $totalReviews = count($reviews);
-// $totalRating = $totalReviews ? array_sum(array_column($reviews, 'rate')) / $totalReviews : 0;
-// $ratingBreakdown = array_count_values(array_column($reviews, 'rate'));
-
-// // Chuẩn bị dữ liệu trả về
-// $response = [
-//     'reviews' => $reviews,
-//     'totalReviews' => $totalReviews,
-//     'totalRating' => number_format($totalRating, 1),
-//     'ratingBreakdown' => []
-// ];
-
-// // Tính tỷ lệ phần trăm cho từng mức sao
-// for ($i = 5; $i >= 1; $i--) {
-//     $count = isset($ratingBreakdown[$i]) ? $ratingBreakdown[$i] : 0;
-//     $percentage = $totalReviews ? ($count / $totalReviews * 100) : 0;
-//     $response['ratingBreakdown'][$i] = [
-//         'count' => $count,
-//         'percentage' => round($percentage)
-//     ];
-// }
-
-// echo json_encode($response);
-// Lấy tham số phân trang
-// Lấy tham số phân trang
 $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 5;
 $offset = ($page - 1) * $limit;

@@ -244,31 +244,10 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       e.stopImmediatePropagation();
 
-      const requiredFields = [
-        "fullName",
-        "phone",
-        "email",
-        "eventType",
-        "guestCount",
-        "eventDate",
-        "endDate",
-        "startTime",
-        "endTime",
-        "venue",
-        "description",
-      ];
-      let isValid = true;
+      // Kiểm tra các trường bắt buộc bằng HTML5 validation
+      let isValid = bookingForm.checkValidity();
 
-      requiredFields.forEach((field) => {
-        const input = document.getElementById(field);
-        if (!input || !input.value.trim()) {
-          if (input) input.style.borderColor = "#e74c3c";
-          isValid = false;
-        } else {
-          if (input) input.style.borderColor = "#e0e0e0";
-        }
-      });
-
+      // Kiểm tra các điều kiện khác ngoài required
       const startDate = new Date(document.getElementById("eventDate")?.value);
       const endDate = new Date(document.getElementById("endDate")?.value);
       const today = new Date();
@@ -378,6 +357,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 : "An error occurred while sending the request. Please try again."
             );
           });
+      } else {
+        // Hiển thị thông báo lỗi HTML5 mặc định
+        bookingForm.reportValidity();
       }
     });
 
@@ -414,4 +396,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Gắn sự kiện lần đầu khi tải trang
   attachImageUploadListener();
+});
+
+document.getElementById("budget").addEventListener("input", function (e) {
+  let value = e.target.value.replace(/[^0-9]/g, ""); // Loại bỏ ký tự không phải số
+  if (value === "") {
+    e.target.value = "";
+    return;
+  }
+  // Định dạng VNĐ với dấu phẩy phân cách hàng nghìn
+  e.target.value = Number(value).toLocaleString("vi-VN") + " đ";
 });

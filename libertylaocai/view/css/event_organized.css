@@ -9,7 +9,7 @@ body {
   margin: 0 auto;
   padding-top: 100px;
 }
-.sale-banner {
+.event-organized-banner {
   position: relative;
   height: 300px;
   display: flex;
@@ -21,7 +21,7 @@ body {
   margin-bottom: 20px;
 }
 
-.sale-banner .banner-image {
+.event-organized-banner .banner-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -32,7 +32,7 @@ body {
   filter: brightness(0.6);
 }
 
-.sale-banner h1 {
+.event-organized-banner h1 {
   font-size: 48px;
   margin-bottom: 10px;
   font-weight: 300;

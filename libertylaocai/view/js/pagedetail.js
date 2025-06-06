@@ -1,148 +1,3 @@
-// // Tab functionality
-// function showTab(tabName) {
-//   // Hide all tab panes
-//   const panes = document.querySelectorAll(".tab-pane");
-//   panes.forEach((pane) => pane.classList.remove("active"));
-
-//   // Remove active class from all buttons
-//   const buttons = document.querySelectorAll(".tab-btn");
-//   buttons.forEach((btn) => btn.classList.remove("active"));
-
-//   // Show selected tab pane
-//   document.getElementById(tabName).classList.add("active");
-
-//   // Add active class to clicked button
-//   event.target.classList.add("active");
-// }
-
-// // Modal functionality
-// function openModal() {
-//   document.getElementById("bookingModal").style.display = "block";
-//   document.body.style.overflow = "hidden";
-// }
-
-// function closeModal() {
-//   document.getElementById("bookingModal").style.display = "none";
-//   document.body.style.overflow = "auto";
-// }
-
-// document
-//   .getElementById("quickBookingForm")
-//   .addEventListener("submit", function (e) {
-//     e.preventDefault();
-//     alert(
-//       "Cảm ơn bạn! Yêu cầu đặt phòng của bạn đã được gửi thành công. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất."
-//     );
-//     this.reset();
-//   });
-
-// // File upload preview
-// document.getElementById("imageUpload").addEventListener("change", function (e) {
-//   const files = e.target.files;
-//   const uploadArea = document.querySelector(".upload-area");
-
-//   if (files.length > 0) {
-//     uploadArea.innerHTML = `
-//             <div class="upload-icon">✅</div>
-//             <div class="upload-text">
-//                 Đã chọn ${files.length} hình ảnh<br>
-//                 <small>Nhấp để thay đổi</small>
-//             </div>
-//         `;
-//     uploadArea.style.borderColor = "#004d40";
-//     uploadArea.style.background = "#f0f8f0";
-//   }
-// });
-
-// // Set minimum date to today
-// const today = new Date().toISOString().split("T")[0];
-// document.getElementById("quickCheckin").min = today;
-// document.getElementById("quickCheckout").min = today;
-// // document.getElementById('checkinDate').min = today;
-// // document.getElementById('checkoutDate').min = today;
-
-// // Update checkout date when checkin date changes
-// document.getElementById("quickCheckin").addEventListener("change", function () {
-//   document.getElementById("quickCheckout").min = this.value;
-// });
-
-// // document.getElementById('checkinDate').addEventListener('change', function() {
-// //     document.getElementById('checkoutDate').min = this.value;
-// // });
-
-// // JavaScript để xử lý slider
-// const slider = document.querySelector(".gallery-slider");
-// const items = document.querySelectorAll(".gallery-item");
-// const prevBtn = document.querySelector(".prev-btn");
-// const nextBtn = document.querySelector(".next-btn");
-// const dots = document.querySelectorAll(".dot");
-// let currentIndex = 0;
-
-// function updateSlider() {
-//   slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-//   dots.forEach((dot, index) => {
-//     dot.classList.toggle("active", index === currentIndex);
-//   });
-// }
-
-// prevBtn.addEventListener("click", () => {
-//   currentIndex = (currentIndex - 1 + items.length) % items.length;
-//   updateSlider();
-// });
-
-// nextBtn.addEventListener("click", () => {
-//   currentIndex = (currentIndex + 1) % items.length;
-//   updateSlider();
-// });
-
-// dots.forEach((dot, index) => {
-//   dot.addEventListener("click", () => {
-//     currentIndex = index;
-//     updateSlider();
-//   });
-// });
-
-// updateSlider();
-
-// document.addEventListener("DOMContentLoaded", function () {
-//   const specSliders = document.querySelectorAll(".spec-img");
-
-//   specSliders.forEach((sliderContainer) => {
-//     const slider = sliderContainer.querySelector(".spec-img-slider");
-//     const items = sliderContainer.querySelectorAll(".spec-img-item");
-//     const dots = sliderContainer.querySelectorAll(".spec-dot");
-//     const prevBtn = sliderContainer.querySelector(".spec-prev-btn");
-//     const nextBtn = sliderContainer.querySelector(".spec-next-btn");
-//     let currentIndex = 0;
-
-//     function updateSlider() {
-//       slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-//       dots.forEach((dot, index) => {
-//         dot.classList.toggle("active", index === currentIndex);
-//       });
-//     }
-
-//     prevBtn.addEventListener("click", () => {
-//       currentIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
-//       updateSlider();
-//     });
-
-//     nextBtn.addEventListener("click", () => {
-//       currentIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
-//       updateSlider();
-//     });
-
-//     dots.forEach((dot) => {
-//       dot.addEventListener("click", () => {
-//         currentIndex = parseInt(dot.getAttribute("data-index"));
-//         updateSlider();
-//       });
-//     });
-
-//     updateSlider();
-//   });
-// });
-
 let selectedFiles = [];
 
 function showTab(tabName) {
@@ -374,31 +229,10 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       e.stopImmediatePropagation();
 
-      const requiredFields = [
-        "quickFullName",
-        "quickPhone",
-        "quickEmail",
-        "quickEventType",
-        "quickGuestCount",
-        "quickEventDate",
-        "quickEndDate",
-        "quickStartTime",
-        "quickEndTime",
-        "quickVenue",
-        "quickDescription",
-      ];
-      let isValid = true;
+      // Kiểm tra các trường bắt buộc bằng HTML5 validation
+      let isValid = quickBookingForm.checkValidity();
 
-      requiredFields.forEach((field) => {
-        const input = document.getElementById(field);
-        if (!input || !input.value.trim()) {
-          if (input) input.style.borderColor = "#e74c3c";
-          isValid = false;
-        } else {
-          if (input) input.style.borderColor = "#e0e0e0";
-        }
-      });
-
+      // Kiểm tra các điều kiện khác ngoài required
       const startDate = new Date(
         document.getElementById("quickEventDate")?.value
       );
@@ -501,6 +335,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 : "An error occurred while sending the request. Please try again."
             );
           });
+      } else {
+        // Hiển thị thông báo lỗi HTML5 mặc định
+        quickBookingForm.reportValidity();
       }
     });
 
@@ -597,4 +434,14 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   attachImageUploadListener();
+});
+
+document.getElementById("quickBudget").addEventListener("input", function (e) {
+  let value = e.target.value.replace(/[^0-9]/g, ""); // Loại bỏ ký tự không phải số
+  if (value === "") {
+    e.target.value = "";
+    return;
+  }
+  // Định dạng VNĐ với dấu phẩy phân cách hàng nghìn
+  e.target.value = Number(value).toLocaleString("vi-VN") + " đ";
 });

@@ -11,7 +11,7 @@ body {
   padding-top: 100px;
 }
 
-.saledetail-banner {
+.organized-detail-banner {
   position: relative;
   height: 300px;
   display: flex;
@@ -23,7 +23,7 @@ body {
   margin-bottom: 20px;
 }
 
-.saledetail-banner .banner-image {
+.organized-detail-banner .banner-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -34,7 +34,7 @@ body {
   filter: brightness(0.6);
 }
 
-.saledetail-banner h1 {
+.organized-detail-banner h1 {
   font-size: 48px;
   margin-bottom: 10px;
   font-weight: 300;
@@ -346,3 +346,4 @@ body {
     min-height: 3.9em;
   }
 }
+
