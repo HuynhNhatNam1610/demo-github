@@ -1,272 +1,380 @@
+<?php
+require_once '../../model/config/connect.php';
+session_start();
+
+// Default language: Vietnamese (id = 1)
+$current_language = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
+$language_id = ($current_language == 2) ? 2 : 1;
+
+// Handle POST request
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  header('Content-Type: application/json');
+  
+  // Read JSON input
+  $input = json_decode(file_get_contents('php://input'), true);
+  
+  if (!$input) {
+    http_response_code(400);
+    echo json_encode([
+      'success' => false,
+      'message' => $language_id == 1 ? 'Dữ liệu không hợp lệ!' : 'Invalid data!'
+    ]);
+    exit;
+  }
+
+  // Extract and sanitize input
+  $name = trim($input['name'] ?? '');
+  $phone = trim($input['phone'] ?? '');
+  $email = trim($input['email'] ?? '');
+  $service = trim($input['service'] ?? '');
+  $message = trim($input['message'] ?? '');
+
+  // Validate input
+  if (empty($name) || empty($phone) || empty($email) || empty($service) || empty($message)) {
+    http_response_code(400);
+    echo json_encode([
+      'success' => false,
+      'message' => $language_id == 1 ? 'Vui lòng điền đầy đủ thông tin!' : 'Please fill in all required fields!'
+    ]);
+    exit;
+  }
+
+  $phone_clean = preg_replace('/\s+/', '', $phone);
+  if (!preg_match('/^0[0-9]{9,10}$/', $phone_clean)) {
+    http_response_code(400);
+    echo json_encode([
+      'success' => false,
+      'message' => $language_id == 1 ? 'Số điện thoại không hợp lệ (phải bắt đầu bằng 0, 10-11 số)!' : 'Invalid phone number (must start with 0, 10-11 digits)!'
+    ]);
+    exit;
+  }
+
+  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo json_encode([
+      'success' => false,
+      'message' => $language_id == 1 ? 'Email không hợp lệ!' : 'Invalid email address!'
+    ]);
+    exit;
+  }
+
+  if (strlen($name) > 255 || strlen($email) > 255 || strlen($phone) > 20 || strlen($service) > 255) {
+    http_response_code(400);
+    echo json_encode([
+      'success' => false,
+      'message' => $language_id == 1 ? 'Dữ liệu nhập vào quá dài!' : 'Input data is too long!'
+    ]);
+    exit;
+  }
+
+  // Database transaction
+  mysqli_begin_transaction($conn);
+  try {
+    // Check if customer exists
+    $stmt = $conn->prepare("SELECT id FROM khachhang WHERE phone = ? OR email = ?");
+    if (!$stmt) throw new Exception("Prepare failed: " . $conn->error);
+    $stmt->bind_param("ss", $phone_clean, $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+      $id_khachhang = $result->fetch_assoc()['id'];
+    } else {
+      // Insert new customer
+      $stmt = $conn->prepare("INSERT INTO khachhang (name, phone, email) VALUES (?, ?, ?)");
+      if (!$stmt) throw new Exception("Prepare failed: " . $conn->error);
+      $stmt->bind_param("sss", $name, $phone_clean, $email);
+      if (!$stmt->execute()) throw new Exception("Insert customer failed: " . $stmt->error);
+      $id_khachhang = $conn->insert_id;
+    }
+
+    // Insert contact request
+    $stmt = $conn->prepare("INSERT INTO contact_requests (id_khachhang, service, message) VALUES (?, ?, ?)");
+    if (!$stmt) throw new Exception("Prepare failed: " . $conn->error);
+    $stmt->bind_param("iss", $id_khachhang, $service, $message);
+    if (!$stmt->execute()) throw new Exception("Insert contact request failed: " . $stmt->error);
+
+    // Commit transaction
+    mysqli_commit($conn);
+    echo json_encode([
+      'success' => true,
+      'message' => $language_id == 1 ? 'Yêu cầu của bạn đã được gửi thành công!' : 'Your request has been sent successfully!'
+    ]);
+  } catch (Exception $e) {
+    mysqli_rollback($conn);
+    error_log("Form submission error: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+      'success' => false,
+      'message' => $language_id == 1 ? 'Có lỗi xảy ra, vui lòng thử lại!' : 'An error occurred, please try again!'
+    ]);
+  }
+  $stmt->close();
+  exit;
+}
+
+// Existing database queries for page content
+$features_query = "
+  SELECT t.id as id_tienich, t.icon, tn.title, tn.content, td.page 
+  FROM tienich t 
+  LEFT JOIN tienich_ngonngu tn ON t.id = tn.id_tienich 
+  LEFT JOIN tienichdichvu td ON t.id = td.id_tienich 
+  WHERE tn.id_ngonngu = ? AND td.page = 'dichvu'
+  ORDER BY t.id";
+$features_stmt = $conn->prepare($features_query);
+$features_stmt->bind_param("i", $language_id);
+$features_stmt->execute();
+$features_result = $features_stmt->get_result();
+$features = [];
+while ($row = $features_result->fetch_assoc()) {
+  $features[] = $row;
+}
+$features_stmt->close();
+
+$greeting_query = "
+  SELECT nn.content 
+  FROM loichaoduocchon l 
+  JOIN nhungcauchaohoi_ngonngu nn ON l.id_nhungcauchaohoi_ngonngu = nn.id 
+  WHERE l.id_ngonngu = ? AND l.page = 'dichvu'
+  LIMIT 1";
+$greeting_stmt = $conn->prepare($greeting_query);
+$greeting_stmt->bind_param("i", $language_id);
+$greeting_stmt->execute();
+$greeting_result = $greeting_stmt->get_result();
+$greeting = $greeting_result->num_rows > 0 ? $greeting_result->fetch_assoc()['content'] : 
+  ($language_id == 1 ? 'Đồng hành cùng bạn khám phá vẻ đẹp Tây Bắc' : 'Accompanying you to explore the beauty of the Northwest');
+$greeting_stmt->close();
+
+$services_query = "SELECT dn.title, dn.content, a.image 
+  FROM dichvu_ngonngu dn 
+  LEFT JOIN anhdichvu a ON dn.id_dichvu = a.id_dichvu AND a.is_primary = 1 
+  WHERE dn.id_ngonngu = ? AND dn.id_dichvu IN (1, 2) 
+  ORDER BY dn.id_dichvu";
+$services_stmt = $conn->prepare($services_query);
+$services_stmt->bind_param("i", $language_id);
+$services_stmt->execute();
+$services_result = $services_stmt->get_result();
+$services = [];
+while ($row = $services_result->fetch_assoc()) {
+  $services[] = $row;
+}
+$services_stmt->close();
+
+$tours_query = "SELECT dn.id_dichvu, dn.title, dn.content, a.image 
+  FROM dichvu_ngonngu dn 
+  LEFT JOIN anhdichvu a ON dn.id_dichvu = a.id_dichvu AND a.is_primary = 1 
+  WHERE dn.id_ngonngu = ? AND dn.id_dichvu >= 3 
+  ORDER BY dn.id_dichvu";
+$tours_stmt = $conn->prepare($tours_query);
+$tours_stmt->bind_param("i", $language_id);
+$tours_stmt->execute();
+$tours_result = $tours_stmt->get_result();
+$tours = [];
+while ($row = $tours_result->fetch_assoc()) {
+  $tours[] = $row;
+}
+$tours_stmt->close();
+
+$banner_query = "SELECT image FROM head_banner WHERE page = 'dichvu' LIMIT 1";
+$banner_result = mysqli_query($conn, $banner_query);
+if (!$banner_result) {
+  error_log("Banner query failed: " . mysqli_error($conn));
+  $banner = false;
+} else {
+  $banner = mysqli_fetch_assoc($banner_result);
+}
+$banner_image = $banner ? '/libertylaocai/view/img/' . htmlspecialchars($banner['image']) : '/libertylaocai/view/img/background.png';
+?>
+
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="<?php echo ($language_id == 1) ? 'vi' : 'en'; ?>">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dịch Vụ Du Lịch - Liberty Lào Cai</title>
-    <link rel="stylesheet" href="/libertylaocai/view/css/dichvu.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?php echo $language_id == 1 ? 'Dịch Vụ Du Lịch Liberty Lào Cai' : 'Liberty Lào Cai Travel Services'; ?></title>
+  <link rel="stylesheet" href="/libertylaocai/view/css/dichvu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <?php include "header.php"; ?>
-    <div class="big-container">
-        <div class="hero">
-        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop" alt="Tây Bắc Background" class="hero-background">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">Dịch Vụ Du Lịch Liberty Lào Cai</h1>
-            <p class="hero-subtitle">Đồng hành cùng bạn khám phá vẻ đẹp Tây Bắc</p>
-        </div>
-        </div>
+  <?php include "header.php"; ?>
 
-        <!-- Services Overview -->
-        <section class="services-overview">
-            <div class="container">
-                <h2 class="section-title">Dịch Vụ Khách Sạn</h2>
-                <div class="services-grid">
-                    <div class="service-card" data-aos="fade-up">
-                        <div class="service-icon">
-                            <i class="fas fa-plane"></i>
-                        </div>
-                        <h3>Đặt Vé Máy Bay</h3>
-                        <p>Hỗ trợ đặt vé máy bay với giá tốt nhất</p>
-                    </div>
-                    
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="service-icon">
-                            <i class="fas fa-train"></i>
-                        </div>
-                        <h3>Đặt Vé Tàu Hỏa</h3>
-                        <p>Đặt vé tàu hỏa thuận tiện và nhanh chóng</p>
-                    </div>
-                    
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="service-icon">
-                            <i class="fas fa-passport"></i>
-                        </div>
-                        <h3>Thủ Tục Thăm Quan Trung Quốc</h3>
-                        <p>Làm thủ tục trong ngày - 320.000đ (CCCD + Ảnh)</p>
-                    </div>
-                    
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="service-icon">
-                            <i class="fas fa-info-circle"></i>
-                        </div>
-                        <h3>Tư Vấn Miễn Phí</h3>
-                        <p>Tư vấn các cảnh điểm tại tỉnh Lào Cai</p>
-                    </div>
-                    
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="400">
-                        <div class="service-icon">
-                            <i class="fas fa-car"></i>
-                        </div>
-                        <h3>Xe Vận Chuyển</h3>
-                        <p>Xe 4 chỗ, 7 chỗ, 24 chỗ theo nhu cầu</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Travel Document Service -->
-        <section class="document-service">
-            <div class="container">
-                <div class="content-wrapper">
-                    <div class="text-content" data-aos="fade-right">
-                        <h2>Dịch Vụ Hỗ Trợ Giấy Thông Hành Du Lịch Trung Quốc</h2>
-                        <p>Với vị trí tọa lạc liền kề biên giới, Khách sạn Liberty Lào Cai sẵn lòng hỗ trợ quý khách làm giấy thông hành du lịch Trung Quốc với quy trình đơn giản, nhanh chóng và đúng quy định.</p>
-                        <div class="features">
-                            <div class="feature-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Quy trình đơn giản</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-clock"></i>
-                                <span>Xử lý nhanh chóng</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-shield-alt"></i>
-                                <span>Cam kết an tâm tuyệt đối</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="image-content" data-aos="fade-left">
-                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop" alt="Giấy thông hành du lịch" class="service-image">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Airport Transfer Service -->
-        <section class="airport-service">
-            <div class="container">
-                <div class="content-wrapper reverse">
-                    <div class="image-content" data-aos="fade-right">
-                        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&h=400&fit=crop" alt="Dịch vụ đưa đón sân bay" class="service-image">
-                    </div>
-                    <div class="text-content" data-aos="fade-left">
-                        <h2>Dịch Vụ Đưa Đón Sân Bay Nội Bài - Liberty Lào Cai</h2>
-                        <p>Chuyến đi của quý vị sẽ thuận tiện và thoải mái hơn với dịch vụ đưa đón sân bay chuyên nghiệp. Hãy để đội ngũ tài xế giàu kinh nghiệm cùng phương tiện hiện đại của chúng tôi đồng hành cùng quý vị ngay từ những phút đầu tiên đặt chân đến Lào Cai!</p>
-                        <div class="highlights">
-                            <div class="highlight-item">
-                                <i class="fas fa-user-tie"></i>
-                                <div>
-                                    <h4>Tài Xế Chuyên Nghiệp</h4>
-                                    <p>Đội ngũ tài xế giàu kinh nghiệm</p>
-                                </div>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-car-side"></i>
-                                <div>
-                                    <h4>Phương Tiện Hiện Đại</h4>
-                                    <p>Xe đời mới, tiện nghi đầy đủ</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tours Section -->
-        <section class="tours-section">
-            <div class="container">
-                <h2 class="section-title">Các Tour Du Lịch Hấp Dẫn</h2>
-                <div class="tours-grid">
-                    <div class="tour-card" data-aos="fade-up">
-                        <div class="tour-image">
-                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop" alt="Tour Sapa">
-                            <div class="tour-overlay">
-                                <div class="tour-price">Liên hệ</div>
-                            </div>
-                        </div>
-                        <div class="tour-content">
-                            <h3>Tour Sapa</h3>
-                            <p>Chinh phục đỉnh Fansipan – nóc nhà Đông Dương, tham quan bản Cát Cát, núi Hàm Rồng và trải nghiệm văn hóa dân tộc.</p>
-                            <div class="tour-highlights">
-                                <span class="highlight-tag">Fansipan</span>
-                                <span class="highlight-tag">Bản Cát Cát</span>
-                                <span class="highlight-tag">Núi Hàm Rồng</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tour-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="tour-image">
-                            <img src="https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?w=400&h=300&fit=crop" alt="Tour Bắc Hà">
-                            <div class="tour-overlay">
-                                <div class="tour-price">Liên hệ</div>
-                            </div>
-                        </div>
-                        <div class="tour-content">
-                            <h3>Tour Bắc Hà</h3>
-                            <p>Ghé thăm chợ phiên Bắc Hà nổi tiếng, dinh Hoàng A Tưởng và thưởng thức đặc sản vùng cao.</p>
-                            <div class="tour-highlights">
-                                <span class="highlight-tag">Chợ Phiên</span>
-                                <span class="highlight-tag">Dinh Hoàng A Tưởng</span>
-                                <span class="highlight-tag">Đặc Sản</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tour-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="tour-image">
-                            <img src="https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?w=400&h=300&fit=crop" alt="Tour Y Tý">
-                            <div class="tour-overlay">
-                                <div class="tour-price">Liên hệ</div>
-                            </div>
-                        </div>
-                        <div class="tour-content">
-                            <h3>Tour Y Tý</h3>
-                            <p>Săn mây trên đỉnh trời Tây Bắc, vùng đất nằm ở độ cao hơn 2.000m với khung cảnh thiên nhiên hùng vĩ như chốn bồng lai.</p>
-                            <div class="tour-highlights">
-                                <span class="highlight-tag">Săn Mây</span>
-                                <span class="highlight-tag">2000m+</span>
-                                <span class="highlight-tag">Thiên Nhiên</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tour-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="tour-image">
-                            <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=300&fit=crop" alt="Tour Hà Khẩu">
-                            <div class="tour-overlay">
-                                <div class="tour-price">Liên hệ</div>
-                            </div>
-                        </div>
-                        <div class="tour-content">
-                            <h3>Tour Hà Khẩu – Trung Quốc</h3>
-                            <p>Dạo quanh thị trấn Hà Khẩu sầm uất, thưởng thức ẩm thực Trung Hoa và mua sắm thỏa thích.</p>
-                            <div class="tour-highlights">
-                                <span class="highlight-tag">Hà Khẩu</span>
-                                <span class="highlight-tag">Ẩm Thực</span>
-                                <span class="highlight-tag">Mua Sắm</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section class="contact-section">
-            <div class="container">
-                <div class="contact-wrapper">
-                    <div class="contact-info" data-aos="fade-right">
-                        <h2>Liên Hệ Đặt Tour</h2>
-                        <p>Hãy liên hệ với chúng tôi để được tư vấn và đặt tour một cách nhanh chóng nhất!</p>
-                        <div class="contact-methods">
-                            <div class="contact-method">
-                                <i class="fas fa-phone"></i>
-                                <span>Hotline: 0123 456 789</span>
-                            </div>
-                            <div class="contact-method">
-                                <i class="fas fa-envelope"></i>
-                                <span>Email: info@libertylc.com</span>
-                            </div>
-                            <div class="contact-method">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Địa chỉ: Lào Cai, Việt Nam</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contact-form" data-aos="fade-left">
-                        <form id="contactForm">
-                            <div class="form-group">
-                                <input type="text" id="name" required>
-                                <label for="name">Họ và tên</label>
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" id="phone" required>
-                                <label for="phone">Số điện thoại</label>
-                            </div>
-                            <div class="form-group">
-                                <select id="service" required>
-                                    <option value="">Chọn dịch vụ</option>
-                                    <option value="sapa">Tour Sapa</option>
-                                    <option value="bacha">Tour Bắc Hà</option>
-                                    <option value="yty">Tour Y Tý</option>
-                                    <option value="hakou">Tour Hà Khẩu</option>
-                                    <option value="airport">Đưa đón sân bay</option>
-                                    <option value="document">Làm giấy thông hành</option>
-                                </select>
-                                <label for="service">Dịch vụ quan tâm</label>
-                            </div>
-                            <div class="form-group">
-                                <textarea id="message" rows="4"></textarea>
-                                <label for="message">Tin nhắn</label>
-                            </div>
-                            <button type="submit" class="submit-btn">
-                                <span>Gửi Yêu Cầu</span>
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <section class="hero">
+    <img src="<?php echo htmlspecialchars($banner_image); ?>" alt="Background" class="hero-background">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title"><?php echo $language_id == 1 ? 'Dịch Vụ Du Lịch Liberty Lào Cai' : 'Liberty Lào Cai Travel Services'; ?></h1>
+      <p class="hero-subtitle"><?php echo htmlspecialchars($greeting); ?></p>
     </div>
-    <?php include "footer.php"; ?>
+  </section>
 
-    <script src="/libertylaocai/view/js/dichvu.js"></script>
+  <section class="services-overview">
+    <div class="container">
+      <h2 class="section-title"><?php echo $language_id == 1 ? 'Dịch Vụ Khách Sạn' : 'Hotel Services'; ?></h2>
+      <div class="services-grid">
+        <?php if (empty($features)): ?>
+          <p><?php echo $language_id == 1 ? 'Chưa có tiện ích nào được thêm.' : 'No features have been added yet.'; ?></p>
+        <?php else: ?>
+          <?php foreach ($features as $index => $feature): ?>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="<?php echo $index * 100; ?>">
+              <div class="service-icon"><i class="<?php echo htmlspecialchars($feature['icon']); ?>"></i></div>
+              <h3><?php echo htmlspecialchars($feature['title']); ?></h3>
+              <p><?php echo htmlspecialchars($feature['content']); ?></p>
+            </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </div>
+    </div>
+  </section>
+
+  <?php foreach ($services as $index => $service): ?>
+    <section class="<?php echo $index == 0 ? 'document-service' : 'airport-service'; ?>">
+      <div class="container">
+        <div class="content-wrapper <?php echo $index == 1 ? 'reverse' : ''; ?>">
+          <div class="service-image" data-aos="fade-right">
+            <img src="<?php echo $service['image'] ? '/libertylaocai/view/img/' . htmlspecialchars($service['image']) : '/libertylaocai/view/img/default-service-image.png'; ?>" alt="<?php echo htmlspecialchars($service['title']); ?>">
+          </div>
+          <div class="text-content" data-aos="fade-left">
+            <h2 class="service-link" data-href="<?php echo $index == 0 ? '/libertylaocai/view/php/giaythonghanh.php' : '/libertylaocai/view/php/duadonsanbay.php'; ?>"><?php echo htmlspecialchars($service['title']); ?></h2>
+            <p class="service-link" data-href="<?php echo $index == 0 ? '/libertylaocai/view/php/giaythonghanh.php' : '/libertylaocai/view/php/duadonsanbay.php'; ?>"><?php echo htmlspecialchars($service['content']); ?></p>
+            <div class="highlights">
+              <?php if ($index == 0): ?>
+                <div class="highlight-item">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h4><?php echo $language_id == 1 ? 'Quy trình đơn giản' : 'Simple Process'; ?></h4>
+                  </div>
+                </div>
+                <div class="highlight-item">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h4><?php echo $language_id == 1 ? 'Xử lý nhanh chóng' : 'Fast Processing'; ?></h4>
+                  </div>
+                </div>
+                <div class="highlight-item">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h4><?php echo $language_id == 1 ? 'Cam kết an tâm tuyệt đối' : 'Absolute Peace of Mind'; ?></h4>
+                  </div>
+                </div>
+              <?php else: ?>
+                <div class="highlight-item">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h4><?php echo $language_id == 1 ? 'Tài Xế Chuyên Nghiệp' : 'Professional Drivers'; ?></h4>
+                    <p><?php echo $language_id == 1 ? 'Đội ngũ tài xế giàu kinh nghiệm' : 'Experienced driver team'; ?></p>
+                  </div>
+                </div>
+                <div class="highlight-item">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h4><?php echo $language_id == 1 ? 'Phương Tiện Hiện Đại' : 'Modern Vehicles'; ?></h4>
+                    <p><?php echo $language_id == 1 ? 'Xe đời mới, tiện nghi đầy đủ' : 'New vehicles with full amenities'; ?></p>
+                  </div>
+                </div>
+              <?php endif; ?>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <?php endforeach; ?>
+
+  <section class="tours-section">
+    <div class="container">
+      <h2 class="section-title"><?php echo $language_id == 1 ? 'Các Tour Du Lịch Hấp Dẫn' : 'Exciting Travel Tours'; ?></h2>
+      <div class="tours-grid">
+        <?php foreach ($tours as $index => $tour): ?>
+          <div class="tour-card" data-aos="fade-up" data-aos-delay="<?php echo $index * 100; ?>">
+            <a href="/libertylaocai/view/php/chitiettour.php?id_dichvu=<?php echo htmlspecialchars($tour['id_dichvu']); ?>" style="text-decoration: none;">
+              <div class="tour-image">
+                <img src="<?php echo $tour['image'] ? '/libertylaocai/view/img/' . htmlspecialchars($tour['image']) : '/libertylaocai/view/img/default-tour-image.png'; ?>" alt="<?php echo htmlspecialchars($tour['title']); ?>">
+                <div class="tour-overlay">
+                  <span class="tour-price"><?php echo $language_id == 1 ? 'Liên hệ' : 'Contact'; ?></span>
+                </div>
+              </div>
+              <div class="tour-content">
+                <h3><?php echo htmlspecialchars($tour['title']); ?></h3>
+                <p><?php echo htmlspecialchars($tour['content']); ?></p>
+                <div class="tour-highlights">
+                  <?php
+                  $highlight_tags = [];
+                  foreach ($highlight_tags as $tag): ?>
+                    <span class="highlight-tag"><?php echo htmlspecialchars($tag); ?></span>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+            </a>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-wrapper">
+        <div class="contact-info" data-aos="fade-right">
+          <h2><?php echo $language_id == 1 ? 'Liên Hệ Đặt Tour' : 'Contact to Book a Tour'; ?></h2>
+          <p><?php echo $language_id == 1 ? 'Hãy liên hệ với chúng tôi để được tư vấn và đặt tour một cách nhanh chóng nhất!' : 'Contact us for consultation and to book your tour as quickly as possible!'; ?></p>
+          <div class="contact-methods">
+            <div class="contact-method">
+              <i class="fas fa-phone"></i>
+              <span><?php echo $language_id == 1 ? 'Hotline: 0123 456 789' : 'Hotline: 0123 456 789'; ?></span>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-envelope"></i>
+              <span>Email: info@libertylc.com</span>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-map-marker-alt"></i>
+              <span><?php echo $language_id == 1 ? 'Địa chỉ: Lào Cai, Việt Nam' : 'Address: Lao Cai, Vietnam'; ?></span>
+            </div>
+          </div>
+        </div>
+        <form id="contactForm" class="contact-form" data-aos="fade-left" method="POST">
+          <div class="form-group">
+            <input type="text" id="name" name="name" required>
+            <label for="name"><?php echo $language_id == 1 ? 'Họ và tên' : 'Full Name'; ?></label>
+          </div>
+          <div class="form-group">
+            <input type="text" id="phone" name="phone" required>
+            <label for="phone"><?php echo $language_id == 1 ? 'Số điện thoại' : 'Phone Number'; ?></label>
+          </div>
+          <div class="form-group">
+            <input type="email" id="email" name="email" required>
+            <label for="email">Email</label>
+          </div>
+          <div class="form-group">
+            <select id="service" name="service" required>
+              <option value="" disabled selected><?php echo $language_id == 1 ? 'Chọn dịch vụ' : 'Select a service'; ?></option>
+              <?php foreach ($tours as $tour): ?>
+                <option value="<?php echo htmlspecialchars($tour['title']); ?>"><?php echo htmlspecialchars($tour['title']); ?></option>
+              <?php endforeach; ?>
+              <option value="<?php echo $language_id == 1 ? 'Đưa đón sân bay' : 'Airport Transfer'; ?>">
+                <?php echo $language_id == 1 ? 'Đưa đón sân bay' : 'Airport Transfer'; ?>
+              </option>
+              <option value="<?php echo $language_id == 1 ? 'Làm giấy thông hành' : 'Travel Pass Service'; ?>">
+                <?php echo $language_id == 1 ? 'Làm giấy thông hành' : 'Travel Pass Service'; ?>
+              </option>
+            </select>
+            <label for="service"><?php echo $language_id == 1 ? 'Dịch vụ quan tâm' : 'Service of Interest'; ?></label>
+          </div>
+          <div class="form-group">
+            <textarea id="message" name="message" required></textarea>
+            <label for="message"><?php echo $language_id == 1 ? 'Tin nhắn' : 'Message'; ?></label>
+          </div>
+          <button type="submit" class="submit-btn">
+            <span><?php echo $language_id == 1 ? 'Gửi Yêu Cầu' : 'Send Request'; ?></span>
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <?php include "footer.php"; ?>
+
+  <script src="/libertylaocai/view/js/dichvu.js"></script>
 </body>
 </html>
