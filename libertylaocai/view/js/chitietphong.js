@@ -65,28 +65,6 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
   });
 });
 
-// Booking Form Functions
-function calculateNights() {
-  const checkinDate = document.getElementById("checkin").value;
-  const checkoutDate = document.getElementById("checkout").value;
-
-  if (checkinDate && checkoutDate) {
-    const checkin = new Date(checkinDate);
-    const checkout = new Date(checkoutDate);
-    const timeDiff = checkout.getTime() - checkin.getTime();
-    const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-    if (nights > 0) {
-      document.getElementById("nights-count").textContent = `${nights} đêm`;
-
-      const roomPrice = 700000;
-      const totalPrice = roomPrice * nights;
-      document.getElementById("total-price").textContent =
-        new Intl.NumberFormat("vi-VN").format(totalPrice) + " VNĐ";
-    }
-  }
-}
-
 // Set minimum date to today
 function setMinDate() {
   const today = new Date().toISOString().split("T")[0];
@@ -129,87 +107,7 @@ document.getElementById("checkin").addEventListener("change", function () {
 
 document.getElementById("checkout").addEventListener("change", calculateNights);
 
-// Form validation and submission
-document
-  .querySelector(".booking-form")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
 
-    // Get form data
-    const formData = new FormData(this);
-    const bookingData = {
-      checkin: formData.get("checkin"),
-      checkout: formData.get("checkout"),
-      adults: formData.get("adults"),
-      children: formData.get("children"),
-      fullname: formData.get("fullname"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      specialRequests: formData.get("special-requests"),
-      roomType: "Deluxe Double",
-      totalPrice: document.getElementById("total-price").textContent,
-    };
-
-    // Validate required fields
-    if (
-      !bookingData.checkin ||
-      !bookingData.checkout ||
-      !bookingData.fullname ||
-      !bookingData.email ||
-      !bookingData.phone
-    ) {
-      alert("Vui lòng điền đầy đủ thông tin bắt buộc!");
-      return;
-    }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(bookingData.email)) {
-      alert("Vui lòng nhập địa chỉ email hợp lệ!");
-      return;
-    }
-
-    // Validate phone format (Vietnamese phone number)
-    const phoneRegex = /^(\+84|84|0)[1-9][0-9]{8,9}$/;
-    if (!phoneRegex.test(bookingData.phone.replace(/\s/g, ""))) {
-      alert("Vui lòng nhập số điện thoại hợp lệ!");
-      return;
-    }
-
-    // Show loading state
-    const submitBtn = document.querySelector(".submit-booking-btn");
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML =
-      '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-    submitBtn.disabled = true;
-
-    // Simulate booking process
-    setTimeout(() => {
-      alert(
-        `Đặt phòng thành công!\n\nThông tin đặt phòng:\n- Phòng: ${bookingData.roomType}\n- Từ: ${bookingData.checkin}\n- Đến: ${bookingData.checkout}\n- Tổng tiền: ${bookingData.totalPrice}\n\nChúng tôi sẽ liên hệ xác nhận trong 24h!`
-      );
-
-      // Reset form
-      this.reset();
-      setMinDate();
-
-      // Reset button
-      submitBtn.innerHTML = originalText;
-      submitBtn.disabled = false;
-
-      // Switch back to description tab
-      switchTab("description");
-    }, 2000);
-  });
-
-// Smooth scrolling for room cards
-document.querySelectorAll(".view-room-btn").forEach((btn) => {
-  btn.addEventListener("click", function (e) {
-    e.preventDefault();
-    // In a real application, this would navigate to the specific room page
-    alert("Chức năng xem chi tiết phòng sẽ được phát triển!");
-  });
-});
 
 // Phone number formatting
 document.getElementById("phone").addEventListener("input", function (e) {
@@ -230,119 +128,6 @@ document.getElementById("phone").addEventListener("input", function (e) {
 
   e.target.value = value.trim();
 });
-
-// Initialize page
-document.addEventListener("DOMContentLoaded", function () {
-  setMinDate();
-
-  // Set up keyboard navigation for slider
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowLeft") {
-      prevSlide();
-    } else if (e.key === "ArrowRight") {
-      nextSlide();
-    }
-  });
-
-  // Touch/swipe support for mobile
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  sliderContainer.addEventListener("touchstart", function (e) {
-    touchStartX = e.changedTouches[0].screenX;
-  });
-
-  sliderContainer.addEventListener("touchend", function (e) {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  });
-
-  function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
-
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0) {
-        nextSlide(); // Swipe left, go to next
-      } else {
-        prevSlide(); // Swipe right, go to previous
-      }
-    }
-  }
-
-  // Lazy loading for images (performance optimization)
-  if ("IntersectionObserver" in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src;
-          img.classList.remove("lazy");
-          imageObserver.unobserve(img);
-        }
-      });
-    });
-
-    document.querySelectorAll("img[data-src]").forEach((img) => {
-      imageObserver.observe(img);
-    });
-  }
-
-  // Add smooth scroll behavior to page
-  document.documentElement.style.scrollBehavior = "smooth";
-
-  // Price formatting
-  const priceElements = document.querySelectorAll(
-    ".current-price, .room-card-price, .price-total span:last-child"
-  );
-  priceElements.forEach((element) => {
-    const price = element.textContent.replace(/\D/g, "");
-    if (price) {
-      element.textContent =
-        new Intl.NumberFormat("vi-VN").format(price) + " VNĐ";
-    }
-  });
-});
-
-// Utility function to format Vietnamese currency
-function formatVND(amount) {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(amount);
-}
-
-// Add animation on scroll
-function animateOnScroll() {
-  const elements = document.querySelectorAll(
-    ".room-card, .amenity-item, .info-item"
-  );
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = "1";
-          entry.target.style.transform = "translateY(0)";
-        }
-      });
-    },
-    {
-      threshold: 0.1,
-    }
-  );
-
-  elements.forEach((element) => {
-    element.style.opacity = "0";
-    element.style.transform = "translateY(20px)";
-    element.style.transition = "all 0.6s ease";
-    observer.observe(element);
-  });
-}
-
-// Initialize animations
-document.addEventListener("DOMContentLoaded", animateOnScroll);
-// Thêm vào cuối file chitietphong.js
 
 // Review Form Functions
 function toggleReviewForm() {
@@ -506,7 +291,7 @@ function updateReviewStats() {
 }
 
 // Initialize star rating interaction
-document.addEventListener("DOMContentLoaded", function () {
+function initStarRating() {
   // Add click event for star rating
   const starInputs = document.querySelectorAll(".star-rating input");
   const ratingText = document.querySelector(".rating-text");
@@ -562,7 +347,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-});
+}
+
 let currentRoomSlide = 0;
 let roomsPerSlide = 3;
 let totalRoomCards = 0;
@@ -696,17 +482,7 @@ function initRoomSlider() {
   }
 }
 
-// Initialize when DOM is loaded
-document.addEventListener("DOMContentLoaded", function () {
-  initRoomSlider();
-});
-
-// Window resize handler
-window.addEventListener("resize", () => {
-  updateRoomsPerSlide();
-});
-
-// Touch/swipe support
+// Touch/swipe support for room slider
 let startX = 0;
 let endX = 0;
 
@@ -737,3 +513,303 @@ function handleSwipe() {
     }
   }
 }
+
+// Utility function to format Vietnamese currency
+function formatVND(amount) {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(amount);
+}
+
+// Add animation on scroll
+function animateOnScroll() {
+  const elements = document.querySelectorAll(
+    ".room-card, .amenity-item, .info-item"
+  );
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+    }
+  );
+
+  elements.forEach((element) => {
+    element.style.opacity = "0";
+    element.style.transform = "translateY(20px)";
+    element.style.transition = "all 0.6s ease";
+    observer.observe(element);
+  });
+}
+
+// Alert functions
+function closeAlert(alertId) {
+  const alert = document.getElementById(alertId);
+  if (alert) {
+    alert.style.animation = 'slideOut 0.3s ease-out';
+    setTimeout(() => {
+      alert.remove();
+    }, 300);
+  }
+}
+
+// Form validation
+function validateBookingForm() {
+  const form = document.querySelector('.booking-form');
+  const inputs = form.querySelectorAll('input[required], select[required]');
+  let isValid = true;
+  
+  inputs.forEach(input => {
+    const formGroup = input.closest('.form-group');
+    const existingError = formGroup.querySelector('.validation-message');
+    
+    if (existingError) {
+      existingError.remove();
+    }
+    
+    formGroup.classList.remove('has-error');
+    
+    if (!input.value.trim()) {
+      isValid = false;
+      formGroup.classList.add('has-error');
+      
+      const errorMsg = document.createElement('span');
+      errorMsg.className = 'validation-message';
+      errorMsg.textContent = 'Trường này không được để trống';
+      input.parentNode.appendChild(errorMsg);
+    }
+    // Trong hàm validateBookingForm()
+const adultsInput = document.getElementById('adults');
+const childrenInput = document.getElementById('children');
+
+if (adultsInput.value < 1) {
+    isValid = false;
+    const formGroup = adultsInput.closest('.form-group');
+    formGroup.classList.add('has-error');
+    
+    const errorMsg = document.createElement('span');
+    errorMsg.className = 'validation-message';
+    errorMsg.textContent = 'Số người lớn phải từ 1 trở lên';
+    adultsInput.parentNode.appendChild(errorMsg);
+}
+
+if (childrenInput.value < 0) {
+    isValid = false;
+    const formGroup = childrenInput.closest('.form-group');
+    formGroup.classList.add('has-error');
+    
+    const errorMsg = document.createElement('span');
+    errorMsg.className = 'validation-message';
+    errorMsg.textContent = 'Số trẻ em không được âm';
+    childrenInput.parentNode.appendChild(errorMsg);
+}
+  });
+  
+  // Validate email
+  const emailInput = document.getElementById('email');
+  if (emailInput.value && !isValidEmail(emailInput.value)) {
+    isValid = false;
+    const formGroup = emailInput.closest('.form-group');
+    formGroup.classList.add('has-error');
+    
+    const errorMsg = document.createElement('span');
+    errorMsg.className = 'validation-message';
+    errorMsg.textContent = 'Email không hợp lệ';
+    emailInput.parentNode.appendChild(errorMsg);
+  }
+  
+  // Validate dates
+  const checkinInput = document.getElementById('checkin');
+  const checkoutInput = document.getElementById('checkout');
+  
+  if (checkinInput.value && checkoutInput.value) {
+    const checkinDate = new Date(checkinInput.value);
+    const checkoutDate = new Date(checkoutInput.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (checkinDate < today) {
+      isValid = false;
+      const formGroup = checkinInput.closest('.form-group');
+      formGroup.classList.add('has-error');
+      
+      const errorMsg = document.createElement('span');
+      errorMsg.className = 'validation-message';
+      errorMsg.textContent = 'Ngày nhận phòng không thể là quá khứ';
+      checkinInput.parentNode.appendChild(errorMsg);
+    }
+    
+    if (checkoutDate <= checkinDate) {
+      isValid = false;
+      const formGroup = checkoutInput.closest('.form-group');
+      formGroup.classList.add('has-error');
+      
+      const errorMsg = document.createElement('span');
+      errorMsg.className = 'validation-message';
+      errorMsg.textContent = 'Ngày trả phòng phải sau ngày nhận phòng';
+      checkoutInput.parentNode.appendChild(errorMsg);
+    }
+  }
+  
+  return isValid;
+}
+
+function isValidEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+function calculateNights() {
+  const checkin = document.getElementById('checkin').value;
+  const checkout = document.getElementById('checkout').value;
+  const adults = parseInt(document.getElementById('adults').value) || 0;
+  const children = parseInt(document.getElementById('children').value) || 0;
+  
+  if (checkin && checkout) {
+    const checkinDate = new Date(checkin);
+    const checkoutDate = new Date(checkout);
+    const diffTime = Math.abs(checkoutDate - checkinDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    document.getElementById('nights-count').textContent = diffDays + ' đêm';
+    
+    // Calculate children fee (100,000 VND per child per night)
+    const childrenFee = children * 100000 * diffDays;
+    document.getElementById('children-fee').textContent = 
+      new Intl.NumberFormat('vi-VN').format(childrenFee) + ' VNĐ';
+    
+    // Calculate total
+    const total = (roomPrice * diffDays) + childrenFee;
+    document.getElementById('total-price').textContent = 
+      new Intl.NumberFormat('vi-VN').format(total) + ' VNĐ';
+  }
+}
+
+// Thêm event listener cho input người lớn và trẻ em
+document.getElementById('adults').addEventListener('change', calculateNights);
+document.getElementById('children').addEventListener('change', calculateNights);
+
+// Initialize page
+document.addEventListener("DOMContentLoaded", function () {
+  setMinDate();
+  initStarRating();
+  initRoomSlider();
+  animateOnScroll();
+
+  // Set up keyboard navigation for slider
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") {
+      prevSlide();
+    } else if (e.key === "ArrowRight") {
+      nextSlide();
+    }
+  });
+
+  // Touch/swipe support for mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  sliderContainer.addEventListener("touchstart", function (e) {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  sliderContainer.addEventListener("touchend", function (e) {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+
+  // Lazy loading for images (performance optimization)
+  if ("IntersectionObserver" in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.classList.remove("lazy");
+          imageObserver.unobserve(img);
+        }
+      });
+    });
+
+    document.querySelectorAll("img[data-src]").forEach((img) => {
+      imageObserver.observe(img);
+    });
+  }
+
+  // Add smooth scroll behavior to page
+  document.documentElement.style.scrollBehavior = "smooth";
+
+  // Price formatting
+  const priceElements = document.querySelectorAll(
+    ".current-price, .room-card-price, .price-total span:last-child"
+  );
+  priceElements.forEach((element) => {
+    const price = element.textContent.replace(/\D/g, "");
+    if (price) {
+      element.textContent =
+        new Intl.NumberFormat("vi-VN").format(price) + " VNĐ";
+    }
+  });
+
+
+const alerts = document.querySelectorAll('.alert');
+alerts.forEach(alert => {
+  setTimeout(() => {
+    if (document.body.contains(alert)) {
+      closeAlert(alert.id);
+    }
+  }, 3000);
+});
+
+  // Add slide out animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Add form validation on submit
+  const bookingForm = document.querySelector('.booking-form');
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', function(e) {
+      if (!validateBookingForm()) {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Show loading state
+      const submitBtn = this.querySelector('.submit-booking-btn');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<span class="loading-spinner"></span>Đang xử lý...';
+      submitBtn.disabled = true;
+      
+      // Re-enable if there's an error (page reload will handle success)
+      setTimeout(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }, 10000);
+    });
+  }
+});
+
+// Window resize handler
+window.addEventListener("resize", () => {
+  updateRoomsPerSlide();
+});

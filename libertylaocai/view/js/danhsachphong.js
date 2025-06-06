@@ -1,38 +1,66 @@
-// Carousel functionality
-const carousels = {
-    vip: { currentSlide: 0, totalSlides: 4 },
-    suite: { currentSlide: 0, totalSlides: 5 },
-    president: { currentSlide: 0, totalSlides: 3 }
-};
+// Carousel functionality - Improved version
+const carousels = {};
+let autoSlideInterval;
 
-// Initialize carousels
-function initCarousels() {
-    Object.keys(carousels).forEach(roomType => {
-        createDots(roomType);
-        updateCarousel(roomType);
-    });
+// Initialize carousel for a specific room
+function initCarousel(roomId) {
+    const slidesContainer = document.getElementById(`${roomId}-slides`);
+    if (!slidesContainer) return;
+    
+    const slides = slidesContainer.querySelectorAll('.carousel-slide');
+    const totalSlides = slides.length;
+    
+    if (totalSlides === 0) return;
+    
+    // Initialize carousel data
+    carousels[roomId] = {
+        currentSlide: 0,
+        totalSlides: totalSlides
+    };
+    
+    createDots(roomId);
+    updateCarousel(roomId);
 }
 
 // Create dots for navigation
-function createDots(roomType) {
-    const dotsContainer = document.getElementById(`${roomType}-dots`);
-    const totalSlides = carousels[roomType].totalSlides;
+function createDots(roomId) {
+    const dotsContainer = document.getElementById(`${roomId}-dots`);
+    if (!dotsContainer) return;
+    
+    const totalSlides = carousels[roomId].totalSlides;
+    
+    // Clear existing dots
+    dotsContainer.innerHTML = '';
     
     for (let i = 0; i < totalSlides; i++) {
         const dot = document.createElement('div');
         dot.className = 'carousel-dot';
-        dot.onclick = () => goToSlide(roomType, i);
+        dot.onclick = () => {
+            goToSlide(roomId, i);
+            pauseAutoSlide();
+            resumeAutoSlide();
+        };
         dotsContainer.appendChild(dot);
     }
 }
 
-// Update carousel display
-function updateCarousel(roomType) {
-    const slides = document.getElementById(`${roomType}-slides`);
-    const dots = document.querySelectorAll(`#${roomType}-dots .carousel-dot`);
-    const counter = document.getElementById(`${roomType}-counter`);
-    const currentSlide = carousels[roomType].currentSlide;
-    const totalSlides = carousels[roomType].totalSlides;
+// Enhanced update carousel with smoother transitions
+function updateCarousel(roomId) {
+    if (!carousels[roomId]) return;
+    
+    const slides = document.getElementById(`${roomId}-slides`);
+    const dots = document.querySelectorAll(`#${roomId}-dots .carousel-dot`);
+    const counter = document.getElementById(`${roomId}-counter`);
+    
+    if (!slides) return;
+    
+    const currentSlide = carousels[roomId].currentSlide;
+    const totalSlides = carousels[roomId].totalSlides;
+
+    // Add smooth transition if not already present
+    if (!slides.style.transition) {
+        slides.style.transition = 'transform 0.5s ease-in-out';
+    }
 
     // Move slides
     slides.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -43,12 +71,16 @@ function updateCarousel(roomType) {
     });
 
     // Update counter
-    counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+    if (counter) {
+        counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+    }
 }
 
-// Change slide
-function changeSlide(roomType, direction) {
-    const carousel = carousels[roomType];
+// Enhanced change slide function
+function changeSlide(roomId, direction) {
+    if (!carousels[roomId]) return;
+    
+    const carousel = carousels[roomId];
     carousel.currentSlide += direction;
 
     if (carousel.currentSlide < 0) {
@@ -57,22 +89,47 @@ function changeSlide(roomType, direction) {
         carousel.currentSlide = 0;
     }
 
-    updateCarousel(roomType);
+    updateCarousel(roomId);
 }
 
 // Go to specific slide
-function goToSlide(roomType, slideIndex) {
-    carousels[roomType].currentSlide = slideIndex;
-    updateCarousel(roomType);
+function goToSlide(roomId, slideIndex) {
+    if (!carousels[roomId]) return;
+    
+    carousels[roomId].currentSlide = slideIndex;
+    updateCarousel(roomId);
 }
 
-// Auto-slide functionality
+// Auto-slide functionality - Improved version
 function startAutoSlide() {
-    setInterval(() => {
-        Object.keys(carousels).forEach(roomType => {
-            changeSlide(roomType, 1);
+    // Clear any existing interval
+    if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+    }
+    
+    // Tăng thời gian từ 5 giây lên 8 giây để giảm lag
+    autoSlideInterval = setInterval(() => {
+        Object.keys(carousels).forEach((roomId, index) => {
+            // Stagger the slide changes to avoid all carousels changing at once
+            setTimeout(() => {
+                changeSlide(roomId, 1);
+            }, index * 2000); // Delay 200ms between each carousel
         });
-    }, 5000); // Change slide every 5 seconds
+    }, 10000); // Change slide every 8 seconds instead of 5
+}
+
+// Stop auto-slide when user interacts with carousel
+function pauseAutoSlide() {
+    if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+    }
+}
+
+// Resume auto-slide after user interaction
+function resumeAutoSlide() {
+    setTimeout(() => {
+        startAutoSlide();
+    }, 3000); // Resume after 3 seconds of no interaction
 }
 
 // Price filter functionality
@@ -87,6 +144,8 @@ function formatPrice(price) {
 }
 
 function updatePriceDisplay() {
+    if (!minRange || !maxRange) return;
+    
     const min = parseInt(minRange.value);
     const max = parseInt(maxRange.value);
     
@@ -95,25 +154,69 @@ function updatePriceDisplay() {
         maxRange.value = min;
     }
     
-    minPrice.value = formatPrice(minRange.value);
-    maxPrice.value = formatPrice(maxRange.value);
-    priceDisplay.textContent = `${formatPrice(minRange.value)} - ${formatPrice(maxRange.value)}`;
+    if (minPrice) minPrice.value = formatPrice(minRange.value);
+    if (maxPrice) maxPrice.value = formatPrice(maxRange.value);
+    if (priceDisplay) priceDisplay.textContent = `${formatPrice(minRange.value)} - ${formatPrice(maxRange.value)}`;
     
     filterRooms();
 }
 
-minRange.addEventListener('input', updatePriceDisplay);
-maxRange.addEventListener('input', updatePriceDisplay);
+// Add event listeners for price range when elements exist
+document.addEventListener('DOMContentLoaded', function() {
+    const minRange = document.getElementById('minRange');
+    const maxRange = document.getElementById('maxRange');
+    
+    if (minRange) minRange.addEventListener('input', updatePriceDisplay);
+    if (maxRange) maxRange.addEventListener('input', updatePriceDisplay);
+});
 
 // Rating filter functionality
 function toggleRating(rating) {
     const checkbox = document.getElementById(`rating${rating}`);
-    checkbox.checked = !checkbox.checked;
+    if (checkbox) {
+        checkbox.checked = !checkbox.checked;
+        filterRooms();
+    }
+}
+
+// Room category filter functionality
+function filterByCategory() {
+    const checkboxes = document.querySelectorAll('input[name="room_category"]:checked');
+    const selectedCategories = Array.from(checkboxes).map(cb => cb.value);
+    
+    const roomBlocks = document.querySelectorAll('.room-block');
+    let visibleCount = 0;
+    
+    roomBlocks.forEach(room => {
+        const roomId = room.dataset.roomId;
+        let show = true;
+        
+        // Category filter
+        if (selectedCategories.length > 0 && !selectedCategories.includes(roomId)) {
+            show = false;
+        }
+        
+        room.style.display = show ? 'flex' : 'none';
+        if (show) visibleCount++;
+    });
+    
+    // Update results count
+    const resultsCount = document.querySelector('.results-count');
+    if (resultsCount) {
+        resultsCount.textContent = `Hiển thị ${visibleCount} kết quả`;
+    }
+    
+    // Also apply price and rating filters
     filterRooms();
 }
 
 // Filter rooms based on selected criteria
 function filterRooms() {
+    const minRange = document.getElementById('minRange');
+    const maxRange = document.getElementById('maxRange');
+    
+    if (!minRange || !maxRange) return;
+    
     const minPriceValue = parseInt(minRange.value);
     const maxPriceValue = parseInt(maxRange.value);
     const selectedRatings = [];
@@ -126,12 +229,18 @@ function filterRooms() {
         }
     }
     
+    // Get selected room categories
+    const categoryCheckboxes = document.querySelectorAll('input[name="room_category"]:checked');
+    const selectedCategories = Array.from(categoryCheckboxes).map(cb => cb.value);
+    
     const roomBlocks = document.querySelectorAll('.room-block');
     let visibleCount = 0;
     
     roomBlocks.forEach(room => {
         const price = parseInt(room.dataset.price);
         const rating = parseInt(room.dataset.rating);
+        const available = parseInt(room.dataset.available) || 1;
+        const roomId = room.dataset.roomId;
         
         let show = true;
         
@@ -145,18 +254,36 @@ function filterRooms() {
             show = false;
         }
         
+        // Category filter
+        if (selectedCategories.length > 0 && !selectedCategories.includes(roomId)) {
+            show = false;
+        }
+        
+        // Available rooms filter
+        if (available === 0) {
+            show = false;
+        }
+        
         room.style.display = show ? 'flex' : 'none';
         if (show) visibleCount++;
     });
     
     // Update results count
-    document.querySelector('.results-count').textContent = `Hiển thị ${visibleCount} kết quả`;
+    const resultsCount = document.querySelector('.results-count');
+    if (resultsCount) {
+        resultsCount.textContent = `Hiển thị ${visibleCount} kết quả`;
+    }
 }
 
 // Sort rooms functionality
 function sortRooms() {
-    const sortBy = document.getElementById('sortSelect').value;
+    const sortSelect = document.getElementById('sortSelect');
+    if (!sortSelect) return;
+    
+    const sortBy = sortSelect.value;
     const roomsContainer = document.querySelector('.room-highlight-section');
+    if (!roomsContainer) return;
+    
     const rooms = Array.from(document.querySelectorAll('.room-block'));
     
     rooms.sort((a, b) => {
@@ -170,9 +297,14 @@ function sortRooms() {
                 const nameB = b.querySelector('h3').textContent;
                 return nameA.localeCompare(nameB);
             case 'size':
-                const sizeA = parseInt(a.querySelector('.room-specs p').textContent.match(/\d+/)[0]);
-                const sizeB = parseInt(b.querySelector('.room-specs p').textContent.match(/\d+/)[0]);
-                return sizeB - sizeA;
+                const specsA = a.querySelector('.room-specs p');
+                const specsB = b.querySelector('.room-specs p');
+                if (specsA && specsB) {
+                    const sizeA = parseInt(specsA.textContent.match(/\d+/)[0]) || 0;
+                    const sizeB = parseInt(specsB.textContent.match(/\d+/)[0]) || 0;
+                    return sizeB - sizeA;
+                }
+                return 0;
             default:
                 return 0;
         }
@@ -185,9 +317,14 @@ function sortRooms() {
 // Clear all filters
 function clearAllFilters() {
     // Reset price range to default (min to max)
-    minRange.value = 500000;
-    maxRange.value = 3000000; // Đặt về giá trị max thay vì 1500000
-    updatePriceDisplay();
+    const minRange = document.getElementById('minRange');
+    const maxRange = document.getElementById('maxRange');
+    
+    if (minRange && maxRange) {
+        minRange.value = minRange.min;
+        maxRange.value = maxRange.max;
+        updatePriceDisplay();
+    }
     
     // Uncheck all rating checkboxes
     for (let i = 0; i <= 5; i++) {
@@ -197,8 +334,17 @@ function clearAllFilters() {
         }
     }
     
+    // Uncheck all room category checkboxes
+    const categoryCheckboxes = document.querySelectorAll('input[name="room_category"]');
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
     // Reset sort
-    document.getElementById('sortSelect').value = 'price-low';
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.value = 'price-low';
+    }
     
     // Show all rooms
     filterRooms();
@@ -221,37 +367,89 @@ function handleSwipe(target) {
     const carousel = target.closest('.room-image-box');
     if (!carousel) return;
 
-    const roomType = carousel.closest('.room-block').querySelector('.room-info-box h3').textContent.toLowerCase().replace(' ', '');
+    const roomBlock = carousel.closest('.room-block');
+    if (!roomBlock) return;
+    
+    const roomId = getRoomIdFromBlock(roomBlock);
+    if (!roomId) return;
+    
     const swipeThreshold = 50;
 
     if (touchEndX < touchStartX - swipeThreshold) {
         // Swipe left - next slide
-        changeSlide(getRoomTypeFromTitle(roomType), 1);
+        changeSlide(roomId, 1);
+        pauseAutoSlide();
+        resumeAutoSlide();
     }
     if (touchEndX > touchStartX + swipeThreshold) {
         // Swipe right - previous slide
-        changeSlide(getRoomTypeFromTitle(roomType), -1);
+        changeSlide(roomId, -1);
+        pauseAutoSlide();
+        resumeAutoSlide();
     }
 }
 
-function getRoomTypeFromTitle(title) {
-    if (title.includes('vip')) return 'vip';
-    if (title.includes('suite') && title.includes('family')) return 'suite';
-    if (title.includes('president')) return 'president';
-    return 'vip';
+function getRoomIdFromBlock(roomBlock) {
+    const slidesContainer = roomBlock.querySelector('[id$="-slides"]');
+    if (slidesContainer) {
+        return slidesContainer.id.replace('-slides', '');
+    }
+    return null;
 }
 
 // Initialize default price range to show all rooms
 function initializePriceRange() {
-    // Set default values to show full range
-    minRange.value = 500000;
-    maxRange.value = 3000000; // Giá trị max thay vì 1500000
-    updatePriceDisplay();
+    const minRange = document.getElementById('minRange');
+    const maxRange = document.getElementById('maxRange');
+    
+    if (minRange && maxRange) {
+        // Set default values to show full range
+        minRange.value = minRange.min;
+        maxRange.value = maxRange.max;
+        updatePriceDisplay();
+    }
+}
+
+// Initialize all carousels on page
+function initializeAllCarousels() {
+    // Find all carousel containers and initialize them
+    const carouselContainers = document.querySelectorAll('[id$="-slides"]');
+    carouselContainers.forEach(container => {
+        const roomId = container.id.replace('-slides', '');
+        initCarousel(roomId);
+    });
+}
+
+// Add event listeners for carousel interaction
+function addCarouselEventListeners() {
+    // Pause auto-slide when user hovers over carousel
+    document.querySelectorAll('.carousel-container').forEach(container => {
+        container.addEventListener('mouseenter', pauseAutoSlide);
+        container.addEventListener('mouseleave', resumeAutoSlide);
+    });
+    
+    // Pause auto-slide when user clicks navigation buttons
+    document.querySelectorAll('.carousel-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            pauseAutoSlide();
+            resumeAutoSlide();
+        });
+    });
+    
+    // Add event listeners for room category checkboxes
+    document.querySelectorAll('input[name="room_category"]').forEach(checkbox => {
+        checkbox.addEventListener('change', filterRooms);
+    });
 }
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    initCarousels();
-    startAutoSlide();
-    initializePriceRange(); // Khởi tạo với giá trị max
+    initializeAllCarousels();
+    initializePriceRange();
+    addCarouselEventListeners();
+    
+    // Start auto-slide after a short delay to ensure all carousels are initialized
+    setTimeout(() => {
+        startAutoSlide();
+    }, 1000);
 });
