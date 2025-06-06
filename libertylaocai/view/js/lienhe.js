@@ -1,7 +1,38 @@
-// contact.js
+// contact.js - Updated with AJAX submission and multi-language support
 document.addEventListener("DOMContentLoaded", function () {
   const contactForm = document.getElementById("contactForm");
   const formInputs = contactForm.querySelectorAll("input, textarea");
+
+  // Detect current language from HTML lang attribute
+  const currentLang = document.documentElement.lang || "vi";
+
+  // Multi-language messages
+  const messages = {
+    vi: {
+      required: "Vui lòng điền thông tin này",
+      emailInvalid: "Vui lòng nhập email hợp lệ",
+      phoneInvalid: "Vui lòng nhập số điện thoại hợp lệ (10-11 số)",
+      sending: "ĐANG GỬI...",
+      success: "Thành công!",
+      successMessage:
+        "Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ phản hồi trong thời gian sớm nhất.",
+      submitBtn: "GỬI THÔNG TIN",
+      error: "Có lỗi xảy ra, vui lòng thử lại sau.",
+    },
+    en: {
+      required: "Please fill in this information",
+      emailInvalid: "Please enter a valid email",
+      phoneInvalid: "Please enter a valid phone number (10-11 digits)",
+      sending: "SENDING...",
+      success: "Success!",
+      successMessage:
+        "Thank you for contacting us. We will respond as soon as possible.",
+      submitBtn: "SEND MESSAGE",
+      error: "An error occurred, please try again later.",
+    },
+  };
+
+  const msg = messages[currentLang] || messages.vi;
 
   // Form validation
   function validateForm() {
@@ -10,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     requiredFields.forEach((field) => {
       if (!field.value.trim()) {
-        showFieldError(field, "Vui lòng điền thông tin này");
+        showFieldError(field, msg.required);
         isValid = false;
       } else {
         clearFieldError(field);
@@ -20,7 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // Validate email format
     const emailField = document.getElementById("email");
     if (emailField.value.trim() && !isValidEmail(emailField.value)) {
-      showFieldError(emailField, "Vui lòng nhập email hợp lệ");
+      showFieldError(emailField, msg.emailInvalid);
+      isValid = false;
+    }
+
+    // Validate phone format
+    const phoneField = document.getElementById("phone");
+    if (phoneField.value.trim() && !validatePhone(phoneField.value)) {
+      showFieldError(phoneField, msg.phoneInvalid);
       isValid = false;
     }
 
@@ -31,6 +69,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  }
+
+  // Phone validation
+  function validatePhone(phone) {
+    const phoneRegex = /^[0-9]{10,11}$/;
+    return phoneRegex.test(phone);
   }
 
   // Show field error
@@ -62,28 +106,87 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Show success message
-  function showSuccessMessage() {
-    // Remove existing success message
+  function showSuccessMessage(message) {
+    // Remove existing messages
     const existingMessage = document.querySelector(".success-message");
-    if (existingMessage) {
-      existingMessage.remove();
-    }
+    const existingError = document.querySelector(".error-message");
+    if (existingMessage) existingMessage.remove();
+    if (existingError) existingError.remove();
 
     const successDiv = document.createElement("div");
     successDiv.className = "success-message show";
     successDiv.innerHTML = `
-            <strong>Thành công!</strong> Cảm ơn bạn đã liên hệ với chúng tôi. 
-            Chúng tôi sẽ phản hồi trong thời gian sớm nhất.
+            <strong>${msg.success}</strong> ${message}
+        `;
+    successDiv.style.cssText = `
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            animation: slideDown 0.3s ease;
         `;
 
     contactForm.insertBefore(successDiv, contactForm.firstChild);
 
-    // Auto remove after 5 seconds
+    // Auto remove after 8 seconds
     setTimeout(() => {
       if (successDiv.parentNode) {
         successDiv.remove();
       }
-    }, 5000);
+    }, 8000);
+  }
+
+  // Show error message
+  function showErrorMessage(message) {
+    // Remove existing messages
+    const existingMessage = document.querySelector(".success-message");
+    const existingError = document.querySelector(".error-message");
+    if (existingMessage) existingMessage.remove();
+    if (existingError) existingError.remove();
+
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "error-message show";
+    errorDiv.innerHTML = `
+            <strong>${
+              currentLang === "vi" ? "Lỗi!" : "Error!"
+            }</strong> ${message}
+        `;
+    errorDiv.style.cssText = `
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            animation: slideDown 0.3s ease;
+        `;
+
+    contactForm.insertBefore(errorDiv, contactForm.firstChild);
+
+    // Auto remove after 8 seconds
+    setTimeout(() => {
+      if (errorDiv.parentNode) {
+        errorDiv.remove();
+      }
+    }, 8000);
+  }
+
+  // Submit form via AJAX
+  function submitForm(formData) {
+    return fetch(window.location.href, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    });
   }
 
   // Handle form submission
@@ -91,28 +194,40 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
 
     if (validateForm()) {
-      // Simulate form submission
       const submitBtn = contactForm.querySelector(".submit-btn");
       const originalText = submitBtn.textContent;
 
       // Show loading state
-      submitBtn.textContent = "ĐANG GỬI...";
+      submitBtn.textContent = msg.sending;
       submitBtn.disabled = true;
       submitBtn.style.opacity = "0.7";
 
-      // Simulate API call delay
-      setTimeout(() => {
-        showSuccessMessage();
-        contactForm.reset();
+      // Prepare form data
+      const formData = new FormData(contactForm);
+      formData.append("action", "submit_contact");
 
-        // Reset button
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = "1";
-
-        // Clear any existing errors
-        formInputs.forEach((input) => clearFieldError(input));
-      }, 1500);
+      // Submit form via AJAX
+      submitForm(formData)
+        .then((response) => {
+          if (response.success) {
+            showSuccessMessage(response.message);
+            contactForm.reset();
+            // Clear any existing errors
+            formInputs.forEach((input) => clearFieldError(input));
+          } else {
+            showErrorMessage(response.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          showErrorMessage(msg.error);
+        })
+        .finally(() => {
+          // Reset button
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = "1";
+        });
     }
   });
 
@@ -120,13 +235,19 @@ document.addEventListener("DOMContentLoaded", function () {
   formInputs.forEach((input) => {
     input.addEventListener("blur", function () {
       if (this.hasAttribute("required") && !this.value.trim()) {
-        showFieldError(this, "Vui lòng điền thông tin này");
+        showFieldError(this, msg.required);
       } else if (
         this.type === "email" &&
         this.value.trim() &&
         !isValidEmail(this.value)
       ) {
-        showFieldError(this, "Vui lòng nhập email hợp lệ");
+        showFieldError(this, msg.emailInvalid);
+      } else if (
+        this.id === "phone" &&
+        this.value.trim() &&
+        !validatePhone(this.value)
+      ) {
+        showFieldError(this, msg.phoneInvalid);
       } else {
         clearFieldError(this);
       }
@@ -171,18 +292,20 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   });
+
+  // Add CSS animations
+  const style = document.createElement("style");
+  style.textContent = `
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  `;
+  document.head.appendChild(style);
 });
-function validatePhone(phone) {
-  const phoneRegex = /^[0-9]{10,11}$/;
-  return phoneRegex.test(phone);
-}
-
-const phoneField = document.getElementById("phone");
-if (phoneField.value.trim() && !validatePhone(phoneField.value)) {
-  showFieldError(phoneField, "Vui lòng nhập số điện thoại hợp lệ (10-11 số)");
-  isValid = false;
-}
-
-if (input.id === "phone" && input.value.trim() && !validatePhone(input.value)) {
-  showFieldError(input, "Vui lòng nhập số điện thoại hợp lệ (10-11 số)");
-}

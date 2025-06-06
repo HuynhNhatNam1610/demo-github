@@ -1,78 +1,82 @@
-// Global variables
 let currentSlideIndex = 0;
 const slides = document.querySelectorAll(".slide");
 const dots = document.querySelectorAll(".dot");
 
-// Initialize the page when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
   initializeSlider();
   initializeDatePicker();
   initializeBookingForm();
   initializeTabSwitching();
+  initializeAnimations();
+  initializeReviewForm();
+  initializeContactForm();
+  loadMoreReviews();
+  initializeLazyLoading();
 });
 
-// Hero Slider Functions
 function initializeSlider() {
-  // Auto-play slider every 5 seconds
-  setInterval(() => {
+  const slides = document.querySelectorAll(".slide");
+  const dots = document.querySelectorAll(".dot");
+  if (slides.length === 0) return;
+
+  // Tự động chuyển slide mỗi 5 giây
+  let slideInterval = setInterval(() => {
     changeSlide(1);
   }, 5000);
+
+  // Tạm dừng slider khi trang không hiển thị
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      clearInterval(slideInterval);
+    } else {
+      slideInterval = setInterval(() => {
+        changeSlide(1);
+      }, 5000);
+    }
+  });
 }
 
 function changeSlide(direction) {
-  // Remove active class from current slide and dot
+  const slides = document.querySelectorAll(".slide");
+  const dots = document.querySelectorAll(".dot");
+  if (slides.length === 0) return;
+
   slides[currentSlideIndex].classList.remove("active");
-  dots[currentSlideIndex].classList.remove("active");
+  if (dots[currentSlideIndex])
+    dots[currentSlideIndex].classList.remove("active");
 
-  // Calculate new slide index
   currentSlideIndex += direction;
+  if (currentSlideIndex >= slides.length) currentSlideIndex = 0;
+  else if (currentSlideIndex < 0) currentSlideIndex = slides.length - 1;
 
-  // Handle wraparound
-  if (currentSlideIndex >= slides.length) {
-    currentSlideIndex = 0;
-  } else if (currentSlideIndex < 0) {
-    currentSlideIndex = slides.length - 1;
-  }
-
-  // Add active class to new slide and dot
   slides[currentSlideIndex].classList.add("active");
-  dots[currentSlideIndex].classList.add("active");
+  if (dots[currentSlideIndex]) dots[currentSlideIndex].classList.add("active");
 }
 
 function currentSlide(n) {
-  // Remove active class from current slide and dot
+  const slides = document.querySelectorAll(".slide");
+  const dots = document.querySelectorAll(".dot");
+  if (slides.length === 0) return;
+
   slides[currentSlideIndex].classList.remove("active");
-  dots[currentSlideIndex].classList.remove("active");
+  if (dots[currentSlideIndex])
+    dots[currentSlideIndex].classList.remove("active");
 
-  // Set new slide index (n is 1-based, convert to 0-based)
   currentSlideIndex = n - 1;
-
-  // Add active class to new slide and dot
   slides[currentSlideIndex].classList.add("active");
-  dots[currentSlideIndex].classList.add("active");
+  if (dots[currentSlideIndex]) dots[currentSlideIndex].classList.add("active");
 }
 
-// Tab Functions
 function openTab(evt, tabName) {
-  // Hide all tab contents
   const tabContents = document.querySelectorAll(".tab-content");
-  tabContents.forEach((content) => {
-    content.classList.remove("active");
-  });
-
-  // Remove active class from all tab buttons
+  tabContents.forEach((content) => content.classList.remove("active"));
   const tabButtons = document.querySelectorAll(".tab-btn");
-  tabButtons.forEach((btn) => {
-    btn.classList.remove("active");
-  });
-
-  // Show selected tab content and mark button as active
+  tabButtons.forEach((btn) => btn.classList.remove("active"));
   document.getElementById(tabName).classList.add("active");
   evt.currentTarget.classList.add("active");
 }
 
 function initializeTabSwitching() {
-  // Add click event listeners to all tab buttons
   const tabButtons = document.querySelectorAll(".tab-btn");
   tabButtons.forEach((btn) => {
     btn.addEventListener("click", function (e) {
@@ -82,16 +86,12 @@ function initializeTabSwitching() {
   });
 }
 
-// Date Picker Initialization
 function initializeDatePicker() {
   const dateInput = document.getElementById("departureDate");
   if (dateInput) {
-    // Set minimum date to today
     const today = new Date();
     const todayString = today.toISOString().split("T")[0];
     dateInput.min = todayString;
-
-    // Set default date to tomorrow
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowString = tomorrow.toISOString().split("T")[0];
@@ -99,38 +99,74 @@ function initializeDatePicker() {
   }
 }
 
-// Booking Form Functions
 function initializeBookingForm() {
   const form = document.getElementById("bookingForm");
-  const guestSelect = document.getElementById("guestCount");
-  const totalPriceElement = document.getElementById("totalPrice");
+  const guestInput = document.getElementById("guestCount");
+  const inputs = form.querySelectorAll("input[required], #email");
 
-  // Update total price when guest count changes
-  if (guestSelect) {
-    guestSelect.addEventListener("change", updateTotalPrice);
+  inputs.forEach((input) => {
+    input.addEventListener("input", validateInput);
+    input.addEventListener("blur", validateInput);
+    input.addEventListener("input", clearErrors);
+  });
+
+  if (guestInput) {
+    guestInput.addEventListener("input", updateTotalPrice);
+    guestInput.addEventListener("change", ensureValidGuestCount);
   }
 
-  // Handle form submission
   if (form) {
     form.addEventListener("submit", handleBookingSubmit);
+  }
+
+  updateTotalPrice();
+}
+
+function updateGuestCount(delta) {
+  const guestInput = document.getElementById("guestCount");
+  if (guestInput) {
+    let currentCount = parseInt(guestInput.value) || 1;
+    currentCount += delta;
+    if (currentCount < 1) currentCount = 1;
+    if (currentCount > 25) currentCount = 25;
+    guestInput.value = currentCount;
+    updateTotalPrice();
+  }
+}
+
+function ensureValidGuestCount() {
+  const guestInput = document.getElementById("guestCount");
+  if (guestInput) {
+    let value = parseInt(guestInput.value) || 1;
+    if (value < 1) value = 1;
+    if (value > 25) value = 25;
+    guestInput.value = value;
+    updateTotalPrice();
   }
 }
 
 function updateTotalPrice() {
-  const guestSelect = document.getElementById("guestCount");
+  const guestInput = document.getElementById("guestCount");
   const totalPriceElement = document.getElementById("totalPrice");
-  const basePrice = 1890000;
+  const basePriceElement = document.querySelector(".booking-price");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
 
-  if (guestSelect && totalPriceElement) {
-    let guestCount = parseInt(guestSelect.value) || 1;
+  if (guestInput && totalPriceElement && basePriceElement) {
+    let guestCount = parseInt(guestInput.value) || 1;
+    let basePriceText = basePriceElement.textContent.trim();
 
-    // Handle "5+" option
-    if (guestSelect.value === "5+") {
-      guestCount = 5;
+    // Kiểm tra xem giá có phải là số hay không
+    if (/^\d+/.test(basePriceText)) {
+      let basePrice = parseFloat(basePriceText.replace(/[^\d]/g, ""));
+      const totalPrice = basePrice * guestCount;
+      totalPriceElement.textContent = formatPrice(totalPrice) + " VNĐ";
+    } else {
+      totalPriceElement.textContent = "Liên hệ/Contact";
     }
-
-    const totalPrice = basePrice * guestCount;
-    totalPriceElement.textContent = formatPrice(totalPrice) + " VNĐ";
+  } else {
+    console.error(
+      "One or more elements (guestInput, totalPriceElement, basePriceElement) are missing."
+    );
   }
 }
 
@@ -138,73 +174,281 @@ function formatPrice(price) {
   return price.toLocaleString("vi-VN");
 }
 
-function handleBookingSubmit(e) {
-  e.preventDefault();
+function validateInput(e) {
+  const input = e.target;
+  const value = input.value.trim();
+  const inputGroup = input.closest(".form-group");
+  clearErrors({ target: input });
 
-  const fullName = document.getElementById("fullName").value.trim();
-  const phoneNumber = document.getElementById("phoneNumber").value.trim();
-  const departureDate = document.getElementById("departureDate").value;
-  const guestCount = document.getElementById("guestCount").value;
-  const note = document.getElementById("note").value.trim();
+  let isValid = true;
+  let errorMessage = "";
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
 
-  // Validate form
-  if (!validateBookingForm()) {
+  if (input.hasAttribute("required") && !value) {
+    isValid = false;
+    errorMessage =
+      languageId == 1 ? "Trường này là bắt buộc" : "This field is required";
+  } else if (input.type === "tel" && value) {
+    const phoneRegex = /^[0-9]{10,11}$/;
+    if (!phoneRegex.test(value)) {
+      isValid = false;
+      errorMessage =
+        languageId == 1
+          ? "Số điện thoại không hợp lệ (10-11 số)"
+          : "Invalid phone number (10-11 digits)";
+    }
+  } else if (input.type === "email" && value) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+      isValid = false;
+      errorMessage = languageId == 1 ? "Email không hợp lệ" : "Invalid email";
+    }
+  } else if (input.type === "number" && value) {
+    const numValue = parseInt(value);
+    const min = parseInt(input.getAttribute("min")) || 1;
+    const max = parseInt(input.getAttribute("max")) || 25;
+    if (numValue < min || numValue > max) {
+      isValid = false;
+      errorMessage =
+        languageId == 1
+          ? `Số khách phải từ ${min} đến ${max}`
+          : `Number of guests must be between ${min} and ${max}`;
+    }
+  }
+
+  if (!isValid) {
+    showInputError(inputGroup, errorMessage);
+    input.classList.add("error");
+  } else {
+    input.classList.remove("error");
+    input.classList.add("valid");
+  }
+
+  return isValid;
+}
+
+function showInputError(inputGroup, message) {
+  const existingError = inputGroup.querySelector(".error-message");
+  if (existingError) {
+    existingError.textContent = message;
     return;
   }
 
-  // Show booking confirmation
-  const confirmMessage = `
-        Xác nhận thông tin đặt tour:
-        
-        Thông tin khách hàng:
-        - Họ và tên: ${fullName}
-        - Số điện thoại: ${phoneNumber}
-        
-        Thông tin tour:
-        - Ngày khởi hành: ${formatDate(departureDate)}
-        - Số khách: ${guestCount}
-        - Tổng tiền: ${document.getElementById("totalPrice").textContent}
-        ${note ? `\n        - Ghi chú: ${note}` : ""}
-        
-        Bạn có muốn tiếp tục không?
-    `;
+  const errorElement = document.createElement("div");
+  errorElement.className = "error-message";
+  errorElement.textContent = message;
+  errorElement.style.color = "#dc3545";
+  errorElement.style.fontSize = "0.875rem";
+  errorElement.style.marginTop = "5px";
+  inputGroup.appendChild(errorElement);
+}
 
-  if (confirm(confirmMessage)) {
-    // Simulate booking process
-    showBookingSuccess();
+function clearErrors(e) {
+  const input = e.target;
+  const inputGroup = input.closest(".form-group");
+  const errorElement = inputGroup.querySelector(".error-message");
+
+  if (errorElement) errorElement.remove();
+  input.classList.remove("error");
+}
+
+function handleBookingSubmit(e) {
+  e.preventDefault();
+
+  const form = document.getElementById("bookingForm");
+  if (!validateForm(form)) return;
+
+  const formData = new FormData(form);
+  const submitBtn = form.querySelector(".btn-book");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+
+  showLoadingState(submitBtn);
+
+  fetch("/libertylaocai/view/php/chitiettour.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      hideLoadingState(submitBtn);
+      if (data.success) {
+        showSuccessMessage(
+          languageId == 1
+            ? "Đặt Tour Thành Công!"
+            : "Tour Booked Successfully!",
+          languageId == 1
+            ? "Chúng tôi đã nhận được thông tin của bạn và sẽ liên hệ sớm nhất có thể."
+            : "We have received your information and will contact you as soon as possible."
+        );
+        resetForm(form);
+      } else {
+        showErrorMessage(data.message);
+      }
+    })
+    .catch((error) => {
+      hideLoadingState(submitBtn);
+      showErrorMessage(
+        languageId == 1
+          ? `Có lỗi xảy ra khi gửi yêu cầu: ${error.message}`
+          : `An error occurred while sending the request: ${error.message}`
+      );
+    });
+}
+
+function showLoadingState(button) {
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+  const originalText = button.innerHTML;
+  button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
+    languageId == 1 ? "Đang xử lý..." : "Processing..."
+  }`;
+  button.disabled = true;
+  button.style.opacity = "0.7";
+  button.dataset.originalText = originalText;
+}
+
+function hideLoadingState(button) {
+  button.innerHTML = button.dataset.originalText;
+  button.disabled = false;
+  button.style.opacity = "1";
+  delete button.dataset.originalText;
+}
+
+function showSuccessMessage(title, message) {
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+  const modal = document.createElement("div");
+  modal.className = "success-modal";
+  modal.innerHTML = `
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>${title}</h3>
+        <p>${message}</p>
+        <div class="modal-actions">
+          <button class="close-modal-btn">${
+            languageId == 1 ? "Đóng" : "Close"
+          }</button>
+          <button class="continue-btn" onclick="window.location.reload()">${
+            languageId == 1 ? "Đặt tour khác" : "Book Another Tour"
+          }</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const closeBtn = modal.querySelector(".close-modal-btn");
+  const overlay = modal.querySelector(".modal-overlay");
+
+  function closeModal() {
+    modal.style.animation = "fadeOut 0.3s ease-out forwards";
+    setTimeout(() => {
+      if (document.body.contains(modal)) document.body.removeChild(modal);
+    }, 300);
   }
-}
 
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("vi-VN", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  closeBtn.addEventListener("click", closeModal);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModal();
   });
+
+  setTimeout(closeModal, 8000);
 }
 
-function showBookingSuccess() {
-  alert(
-    "Đặt tour thành công! Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất."
-  );
+function showErrorMessage(message) {
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+  const errorModal = document.createElement("div");
+  errorModal.className = "error-modal";
+  errorModal.innerHTML = `
+    <div class="modal-overlay">
+      <div class="modal-content error">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3>${languageId == 1 ? "Có Lỗi Xảy Ra!" : "An Error Occurred!"}</h3>
+        <p>${message}</p>
+        <button class="close-modal-btn">${
+          languageId == 1 ? "Đóng" : "Close"
+        }</button>
+      </div>
+    </div>
+  `;
 
-  // Reset form
-  document.getElementById("bookingForm").reset();
+  document.body.appendChild(errorModal);
+
+  const closeBtn = errorModal.querySelector(".close-modal-btn");
+  const overlay = errorModal.querySelector(".modal-overlay");
+
+  function closeErrorModal() {
+    errorModal.style.animation = "fadeOut 0.3s ease-out forwards";
+    setTimeout(() => {
+      if (document.body.contains(errorModal))
+        document.body.removeChild(errorModal);
+    }, 300);
+  }
+
+  closeBtn.addEventListener("click", closeErrorModal);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeErrorModal();
+  });
+
+  setTimeout(closeErrorModal, 5000);
+}
+
+function validateForm(form) {
+  let isValid = true;
+  const requiredInputs = form.querySelectorAll(
+    "input[required], textarea[required]"
+  );
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+
+  requiredInputs.forEach((input) => {
+    if (!validateInput({ target: input })) isValid = false;
+  });
+
+  const emailInput = form.querySelector("#email, #reviewer-email");
+  if (
+    emailInput &&
+    emailInput.value.trim() &&
+    !validateInput({ target: emailInput })
+  ) {
+    isValid = false;
+  }
+
+  if (!isValid) {
+    showErrorMessage(
+      languageId == 1
+        ? "Vui lòng kiểm tra lại các trường thông tin."
+        : "Please check the information fields."
+    );
+  }
+
+  return isValid;
+}
+
+function resetForm(form) {
+  form.reset();
+  const inputs = form.querySelectorAll("input, textarea");
+  inputs.forEach((input) => input.classList.remove("error", "valid"));
+
+  const errorMessages = form.querySelectorAll(".error-message");
+  errorMessages.forEach((error) => error.remove());
+
   initializeDatePicker();
+  const guestInput = document.getElementById("guestCount");
+  if (guestInput) guestInput.value = 1;
   updateTotalPrice();
 }
 
-// Gallery Functions
 function openModal(imageSrc) {
   const modal = document.getElementById("imageModal");
   const modalImage = document.getElementById("modalImage");
-
   if (modal && modalImage) {
     modalImage.src = imageSrc;
     modal.style.display = "block";
-    document.body.style.overflow = "hidden"; // Prevent scrolling
+    document.body.style.overflow = "hidden";
   }
 }
 
@@ -212,42 +456,19 @@ function closeModal() {
   const modal = document.getElementById("imageModal");
   if (modal) {
     modal.style.display = "none";
-    document.body.style.overflow = "auto"; // Restore scrolling
+    document.body.style.overflow = "auto";
   }
 }
 
-// Close modal when clicking outside the image
 document.addEventListener("click", function (e) {
   const modal = document.getElementById("imageModal");
-  if (e.target === modal) {
-    closeModal();
-  }
+  if (e.target === modal) closeModal();
 });
 
-// Close modal with Escape key
 document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape") {
-    closeModal();
-  }
+  if (e.key === "Escape") closeModal();
 });
 
-// Smooth Scrolling for Internal Links
-document.addEventListener("click", function (e) {
-  if (e.target.matches('a[href^="#"]')) {
-    e.preventDefault();
-    const targetId = e.target.getAttribute("href").substring(1);
-    const targetElement = document.getElementById(targetId);
-
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }
-});
-
-// Intersection Observer for Animations
 function initializeAnimations() {
   const observerOptions = {
     threshold: 0.1,
@@ -263,7 +484,6 @@ function initializeAnimations() {
     });
   }, observerOptions);
 
-  // Observe elements for animation
   const animatedElements = document.querySelectorAll(
     ".highlight-item, .day-item, .gallery-item"
   );
@@ -275,55 +495,20 @@ function initializeAnimations() {
   });
 }
 
-// Initialize animations when page loads
-document.addEventListener("DOMContentLoaded", initializeAnimations);
-
-// Booking Form Validation
-function validateBookingForm() {
-  const departureDate = document.getElementById("departureDate");
-  const guestCount = document.getElementById("guestCount");
-
-  let isValid = true;
-
-  // Clear previous error styles
-  [departureDate, guestCount].forEach((field) => {
-    if (field) {
-      field.style.borderColor = "#e9ecef";
-    }
-  });
-
-  // Validate departure date
-  if (!departureDate.value) {
-    departureDate.style.borderColor = "#e74c3c";
-    isValid = false;
-  }
-
-  // Validate guest count
-  if (!guestCount.value) {
-    guestCount.style.borderColor = "#e74c3c";
-    isValid = false;
-  }
-
-  return isValid;
-}
-
-// Contact Form Functions (if needed for future expansion)
 function initializeContactForm() {
   const contactBtns = document.querySelectorAll(".contact-item");
-
   contactBtns.forEach((btn) => {
     btn.addEventListener("click", function () {
-      const phone = this.textContent.trim();
-      if (phone.includes("0214 366 1666")) {
+      const contact = this.textContent.trim();
+      if (contact.includes("0214 366 1666")) {
         window.location.href = "tel:+842143661666";
-      } else if (phone.includes("@gmail.com")) {
+      } else if (contact.includes("@gmail.com")) {
         window.location.href = "mailto:chamsockhachhang.liberty@gmail.com";
       }
     });
   });
 }
 
-// Add touch/swipe support for mobile slider
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -339,19 +524,12 @@ function handleTouchEnd(e) {
 function handleSwipe() {
   const swipeThreshold = 50;
   const diff = touchStartX - touchEndX;
-
   if (Math.abs(diff) > swipeThreshold) {
-    if (diff > 0) {
-      // Swipe left - next slide
-      changeSlide(1);
-    } else {
-      // Swipe right - previous slide
-      changeSlide(-1);
-    }
+    if (diff > 0) changeSlide(1);
+    else changeSlide(-1);
   }
 }
 
-// Add touch event listeners to hero section
 document.addEventListener("DOMContentLoaded", function () {
   const heroSection = document.querySelector(".hero");
   if (heroSection) {
@@ -360,15 +538,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     heroSection.addEventListener("touchend", handleTouchEnd, { passive: true });
   }
-
-  // Initialize contact form
-  initializeContactForm();
 });
 
-// Lazy loading for images (performance optimization)
 function initializeLazyLoading() {
   const images = document.querySelectorAll("img[data-src]");
-
   const imageObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -383,10 +556,8 @@ function initializeLazyLoading() {
   images.forEach((img) => imageObserver.observe(img));
 }
 
-// Error handling for images
 document.addEventListener("DOMContentLoaded", function () {
   const images = document.querySelectorAll("img");
-
   images.forEach((img) => {
     img.addEventListener("error", function () {
       this.src =
@@ -395,255 +566,240 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Print functionality (bonus feature)
-function printTour() {
-  window.print();
+function initializeReviewForm() {
+  const writeReviewBtn = document.querySelector(".write-review-btn");
+  const cancelBtn = document.querySelector(".review-form .cancel-btn");
+  const form = document.getElementById("reviewFormSubmit");
+  const stars = document.querySelectorAll(".star-rating input");
+  const ratingText = document.querySelector(".rating-text");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+
+  if (writeReviewBtn) {
+    writeReviewBtn.addEventListener("click", toggleReviewForm);
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", toggleReviewForm);
+  }
+
+  if (form) {
+    form.addEventListener("submit", submitReview);
+  }
+
+  stars.forEach((star) => {
+    star.addEventListener("change", () => {
+      const rating = parseInt(star.value);
+      ratingText.textContent =
+        rating === 1
+          ? languageId == 1
+            ? "1 sao - Kém"
+            : "1 star - Poor"
+          : rating === 2
+          ? languageId == 1
+            ? "2 sao - Trung bình"
+            : "2 stars - Average"
+          : rating === 3
+          ? languageId == 1
+            ? "3 sao - Tốt"
+            : "3 stars - Good"
+          : rating === 4
+          ? languageId == 1
+            ? "4 sao - Rất tốt"
+            : "4 stars - Very Good"
+          : languageId == 1
+          ? "5 sao - Xuất sắc"
+          : "5 stars - Excellent";
+      ratingText.style.color = "#2c3e50";
+
+      const starLabels = document.querySelectorAll(".star-rating .star");
+      starLabels.forEach((label, index) => {
+        if (index < rating) {
+          label.style.color = "#f1c40f";
+          label.style.transform = "scale(1.2)";
+        } else {
+          label.style.color = "#e9ecef";
+          label.style.transform = "scale(1)";
+        }
+      });
+    });
+  });
 }
 
-// Share functionality (bonus feature)
-function shareTour() {
-  if (navigator.share) {
-    navigator.share({
-      title: "Tour Sapa - Chinh Phục Nóc Nhà Đông Dương",
-      text: "Khám phá vẻ đẹp hùng vĩ của Sapa cùng Liberty Lào Cai",
-      url: window.location.href,
-    });
-  } else {
-    // Fallback - copy URL to clipboard
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      alert("Đã sao chép đường link!");
-    });
-  }
-}
-// Review Form Functions
 function toggleReviewForm() {
   const form = document.getElementById("reviewForm");
   const btn = document.querySelector(".write-review-btn");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
 
   if (form.style.display === "none" || form.style.display === "") {
     form.style.display = "block";
-    btn.innerHTML = '<i class="fas fa-times"></i> Hủy viết đánh giá';
+    btn.innerHTML = `<i class="fas fa-times"></i> ${
+      languageId == 1 ? "Hủy viết đánh giá" : "Cancel Writing Review"
+    }`;
     btn.style.background = "linear-gradient(135deg, #e74c3c, #c0392b)";
   } else {
     form.style.display = "none";
-    btn.innerHTML = '<i class="fas fa-pen"></i> Viết đánh giá của bạn';
+    btn.innerHTML = `<i class="fas fa-pen"></i> ${
+      languageId == 1 ? "Viết đánh giá của bạn" : "Write Your Review"
+    }`;
     btn.style.background = "linear-gradient(135deg, #3498db, #2980b9)";
     resetReviewForm();
   }
 }
 
 function resetReviewForm() {
-  const form = document.querySelector(".review-form");
-  form.reset();
-
-  // Reset star rating display
+  const form = document.getElementById("reviewFormSubmit");
   const ratingText = document.querySelector(".rating-text");
-  ratingText.textContent = "Chọn số sao";
-  ratingText.style.color = "#7f8c8d";
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
 
-  // Reset all stars
+  form.reset();
+  ratingText.textContent = languageId == 1 ? "Chọn số sao" : "Select rating";
+  ratingText.style.color = "#7f8c8d";
   const stars = document.querySelectorAll(".star-rating .star");
   stars.forEach((star) => {
     star.style.color = "#e9ecef";
     star.style.transform = "scale(1)";
   });
+
+  const inputs = form.querySelectorAll("input, textarea");
+  inputs.forEach((input) => input.classList.remove("error", "valid"));
+
+  const errorMessages = form.querySelectorAll(".error-message");
+  errorMessages.forEach((error) => error.remove());
 }
 
 function submitReview(event) {
   event.preventDefault();
 
-  const formData = new FormData(event.target);
-  const reviewData = {
-    rating: formData.get("rating"),
-    name: formData.get("reviewer-name"),
-    content: formData.get("review-content"),
-  };
+  const form = document.getElementById("reviewFormSubmit");
+  if (!validateForm(form)) return;
 
-  // Validate rating
-  if (!reviewData.rating) {
-    alert("Vui lòng chọn số sao đánh giá!");
-    return;
-  }
+  const formData = new FormData(form);
+  const submitBtn = form.querySelector(".submit-review-btn");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
 
-  // Validate name
-  if (!reviewData.name.trim()) {
-    alert("Vui lòng nhập họ và tên!");
-    return;
-  }
+  showLoadingState(submitBtn);
 
-  // Validate content
-  if (!reviewData.content.trim()) {
-    alert("Vui lòng nhập nội dung đánh giá!");
-    return;
-  }
-
-  // Show loading state
-  const submitBtn = document.querySelector(".submit-review-btn");
-  const originalText = submitBtn.innerHTML;
-  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
-  submitBtn.disabled = true;
-
-  // Simulate API call
-  setTimeout(() => {
-    // Create new review element
-    const newReview = createReviewElement(reviewData);
-
-    // Add to reviews list
-    const reviewsList = document.querySelector(".reviews-list");
-    reviewsList.insertBefore(newReview, reviewsList.firstChild);
-
-    // Update review count and rating
-    updateReviewStats();
-
-    // Show success message
-    alert(
-      "Cảm ơn bạn đã chia sẻ đánh giá! Đánh giá của bạn đã được thêm thành công."
-    );
-
-    // Reset and hide form
-    toggleReviewForm();
-
-    // Reset button
-    submitBtn.innerHTML = originalText;
-    submitBtn.disabled = false;
-
-    // Scroll to new review
-    newReview.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, 1500);
-}
-
-function createReviewElement(reviewData) {
-  const reviewDiv = document.createElement("div");
-  reviewDiv.className = "review-item new-review";
-
-  // Create stars HTML
-  let starsHTML = "";
-  for (let i = 1; i <= 5; i++) {
-    if (i <= reviewData.rating) {
-      starsHTML += '<i class="fas fa-star"></i>';
-    } else {
-      starsHTML += '<i class="far fa-star"></i>';
-    }
-  }
-
-  // Get current date
-  const currentDate = new Date().toLocaleDateString("vi-VN");
-
-  reviewDiv.innerHTML = `
-        <div class="review-header">
-            <div class="reviewer-info">
-                <div class="reviewer-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="reviewer-details">
-                    <div class="reviewer-name">${reviewData.name}</div>
-                    <div class="review-date">${currentDate}</div>
-                </div>
-            </div>
-            <div class="review-rating">
-                ${starsHTML}
-            </div>
-        </div>
-        <div class="review-content">
-            <p>${reviewData.content}</p>
-        </div>
-    `;
-
-  // Add highlight animation for new review
-  reviewDiv.style.background = "linear-gradient(135deg, #e3f2fd, #f8f9fa)";
-  reviewDiv.style.border = "2px solid #3498db";
-  reviewDiv.style.borderRadius = "10px";
-  reviewDiv.style.padding = "20px";
-  reviewDiv.style.marginBottom = "15px";
-
-  // Remove highlight after animation
-  setTimeout(() => {
-    reviewDiv.style.background = "";
-    reviewDiv.style.border = "";
-    reviewDiv.style.borderRadius = "";
-    reviewDiv.style.padding = "20px 0";
-    reviewDiv.style.marginBottom = "";
-    reviewDiv.classList.remove("new-review");
-  }, 3000);
-
-  return reviewDiv;
-}
-
-function updateReviewStats() {
-  const ratingCount = document.querySelector(".rating-count");
-  const currentCount = parseInt(ratingCount.textContent.match(/\d+/)[0]);
-  ratingCount.textContent = `(${currentCount + 1} đánh giá)`;
-}
-
-// Initialize star rating interaction
-function initializeReviewForm() {
-  const writeReviewBtn = document.querySelector(".write-review-btn");
-  if (writeReviewBtn) {
-    writeReviewBtn.addEventListener("click", toggleReviewForm);
-  }
-
-  const reviewForm = document.querySelector(".review-form");
-  if (reviewForm) {
-    reviewForm.addEventListener("submit", submitReview);
-  }
-
-  const cancelBtn = document.querySelector(".cancel-btn");
-  if (cancelBtn) {
-    cancelBtn.addEventListener("click", toggleReviewForm);
-  }
-
-  const starInputs = document.querySelectorAll(".star-rating input");
-  const ratingText = document.querySelector(".rating-text");
-
-  starInputs.forEach((input) => {
-    input.addEventListener("change", function () {
-      const rating = this.value;
-      const ratingTexts = {
-        1: "Rất tệ",
-        2: "Tệ",
-        3: "Bình thường",
-        4: "Tốt",
-        5: "Xuất sắc",
-      };
-
-      ratingText.textContent = `${rating} sao - ${ratingTexts[rating]}`;
-      ratingText.style.color = "#3498db";
-      ratingText.style.fontWeight = "500";
-    });
-  });
-
-  // Add hover effect for stars
-  const stars = document.querySelectorAll(".star-rating .star");
-  stars.forEach((star, index) => {
-    star.addEventListener("mouseenter", function () {
-      for (let i = stars.length - 1; i >= stars.length - 1 - index; i--) {
-        stars[i].style.color = "#f39c12";
-        stars[i].style.transform = "scale(1.1)";
-      }
-    });
-
-    star.addEventListener("mouseleave", function () {
-      const checkedInput = document.querySelector(".star-rating input:checked");
-      if (!checkedInput) {
-        stars.forEach((s) => {
-          s.style.color = "#e9ecef";
-          s.style.transform = "scale(1)";
-        });
+  fetch("/libertylaocai/view/php/chitiettour.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      hideLoadingState(submitBtn);
+      if (data.success) {
+        showSuccessMessage(
+          languageId == 1
+            ? "Gửi Đánh Giá Thành Công!"
+            : "Review Submitted Successfully!",
+          languageId == 1
+            ? "Cảm ơn bạn đã chia sẻ trải nghiệm của mình!"
+            : "Thank you for sharing your experience!"
+        );
+        appendReview(data.review);
+        resetReviewForm();
+        toggleReviewForm();
       } else {
-        const selectedValue = parseInt(checkedInput.value);
-        stars.forEach((s, i) => {
-          if (stars.length - i <= selectedValue) {
-            s.style.color = "#f39c12";
-            s.style.transform = "scale(1.1)";
-          } else {
-            s.style.color = "#e9ecef";
-            s.style.transform = "scale(1)";
-          }
-        });
+        showErrorMessage(data.message);
       }
+    })
+    .catch((error) => {
+      hideLoadingState(submitBtn);
+      showErrorMessage(
+        languageId == 1
+          ? `Có lỗi xảy ra khi gửi đánh giá: ${error.message}`
+          : `An error occurred while submitting the review: ${error.message}`
+      );
     });
-  });
 }
 
-// Initialize review form when page loads
-document.addEventListener("DOMContentLoaded", initializeReviewForm);
+function appendReview(review) {
+  const reviewsList = document.querySelector(".reviews-list");
+  if (!reviewsList) return;
+
+  const reviewItem = document.createElement("div");
+  reviewItem.className = "review-item";
+  reviewItem.innerHTML = `
+    <div class="review-header">
+      <div class="reviewer-info">
+        <div class="reviewer-avatar"><i class="fas fa-user"></i></div>
+        <div class="reviewer-details">
+          <div class="reviewer-name">${review.name}</div>
+          <div class="review-date">${review.date}</div>
+        </div>
+      </div>
+      <div class="review-rating">
+        ${[...Array(5)]
+          .map(
+            (_, i) =>
+              `<i class="${i < review.rating ? "fas" : "far"} fa-star"></i>`
+          )
+          .join("")}
+      </div>
+    </div>
+    <div class="review-content">
+      <p>${review.content}</p>
+    </div>
+  `;
+
+  reviewsList.insertBefore(reviewItem, reviewsList.firstChild);
+  reviewItem.style.opacity = "0";
+  reviewItem.style.transform = "translateY(20px)";
+  setTimeout(() => {
+    reviewItem.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    reviewItem.style.opacity = "1";
+    reviewItem.style.transform = "translateY(0)";
+  }, 100);
+}
+
+function loadMoreReviews() {
+  const showMoreBtn = document.querySelector(".show-more-reviews");
+  const hideBtn = document.querySelector(".hide-reviews");
+  let offset = document.querySelectorAll(".reviews-list .review-item").length;
+
+  if (showMoreBtn) {
+    showMoreBtn.addEventListener("click", function () {
+      const idDichVu = document.querySelector('input[name="id_dichvu"]').value;
+      const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+
+      fetch("/libertylaocai/view/php/chitiettour.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `action=load_more_reviews&id_dichvu=${idDichVu}&offset=${offset}`,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            data.reviews.forEach((review) => appendReview(review));
+            offset += data.reviews.length;
+
+            if (!data.has_more) {
+              showMoreBtn.style.display = "none";
+              hideBtn.style.display = "inline-block";
+            }
+          } else {
+            showErrorMessage(data.message);
+          }
+        })
+        .catch((error) => {
+          showErrorMessage(
+            languageId == 1
+              ? `Lỗi khi tải thêm đánh giá: ${error.message}`
+              : `Error loading more reviews: ${error.message}`
+          );
+        });
+    });
+  }
+
+  if (hideBtn) {
+    hideBtn.addEventListener("click", function () {
+      const reviewsList = document.querySelector(".reviews-list");
+      const initialReviews = Array.from(reviewsList.children).slice(0, 3);
+      reviewsList.innerHTML = "";
+      initialReviews.forEach((review) => reviewsList.appendChild(review));
+      offset = initialReviews.length;
+      showMoreBtn.style.display = "inline-block";
+      hideBtn.style.display = "none";
+      window.scrollTo({ top: reviewsList.offsetTop - 100, behavior: "smooth" });
+    });
+  }
+}
