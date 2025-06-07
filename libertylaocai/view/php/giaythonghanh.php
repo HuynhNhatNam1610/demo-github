@@ -75,6 +75,19 @@ while ($row = $result_features->fetch_assoc()) {
 }
 $stmt_features->close();
 
+//thông tin khách sạn
+$thongtinkhachsan_query = "SELECT phone, email FROM thongtinkhachsan WHERE id = 1";
+$thongtinkhachsan_result = mysqli_query($conn, $thongtinkhachsan_query);
+$thongtinkhachsan = mysqli_fetch_assoc($thongtinkhachsan_result);
+
+$thongtinkhachsan_ngonngu_query = "SELECT address FROM thongtinkhachsan_ngonngu WHERE id_thongtinkhachsan = 1 AND id_ngonngu = ?";
+$thongtinkhachsan_ngonngu_stmt = $conn->prepare($thongtinkhachsan_ngonngu_query);
+$thongtinkhachsan_ngonngu_stmt->bind_param("i", $language_id);
+$thongtinkhachsan_ngonngu_stmt->execute();
+$thongtinkhachsan_ngonngu_result = $thongtinkhachsan_ngonngu_stmt->get_result();
+$thongtinkhachsan_ngonngu = $thongtinkhachsan_ngonngu_result->fetch_assoc();
+$thongtinkhachsan_ngonngu_stmt->close();
+
 // Xử lý form đăng ký dịch vụ
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register_service'])) {
     header('Content-Type: application/json');
@@ -265,21 +278,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register_service'])) {
                                 <i class="fas fa-map-marker-alt contact-icon"></i>
                                 <div>
                                     <strong><?php echo ($language_id == 1) ? 'Địa chỉ:' : 'Address:'; ?></strong>
-                                    <p><?php echo ($language_id == 1) ? '120 Đường Soi Tiền, Phường Kim Tân, TP. Lào Cai' : '120 Soi Tien Street, Kim Tan Ward, Lao Cai City'; ?></p>
+                                    <p><?php echo htmlspecialchars($thongtinkhachsan_ngonngu['address']); ?></p>
                                 </div>
                             </div>
                             <div class="contact-item">
                                 <i class="fas fa-phone contact-icon"></i>
                                 <div>
                                     <strong><?php echo ($language_id == 1) ? 'Điện thoại:' : 'Phone:'; ?></strong>
-                                    <p>0214 366 1666</p>
+                                    <p><?php echo htmlspecialchars($thongtinkhachsan['phone']); ?></p>
                                 </div>
                             </div>
                             <div class="contact-item">
                                 <i class="fas fa-envelope contact-icon"></i>
                                 <div>
                                     <strong>Email:</strong>
-                                    <p>chamsockhachhang.liberty@gmail.com</p>
+                                    <p><?php echo htmlspecialchars($thongtinkhachsan['email']); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -324,9 +337,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register_service'])) {
                                     </span>
                                 </div>
                                 <input type="hidden" id="total-cost-hidden" name="total_cost" 
-                                       value="<?php echo $is_numeric_price ? $service_price : '0'; ?>">
+                                    value="<?php echo $is_numeric_price ? $service_price : '0'; ?>">
                                 <input type="hidden" id="service-price" 
-                                       value="<?php echo $is_numeric_price ? $service_price : '0'; ?>">
+                                    value="<?php echo $is_numeric_price ? $service_price : '0'; ?>">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>

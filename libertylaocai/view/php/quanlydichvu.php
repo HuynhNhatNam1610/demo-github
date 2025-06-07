@@ -764,8 +764,9 @@ $services_query = "SELECT d.id as id_dichvu, dn.*, d.price, a.image
                   WHERE dn.id_ngonngu = 1 AND dn.id_dichvu IN (1, 2) 
                   ORDER BY dn.id_dichvu";
 $services_result = mysqli_query($conn, $services_query);
-?>
 
+ob_start();
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -1243,3 +1244,8 @@ $services_result = mysqli_query($conn, $services_query);
     <script src="/libertylaocai/view/js/quanlydichvu.js"></script>
 </body>
 </html>
+<?php
+$current_tab = 'tour-service';
+$tab_content = ob_get_clean();
+include 'tabdichvu.php'; // Điều chỉnh đường dẫn nếu cần
+?>

@@ -736,6 +736,8 @@ if ($id_dichvu > 0) {
     $result = $stmt->get_result();
     $tour_includes = $result->num_rows > 0 ? $result->fetch_assoc() : null;
 }
+
+ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -751,10 +753,7 @@ if ($id_dichvu > 0) {
 <body>
     <div class="admin-container">
         <header class="admin-header">
-            <div class="header-content">
                 <h1><i class="fas fa-map-marked-alt"></i> Quản lý Tour</h1>
-
-            </div>
         </header>
 
         <div class="admin-content">
@@ -1301,3 +1300,8 @@ if ($id_dichvu > 0) {
     <script src="/libertylaocai/view/js/quanlytour.js"></script>
 </body>
 </html>
+<?php
+$current_tab = 'tour-management';
+$tab_content = ob_get_clean();
+include 'tabdichvu.php'; // Điều chỉnh đường dẫn nếu cần
+?>

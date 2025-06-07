@@ -749,6 +749,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_english_feature' && isset
     $stmt->close();
     exit();
 }
+
+ob_start();
 ?>
 
 <!DOCTYPE html>
@@ -1155,3 +1157,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_english_feature' && isset
     <script src="/libertylaocai/view/js/quanlygiaythonghanh.js"></script>
 </body>
 </html>
+<?php
+$current_tab = 'passport-management';
+$tab_content = ob_get_clean();
+include 'tabdichvu.php'; // Điều chỉnh đường dẫn nếu cần
+?>
