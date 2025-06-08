@@ -1,4 +1,3 @@
-// contact.js - Updated with AJAX submission and multi-language support
 document.addEventListener("DOMContentLoaded", function () {
   const contactForm = document.getElementById("contactForm");
   const formInputs = contactForm.querySelectorAll("input, textarea");
@@ -48,14 +47,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Validate email format
     const emailField = document.getElementById("email");
     if (emailField.value.trim() && !isValidEmail(emailField.value)) {
       showFieldError(emailField, msg.emailInvalid);
       isValid = false;
     }
 
-    // Validate phone format
     const phoneField = document.getElementById("phone");
     if (phoneField.value.trim() && !validatePhone(phoneField.value)) {
       showFieldError(phoneField, msg.phoneInvalid);
@@ -65,24 +62,19 @@ document.addEventListener("DOMContentLoaded", function () {
     return isValid;
   }
 
-  // Email validation
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
 
-  // Phone validation
   function validatePhone(phone) {
     const phoneRegex = /^[0-9]{10,11}$/;
     return phoneRegex.test(phone);
   }
 
-  // Show field error
   function showFieldError(field, message) {
     clearFieldError(field);
-
     field.style.borderColor = "#e74c3c";
-
     const errorDiv = document.createElement("div");
     errorDiv.className = "field-error";
     errorDiv.textContent = message;
@@ -92,11 +84,9 @@ document.addEventListener("DOMContentLoaded", function () {
             margin-top: 5px;
             animation: slideDown 0.3s ease;
         `;
-
     field.parentNode.appendChild(errorDiv);
   }
 
-  // Clear field error
   function clearFieldError(field) {
     field.style.borderColor = "#e0e0e0";
     const existingError = field.parentNode.querySelector(".field-error");
@@ -105,19 +95,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Show success message
   function showSuccessMessage(message) {
-    // Remove existing messages
-    const existingMessage = document.querySelector(".success-message");
-    const existingError = document.querySelector(".error-message");
+    const existingMessage = document.querySelector(
+      ".success-message, .error-message"
+    );
     if (existingMessage) existingMessage.remove();
-    if (existingError) existingError.remove();
 
     const successDiv = document.createElement("div");
     successDiv.className = "success-message show";
-    successDiv.innerHTML = `
-            <strong>${msg.success}</strong> ${message}
-        `;
+    successDiv.innerHTML = `<strong>${msg.success}</strong> ${message}`;
     successDiv.style.cssText = `
             background: #d4edda;
             border: 1px solid #c3e6cb;
@@ -127,32 +113,21 @@ document.addEventListener("DOMContentLoaded", function () {
             margin-bottom: 20px;
             animation: slideDown 0.3s ease;
         `;
-
     contactForm.insertBefore(successDiv, contactForm.firstChild);
-
-    // Auto remove after 8 seconds
-    setTimeout(() => {
-      if (successDiv.parentNode) {
-        successDiv.remove();
-      }
-    }, 8000);
+    setTimeout(() => successDiv.remove(), 8000);
   }
 
-  // Show error message
   function showErrorMessage(message) {
-    // Remove existing messages
-    const existingMessage = document.querySelector(".success-message");
-    const existingError = document.querySelector(".error-message");
+    const existingMessage = document.querySelector(
+      ".success-message, .error-message"
+    );
     if (existingMessage) existingMessage.remove();
-    if (existingError) existingError.remove();
 
     const errorDiv = document.createElement("div");
     errorDiv.className = "error-message show";
-    errorDiv.innerHTML = `
-            <strong>${
-              currentLang === "vi" ? "Lỗi!" : "Error!"
-            }</strong> ${message}
-        `;
+    errorDiv.innerHTML = `<strong>${
+      currentLang === "vi" ? "Lỗi!" : "Error!"
+    }</strong> ${message}`;
     errorDiv.style.cssText = `
             background: #f8d7da;
             border: 1px solid #f5c6cb;
@@ -162,34 +137,32 @@ document.addEventListener("DOMContentLoaded", function () {
             margin-bottom: 20px;
             animation: slideDown 0.3s ease;
         `;
-
     contactForm.insertBefore(errorDiv, contactForm.firstChild);
-
-    // Auto remove after 8 seconds
-    setTimeout(() => {
-      if (errorDiv.parentNode) {
-        errorDiv.remove();
-      }
-    }, 8000);
+    setTimeout(() => errorDiv.remove(), 8000);
   }
 
-  // Submit form via AJAX
   function submitForm(formData) {
-    return fetch(window.location.href, {
+    return fetch("/libertylaocai/user/submit", {
       method: "POST",
       body: formData,
       headers: {
         "X-Requested-With": "XMLHttpRequest",
       },
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    });
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.status} ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        throw error;
+      });
   }
 
-  // Handle form submission
   contactForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -197,33 +170,37 @@ document.addEventListener("DOMContentLoaded", function () {
       const submitBtn = contactForm.querySelector(".submit-btn");
       const originalText = submitBtn.textContent;
 
-      // Show loading state
       submitBtn.textContent = msg.sending;
       submitBtn.disabled = true;
       submitBtn.style.opacity = "0.7";
 
-      // Prepare form data
       const formData = new FormData(contactForm);
       formData.append("action", "submit_contact");
+      formData.append("lienhe", true);
 
-      // Submit form via AJAX
       submitForm(formData)
         .then((response) => {
           if (response.success) {
             showSuccessMessage(response.message);
-            contactForm.reset();
-            // Clear any existing errors
-            formInputs.forEach((input) => clearFieldError(input));
+            contactForm.reset(); // Reset form
+            formInputs.forEach((input) => clearFieldError(input)); // Clear errors
+            // Force reset placeholders
+            formInputs.forEach((input) => {
+              const placeholder = input.getAttribute("data-placeholder");
+              if (placeholder) {
+                input.setAttribute("placeholder", placeholder);
+                input.removeAttribute("data-placeholder");
+              }
+            });
           } else {
-            showErrorMessage(response.message);
+            showErrorMessage(response.message || msg.error);
           }
         })
         .catch((error) => {
-          console.error("Error:", error);
+          console.error("Submit error:", error);
           showErrorMessage(msg.error);
         })
         .finally(() => {
-          // Reset button
           submitBtn.textContent = originalText;
           submitBtn.disabled = false;
           submitBtn.style.opacity = "1";
@@ -231,7 +208,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Real-time validation on input
   formInputs.forEach((input) => {
     input.addEventListener("blur", function () {
       if (this.hasAttribute("required") && !this.value.trim()) {
@@ -258,54 +234,33 @@ document.addEventListener("DOMContentLoaded", function () {
         clearFieldError(this);
       }
     });
-  });
 
-  // Smooth scroll animation for form focus
-  formInputs.forEach((input) => {
     input.addEventListener("focus", function () {
       this.style.transform = "scale(1.02)";
-      setTimeout(() => {
-        this.style.transform = "scale(1)";
-      }, 200);
-    });
-  });
-
-  // Add floating label effect
-  formInputs.forEach((input) => {
-    const placeholder = input.getAttribute("placeholder");
-    if (placeholder) {
-      input.addEventListener("focus", function () {
-        if (!this.value) {
+      setTimeout(() => (this.style.transform = "scale(1)"), 200);
+      if (!this.value) {
+        const placeholder = this.getAttribute("placeholder");
+        if (placeholder) {
           this.setAttribute("data-placeholder", placeholder);
           this.setAttribute("placeholder", "");
         }
-      });
+      }
+    });
 
-      input.addEventListener("blur", function () {
-        if (!this.value && this.getAttribute("data-placeholder")) {
-          this.setAttribute(
-            "placeholder",
-            this.getAttribute("data-placeholder")
-          );
-          this.removeAttribute("data-placeholder");
-        }
-      });
-    }
+    input.addEventListener("blur", function () {
+      if (!this.value && this.getAttribute("data-placeholder")) {
+        this.setAttribute("placeholder", this.getAttribute("data-placeholder"));
+        this.removeAttribute("data-placeholder");
+      }
+    });
   });
 
-  // Add CSS animations
   const style = document.createElement("style");
   style.textContent = `
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  `;
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
   document.head.appendChild(style);
 });

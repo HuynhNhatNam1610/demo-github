@@ -146,6 +146,7 @@ body {
   border: 1px solid #f0f0f0;
   display: flex;
   flex-direction: column; /* Quan trọng: Sắp xếp theo chiều dọc */
+  cursor: pointer;
 }
 
 .promotion-item:hover {

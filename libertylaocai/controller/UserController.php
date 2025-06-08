@@ -81,8 +81,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['head_banner'] = getSelectedBanner('nhahang&bar', 'service-banner');
         } elseif ($categoryCode === 'khuyen-mai') {
             $_SESSION['head_banner'] = getSelectedBanner('sale', 'sale-banner');
+        } elseif ($categoryCode === 'thu-vien') {
+            $_SESSION['head_banner'] = getSelectedBanner('thu-vien', 'gallery-banner');
+        } elseif ($categoryCode === 'dat-phong') {
+            $_SESSION['head_banner'] = getSelectedBanner('dat-phong', 'hero-content');
         }
         header("location: /libertylaocai/$categoryCode");
+        exit();
+    }
+
+    if (isset($_POST['find_room'])) {
+        $_SESSION['head_banner'] = getSelectedBanner('dat-phong', 'hero-content');
+        header("location: /libertylaocai/dat-phong");
         exit();
     }
 
@@ -90,10 +100,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['subcategory_code'])) {
         $subcategory_code = $_POST['subcategory_code'];
         $_SESSION['type_event'] = $subcategory_code;
-        if ($subcategory_code === 'phong-don') {
-        } elseif ($subcategory_code === 'phong-doi') {
-        } elseif ($subcategory_code === 'phong-triple') {
-        } elseif ($subcategory_code === 'phong-gia-dinh') {
+        if ($subcategory_code === 'phong-don' || $subcategory_code === 'phong-doi' || $subcategory_code === 'phong-triple' || $subcategory_code === 'phong-gia-dinh') {
+            if ($subcategory_code === 'phong-don') {
+                $room_id = 1;
+            } elseif ($subcategory_code === 'phong-doi') {
+                $room_id = 2;
+            } elseif ($subcategory_code === 'phong-triple') {
+                $room_id = 3;
+            } elseif ($subcategory_code === 'phong-gia-dinh') {
+                $room_id = 4;
+            }
+            $room_name = getRoomDetail($room_id, 1)['name'];
+            $images = getImagesForRoom($room_id);
+            $_SESSION['images'] = $images;
+            $_SESSION['room_info'] = [
+                'room_id' => $room_id,
+                'images' => $images
+            ];
+            header("location: /libertylaocai/" . to_slug($room_name));
+            exit();
         } elseif ($subcategory_code === 'hoi-nghi') {            ///////////////// Pagedetail
             $_SESSION['head_banner'] = getSelectedBanner('pagedetail', 'pagedetail-banner-conference');
             $_SESSION['image_organized_event'] = getImageOrganizedEvents('hoi-nghi',  10);
@@ -117,10 +142,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($subcategory_code === 'tour-bac-ha') {
         } elseif ($subcategory_code === 'tour-y-ty') {
         } elseif ($subcategory_code === 'tour-ha-khau') {
-        } elseif ($subcategory_code === 'anh') {                 ///gallery
-
-        } elseif ($subcategory_code === 'video') {               ///gallery
-
         }
 
         header("location: /libertylaocai/$subcategory_code");
@@ -407,20 +428,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (isset($_POST['id_uudai'])) {
-        $id_uudai = $_POST['id_uudai'];
-        $getPromotionById = getPromotionById(1, $id_uudai);
-        $_SESSION['id_uudai'] = $id_uudai;
-        $_SESSION['head_banner'] = getSelectedBanner('saledetail', 'saledetail-banner');
-        header("location: /libertylaocai/khuyen-mai/" . to_short_slug($getPromotionById['title'], 5));
+    if (isset($_POST['comment_room']) && $_POST['comment_room'] === 'true') {
+        $name = $_POST['reviewer-name'] ?? '';
+        $email = $_POST['reviewer-email'] ?? '';
+        $content = $_POST['review-content'] ?? '';
+        $rating = $_POST['rating'] ?? 0;
+        $id_loaiphong = $_POST['id_loaiphong'] ?? '';
+
+        if (!$name || !$email || !$content || !$rating || !$id_loaiphong) {
+            echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
+            exit;
+        }
+
+        if (insertRoomComment($id_loaiphong, $name, $email, $content, $rating)) {
+            echo json_encode(['status' => 'success', 'message' => 'Đánh giá đã được gửi thành công']);
+            // exit;
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Lỗi khi lưu đánh giá']);
+            // exit;
+        }
     }
 
-    if (isset($_POST['id_tintuc'])) {
-        $id_tintuc = $_POST['id_tintuc'];
+    // if (isset($_POST['id_uudai'])) {
+    //     $id_uudai = $_POST['id_uudai'];
+    //     $getPromotionById = getPromotionById(1, $id_uudai);
+    //     $_SESSION['id_uudai'] = $id_uudai;
+    //     $_SESSION['head_banner'] = getSelectedBanner('saledetail', 'saledetail-banner');
+    //     header("location: /libertylaocai/khuyen-mai/" . to_short_slug($getPromotionById['title'], 5));
+    // }
+
+    // //Ưu đãi liên quan
+    // if (isset($_POST['other_promotion_id'])) {
+    //     $id_uudai = $_POST['other_promotion_id'];
+    //     $getPromotionById = getPromotionById(1, $id_uudai);
+    //     $_SESSION['id_uudai'] = $id_uudai;
+    //     $_SESSION['head_banner'] = getSelectedBanner('saledetail', 'saledetail-banner');
+    //     header("location: /libertylaocai/khuyen-mai/" . to_short_slug($getPromotionById['title'], 5));
+    // }
+    // Nhận id ưu đãi (có thể đến từ id_uudai hoặc other_promotion_id)
+    if (isset($_POST['id_uudai']) || isset($_POST['other_promotion_id'])) {
+        // Ưu tiên id_uudai, còn không thì lấy other_promotion_id
+        $id_uudai = $_POST['id_uudai'] ?? $_POST['other_promotion_id'];
+
+        // Lấy thông tin ưu đãi
+        $getPromotionById = getPromotionById(1, $id_uudai);
+
+        // Lưu vào session
+        $_SESSION['id_uudai']   = $id_uudai;
+        $_SESSION['head_banner'] = getSelectedBanner('saledetail', 'saledetail-banner');
+
+        // Điều hướng về trang chi tiết khuyến mãi
+        header(
+            "Location: /libertylaocai/khuyen-mai/" .
+                to_short_slug($getPromotionById['title'], 5)
+        );
+        exit; // Đảm bảo dừng script sau khi redirect
+    }
+
+
+    // if (isset($_POST['id_tintuc'])) {
+    //     $id_tintuc = $_POST['id_tintuc'];
+    //     $getNewById = getNewById(1, $id_tintuc);
+    //     $_SESSION['id_tintuc'] = $id_tintuc;
+    //     $_SESSION['head_banner'] = getSelectedBanner('tintuc-detail', 'tintuc-detail-banner');
+    //     header("location: /libertylaocai/tin-tuc/" . to_short_slug($getNewById['title'], 5));
+    // }
+
+    // //Ưu đãi liên quan
+    // if (isset($_POST['other_news_id'])) {
+    //     $id_tintuc = $_POST['other_news_id'];
+    //     $getNewById = getNewById(1, $id_tintuc);
+    //     $_SESSION['id_tintuc'] = $id_tintuc;
+    //     $_SESSION['head_banner'] = getSelectedBanner('tintuc-detail', 'tintuc-detail-banner');
+    //     header("location: /libertylaocai/tin-tuc/" . to_short_slug($getNewById['title'], 5));
+    // }
+    // Nhận id tin tức (có thể đến từ id_tintuc hoặc other_news_id)
+    if (isset($_POST['id_tintuc']) || isset($_POST['other_news_id'])) {
+        // Ưu tiên id_tintuc, nếu không có thì dùng other_news_id
+        $id_tintuc = $_POST['id_tintuc'] ?? $_POST['other_news_id'];
+
+        // Lấy dữ liệu tin tức theo ID
         $getNewById = getNewById(1, $id_tintuc);
+
+        // Lưu vào session
         $_SESSION['id_tintuc'] = $id_tintuc;
         $_SESSION['head_banner'] = getSelectedBanner('tintuc-detail', 'tintuc-detail-banner');
-        header("location: /libertylaocai/tin-tuc/" . to_short_slug($getNewById['title'], 5));
+
+        // Chuyển hướng về trang chi tiết tin tức
+        header("Location: /libertylaocai/tin-tuc/" . to_short_slug($getNewById['title'], 5));
+        exit; // Đảm bảo dừng script sau khi chuyển hướng
     }
 
     if (isset($_POST['footer_category_code'])) {
@@ -442,11 +538,163 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("location: /libertylaocai/su-kien-da-to-chuc");
     }
 
-    if (isset($_POST['id_sukiendatochuc'])) {
-        $id_sukiendatochuc = $_POST['id_sukiendatochuc'];
+    // if (isset($_POST['id_sukiendatochuc'])) {
+    //     $id_sukiendatochuc = $_POST['id_sukiendatochuc'];
+    //     $getEventOrganizedById = getEventOrganizedById(1, $id_sukiendatochuc);
+    //     $_SESSION['id_sukiendatochuc'] = $id_sukiendatochuc;
+    //     $_SESSION['head_banner'] = getSelectedBanner('chi-tiet-su-kien-da-to-chuc', 'tintuc-detail-banner');
+    //     header("location: /libertylaocai/su-kien-da-to-chuc/" . to_short_slug($getEventOrganizedById['title'], 5));
+    // }
+
+    // //Ưu đãi liên quan
+    // if (isset($_POST['other_organized_id'])) {
+    //     $id_sukiendatochuc = $_POST['other_organized_id'];
+    //     $getEventOrganizedById = getEventOrganizedById(1, $id_sukiendatochuc);
+    //     $_SESSION['id_sukiendatochuc'] = $id_sukiendatochuc;
+    //     $_SESSION['head_banner'] = getSelectedBanner('chi-tiet-su-kien-da-to-chuc', 'tintuc-detail-banner');
+    //     header("location: /libertylaocai/su-kien-da-to-chuc/" . to_short_slug($getEventOrganizedById['title'], 5));
+    // }
+    // Nhận ID sự kiện đã tổ chức (từ id_sukiendatochuc hoặc other_organized_id)
+    if (isset($_POST['id_sukiendatochuc']) || isset($_POST['other_organized_id'])) {
+        // Ưu tiên id_sukiendatochuc, nếu không có thì dùng other_organized_id
+        $id_sukiendatochuc = $_POST['id_sukiendatochuc'] ?? $_POST['other_organized_id'];
+
+        // Lấy thông tin sự kiện
         $getEventOrganizedById = getEventOrganizedById(1, $id_sukiendatochuc);
+
+        // Lưu thông tin vào session
         $_SESSION['id_sukiendatochuc'] = $id_sukiendatochuc;
         $_SESSION['head_banner'] = getSelectedBanner('chi-tiet-su-kien-da-to-chuc', 'tintuc-detail-banner');
-        header("location: /libertylaocai/su-kien-da-to-chuc/" . to_short_slug($getEventOrganizedById['title'], 5));
+
+        // Chuyển hướng đến trang chi tiết sự kiện
+        header("Location: /libertylaocai/su-kien-da-to-chuc/" . to_short_slug($getEventOrganizedById['title'], 5));
+        exit;
+    }
+
+    if (isset($_POST['room_id']) && !isset($_POST['submit_booking_room'])) {
+        $room_id = $_POST['room_id'];
+        $room_name = getRoomDetail($room_id, 1)['name'];
+        $images = getImagesForRoom($room_id);
+        $_SESSION['images'] = $images;
+        $_SESSION['room_info'] = [
+            'room_id' => $room_id,
+            'images' => $images
+        ];
+        header("location: /libertylaocai/" . to_slug($room_name));
+        exit();
+    }
+
+    if (isset($_POST['orther_room'])) {
+        $room_id = $_POST['room_other_id'] ?? '';
+        $orther_room_name = getRoomDetail($room_id, 1)['name'];
+        $images = getImagesForRoom($room_id);
+        $_SESSION['images'] = $images;
+        $_SESSION['room_info'] = [
+            'room_id' => $room_id,
+            'images' => $images
+        ];
+        header("location: /libertylaocai/" . to_slug($orther_room_name));
+        exit();
+    }
+    if (isset($_POST['submit_booking_room'])) {
+        header('Content-Type: application/json');
+        // Lấy dữ liệu từ biểu mẫu
+        $checkin = trim($_POST['checkin'] ?? '');
+        $checkout = trim($_POST['checkout'] ?? '');
+        $adults = (int)($_POST['adults'] ?? 0);
+        $children = (int)($_POST['children'] ?? 0);
+        $fullname = trim($_POST['fullname'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $phone = trim($_POST['phone'] ?? '');
+        $special_requests = trim($_POST['special-requests'] ?? NULL);
+        $room_id = $_POST['id_loaiphong'] ?? 0;
+
+        // Xác thực dữ liệu đầu vào
+        if ($adults < 1 || $children < 0 || empty($fullname) || empty($email) || empty($phone) || empty($room_id)) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => getMessage('missing_field', $languageId) . implode(', ', $missingFields)
+            ]);
+            exit();
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode(['status' => 'error', 'message' => getMessage('invalid_email', $languageId)]);
+            exit();
+        }
+
+        $checkin_date = date('Y-m-d H:i:s', strtotime("$checkin 00:00:00"));
+        $checkout_date = date('Y-m-d H:i:s', strtotime("$checkout 00:00:00"));
+
+        // Validation cải thiện
+        $today_start = date('Y-m-d 00:00:00'); // Ngày hôm nay lúc 00:00:00
+        $today_timestamp = strtotime($today_start);
+
+        // 1. Kiểm tra ngày check-in không được là quá khứ (so với hôm nay)
+        if (strtotime($checkin_date) < $today_timestamp) {
+            echo json_encode(['status' => 'error', 'message' => getMessage('past_start_date', $languageId)]);
+            exit();
+        }
+
+        // 2. Kiểm tra ngày check-out phải sau ngày check-in
+        if (strtotime($checkout_date) <= strtotime($checkin_date)) {
+            echo json_encode(['status' => 'error', 'message' => getMessage('checkout_before_checkin', $languageId)]);
+            exit();
+        }
+
+
+        // Check if customer exists or create new
+        $customerId = getCustomerIdByEmail($email ?: $phone); // Sử dụng email hoặc phone làm key
+        if (!$customerId) {
+            $customerId = createCustomer($fullname, $phone, $email);
+        }
+        $result = insertRoomBooking($checkin_date, $checkout_date, $adults, $children, $special_requests, 'pending', $room_id, $customerId);
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => getMessage('booking_success', $languageId)]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => getMessage('booking_failed', $languageId)]);
+        }
+        exit();
+    }
+
+    if (isset($_POST['lienhe']) && $_POST['lienhe'] === 'true') {
+        // Lấy dữ liệu từ form
+        $fullName = isset($_POST['fullName']) ? $conn->real_escape_string(trim($_POST['fullName'])) : '';
+        $email = isset($_POST['email']) ? $conn->real_escape_string(trim($_POST['email'])) : '';
+        $phone = isset($_POST['phone']) ? $conn->real_escape_string(trim($_POST['phone'])) : '';
+        $subject = isset($_POST['subject']) ? $conn->real_escape_string(trim($_POST['subject'])) : '';
+        $message = isset($_POST['message']) ? $conn->real_escape_string(trim($_POST['message'])) : '';
+
+        // Kiểm tra dữ liệu
+        if (empty($fullName) || empty($email) || empty($phone)) {
+            echo json_encode(['success' => false, 'message' => 'Vui lòng điền đầy đủ thông tin bắt buộc']);
+            exit;
+        }
+
+        // Kiểm tra định dạng email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode(['success' => false, 'message' => 'Email không hợp lệ']);
+            exit;
+        }
+
+        // Kiểm tra định dạng số điện thoại
+        if (!preg_match('/^[0-9]{10,11}$/', $phone)) {
+            echo json_encode(['success' => false, 'message' => 'Số điện thoại không hợp lệ']);
+            exit;
+        }
+
+        // Check if customer exists or create new
+        $customerId = getCustomerIdByEmail($email);
+        if (!$customerId) {
+            $customerId = createCustomer($fullName, $phone, $email);
+        }
+
+        $result = createContactRequest($subject, $message, $customerId);
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Thông tin liên hệ đã được gửi thành công']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Lỗi khi lưu dữ liệu: ' . $conn->error]);
+        }
+        exit();
     }
 }

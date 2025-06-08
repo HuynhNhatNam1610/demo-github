@@ -434,6 +434,47 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   attachImageUploadListener();
+
+  // Menu Slider
+  const menuSliders = document.querySelectorAll(".menu-slider-container");
+  menuSliders.forEach((sliderContainer) => {
+    const slider = sliderContainer.querySelector(".menu-slider");
+    const items = sliderContainer.querySelectorAll(".menu-slide");
+    const prevBtn = sliderContainer.querySelector(".menu-prev-btn");
+    const nextBtn = sliderContainer.querySelector(".menu-next-btn");
+    const dots = sliderContainer.querySelectorAll(".menu-dot");
+    let currentIndex = 0;
+
+    function updateMenuSlider() {
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentIndex);
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        updateMenuSlider();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % items.length;
+        updateMenuSlider();
+      });
+    }
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        currentIndex = index;
+        updateMenuSlider();
+      });
+    });
+
+    updateMenuSlider();
+  });
 });
 
 document.getElementById("quickBudget").addEventListener("input", function (e) {
@@ -444,4 +485,128 @@ document.getElementById("quickBudget").addEventListener("input", function (e) {
   }
   // Định dạng VNĐ với dấu phẩy phân cách hàng nghìn
   e.target.value = Number(value).toLocaleString("vi-VN") + " đ";
+});
+
+function openImageModal(src) {
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  modal.style.display = "block";
+  modalImg.src = src;
+  modalImg.style.transform = "scale(1) translate(0, 0)"; // Reset scale và vị trí
+  modalImg.style.transition = "transform 0.2s ease"; // Hiệu ứng mượt mà
+  modalImg.dataset.scale = 1; // Lưu tỷ lệ hiện tại
+  modalImg.dataset.translateX = 0; // Lưu vị trí X
+  modalImg.dataset.translateY = 0; // Lưu vị trí Y
+}
+
+function closeImageModal() {
+  const modal = document.getElementById("imageModal");
+  modal.style.display = "none";
+}
+
+const modalImg = document.getElementById("modalImage");
+let scale = 1;
+let isDragging = false;
+let startX, startY, translateX = 0, translateY = 0;
+
+// Xử lý nút zoom
+document.getElementById("zoomInBtn").addEventListener("click", () => {
+  scale += 0.1; // Tăng tỷ lệ
+  scale = Math.min(Math.max(0.5, scale), 3); // Giới hạn zoom từ 0.5x đến 3x
+  modalImg.dataset.scale = scale;
+  updateTransformWithBounds();
+});
+
+document.getElementById("zoomOutBtn").addEventListener("click", () => {
+  scale -= 0.1; // Giảm tỷ lệ
+  scale = Math.min(Math.max(0.5, scale), 3); // Giới hạn zoom từ 0.5x đến 3x
+  modalImg.dataset.scale = scale;
+  updateTransformWithBounds();
+});
+
+// Kéo ảnh bằng chuột
+modalImg.addEventListener("mousedown", (event) => {
+  if (scale <= 1) return; // Chỉ cho phép kéo khi ảnh được phóng to
+  event.preventDefault();
+  isDragging = true;
+  startX = event.clientX - translateX;
+  startY = event.clientY - translateY;
+  modalImg.style.cursor = "grabbing";
+});
+
+modalImg.addEventListener("mousemove", (event) => {
+  if (!isDragging) return;
+  event.preventDefault();
+  translateX = event.clientX - startX;
+  translateY = event.clientY - startY;
+  updateTransformWithBounds();
+});
+
+modalImg.addEventListener("mouseup", () => {
+  isDragging = false;
+  modalImg.style.cursor = "grab";
+});
+
+modalImg.addEventListener("mouseleave", () => {
+  isDragging = false;
+  modalImg.style.cursor = "grab";
+});
+
+// Kéo ảnh bằng cảm ứng
+modalImg.addEventListener("touchstart", (event) => {
+  if (scale <= 1) return; // Chỉ cho phép kéo khi ảnh được phóng to
+  if (event.touches.length === 1) {
+    isDragging = true;
+    startX = event.touches[0].clientX - translateX;
+    startY = event.touches[0].clientY - translateY;
+    event.preventDefault();
+  }
+});
+
+modalImg.addEventListener("touchmove", (event) => {
+  if (!isDragging || event.touches.length !== 1) return;
+  event.preventDefault();
+  translateX = event.touches[0].clientX - startX;
+  translateY = event.touches[0].clientY - startY;
+  updateTransformWithBounds();
+});
+
+modalImg.addEventListener("touchend", () => {
+  isDragging = false;
+});
+
+function updateTransformWithBounds() {
+  const modalBody = document.querySelector(".modal-body");
+  const imgRect = modalImg.getBoundingClientRect();
+  const modalRect = modalBody.getBoundingClientRect();
+
+  const scaledWidth = imgRect.width * scale;
+  const scaledHeight = imgRect.height * scale;
+
+  // Giới hạn kéo ảnh không vượt ra ngoài modal
+  const maxX = (scaledWidth - modalRect.width) / (2 * scale);
+  const maxY = (scaledHeight - modalRect.height) / (2 * scale);
+
+  translateX = Math.max(-maxX, Math.min(maxX, translateX));
+  translateY = Math.max(-maxY, Math.min(maxY, translateY));
+
+  modalImg.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+  modalImg.dataset.translateX = translateX;
+  modalImg.dataset.translateY = translateY;
+}
+
+// Đóng modal khi nhấp ra ngoài
+document.addEventListener("click", function (event) {
+  const modal = document.getElementById("imageModal");
+  const modalContent = document.querySelector(".modal-content");
+  if (event.target === modal) {
+    closeImageModal();
+  }
+});
+
+// Đóng modal bằng phím Esc
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    closeImageModal();
+  }
 });

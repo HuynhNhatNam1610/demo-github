@@ -415,29 +415,45 @@ function hideLoadingState(button) {
 
 // Enhanced success message
 function showSuccessMessage() {
-  console.log("Showing success notification");
-  const notification = document.createElement("div");
-  notification.className = "success-notification";
-  notification.innerHTML = `
-    <div class="notification-content">
-      <i class="fas fa-check-circle"></i>
-      <div>
+  console.log("Showing success modal");
+  const modal = document.createElement("div");
+  modal.className = "success-modal";
+  modal.innerHTML = `
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
         <h3>Đăng Ký Thành Công!</h3>
         <p>Chúng tôi đã nhận được thông tin của bạn và sẽ liên hệ sớm nhất có thể.</p>
+        <div class="modal-actions">
+          <button class="close-modal-btn">Đóng</button>
+          <button class="continue-btn" onclick="window.location.reload()">Đăng ký thêm</button>
+        </div>
       </div>
     </div>
   `;
-  document.body.appendChild(notification);
+  document.body.appendChild(modal);
+  console.log("Modal appended to body");
 
-  // Tự động đóng sau 5 giây
-  setTimeout(() => {
-    notification.style.animation = "slideOutRight 0.3s ease-out forwards";
+  const closeBtn = modal.querySelector(".close-modal-btn");
+  const overlay = modal.querySelector(".modal-overlay");
+
+  function closeModal() {
+    modal.style.animation = "fadeOut 0.3s ease-out forwards";
     setTimeout(() => {
-      if (document.body.contains(notification)) {
-        document.body.removeChild(notification);
+      if (document.body.contains(modal)) {
+        document.body.removeChild(modal);
       }
     }, 300);
-  }, 5000);
+  }
+
+  closeBtn.addEventListener("click", closeModal);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  setTimeout(closeModal, 8000);
 }
 // Show error message
 function showErrorMessage(message) {

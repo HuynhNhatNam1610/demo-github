@@ -525,74 +525,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
             break;
 
-        case 'update_active_description':
-            $id_mota = (int)$_POST['id_mota'];
-            $area = 'airport-shuttle-description';
+case 'update_active_description':
+    $id_mota = (int)$_POST['id_mota'];
+    $area = 'airport-shuttle-description';
 
-            // Kiểm tra sự tồn tại của mô tả tiếng Việt
-            $check_query = "SELECT COUNT(*) as count FROM mota_ngonngu WHERE id_mota = ? AND id_ngonngu = 1";
-            $stmt = $conn->prepare($check_query);
-            $stmt->bind_param("i", $id_mota);
+    // Kiểm tra sự tồn tại của mô tả tiếng Việt
+    $check_query = "SELECT COUNT(*) as count FROM mota_ngonngu WHERE id_mota = ? AND id_ngonngu = 1";
+    $stmt = $conn->prepare($check_query);
+    $stmt->bind_param("i", $id_mota);
+    $stmt->execute();
+    $check_row = $stmt->get_result()->fetch_assoc();
+
+    if ($check_row['count'] > 0) {
+        // Lấy id_mota_ngonngu cho tiếng Việt
+        $stmt = $conn->prepare("SELECT id FROM mota_ngonngu WHERE id_mota = ? AND id_ngonngu = 1");
+        $stmt->bind_param("i", $id_mota);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $vi_row = $result->fetch_assoc();
+        $id_mota_ngonngu_vi = $vi_row['id'];
+
+        // Xóa mô tả hiện tại
+        $stmt = $conn->prepare("DELETE FROM chon_mo_ta WHERE area = ?");
+        $stmt->bind_param("s", $area);
+        $stmt->execute();
+
+        // Kiểm tra language_id = 1 có tồn tại trong ngonngu
+        $stmt = $conn->prepare("SELECT id FROM ngonngu WHERE id = 1");
+        $stmt->execute();
+        $lang_vi_exists = $stmt->get_result()->num_rows > 0;
+
+        if ($lang_vi_exists) {
+            // Thêm mô tả tiếng Việt
+            $stmt = $conn->prepare("INSERT INTO chon_mo_ta (area, id_mota_ngonngu, language_id) VALUES (?, ?, 1)");
+            $stmt->bind_param("si", $area, $id_mota_ngonngu_vi);
             $stmt->execute();
-            $check_row = $stmt->get_result()->fetch_assoc();
+        } else {
+            sendResponse(false, "Ngôn ngữ tiếng Việt (language_id = 1) không tồn tại trong bảng ngonngu!");
+        }
 
-            if ($check_row['count'] > 0) {
-                // Lấy id_mota_ngonngu cho tiếng Việt
-                $stmt = $conn->prepare("SELECT id FROM mota_ngonngu WHERE id_mota = ? AND id_ngonngu = 1");
-                $stmt->bind_param("i", $id_mota);
+        // Kiểm tra và thêm mô tả tiếng Anh nếu có
+        $check_en_query = "SELECT id FROM mota_ngonngu WHERE id_mota = ? AND id_ngonngu = 2";
+        $stmt = $conn->prepare($check_en_query);
+        $stmt->bind_param("i", $id_mota);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($en_row = $result->fetch_assoc()) {
+            $id_mota_ngonngu_en = $en_row['id'];
+
+            // Kiểm tra language_id = 2 có tồn tại trong ngonngu
+            $stmt = $conn->prepare("SELECT id FROM ngonngu WHERE id = 2");
+            $stmt->execute();
+            $lang_en_exists = $stmt->get_result()->num_rows > 0;
+
+            if ($lang_en_exists) {
+                $stmt = $conn->prepare("INSERT INTO chon_mo_ta (area, id_mota_ngonngu, language_id) VALUES (?, ?, 2)");
+                $stmt->bind_param("si", $area, $id_mota_ngonngu_en);
                 $stmt->execute();
-                $result = $stmt->get_result();
-                $vi_row = $result->fetch_assoc();
-                $id_mota_ngonngu_vi = $vi_row['id'];
-
-                // Xóa mô tả hiện tại
-                $stmt = $conn->prepare("DELETE FROM chon_mo_ta WHERE area = ?");
-                $stmt->bind_param("s", $area);
-                $stmt->execute();
-
-                // Kiểm tra language_id = 1 có tồn tại trong ngonngu
-                $stmt = $conn->prepare("SELECT id FROM ngonngu WHERE id = 1");
-                $stmt->execute();
-                $lang_vi_exists = $stmt->get_result()->num_rows > 0;
-
-                if ($lang_vi_exists) {
-                    // Thêm mô tả tiếng Việt
-                    $stmt = $conn->prepare("INSERT INTO chon_mo_ta (area, id_mota_ngonngu, language_id) VALUES (?, ?, 1)");
-                    $stmt->bind_param("si", $area, $id_mota_ngonngu_vi);
-                    $stmt->execute();
-                } else {
-                    sendResponse(false, "Ngôn ngữ tiếng Việt (language_id = 1) không tồn tại trong bảng ngonngu!");
-                }
-
-                // Kiểm tra và thêm mô tả tiếng Anh nếu có
-                $check_en_query = "SELECT id FROM mota_ngonngu WHERE id_mota = ? AND id_ngonngu = 2";
-                $stmt = $conn->prepare($check_en_query);
-                $stmt->bind_param("i", $id_mota);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                if ($en_row = $result->fetch_assoc()) {
-                    $id_mota_ngonngu_en = $en_row['id'];
-
-                    // Kiểm tra language_id = 2 có tồn tại trong ngonngu
-                    $stmt = $conn->prepare("SELECT id FROM ngonngu WHERE id = 2");
-                    $stmt->execute();
-                    $lang_en_exists = $stmt->get_result()->num_rows > 0;
-
-                    if ($lang_en_exists) {
-                        $stmt = $conn->prepare("INSERT INTO chon_mo_ta (area, id_mota_ngonngu, language_id) VALUES (?, ?, 2)");
-                        $stmt->bind_param("si", $area, $id_mota_ngonngu_en);
-                        $stmt->execute();
-                    } else {
-                        sendResponse(false, "Ngôn ngữ tiếng Anh (language_id = 2) không tồn tại trong bảng ngonngu!");
-                    }
-                }
-
-                sendResponse(true, "Cập nhật mô tả hoạt động thành công!");
             } else {
-                sendResponse(false, "Mô tả không tồn tại!");
+                sendResponse(false, "Ngôn ngữ tiếng Anh (language_id = 2) không tồn tại trong bảng ngonngu!");
             }
-            $stmt->close();
-            break;
+        }
+
+        sendResponse(true, "Cập nhật mô tả hoạt động thành công!");
+    } else {
+        sendResponse(false, "Mô tả không tồn tại!");
+    }
+    $stmt->close();
+    break;
         case 'add_feature':
             $icon = mysqli_real_escape_string($conn, $_POST['icon']);
             $title_vi = mysqli_real_escape_string($conn, $_POST['title_vi']);
@@ -1037,8 +1037,6 @@ $faqs_result = mysqli_query($conn, $faqs_query);
 
 $vehicles_query = "SELECT x.* FROM xeduadon x WHERE x.id_dichvu = 1";
 $vehicles_result = mysqli_query($conn, $vehicles_query);
-
-ob_start();
 ?>
 
 <!DOCTYPE html>
@@ -1553,8 +1551,3 @@ ob_start();
     <script src="/libertylaocai/view/js/quanlyduadonsanbay.js"></script>
 </body>
 </html>
-<?php
-$current_tab = 'airport-shuttle';
-$tab_content = ob_get_clean();
-include 'tabdichvu.php';
-?>

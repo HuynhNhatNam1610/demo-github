@@ -2443,3 +2443,5364 @@
 (
 )
 
+2025-06-06 14:58:57 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 14:58:57 - FILES: Array
+(
+)
+
+2025-06-06 14:59:10 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-06 14:59:10 - FILES: Array
+(
+)
+
+2025-06-06 15:00:06 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-06 15:00:06 - FILES: Array
+(
+)
+
+2025-06-06 15:02:12 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-06 15:02:12 - FILES: Array
+(
+)
+
+2025-06-06 15:02:14 - POST: Array
+(
+    [subcategory_code] => tour-sapa
+)
+
+2025-06-06 15:02:14 - FILES: Array
+(
+)
+
+2025-06-06 15:02:21 - POST: Array
+(
+    [subcategory_code] => tour-sapa
+)
+
+2025-06-06 15:02:21 - FILES: Array
+(
+)
+
+2025-06-06 15:04:50 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-06 15:04:50 - FILES: Array
+(
+)
+
+2025-06-06 15:04:54 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 15:04:54 - FILES: Array
+(
+)
+
+2025-06-06 15:10:58 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 15:10:58 - FILES: Array
+(
+)
+
+2025-06-06 15:11:41 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 15:11:41 - FILES: Array
+(
+)
+
+2025-06-06 15:11:41 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 15:11:41 - FILES: Array
+(
+)
+
+2025-06-06 15:13:06 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 15:13:06 - FILES: Array
+(
+)
+
+2025-06-06 15:13:08 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 15:13:08 - FILES: Array
+(
+)
+
+2025-06-06 15:13:11 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-06 15:13:11 - FILES: Array
+(
+)
+
+2025-06-06 15:13:32 - POST: Array
+(
+    [footer_category_code] => lien-he
+)
+
+2025-06-06 15:13:32 - FILES: Array
+(
+)
+
+2025-06-06 15:14:10 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-06 15:14:10 - FILES: Array
+(
+)
+
+2025-06-06 15:14:16 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-06 15:14:16 - FILES: Array
+(
+)
+
+2025-06-06 15:14:19 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-06 15:14:19 - FILES: Array
+(
+)
+
+2025-06-06 15:15:56 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-06 15:15:56 - FILES: Array
+(
+)
+
+2025-06-06 15:17:16 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 15:17:16 - FILES: Array
+(
+)
+
+2025-06-06 15:18:32 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 15:18:32 - FILES: Array
+(
+)
+
+2025-06-06 15:18:59 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-06 15:18:59 - FILES: Array
+(
+)
+
+2025-06-06 15:19:34 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 15:19:34 - FILES: Array
+(
+)
+
+2025-06-06 15:19:44 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 15:19:44 - FILES: Array
+(
+)
+
+2025-06-06 15:19:46 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-06 15:19:46 - FILES: Array
+(
+)
+
+2025-06-06 15:19:47 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 15:19:47 - FILES: Array
+(
+)
+
+2025-06-06 15:19:50 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 15:19:50 - FILES: Array
+(
+)
+
+2025-06-06 15:20:41 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 15:20:41 - FILES: Array
+(
+)
+
+2025-06-06 15:20:42 - POST: Array
+(
+    [event_code] => tiec-cuoi
+)
+
+2025-06-06 15:20:42 - FILES: Array
+(
+)
+
+2025-06-06 15:25:38 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-06 15:25:38 - FILES: Array
+(
+)
+
+2025-06-06 15:25:46 - POST: Array
+(
+    [cuisine_code] => tiec-cuoi
+)
+
+2025-06-06 15:25:46 - FILES: Array
+(
+)
+
+2025-06-06 15:25:59 - POST: Array
+(
+    [cuisine_code] => sky-bar
+)
+
+2025-06-06 15:25:59 - FILES: Array
+(
+)
+
+2025-06-06 15:26:08 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-06 15:26:08 - FILES: Array
+(
+)
+
+2025-06-06 15:33:49 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 15:33:49 - FILES: Array
+(
+)
+
+2025-06-06 15:33:51 - POST: Array
+(
+    [event_code] => tiec-cuoi
+)
+
+2025-06-06 15:33:51 - FILES: Array
+(
+)
+
+2025-06-06 16:33:30 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 16:33:30 - FILES: Array
+(
+)
+
+2025-06-06 16:33:36 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 16:33:36 - FILES: Array
+(
+)
+
+2025-06-06 16:33:37 - POST: Array
+(
+    [event_code] => hoi-nghi
+)
+
+2025-06-06 16:33:37 - FILES: Array
+(
+)
+
+2025-06-06 16:50:59 - POST: Array
+(
+    [subcategory_code] => nha-hang
+)
+
+2025-06-06 16:50:59 - FILES: Array
+(
+)
+
+2025-06-06 16:51:01 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 16:51:01 - FILES: Array
+(
+)
+
+2025-06-06 16:51:02 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-06 16:51:02 - FILES: Array
+(
+)
+
+2025-06-06 16:51:04 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 16:51:04 - FILES: Array
+(
+)
+
+2025-06-06 16:51:05 - POST: Array
+(
+    [event_code] => tiec-cuoi
+)
+
+2025-06-06 16:51:05 - FILES: Array
+(
+)
+
+2025-06-06 16:53:24 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 16:53:24 - FILES: Array
+(
+)
+
+2025-06-06 16:53:32 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 16:53:32 - FILES: Array
+(
+)
+
+2025-06-06 16:53:36 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 16:53:36 - FILES: Array
+(
+)
+
+2025-06-06 16:53:38 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 16:53:38 - FILES: Array
+(
+)
+
+2025-06-06 16:53:44 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 16:53:44 - FILES: Array
+(
+)
+
+2025-06-06 16:56:57 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 16:56:57 - FILES: Array
+(
+)
+
+2025-06-06 16:56:59 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 16:56:59 - FILES: Array
+(
+)
+
+2025-06-06 16:57:04 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 16:57:04 - FILES: Array
+(
+)
+
+2025-06-06 16:57:06 - POST: Array
+(
+    [event_code] => tiec-cuoi
+)
+
+2025-06-06 16:57:06 - FILES: Array
+(
+)
+
+2025-06-06 16:57:13 - POST: Array
+(
+    [subcategory_code] => tiec-cuoi
+)
+
+2025-06-06 16:57:13 - FILES: Array
+(
+)
+
+2025-06-06 16:57:16 - POST: Array
+(
+    [subcategory_code] => sinh-nhat
+)
+
+2025-06-06 16:57:16 - FILES: Array
+(
+)
+
+2025-06-06 16:57:22 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 16:57:22 - FILES: Array
+(
+)
+
+2025-06-06 16:57:22 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-06 16:57:22 - FILES: Array
+(
+)
+
+2025-06-06 16:57:24 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-06 16:57:24 - FILES: Array
+(
+)
+
+2025-06-06 16:57:31 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 16:57:31 - FILES: Array
+(
+)
+
+2025-06-06 16:58:41 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-06 16:58:41 - FILES: Array
+(
+)
+
+2025-06-06 17:02:36 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 17:02:36 - FILES: Array
+(
+)
+
+2025-06-06 17:02:37 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 17:02:37 - FILES: Array
+(
+)
+
+2025-06-06 17:02:38 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 17:02:38 - FILES: Array
+(
+)
+
+2025-06-06 17:04:08 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 17:04:08 - FILES: Array
+(
+)
+
+2025-06-06 17:04:54 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 17:04:54 - FILES: Array
+(
+)
+
+2025-06-06 17:05:03 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 17:05:03 - FILES: Array
+(
+)
+
+2025-06-06 17:12:16 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 17:12:16 - FILES: Array
+(
+)
+
+2025-06-06 17:12:18 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 17:12:18 - FILES: Array
+(
+)
+
+2025-06-06 19:49:32 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-06 19:49:32 - FILES: Array
+(
+)
+
+2025-06-06 19:50:22 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 19:50:22 - FILES: Array
+(
+)
+
+2025-06-06 20:03:51 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 20:03:51 - FILES: Array
+(
+)
+
+2025-06-06 20:05:33 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 20:05:33 - FILES: Array
+(
+)
+
+2025-06-06 20:05:51 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 20:05:51 - FILES: Array
+(
+)
+
+2025-06-06 20:07:39 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 20:07:39 - FILES: Array
+(
+)
+
+2025-06-06 20:08:12 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 20:08:12 - FILES: Array
+(
+)
+
+2025-06-06 20:08:14 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 20:08:14 - FILES: Array
+(
+)
+
+2025-06-06 20:08:17 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 20:08:17 - FILES: Array
+(
+)
+
+2025-06-06 20:08:52 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 20:08:52 - FILES: Array
+(
+)
+
+2025-06-06 20:45:57 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 20:45:57 - FILES: Array
+(
+)
+
+2025-06-06 20:46:55 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 20:46:55 - FILES: Array
+(
+)
+
+2025-06-06 20:47:44 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 20:47:44 - FILES: Array
+(
+)
+
+2025-06-06 20:47:45 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 20:47:45 - FILES: Array
+(
+)
+
+2025-06-06 20:48:15 - POST: Array
+(
+    [room_id] => 1
+)
+
+2025-06-06 20:48:15 - FILES: Array
+(
+)
+
+2025-06-06 20:49:32 - POST: Array
+(
+    [room_id] => 1
+)
+
+2025-06-06 20:49:32 - FILES: Array
+(
+)
+
+2025-06-06 20:49:35 - POST: Array
+(
+    [room_id] => 2
+)
+
+2025-06-06 20:49:35 - FILES: Array
+(
+)
+
+2025-06-06 20:52:52 - POST: Array
+(
+    [room_id] => 2
+)
+
+2025-06-06 20:52:52 - FILES: Array
+(
+)
+
+2025-06-06 20:57:48 - POST: Array
+(
+    [room_id] => 2
+    [room_name] => Phòng Đôi
+)
+
+2025-06-06 20:57:48 - FILES: Array
+(
+)
+
+2025-06-06 20:59:09 - POST: Array
+(
+    [room_id] => 2
+    [room_name] => Phòng Đôi
+)
+
+2025-06-06 20:59:09 - FILES: Array
+(
+)
+
+2025-06-06 20:59:39 - POST: Array
+(
+    [room_id] => 2
+    [room_name] => Phòng Đôi
+)
+
+2025-06-06 20:59:39 - FILES: Array
+(
+)
+
+2025-06-06 21:00:00 - POST: Array
+(
+    [room_id] => 2
+    [room_name] => Phòng Đôi
+)
+
+2025-06-06 21:00:00 - FILES: Array
+(
+)
+
+2025-06-06 21:05:14 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 21:05:14 - FILES: Array
+(
+)
+
+2025-06-06 21:05:20 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-06 21:05:20 - FILES: Array
+(
+)
+
+2025-06-06 21:05:24 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-06 21:05:24 - FILES: Array
+(
+)
+
+2025-06-06 21:06:00 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-06 21:06:00 - FILES: Array
+(
+)
+
+2025-06-06 21:06:10 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 21:06:10 - FILES: Array
+(
+)
+
+2025-06-06 21:06:12 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 21:06:12 - FILES: Array
+(
+)
+
+2025-06-06 21:06:58 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-06 21:06:58 - FILES: Array
+(
+)
+
+2025-06-06 21:07:01 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-06 21:07:01 - FILES: Array
+(
+)
+
+2025-06-06 21:10:15 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 21:10:15 - FILES: Array
+(
+)
+
+2025-06-06 21:10:16 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-06 21:10:16 - FILES: Array
+(
+)
+
+2025-06-06 21:10:22 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-06 21:10:22 - FILES: Array
+(
+)
+
+2025-06-06 21:27:47 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 21:27:47 - FILES: Array
+(
+)
+
+2025-06-06 21:28:34 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 21:28:34 - FILES: Array
+(
+)
+
+2025-06-06 21:29:08 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 21:29:08 - FILES: Array
+(
+)
+
+2025-06-06 21:29:34 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 21:29:34 - FILES: Array
+(
+)
+
+2025-06-06 21:35:34 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 21:35:34 - FILES: Array
+(
+)
+
+2025-06-06 21:36:38 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 21:36:38 - FILES: Array
+(
+)
+
+2025-06-06 21:36:40 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 21:36:40 - FILES: Array
+(
+)
+
+2025-06-06 21:43:19 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-06 21:43:19 - FILES: Array
+(
+)
+
+2025-06-06 21:43:20 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-06 21:43:20 - FILES: Array
+(
+)
+
+2025-06-06 21:43:22 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 21:43:22 - FILES: Array
+(
+)
+
+2025-06-06 21:43:24 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Single Room
+)
+
+2025-06-06 21:43:24 - FILES: Array
+(
+)
+
+2025-06-06 21:43:39 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 21:43:39 - FILES: Array
+(
+)
+
+2025-06-06 22:06:11 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-06 22:06:11 - FILES: Array
+(
+)
+
+2025-06-06 22:19:45 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 22:19:45 - FILES: Array
+(
+)
+
+2025-06-06 22:19:53 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 22:19:53 - FILES: Array
+(
+)
+
+2025-06-06 22:25:26 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 22:25:26 - FILES: Array
+(
+)
+
+2025-06-06 22:25:30 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 22:25:30 - FILES: Array
+(
+)
+
+2025-06-06 22:25:34 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Single Room
+)
+
+2025-06-06 22:25:34 - FILES: Array
+(
+)
+
+2025-06-06 22:26:05 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 22:26:05 - FILES: Array
+(
+)
+
+2025-06-06 22:30:25 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 22:30:25 - FILES: Array
+(
+)
+
+2025-06-06 22:30:30 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 22:30:30 - FILES: Array
+(
+)
+
+2025-06-06 22:30:32 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Single Room
+)
+
+2025-06-06 22:30:32 - FILES: Array
+(
+)
+
+2025-06-06 22:31:34 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 22:31:34 - FILES: Array
+(
+)
+
+2025-06-06 22:32:02 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-06 22:32:02 - FILES: Array
+(
+)
+
+2025-06-06 22:32:05 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Single Room
+)
+
+2025-06-06 22:32:05 - FILES: Array
+(
+)
+
+2025-06-06 22:32:10 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-06 22:32:10 - FILES: Array
+(
+)
+
+2025-06-06 23:03:48 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-06 23:03:48 - FILES: Array
+(
+)
+
+2025-06-06 23:04:00 - POST: Array
+(
+    [subcategory_code] => tour-sapa
+)
+
+2025-06-06 23:04:00 - FILES: Array
+(
+)
+
+2025-06-06 23:04:12 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-06 23:04:12 - FILES: Array
+(
+)
+
+2025-06-06 23:04:23 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-06 23:04:23 - FILES: Array
+(
+)
+
+2025-06-06 23:04:25 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-06 23:04:25 - FILES: Array
+(
+)
+
+2025-06-06 23:04:42 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 23:04:42 - FILES: Array
+(
+)
+
+2025-06-06 23:05:25 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-06 23:05:25 - FILES: Array
+(
+)
+
+2025-06-06 23:05:32 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-06 23:05:32 - FILES: Array
+(
+)
+
+2025-06-07 11:20:01 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 11:20:01 - FILES: Array
+(
+)
+
+2025-06-07 11:20:07 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-07 11:20:07 - FILES: Array
+(
+)
+
+2025-06-07 11:20:11 - POST: Array
+(
+    [subcategory_code] => phong-triple
+)
+
+2025-06-07 11:20:11 - FILES: Array
+(
+)
+
+2025-06-07 11:21:09 - POST: Array
+(
+    [subcategory_code] => phong-gia-dinh
+)
+
+2025-06-07 11:21:09 - FILES: Array
+(
+)
+
+2025-06-07 11:21:18 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 11:21:18 - FILES: Array
+(
+)
+
+2025-06-07 11:21:22 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-07 11:21:22 - FILES: Array
+(
+)
+
+2025-06-07 11:21:24 - POST: Array
+(
+    [subcategory_code] => phong-triple
+)
+
+2025-06-07 11:21:24 - FILES: Array
+(
+)
+
+2025-06-07 11:21:26 - POST: Array
+(
+    [subcategory_code] => phong-gia-dinh
+)
+
+2025-06-07 11:21:26 - FILES: Array
+(
+)
+
+2025-06-07 11:22:21 - POST: Array
+(
+    [subcategory_code] => phong-gia-dinh
+)
+
+2025-06-07 11:22:21 - FILES: Array
+(
+)
+
+2025-06-07 11:22:31 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 11:22:31 - FILES: Array
+(
+)
+
+2025-06-07 12:07:45 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => Nguyễn Văn Quyền
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaahha
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 12:07:45 - FILES: Array
+(
+)
+
+2025-06-07 12:07:49 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => Nguyễn Văn Quyền
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaahha
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 12:07:49 - FILES: Array
+(
+)
+
+2025-06-07 12:08:16 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => Nguyễn Văn Quyền
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaahha
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 12:08:16 - FILES: Array
+(
+)
+
+2025-06-07 12:11:08 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => hao23nhat@gmail.com
+    [review-content] => hahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 12:11:08 - FILES: Array
+(
+)
+
+2025-06-07 12:11:15 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => hao23nhat@gmail.com
+    [review-content] => hahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 12:11:15 - FILES: Array
+(
+)
+
+2025-06-07 13:02:54 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => sấ
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:02:54 - FILES: Array
+(
+)
+
+2025-06-07 13:05:04 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahahaha
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:05:04 - FILES: Array
+(
+)
+
+2025-06-07 13:08:13 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:08:13 - FILES: Array
+(
+)
+
+2025-06-07 13:08:42 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:08:42 - FILES: Array
+(
+)
+
+2025-06-07 13:08:47 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:08:47 - FILES: Array
+(
+)
+
+2025-06-07 13:08:48 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:08:48 - FILES: Array
+(
+)
+
+2025-06-07 13:08:50 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:08:50 - FILES: Array
+(
+)
+
+2025-06-07 13:08:52 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:08:52 - FILES: Array
+(
+)
+
+2025-06-07 13:08:53 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:08:53 - FILES: Array
+(
+)
+
+2025-06-07 13:08:55 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:08:55 - FILES: Array
+(
+)
+
+2025-06-07 13:10:42 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ahahah
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:10:42 - FILES: Array
+(
+)
+
+2025-06-07 13:13:56 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahaha
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:13:56 - FILES: Array
+(
+)
+
+2025-06-07 13:16:39 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hihi
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:16:39 - FILES: Array
+(
+)
+
+2025-06-07 13:17:07 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hhaha
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:17:07 - FILES: Array
+(
+)
+
+2025-06-07 13:17:34 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hahahahahhaa
+    [comment_room] => true
+    [room_id] => 1
+)
+
+2025-06-07 13:17:34 - FILES: Array
+(
+)
+
+2025-06-07 13:19:11 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => hehehehe
+    [comment_room] => true
+    [id_loaiphong] => 1
+)
+
+2025-06-07 13:19:11 - FILES: Array
+(
+)
+
+2025-06-07 13:19:24 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 13:19:24 - FILES: Array
+(
+)
+
+2025-06-07 13:19:27 - POST: Array
+(
+    [room_id] => 2
+    [room_name] => Phòng Đôi
+)
+
+2025-06-07 13:19:27 - FILES: Array
+(
+)
+
+2025-06-07 13:19:38 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => Nguyễn Nhật Hào
+    [reviewer-email] => hao23nhat@gmail.com
+    [review-content] => jjjj
+    [comment_room] => true
+    [id_loaiphong] => 2
+)
+
+2025-06-07 13:19:38 - FILES: Array
+(
+)
+
+2025-06-07 14:02:45 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-07 14:02:45 - FILES: Array
+(
+)
+
+2025-06-07 14:02:50 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 14:02:50 - FILES: Array
+(
+)
+
+2025-06-07 14:02:52 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 14:02:52 - FILES: Array
+(
+)
+
+2025-06-07 14:03:43 - POST: Array
+(
+    [room_id] => 2
+    [room_name] => Phòng Đôi
+)
+
+2025-06-07 14:03:43 - FILES: Array
+(
+)
+
+2025-06-07 14:05:52 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 14:05:52 - FILES: Array
+(
+)
+
+2025-06-07 14:05:55 - POST: Array
+(
+    [room_id] => 3
+    [room_name] => Phòng Triple
+)
+
+2025-06-07 14:05:55 - FILES: Array
+(
+)
+
+2025-06-07 14:15:28 - POST: Array
+(
+    [orther_room] => Phòng Gia Đình
+)
+
+2025-06-07 14:15:28 - FILES: Array
+(
+)
+
+2025-06-07 14:20:00 - POST: Array
+(
+    [room_other_id] => 4
+    [orther_room] => Phòng Gia Đình
+)
+
+2025-06-07 14:20:00 - FILES: Array
+(
+)
+
+2025-06-07 14:20:08 - POST: Array
+(
+    [room_other_id] => 1
+    [orther_room] => Phòng Đơn 
+)
+
+2025-06-07 14:20:08 - FILES: Array
+(
+)
+
+2025-06-07 15:31:19 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:31:19 - FILES: Array
+(
+)
+
+2025-06-07 15:33:07 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:33:07 - FILES: Array
+(
+)
+
+2025-06-07 15:39:10 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:39:10 - FILES: Array
+(
+)
+
+2025-06-07 15:39:12 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:39:12 - FILES: Array
+(
+)
+
+2025-06-07 15:39:12 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:39:12 - FILES: Array
+(
+)
+
+2025-06-07 15:39:12 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:39:12 - FILES: Array
+(
+)
+
+2025-06-07 15:42:23 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:42:23 - FILES: Array
+(
+)
+
+2025-06-07 15:42:24 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:42:24 - FILES: Array
+(
+)
+
+2025-06-07 15:42:50 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:42:50 - FILES: Array
+(
+)
+
+2025-06-07 15:44:04 - POST: Array
+(
+    [submit_booking] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [submit_booking_room] => 1
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:44:04 - FILES: Array
+(
+)
+
+2025-06-07 15:47:43 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:47:43 - FILES: Array
+(
+)
+
+2025-06-07 15:48:14 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:48:14 - FILES: Array
+(
+)
+
+2025-06-07 15:50:24 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:50:24 - FILES: Array
+(
+)
+
+2025-06-07 15:50:46 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 15:50:46 - FILES: Array
+(
+)
+
+2025-06-07 16:00:24 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:00:24 - FILES: Array
+(
+)
+
+2025-06-07 16:06:47 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:06:47 - FILES: Array
+(
+)
+
+2025-06-07 16:08:52 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:08:52 - FILES: Array
+(
+)
+
+2025-06-07 16:09:44 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:09:44 - FILES: Array
+(
+)
+
+2025-06-07 16:10:27 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:10:27 - FILES: Array
+(
+)
+
+2025-06-07 16:10:56 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:10:56 - FILES: Array
+(
+)
+
+2025-06-07 16:11:36 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:11:36 - FILES: Array
+(
+)
+
+2025-06-07 16:12:51 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:12:51 - FILES: Array
+(
+)
+
+2025-06-07 16:13:24 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:13:24 - FILES: Array
+(
+)
+
+2025-06-07 16:13:43 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:13:43 - FILES: Array
+(
+)
+
+2025-06-07 16:14:11 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:14:11 - FILES: Array
+(
+)
+
+2025-06-07 16:16:31 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:16:31 - FILES: Array
+(
+)
+
+2025-06-07 16:18:04 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:18:04 - FILES: Array
+(
+)
+
+2025-06-07 16:18:50 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:18:50 - FILES: Array
+(
+)
+
+2025-06-07 16:23:02 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:23:02 - FILES: Array
+(
+)
+
+2025-06-07 16:23:44 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:23:44 - FILES: Array
+(
+)
+
+2025-06-07 16:25:42 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:25:42 - FILES: Array
+(
+)
+
+2025-06-07 16:26:19 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:26:19 - FILES: Array
+(
+)
+
+2025-06-07 16:29:13 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:29:13 - FILES: Array
+(
+)
+
+2025-06-07 16:35:20 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:35:20 - FILES: Array
+(
+)
+
+2025-06-07 16:36:44 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:36:44 - FILES: Array
+(
+)
+
+2025-06-07 16:36:59 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 16:36:59 - FILES: Array
+(
+)
+
+2025-06-07 18:23:55 - POST: Array
+(
+    [submit_booking_room] => 1
+    [room_id] => 1
+    [room-price] => 700000
+    [checkin] => 2025-06-07
+    [checkout] => 2025-06-08
+    [adults] => 2
+    [children] => 0
+    [fullname] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777 566 324
+    [special-requests] => 
+    [terms] => on
+    [id_loaiphong] => 1
+)
+
+2025-06-07 18:23:55 - FILES: Array
+(
+)
+
+2025-06-07 18:48:45 - POST: Array
+(
+    [subcategory_code] => nha-hang
+)
+
+2025-06-07 18:48:45 - FILES: Array
+(
+)
+
+2025-06-07 18:49:03 - POST: Array
+(
+    [subcategory_code] => sky-bar
+)
+
+2025-06-07 18:49:03 - FILES: Array
+(
+)
+
+2025-06-07 18:49:24 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 18:49:24 - FILES: Array
+(
+)
+
+2025-06-07 18:49:26 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 18:49:26 - FILES: Array
+(
+)
+
+2025-06-07 19:07:48 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-07 19:07:48 - FILES: Array
+(
+)
+
+2025-06-07 19:07:50 - POST: Array
+(
+    [cuisine_code] => nha-hang
+)
+
+2025-06-07 19:07:50 - FILES: Array
+(
+)
+
+2025-06-07 19:07:53 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 19:07:53 - FILES: Array
+(
+)
+
+2025-06-07 19:07:54 - POST: Array
+(
+    [event_code] => tiec-cuoi
+)
+
+2025-06-07 19:07:54 - FILES: Array
+(
+)
+
+2025-06-07 19:08:01 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 19:08:01 - FILES: Array
+(
+)
+
+2025-06-07 19:08:02 - POST: Array
+(
+    [subcategory_code] => nha-hang
+)
+
+2025-06-07 19:08:02 - FILES: Array
+(
+)
+
+2025-06-07 19:08:08 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 19:08:08 - FILES: Array
+(
+)
+
+2025-06-07 19:08:10 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 19:08:10 - FILES: Array
+(
+)
+
+2025-06-07 19:08:14 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 19:08:14 - FILES: Array
+(
+)
+
+2025-06-07 19:08:17 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-07 19:08:17 - FILES: Array
+(
+)
+
+2025-06-07 19:11:14 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-07 19:11:14 - FILES: Array
+(
+)
+
+2025-06-07 19:11:16 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-07 19:11:16 - FILES: Array
+(
+)
+
+2025-06-07 20:10:54 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 20:10:54 - FILES: Array
+(
+)
+
+2025-06-07 20:10:57 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 20:10:57 - FILES: Array
+(
+)
+
+2025-06-07 20:11:32 - POST: Array
+(
+    [room_other_id] => 3
+    [orther_room] => Phòng Triple
+)
+
+2025-06-07 20:11:32 - FILES: Array
+(
+)
+
+2025-06-07 20:11:39 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-07 20:11:39 - FILES: Array
+(
+)
+
+2025-06-07 20:11:55 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 20:11:55 - FILES: Array
+(
+)
+
+2025-06-07 20:12:22 - POST: Array
+(
+    [room_id] => 2
+    [room_name] => Phòng Đôi
+)
+
+2025-06-07 20:12:22 - FILES: Array
+(
+)
+
+2025-06-07 20:12:31 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 20:12:31 - FILES: Array
+(
+)
+
+2025-06-07 20:12:32 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 20:12:32 - FILES: Array
+(
+)
+
+2025-06-07 20:12:44 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-07 20:12:44 - FILES: Array
+(
+)
+
+2025-06-07 20:12:49 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-07 20:12:49 - FILES: Array
+(
+)
+
+2025-06-07 20:12:56 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 20:12:56 - FILES: Array
+(
+)
+
+2025-06-07 20:13:00 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-07 20:13:00 - FILES: Array
+(
+)
+
+2025-06-07 20:13:04 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 20:13:04 - FILES: Array
+(
+)
+
+2025-06-07 20:13:09 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-07 20:13:09 - FILES: Array
+(
+)
+
+2025-06-07 20:13:55 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 20:13:55 - FILES: Array
+(
+)
+
+2025-06-07 20:13:59 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-07 20:13:59 - FILES: Array
+(
+)
+
+2025-06-07 20:14:20 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 20:14:20 - FILES: Array
+(
+)
+
+2025-06-07 20:14:22 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 20:14:22 - FILES: Array
+(
+)
+
+2025-06-07 20:14:30 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 20:14:30 - FILES: Array
+(
+)
+
+2025-06-07 20:14:32 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-07 20:14:32 - FILES: Array
+(
+)
+
+2025-06-07 20:35:33 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-07 20:35:33 - FILES: Array
+(
+)
+
+2025-06-07 20:35:35 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-07 20:35:35 - FILES: Array
+(
+)
+
+2025-06-07 20:35:46 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 20:35:46 - FILES: Array
+(
+)
+
+2025-06-07 20:35:50 - POST: Array
+(
+    [id_uudai] => 4
+)
+
+2025-06-07 20:35:50 - FILES: Array
+(
+)
+
+2025-06-07 20:36:17 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 20:36:17 - FILES: Array
+(
+)
+
+2025-06-07 20:36:19 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-07 20:36:19 - FILES: Array
+(
+)
+
+2025-06-07 20:36:22 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 20:36:22 - FILES: Array
+(
+)
+
+2025-06-07 20:36:28 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-07 20:36:28 - FILES: Array
+(
+)
+
+2025-06-07 20:36:38 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-07 20:36:38 - FILES: Array
+(
+)
+
+2025-06-07 20:37:28 - POST: Array
+(
+    [category_code] => gallery
+)
+
+2025-06-07 20:37:28 - FILES: Array
+(
+)
+
+2025-06-07 20:44:40 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 20:44:40 - FILES: Array
+(
+)
+
+2025-06-07 20:44:41 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 20:44:41 - FILES: Array
+(
+)
+
+2025-06-07 20:45:21 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 20:45:21 - FILES: Array
+(
+)
+
+2025-06-07 20:45:27 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 20:45:27 - FILES: Array
+(
+)
+
+2025-06-07 20:45:28 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 20:45:28 - FILES: Array
+(
+)
+
+2025-06-07 20:45:35 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 20:45:35 - FILES: Array
+(
+)
+
+2025-06-07 20:45:35 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 20:45:35 - FILES: Array
+(
+)
+
+2025-06-07 20:45:38 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 20:45:38 - FILES: Array
+(
+)
+
+2025-06-07 20:45:41 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 20:45:41 - FILES: Array
+(
+)
+
+2025-06-07 20:45:42 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 20:45:42 - FILES: Array
+(
+)
+
+2025-06-07 20:45:52 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 20:45:52 - FILES: Array
+(
+)
+
+2025-06-07 20:45:53 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 20:45:53 - FILES: Array
+(
+)
+
+2025-06-07 20:46:25 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 20:46:25 - FILES: Array
+(
+)
+
+2025-06-07 20:46:26 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 20:46:26 - FILES: Array
+(
+)
+
+2025-06-07 20:46:30 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 20:46:30 - FILES: Array
+(
+)
+
+2025-06-07 20:46:31 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 20:46:31 - FILES: Array
+(
+)
+
+2025-06-07 21:17:36 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-07 21:17:36 - FILES: Array
+(
+)
+
+2025-06-07 21:17:40 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 21:17:40 - FILES: Array
+(
+)
+
+2025-06-07 21:57:43 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 21:57:43 - FILES: Array
+(
+)
+
+2025-06-07 21:57:44 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Single Room
+)
+
+2025-06-07 21:57:44 - FILES: Array
+(
+)
+
+2025-06-07 21:57:49 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 21:57:49 - FILES: Array
+(
+)
+
+2025-06-07 21:58:06 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 21:58:06 - FILES: Array
+(
+)
+
+2025-06-07 21:58:10 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 21:58:10 - FILES: Array
+(
+)
+
+2025-06-07 21:58:18 - POST: Array
+(
+    [room_other_id] => 3
+    [orther_room] => Phòng Triple
+)
+
+2025-06-07 21:58:18 - FILES: Array
+(
+)
+
+2025-06-07 21:58:51 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 21:58:51 - FILES: Array
+(
+)
+
+2025-06-07 21:58:54 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-07 21:58:54 - FILES: Array
+(
+)
+
+2025-06-07 22:14:17 - POST: Array
+(
+    [other_promotion_id] => 3
+)
+
+2025-06-07 22:14:17 - FILES: Array
+(
+)
+
+2025-06-07 22:15:57 - POST: Array
+(
+    [other_promotion_id] => 3
+)
+
+2025-06-07 22:15:57 - FILES: Array
+(
+)
+
+2025-06-07 22:16:06 - POST: Array
+(
+    [other_promotion_id] => 2
+)
+
+2025-06-07 22:16:06 - FILES: Array
+(
+)
+
+2025-06-07 22:17:02 - POST: Array
+(
+    [other_promotion_id] => 3
+)
+
+2025-06-07 22:17:02 - FILES: Array
+(
+)
+
+2025-06-07 22:17:08 - POST: Array
+(
+    [other_promotion_id] => 1
+)
+
+2025-06-07 22:17:08 - FILES: Array
+(
+)
+
+2025-06-07 22:21:37 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 22:21:37 - FILES: Array
+(
+)
+
+2025-06-07 22:25:13 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-07 22:25:13 - FILES: Array
+(
+)
+
+2025-06-07 22:25:16 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-07 22:25:16 - FILES: Array
+(
+)
+
+2025-06-07 22:27:45 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-07 22:27:45 - FILES: Array
+(
+)
+
+2025-06-07 22:27:47 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-07 22:27:47 - FILES: Array
+(
+)
+
+2025-06-07 22:30:07 - POST: Array
+(
+    [other_news_id] => 1
+)
+
+2025-06-07 22:30:07 - FILES: Array
+(
+)
+
+2025-06-07 22:30:59 - POST: Array
+(
+    [other_news_id] => 3
+)
+
+2025-06-07 22:30:59 - FILES: Array
+(
+)
+
+2025-06-07 22:31:02 - POST: Array
+(
+    [other_news_id] => 1
+)
+
+2025-06-07 22:31:02 - FILES: Array
+(
+)
+
+2025-06-07 22:31:34 - POST: Array
+(
+    [other_news_id] => 3
+)
+
+2025-06-07 22:31:34 - FILES: Array
+(
+)
+
+2025-06-07 22:31:39 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 22:31:39 - FILES: Array
+(
+)
+
+2025-06-07 22:31:42 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-07 22:31:42 - FILES: Array
+(
+)
+
+2025-06-07 22:31:45 - POST: Array
+(
+    [id_sukiendatochuc] => 2
+)
+
+2025-06-07 22:31:45 - FILES: Array
+(
+)
+
+2025-06-07 22:33:34 - POST: Array
+(
+    [other_organized_id] => 1
+)
+
+2025-06-07 22:33:34 - FILES: Array
+(
+)
+
+2025-06-07 22:34:48 - POST: Array
+(
+    [other_organized_id] => 3
+)
+
+2025-06-07 22:34:48 - FILES: Array
+(
+)
+
+2025-06-07 22:34:50 - POST: Array
+(
+    [other_organized_id] => 4
+)
+
+2025-06-07 22:34:50 - FILES: Array
+(
+)
+
+2025-06-07 22:34:54 - POST: Array
+(
+    [other_organized_id] => 3
+)
+
+2025-06-07 22:34:54 - FILES: Array
+(
+)
+
+2025-06-07 22:36:27 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 22:36:27 - FILES: Array
+(
+)
+
+2025-06-07 22:36:29 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-07 22:36:29 - FILES: Array
+(
+)
+
+2025-06-07 22:36:34 - POST: Array
+(
+    [other_promotion_id] => 4
+)
+
+2025-06-07 22:36:34 - FILES: Array
+(
+)
+
+2025-06-07 22:37:19 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-07 22:37:19 - FILES: Array
+(
+)
+
+2025-06-07 22:37:21 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-07 22:37:21 - FILES: Array
+(
+)
+
+2025-06-07 22:37:23 - POST: Array
+(
+    [other_news_id] => 3
+)
+
+2025-06-07 22:37:23 - FILES: Array
+(
+)
+
+2025-06-07 22:38:02 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 22:38:02 - FILES: Array
+(
+)
+
+2025-06-07 22:38:04 - POST: Array
+(
+    [sukiendatochuc] => 2
+)
+
+2025-06-07 22:38:04 - FILES: Array
+(
+)
+
+2025-06-07 22:38:06 - POST: Array
+(
+    [id_sukiendatochuc] => 3
+)
+
+2025-06-07 22:38:06 - FILES: Array
+(
+)
+
+2025-06-07 22:38:09 - POST: Array
+(
+    [other_organized_id] => 2
+)
+
+2025-06-07 22:38:09 - FILES: Array
+(
+)
+
+2025-06-07 22:38:11 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 22:38:11 - FILES: Array
+(
+)
+
+2025-06-07 22:38:33 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 22:38:33 - FILES: Array
+(
+)
+
+2025-06-07 22:39:24 - POST: Array
+(
+    [subcategory_code] => tour-y-ty
+)
+
+2025-06-07 22:39:24 - FILES: Array
+(
+)
+
+2025-06-07 22:39:46 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 22:39:46 - FILES: Array
+(
+)
+
+2025-06-07 22:39:48 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 22:39:48 - FILES: Array
+(
+)
+
+2025-06-07 22:39:49 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 22:39:49 - FILES: Array
+(
+)
+
+2025-06-07 22:39:50 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-07 22:39:50 - FILES: Array
+(
+)
+
+2025-06-07 22:39:53 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 22:39:53 - FILES: Array
+(
+)
+
+2025-06-07 22:39:55 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 22:39:55 - FILES: Array
+(
+)
+
+2025-06-07 22:40:02 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 22:40:02 - FILES: Array
+(
+)
+
+2025-06-07 22:40:08 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-07 22:40:08 - FILES: Array
+(
+)
+
+2025-06-07 22:42:22 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 22:42:22 - FILES: Array
+(
+)
+
+2025-06-07 22:42:24 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 22:42:24 - FILES: Array
+(
+)
+
+2025-06-07 22:42:33 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 22:42:33 - FILES: Array
+(
+)
+
+2025-06-07 22:42:40 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-07 22:42:40 - FILES: Array
+(
+)
+
+2025-06-07 22:42:47 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 22:42:47 - FILES: Array
+(
+)
+
+2025-06-07 22:42:49 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 22:42:49 - FILES: Array
+(
+)
+
+2025-06-07 22:42:51 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Single Room
+)
+
+2025-06-07 22:42:51 - FILES: Array
+(
+)
+
+2025-06-07 22:46:16 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-07 22:46:16 - FILES: Array
+(
+)
+
+2025-06-07 22:52:38 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 22:52:38 - FILES: Array
+(
+)
+
+2025-06-07 22:52:39 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 22:52:39 - FILES: Array
+(
+)
+
+2025-06-07 22:52:41 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 22:52:41 - FILES: Array
+(
+)
+
+2025-06-07 22:59:05 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 22:59:05 - FILES: Array
+(
+)
+
+2025-06-07 22:59:25 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 22:59:25 - FILES: Array
+(
+)
+
+2025-06-07 22:59:50 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Single Room
+)
+
+2025-06-07 22:59:50 - FILES: Array
+(
+)
+
+2025-06-07 22:59:54 - POST: Array
+(
+    [room_id] => 2
+    [room_name] => Double Room
+)
+
+2025-06-07 22:59:54 - FILES: Array
+(
+)
+
+2025-06-07 22:59:57 - POST: Array
+(
+    [room_other_id] => 3
+    [orther_room] => Triple Room
+)
+
+2025-06-07 22:59:57 - FILES: Array
+(
+)
+
+2025-06-07 23:00:23 - POST: Array
+(
+    [room_other_id] => 1
+    [orther_room] => Single Room
+)
+
+2025-06-07 23:00:23 - FILES: Array
+(
+)
+
+2025-06-07 23:00:26 - POST: Array
+(
+    [room_other_id] => 2
+    [orther_room] => Double Room
+)
+
+2025-06-07 23:00:26 - FILES: Array
+(
+)
+
+2025-06-07 23:00:38 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-07 23:00:38 - FILES: Array
+(
+)
+
+2025-06-07 23:00:39 - POST: Array
+(
+    [cuisine_code] => nha-hang
+)
+
+2025-06-07 23:00:39 - FILES: Array
+(
+)
+
+2025-06-07 23:00:43 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:00:43 - FILES: Array
+(
+)
+
+2025-06-07 23:00:44 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 23:00:44 - FILES: Array
+(
+)
+
+2025-06-07 23:00:46 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-07 23:00:46 - FILES: Array
+(
+)
+
+2025-06-07 23:00:50 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 23:00:50 - FILES: Array
+(
+)
+
+2025-06-07 23:00:53 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:00:53 - FILES: Array
+(
+)
+
+2025-06-07 23:00:57 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-07 23:00:57 - FILES: Array
+(
+)
+
+2025-06-07 23:04:22 - POST: Array
+(
+    [room_id] => 1
+)
+
+2025-06-07 23:04:22 - FILES: Array
+(
+)
+
+2025-06-07 23:04:56 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:04:56 - FILES: Array
+(
+)
+
+2025-06-07 23:05:07 - POST: Array
+(
+    [footer_category_code] => dieu-khoan
+)
+
+2025-06-07 23:05:07 - FILES: Array
+(
+)
+
+2025-06-07 23:06:00 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 23:06:00 - FILES: Array
+(
+)
+
+2025-06-07 23:06:09 - POST: Array
+(
+    [footer_category_code] => dieu-khoan
+)
+
+2025-06-07 23:06:09 - FILES: Array
+(
+)
+
+2025-06-07 23:09:14 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-07 23:09:14 - FILES: Array
+(
+)
+
+2025-06-07 23:09:51 - POST: Array
+(
+    [footer_category_code] => lien-he
+)
+
+2025-06-07 23:09:51 - FILES: Array
+(
+)
+
+2025-06-07 23:11:09 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:11:09 - FILES: Array
+(
+)
+
+2025-06-07 23:11:21 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:11:21 - FILES: Array
+(
+)
+
+2025-06-07 23:11:35 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:11:35 - FILES: Array
+(
+)
+
+2025-06-07 23:12:27 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 23:12:27 - FILES: Array
+(
+)
+
+2025-06-07 23:12:30 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 23:12:30 - FILES: Array
+(
+)
+
+2025-06-07 23:12:59 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => nhatnam161005@gmail.com
+    [reviewer-email] => nguyenvanquyen@gmail.com
+    [review-content] => hahahah
+    [comment_room] => true
+    [id_loaiphong] => 1
+)
+
+2025-06-07 23:12:59 - FILES: Array
+(
+)
+
+2025-06-07 23:13:42 - POST: Array
+(
+    [room_other_id] => 4
+    [orther_room] => Phòng Gia Đình
+)
+
+2025-06-07 23:13:42 - FILES: Array
+(
+)
+
+2025-06-07 23:14:20 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 23:14:20 - FILES: Array
+(
+)
+
+2025-06-07 23:14:31 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 23:14:31 - FILES: Array
+(
+)
+
+2025-06-07 23:14:34 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-07 23:14:34 - FILES: Array
+(
+)
+
+2025-06-07 23:14:36 - POST: Array
+(
+    [subcategory_code] => phong-triple
+)
+
+2025-06-07 23:14:36 - FILES: Array
+(
+)
+
+2025-06-07 23:14:53 - POST: Array
+(
+    [subcategory_code] => phong-gia-dinh
+)
+
+2025-06-07 23:14:53 - FILES: Array
+(
+)
+
+2025-06-07 23:14:56 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 23:14:56 - FILES: Array
+(
+)
+
+2025-06-07 23:15:26 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 23:15:26 - FILES: Array
+(
+)
+
+2025-06-07 23:15:28 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:15:28 - FILES: Array
+(
+)
+
+2025-06-07 23:15:31 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-07 23:15:31 - FILES: Array
+(
+)
+
+2025-06-07 23:15:33 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-07 23:15:33 - FILES: Array
+(
+)
+
+2025-06-07 23:15:40 - POST: Array
+(
+    [room_other_id] => 4
+    [orther_room] => Phòng Gia Đình
+)
+
+2025-06-07 23:15:40 - FILES: Array
+(
+)
+
+2025-06-07 23:15:43 - POST: Array
+(
+    [room_other_id] => 2
+    [orther_room] => Phòng Đôi
+)
+
+2025-06-07 23:15:43 - FILES: Array
+(
+)
+
+2025-06-07 23:16:03 - POST: Array
+(
+    [rating] => 5
+    [reviewer-name] => Nguyễn Văn Quyền
+    [reviewer-email] => nhatnam161005@gmail.com
+    [review-content] => ghfhj
+    [comment_room] => true
+    [id_loaiphong] => 2
+)
+
+2025-06-07 23:16:03 - FILES: Array
+(
+)
+
+2025-06-07 23:16:13 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 23:16:13 - FILES: Array
+(
+)
+
+2025-06-07 23:16:17 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-07 23:16:17 - FILES: Array
+(
+)
+
+2025-06-07 23:16:19 - POST: Array
+(
+    [subcategory_code] => phong-triple
+)
+
+2025-06-07 23:16:19 - FILES: Array
+(
+)
+
+2025-06-07 23:16:22 - POST: Array
+(
+    [subcategory_code] => phong-gia-dinh
+)
+
+2025-06-07 23:16:22 - FILES: Array
+(
+)
+
+2025-06-07 23:16:27 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:16:27 - FILES: Array
+(
+)
+
+2025-06-07 23:16:28 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 23:16:28 - FILES: Array
+(
+)
+
+2025-06-07 23:16:30 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:16:30 - FILES: Array
+(
+)
+
+2025-06-07 23:16:32 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-07 23:16:32 - FILES: Array
+(
+)
+
+2025-06-07 23:16:46 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 23:16:46 - FILES: Array
+(
+)
+
+2025-06-07 23:17:00 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-07 23:17:00 - FILES: Array
+(
+)
+
+2025-06-07 23:17:08 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 23:17:08 - FILES: Array
+(
+)
+
+2025-06-07 23:17:11 - POST: Array
+(
+    [id_uudai] => 1
+)
+
+2025-06-07 23:17:11 - FILES: Array
+(
+)
+
+2025-06-07 23:17:16 - POST: Array
+(
+    [other_promotion_id] => 3
+)
+
+2025-06-07 23:17:16 - FILES: Array
+(
+)
+
+2025-06-07 23:17:20 - POST: Array
+(
+    [other_promotion_id] => 1
+)
+
+2025-06-07 23:17:20 - FILES: Array
+(
+)
+
+2025-06-07 23:17:26 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:17:26 - FILES: Array
+(
+)
+
+2025-06-07 23:17:27 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-07 23:17:27 - FILES: Array
+(
+)
+
+2025-06-07 23:17:39 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 23:17:39 - FILES: Array
+(
+)
+
+2025-06-07 23:17:41 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-07 23:17:41 - FILES: Array
+(
+)
+
+2025-06-07 23:17:53 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:17:53 - FILES: Array
+(
+)
+
+2025-06-07 23:17:54 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-07 23:17:54 - FILES: Array
+(
+)
+
+2025-06-07 23:18:05 - POST: Array
+(
+    [cuisine_code] => nha-hang
+)
+
+2025-06-07 23:18:05 - FILES: Array
+(
+)
+
+2025-06-07 23:18:17 - POST: Array
+(
+    [subcategory_code] => sky-bar
+)
+
+2025-06-07 23:18:17 - FILES: Array
+(
+)
+
+2025-06-07 23:18:46 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 23:18:46 - FILES: Array
+(
+)
+
+2025-06-07 23:19:01 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:19:01 - FILES: Array
+(
+)
+
+2025-06-07 23:19:04 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-07 23:19:04 - FILES: Array
+(
+)
+
+2025-06-07 23:19:09 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-07 23:19:09 - FILES: Array
+(
+)
+
+2025-06-07 23:19:12 - POST: Array
+(
+    [other_news_id] => 1
+)
+
+2025-06-07 23:19:12 - FILES: Array
+(
+)
+
+2025-06-07 23:19:14 - POST: Array
+(
+    [other_news_id] => 3
+)
+
+2025-06-07 23:19:14 - FILES: Array
+(
+)
+
+2025-06-07 23:19:16 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:19:16 - FILES: Array
+(
+)
+
+2025-06-07 23:19:41 - POST: Array
+(
+    [footer_category_code] => lien-he
+)
+
+2025-06-07 23:19:41 - FILES: Array
+(
+)
+
+2025-06-07 23:19:46 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:19:46 - FILES: Array
+(
+)
+
+2025-06-07 23:19:51 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:19:51 - FILES: Array
+(
+)
+
+2025-06-07 23:19:53 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-07 23:19:53 - FILES: Array
+(
+)
+
+2025-06-07 23:20:01 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-07 23:20:01 - FILES: Array
+(
+)
+
+2025-06-07 23:20:05 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-07 23:20:05 - FILES: Array
+(
+)
+
+2025-06-07 23:20:14 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:20:14 - FILES: Array
+(
+)
+
+2025-06-07 23:20:15 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-07 23:20:15 - FILES: Array
+(
+)
+
+2025-06-07 23:20:16 - POST: Array
+(
+    [subcategory_code] => sky-bar
+)
+
+2025-06-07 23:20:16 - FILES: Array
+(
+)
+
+2025-06-07 23:20:48 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:20:48 - FILES: Array
+(
+)
+
+2025-06-07 23:21:09 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-07 23:21:09 - FILES: Array
+(
+)
+
+2025-06-07 23:21:30 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:21:30 - FILES: Array
+(
+)
+
+2025-06-07 23:26:57 - POST: Array
+(
+    [subcategory_code] => tour-sapa
+)
+
+2025-06-07 23:26:57 - FILES: Array
+(
+)
+
+2025-06-07 23:26:59 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-07 23:26:59 - FILES: Array
+(
+)
+
+2025-06-07 23:29:03 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-07 23:29:03 - FILES: Array
+(
+)
+
+2025-06-07 23:29:10 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-07 23:29:10 - FILES: Array
+(
+)
+
+2025-06-07 23:31:33 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-07 23:31:33 - FILES: Array
+(
+)
+
+2025-06-08 08:04:39 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 08:04:39 - FILES: Array
+(
+)
+
+2025-06-08 08:04:42 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-08 08:04:42 - FILES: Array
+(
+)
+
+2025-06-08 08:04:45 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-08 08:04:45 - FILES: Array
+(
+)
+
+2025-06-08 08:05:40 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-08 08:05:40 - FILES: Array
+(
+)
+
+2025-06-08 08:05:43 - POST: Array
+(
+    [room_id] => 2
+    [room_name] => Phòng Đôi
+)
+
+2025-06-08 08:05:43 - FILES: Array
+(
+)
+
+2025-06-08 08:05:49 - POST: Array
+(
+    [room_id] => 3
+    [room_name] => Phòng Triple
+)
+
+2025-06-08 08:05:49 - FILES: Array
+(
+)
+
+2025-06-08 08:39:18 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 08:39:18 - FILES: Array
+(
+)
+
+2025-06-08 08:39:19 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-08 08:39:19 - FILES: Array
+(
+)
+
+2025-06-08 08:39:21 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-08 08:39:21 - FILES: Array
+(
+)
+
+2025-06-08 08:39:38 - POST: Array
+(
+    [subcategory_code] => phong-triple
+)
+
+2025-06-08 08:39:38 - FILES: Array
+(
+)
+
+2025-06-08 08:41:11 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-08 08:41:11 - FILES: Array
+(
+)
+
+2025-06-08 08:41:12 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-08 08:41:12 - FILES: Array
+(
+)
+
+2025-06-08 08:41:13 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-08 08:41:13 - FILES: Array
+(
+)
+
+2025-06-08 08:41:17 - POST: Array
+(
+    [subcategory_code] => tiec-cuoi
+)
+
+2025-06-08 08:41:17 - FILES: Array
+(
+)
+
+2025-06-08 08:41:43 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-08 08:41:43 - FILES: Array
+(
+)
+
+2025-06-08 08:41:46 - POST: Array
+(
+    [subcategory_code] => nha-hang
+)
+
+2025-06-08 08:41:46 - FILES: Array
+(
+)
+
+2025-06-08 08:42:21 - POST: Array
+(
+    [subcategory_code] => sky-bar
+)
+
+2025-06-08 08:42:21 - FILES: Array
+(
+)
+
+2025-06-08 08:42:26 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-08 08:42:26 - FILES: Array
+(
+)
+
+2025-06-08 08:42:34 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-08 08:42:34 - FILES: Array
+(
+)
+
+2025-06-08 08:49:14 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 08:49:14 - FILES: Array
+(
+)
+
+2025-06-08 08:50:58 - POST: Array
+(
+    [category_code] => danhsachphong
+)
+
+2025-06-08 08:50:58 - FILES: Array
+(
+)
+
+2025-06-08 08:55:57 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 08:55:57 - FILES: Array
+(
+)
+
+2025-06-08 08:55:58 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 08:55:58 - FILES: Array
+(
+)
+
+2025-06-08 08:57:24 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 08:57:24 - FILES: Array
+(
+)
+
+2025-06-08 08:57:25 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 08:57:25 - FILES: Array
+(
+)
+
+2025-06-08 08:57:56 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 08:57:56 - FILES: Array
+(
+)
+
+2025-06-08 08:58:49 - POST: Array
+(
+)
+
+2025-06-08 08:58:49 - FILES: Array
+(
+)
+
+2025-06-08 09:00:07 - POST: Array
+(
+    [find_room] => 
+)
+
+2025-06-08 09:00:07 - FILES: Array
+(
+)
+
+2025-06-08 09:00:31 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 09:00:31 - FILES: Array
+(
+)
+
+2025-06-08 09:00:57 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 09:00:57 - FILES: Array
+(
+)
+
+2025-06-08 09:00:59 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 09:00:59 - FILES: Array
+(
+)
+
+2025-06-08 09:01:03 - POST: Array
+(
+    [footer_category_code] => lien-he
+)
+
+2025-06-08 09:01:03 - FILES: Array
+(
+)
+
+2025-06-08 09:31:43 - POST: Array
+(
+    [fullName] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777566324
+    [subject] => hello
+    [message] => hi
+    [action] => submit_contact
+    [lienhe] => true
+)
+
+2025-06-08 09:31:43 - FILES: Array
+(
+)
+
+2025-06-08 09:35:26 - POST: Array
+(
+    [fullName] => Huynh Nhat Nam
+    [email] => admin@gmail.com
+    [phone] => 0777566324
+    [subject] => hello
+    [message] => hahaha
+    [action] => submit_contact
+    [lienhe] => true
+)
+
+2025-06-08 09:35:26 - FILES: Array
+(
+)
+
+2025-06-08 09:35:35 - POST: Array
+(
+    [fullName] => Huynh Nhat Nam
+    [email] => admin@gmail.com
+    [phone] => 0777566324
+    [subject] => hello
+    [message] => hahaha
+    [action] => submit_contact
+    [lienhe] => true
+)
+
+2025-06-08 09:35:35 - FILES: Array
+(
+)
+
+2025-06-08 09:36:35 - POST: Array
+(
+    [fullName] => Huynh Nhat Nam
+    [email] => admin@gmail.com
+    [phone] => 0777566324
+    [subject] => haaa
+    [message] => hihi
+    [action] => submit_contact
+    [lienhe] => true
+)
+
+2025-06-08 09:36:35 - FILES: Array
+(
+)
+
+2025-06-08 09:39:01 - POST: Array
+(
+    [fullName] => Huynh Nhat Nam
+    [email] => nhatnam161005@gmail.com
+    [phone] => 0777566324
+    [subject] => hahaha
+    [message] => hihi
+
+    [action] => submit_contact
+    [lienhe] => true
+)
+
+2025-06-08 09:39:01 - FILES: Array
+(
+)
+
+2025-06-08 09:39:29 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 09:39:29 - FILES: Array
+(
+)
+
+2025-06-08 09:39:36 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 09:39:36 - FILES: Array
+(
+)
+
+2025-06-08 09:41:39 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-08 09:41:39 - FILES: Array
+(
+)
+
+2025-06-08 09:43:33 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 09:43:33 - FILES: Array
+(
+)
+
+2025-06-08 10:15:53 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-08 10:15:53 - FILES: Array
+(
+)
+
+2025-06-08 10:16:52 - POST: Array
+(
+    [footer_category_code] => lien-he
+)
+
+2025-06-08 10:16:52 - FILES: Array
+(
+)
+
+2025-06-08 10:16:55 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 10:16:55 - FILES: Array
+(
+)
+
+2025-06-08 10:22:06 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 10:22:06 - FILES: Array
+(
+)
+
+2025-06-08 10:22:09 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-08 10:22:09 - FILES: Array
+(
+)
+
+2025-06-08 10:22:12 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-08 10:22:12 - FILES: Array
+(
+)
+
+2025-06-08 10:22:13 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 10:22:13 - FILES: Array
+(
+)
+
+2025-06-08 10:22:25 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 10:22:25 - FILES: Array
+(
+)
+
+2025-06-08 10:22:38 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 10:22:38 - FILES: Array
+(
+)
+
+2025-06-08 10:22:46 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 10:22:46 - FILES: Array
+(
+)
+
+2025-06-08 10:27:22 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 10:27:22 - FILES: Array
+(
+)
+
+2025-06-08 10:27:23 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-08 10:27:23 - FILES: Array
+(
+)
+
+2025-06-08 10:27:33 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 10:27:33 - FILES: Array
+(
+)
+
+2025-06-08 10:27:38 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 10:27:38 - FILES: Array
+(
+)
+
+2025-06-08 10:33:47 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 10:33:47 - FILES: Array
+(
+)
+
+2025-06-08 10:46:22 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 10:46:22 - FILES: Array
+(
+)
+
+2025-06-08 11:22:14 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-08 11:22:14 - FILES: Array
+(
+)
+
+2025-06-08 11:22:16 - POST: Array
+(
+    [id_tintuc] => 2
+)
+
+2025-06-08 11:22:16 - FILES: Array
+(
+)
+
+2025-06-08 11:22:58 - POST: Array
+(
+    [other_news_id] => 3
+)
+
+2025-06-08 11:22:58 - FILES: Array
+(
+)
+
+2025-06-08 11:24:07 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 11:24:07 - FILES: Array
+(
+)
+
+2025-06-08 11:30:42 - POST: Array
+(
+    [room_id] => 2
+)
+
+2025-06-08 11:30:42 - FILES: Array
+(
+)
+
+2025-06-08 11:30:47 - POST: Array
+(
+    [room_id] => 3
+)
+
+2025-06-08 11:30:47 - FILES: Array
+(
+)
+
+2025-06-08 11:39:37 - POST: Array
+(
+    [room_id] => 1
+)
+
+2025-06-08 11:39:37 - FILES: Array
+(
+)
+
+2025-06-08 11:40:01 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 11:40:01 - FILES: Array
+(
+)
+
+2025-06-08 11:40:08 - POST: Array
+(
+    [room_id] => 2
+)
+
+2025-06-08 11:40:08 - FILES: Array
+(
+)
+
+2025-06-08 11:40:14 - POST: Array
+(
+    [room_id] => 4
+)
+
+2025-06-08 11:40:14 - FILES: Array
+(
+)
+
+2025-06-08 11:40:21 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-08 11:40:21 - FILES: Array
+(
+)
+
+2025-06-08 11:43:23 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 11:43:23 - FILES: Array
+(
+)
+
+2025-06-08 20:02:58 - POST: Array
+(
+    [subcategory_code] => tour-sapa
+)
+
+2025-06-08 20:02:58 - FILES: Array
+(
+)
+
+2025-06-08 20:03:11 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-08 20:03:11 - FILES: Array
+(
+)
+
+2025-06-08 20:03:14 - POST: Array
+(
+    [subcategory_code] => tour-bac-ha
+)
+
+2025-06-08 20:03:14 - FILES: Array
+(
+)
+
+2025-06-08 20:03:15 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-08 20:03:15 - FILES: Array
+(
+)
+
+2025-06-08 20:04:38 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 20:04:38 - FILES: Array
+(
+)
+
+2025-06-08 20:07:20 - POST: Array
+(
+    [find_room] => 
+)
+
+2025-06-08 20:07:20 - FILES: Array
+(
+)
+
+2025-06-08 20:08:26 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-08 20:08:26 - FILES: Array
+(
+)
+
+2025-06-08 20:08:28 - POST: Array
+(
+    [subcategory_code] => gala-dinner
+)
+
+2025-06-08 20:08:28 - FILES: Array
+(
+)
+
+2025-06-08 20:08:30 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-08 20:08:30 - FILES: Array
+(
+)
+
+2025-06-08 20:10:46 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 20:10:46 - FILES: Array
+(
+)
+
+2025-06-08 20:10:52 - POST: Array
+(
+    [find_room] => 
+)
+
+2025-06-08 20:10:52 - FILES: Array
+(
+)
+
+2025-06-08 20:10:59 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 20:10:59 - FILES: Array
+(
+)
+
+2025-06-08 20:11:26 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 20:11:26 - FILES: Array
+(
+)
+
+2025-06-08 20:11:31 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 20:11:31 - FILES: Array
+(
+)
+
+2025-06-08 20:11:45 - POST: Array
+(
+    [xem_them_tin] => tin-tuc
+)
+
+2025-06-08 20:11:45 - FILES: Array
+(
+)
+
+2025-06-08 20:11:47 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-08 20:11:47 - FILES: Array
+(
+)
+
+2025-06-08 20:11:49 - POST: Array
+(
+    [other_news_id] => 2
+)
+
+2025-06-08 20:11:49 - FILES: Array
+(
+)
+
+2025-06-08 20:11:52 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-08 20:11:52 - FILES: Array
+(
+)
+
+2025-06-08 20:11:53 - POST: Array
+(
+    [subcategory_code] => nha-hang
+)
+
+2025-06-08 20:11:53 - FILES: Array
+(
+)
+
+2025-06-08 20:11:58 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-08 20:11:58 - FILES: Array
+(
+)
+
+2025-06-08 20:12:01 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-08 20:12:01 - FILES: Array
+(
+)
+
+2025-06-08 20:12:05 - POST: Array
+(
+    [event_code] => tiec-cuoi
+)
+
+2025-06-08 20:12:05 - FILES: Array
+(
+)
+
+2025-06-08 20:12:32 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-08 20:12:32 - FILES: Array
+(
+)
+
+2025-06-08 20:12:39 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 20:12:39 - FILES: Array
+(
+)
+
+2025-06-08 20:13:58 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-08 20:13:58 - FILES: Array
+(
+)
+
+2025-06-08 20:14:00 - POST: Array
+(
+    [id_uudai] => 4
+)
+
+2025-06-08 20:14:00 - FILES: Array
+(
+)
+
+2025-06-08 20:14:04 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 20:14:04 - FILES: Array
+(
+)
+

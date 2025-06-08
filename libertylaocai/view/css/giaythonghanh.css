@@ -527,43 +527,80 @@ body {
     padding: 25px;
   }
 }
-/* Success Notification Styles */
 
-.success-notification {
+/* Success Modal Styles */
+.success-modal {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 1000;
-  max-width: 300px;
-  width: 100%;
-  animation: slideInRight 0.3s ease-out;
+  animation: fadeIn 0.3s ease-out;
 }
 
-.notification-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: center;
+  padding: 20px;
 }
 
-.notification-content i {
-  font-size: 2rem;
-  color: #28a745;
+.modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  animation: slideUp 0.3s ease-out;
 }
 
-.notification-content h3 {
-  color: #1e7255;
-  font-size: 1.2rem;
-  margin-bottom: 5px;
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #28a745;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 20px;
 }
 
-.notification-content p {
+.modal-content h3 {
+  color: #1e3c72;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.modal-content p {
   color: #666;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.close-modal-btn {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
 }
 
 /* Form Validation Styles */
@@ -666,27 +703,5 @@ body {
   }
   to {
     opacity: 0;
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideOutRight {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(100px);
   }
 }

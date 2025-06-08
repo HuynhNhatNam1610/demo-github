@@ -19,6 +19,7 @@ function getHotelInfoWithLanguage($languageId = null)
                 t.website,
                 t.link_website,
                 t.iframe,
+                t.iframe_ytb,
                 tn.id_ngonngu,
                 tn.address,
                 tn.description
@@ -51,6 +52,7 @@ function getHotelInfoWithLanguage($languageId = null)
                 'website' => $row['website'],
                 'link_website' => $row['link_website'],
                 'iframe' => $row['iframe'],
+                'iframe_ytb' => $row['iframe_ytb'],
                 'id_ngonngu' => $row['id_ngonngu'],
                 'address' => $row['address'],
                 'description' => $row['description']
@@ -373,6 +375,51 @@ function getRoomTypes($languageId = null)
     return $rooms;
 }
 
+function getRoomDetail($room_id, $languageId)
+{
+    // Câu truy vấn SQL để lấy chi tiết phòng
+    global $conn;
+    $sql_room_detail = "
+        SELECT 
+            lpn.id,
+            lpn.quantity,
+            lpn.area,
+            lpn.price,
+            lpnnn.name,
+            lpnnn.description
+        FROM loaiphongnghi lpn
+        LEFT JOIN loaiphongnghi_ngonngu lpnnn ON lpn.id = lpnnn.id_loaiphongnghi
+        WHERE lpn.id = ? AND (lpnnn.id_ngonngu = ? OR lpnnn.id_ngonngu IS NULL)
+    ";
+
+    // Chuẩn bị và thực thi truy vấn
+    $stmt = $conn->prepare($sql_room_detail);
+    if (!$stmt) {
+        // Xử lý lỗi chuẩn bị truy vấn
+        error_log("Prepare failed: " . $conn->error);
+        return null;
+    }
+
+    $stmt->bind_param("ii", $room_id, $languageId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Kiểm tra kết quả
+    if ($result->num_rows == 0) {
+        // Không tìm thấy phòng, chuyển hướng về danh sách phòng
+        header("Location: danhsachphong.php");
+        exit();
+    }
+
+    // Lấy dữ liệu phòng
+    $room = $result->fetch_assoc();
+
+    // Đóng statement
+    $stmt->close();
+
+    return $room;
+}
+
 function getBedTypesForRoom($roomTypeId, $languageId = null)
 {
     global $conn;
@@ -407,6 +454,7 @@ function getBedTypesForRoom($roomTypeId, $languageId = null)
     return $bedTypes;
 }
 
+// lấy cho các thẻ danh sách phong
 function getAmenitiesForRoom($roomTypeId, $languageId)
 {
     global $conn;
@@ -416,7 +464,7 @@ function getAmenitiesForRoom($roomTypeId, $languageId)
             FROM tienich_loaiphong tlp
             JOIN tienich t ON tlp.id_tienich = t.id
             JOIN tienich_ngonngu tn ON t.id = tn.id_tienich
-            WHERE tlp.id_loaiphong = ? AND tn.id_ngonngu = ? AND t.active = 1";
+            WHERE tlp.id_loaiphong = ? AND tn.id_ngonngu = ? AND t.active = 1 LIMIT 6";
 
     $stmt = mysqli_prepare($conn, $sql);
     if ($stmt) {
@@ -1068,6 +1116,17 @@ function createCustomer($name, $phone, $email, $img = null)
     return $customerId;
 }
 
+function createContactRequest($subject, $message, $customerId)
+{
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO contact_requests (service, message, id_khachhang) VALUES (?, ?, ?)");
+    $stmt->bind_param("ssi", $subject, $message, $customerId); // s = string, i = integer
+    $stmt->execute();
+    $contactRequestId = $conn->insert_id;
+    $stmt->close();
+    return $contactRequestId;
+}
+
 function insertEventBooking($type_event, $start_at, $end_at, $number_people, $note, $images, $budget, $status, $how_long, $id_hoitruong, $id_khachhang)
 {
     global $conn;
@@ -1091,7 +1150,7 @@ function getFoodServices($languageId)
             FROM amthuc a
             LEFT JOIN amthuc_ngonngu an ON a.id = an.id_amthuc AND an.id_ngonngu = ?
             WHERE a.active = 1
-            ORDER BY a.id";
+            ORDER BY a.id ";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $languageId);
@@ -2010,4 +2069,499 @@ function getRelatedEventOrganized($language, $id_sukiendatochuc, $limit)
     $result = $stmt->get_result();
 
     return $result->fetch_all(MYSQLI_ASSOC); // Trả về mảng chứa tối đa 6 bản ghi
+}
+
+function getImagesMenu()
+{
+    global $conn;
+    $images = [];
+
+    $sql = "SELECT id, image
+            FROM menu_tiec_cuoi 
+            WHERE active = 1
+            ORDER BY id";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        // Thêm (append) từng bản ghi vào mảng
+        $images[] = [
+            'id'    => $row['id'],
+            'image' => $row['image']
+        ];
+    }
+
+    $stmt->close();
+    return $images;   // Trả về mảng chứa tất cả bản ghi
+}
+
+
+// Lấy tiện ích cho từng loại phòng
+function getRoomAmenities($room_id, $languageId)
+{
+    global $conn;
+    $sql_amenities = "
+        SELECT tn.content
+        FROM tienich_loaiphong tlp
+        JOIN tienich_ngonngu tn ON tlp.id_tienich = tn.id_tienich
+        WHERE tlp.id_loaiphong = ? AND tn.id_ngonngu = ?
+    ";
+
+    $stmt = $conn->prepare($sql_amenities);
+    $stmt->bind_param("ii", $room_id, $languageId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $amenities = [];
+    while ($row = $result->fetch_assoc()) {
+        $amenities[] = $row['content'];
+    }
+    return $amenities;
+}
+
+// Lấy số phòng còn trống
+function getAvailableRooms($conn, $room_id)
+{
+    $sql = "SELECT COUNT(*) as available FROM phongkhachsan WHERE id_loaiphong = ? AND status = 'available'";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $room_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    return $row['available'];
+}
+
+function getPriceRange()
+{
+    global $conn;
+    // Câu lệnh SQL để lấy giá min và max, loại bỏ dấu chấm và chuyển thành số
+    $sql = "SELECT 
+                MIN(CAST(REPLACE(price, '.', '') AS UNSIGNED)) as min_price, 
+                MAX(CAST(REPLACE(price, '.', '') AS UNSIGNED)) as max_price 
+            FROM loaiphongnghi";
+
+    // Thực thi truy vấn
+    $result = $conn->query($sql);
+
+    // Kiểm tra và lấy dữ liệu
+    if ($result && $result->num_rows > 0) {
+        $price_data = $result->fetch_assoc();
+        return [
+            'min_price' => $price_data['min_price'] ?? 500000,
+            'max_price' => $price_data['max_price'] ?? 3000000
+        ];
+    }
+
+    // Trả về giá trị mặc định nếu không có dữ liệu
+    return [
+        'min_price' => 500000,
+        'max_price' => 3000000
+    ];
+}
+
+function getOtherRooms($room_id, $languageId, $limit = 6)
+{
+    global $conn;
+    // Câu truy vấn SQL để lấy danh sách các phòng khác
+    $sql_other_rooms = "
+        SELECT 
+            lpn.id,
+            lpn.quantity,
+            lpn.area,
+            lpn.price,
+            lpnnn.name,
+            lpnnn.description
+        FROM loaiphongnghi lpn
+        LEFT JOIN loaiphongnghi_ngonngu lpnnn ON lpn.id = lpnnn.id_loaiphongnghi
+        WHERE lpn.id != ? AND (lpnnn.id_ngonngu = ? OR lpnnn.id_ngonngu IS NULL)
+        ORDER BY lpn.price ASC
+        LIMIT ?
+    ";
+
+    // Chuẩn bị và thực thi truy vấn
+    $stmt = $conn->prepare($sql_other_rooms);
+    if (!$stmt) {
+        // Xử lý lỗi chuẩn bị truy vấn
+        error_log("Prepare failed: " . $conn->error);
+        return [];
+    }
+
+    // Ép kiểu $limit thành số nguyên để đảm bảo an toàn
+    $limit = (int)$limit;
+    $stmt->bind_param("iii", $room_id, $languageId, $limit);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Lấy danh sách phòng
+    $other_rooms = [];
+    while ($row = $result->fetch_assoc()) {
+        // Lấy danh sách ảnh cho phòng
+        $row['images'] = getImagesForRoom($row['id']);
+        $other_rooms[] = $row;
+    }
+
+    // Đóng statement
+    $stmt->close();
+
+    return $other_rooms;
+}
+
+// Hàm lấy đánh giá của phòng với phân trang
+function getRoomReviews($id_loaiphong, $page = 1, $limit = 5)
+{
+    global $conn;
+    $reviews = [];
+    $offset = ($page - 1) * $limit;
+
+    $sql = "
+        SELECT b.id, b.content, b.create_at, b.rate, k.name
+        FROM binhluan b
+        JOIN khachhang k ON b.id_khachhang = k.id
+        JOIN loaiphong_binhluan lpb ON b.id = lpb.id_binhluan
+        WHERE lpb.id_loaiphong = ? AND b.active = 1
+        ORDER BY b.create_at DESC
+        LIMIT ? OFFSET ?
+    ";
+
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        $stmt->bind_param("iii", $id_loaiphong, $limit, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $reviews[] = [
+                'id' => $row['id'],
+                'content' => $row['content'],
+                'create_at' => $row['create_at'],
+                'rate' => $row['rate'],
+                'name' => $row['name']
+            ];
+        }
+
+        $result->free();
+        $stmt->close();
+    } else {
+        error_log("Error preparing statement in getRoomReviews: " . $conn->error);
+    }
+
+    return $reviews;
+}
+
+// Hàm lấy tổng số đánh giá của phòng
+function getTotalRoomReviews($id_loaiphong)
+{
+    global $conn;
+    $sql = "
+        SELECT COUNT(*) as total
+        FROM binhluan b
+        JOIN loaiphong_binhluan lpb ON b.id = lpb.id_binhluan
+        WHERE lpb.id_loaiphong = ? AND b.active = 1
+    ";
+
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        $stmt->bind_param("i", $id_loaiphong);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $total = (int)$row['total'];
+        $result->free();
+        $stmt->close();
+        return $total;
+    } else {
+        error_log("Error preparing statement in getTotalRoomReviews: " . $conn->error);
+    }
+
+    return 0;
+}
+
+// Hàm tính điểm đánh giá trung bình của phòng
+function calculateRoomAverageRating($id_loaiphong)
+{
+    global $conn;
+    $sql = "
+        SELECT AVG(b.rate) as average_rating
+        FROM binhluan b
+        JOIN loaiphong_binhluan lpb ON b.id = lpb.id_binhluan
+        WHERE lpb.id_loaiphong = ? AND b.active = 1
+    ";
+
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        $stmt->bind_param("i", $id_loaiphong);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $average = $row['average_rating'] ? number_format($row['average_rating'], 1) : "0.0";
+        $result->free();
+        $stmt->close();
+        return $average;
+    } else {
+        error_log("Error executing query in calculateRoomAverageRating: " . $conn->error);
+    }
+
+    return "0.0";
+}
+
+// Hàm tính phân bố tỷ lệ phần trăm các mức sao của phòng
+function calculateRoomRatingBreakdown($id_loaiphong)
+{
+    global $conn;
+    $ratingBreakdown = [1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0];
+    $totalReviews = getTotalRoomReviews($id_loaiphong);
+
+    if ($totalReviews == 0) {
+        return array_map(function () {
+            return ['count' => 0, 'percentage' => 0];
+        }, $ratingBreakdown);
+    }
+
+    $sql = "
+        SELECT b.rate, COUNT(*) as count
+        FROM binhluan b
+        JOIN loaiphong_binhluan lpb ON b.id = lpb.id_binhluan
+        WHERE lpb.id_loaiphong = ? AND b.active = 1
+        GROUP BY b.rate
+    ";
+
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        $stmt->bind_param("i", $id_loaiphong);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $rate = (int)$row['rate'];
+            if ($rate >= 1 && $rate <= 5) {
+                $percentage = ($row['count'] / $totalReviews) * 100;
+                $ratingBreakdown[$rate] = [
+                    'count' => (int)$row['count'],
+                    'percentage' => round($percentage, 1)
+                ];
+            }
+        }
+
+        $result->free();
+        $stmt->close();
+    } else {
+        error_log("Error preparing statement in calculateRoomRatingBreakdown: " . $conn->error);
+    }
+
+    // Điền các mức sao không có đánh giá
+    foreach ($ratingBreakdown as $rate => &$data) {
+        if (!is_array($data)) {
+            $data = ['count' => 0, 'percentage' => 0];
+        }
+    }
+
+    return $ratingBreakdown;
+}
+
+// Hàm chèn bình luận mới cho phòng
+function insertRoomComment($id_loaiphong, $name, $email, $content, $rating)
+{
+    global $conn;
+
+    // Chèn hoặc lấy id_khachhang từ bảng khachhang
+    $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
+            ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("ss", $name, $email);
+        $result = $stmt->execute();
+        $id_khachhang = $conn->insert_id;
+        $stmt->close();
+        if (!$result) {
+            error_log("Error inserting customer in insertRoomComment: " . $conn->error);
+            return false;
+        }
+    } else {
+        error_log("Error preparing statement in insertRoomComment (khachhang): " . $conn->error);
+        return false;
+    }
+
+    // Chèn bình luận vào bảng binhluan
+    $create_at = date('Y-m-d H:i:s');
+    $active = 1;
+    $sql = "INSERT INTO binhluan (content, create_at, rate, active, id_khachhang) VALUES (?, ?, ?, ?, ?)";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("ssiii", $content, $create_at, $rating, $active, $id_khachhang);
+        $result = $stmt->execute();
+        $id_binhluan = $conn->insert_id;
+        $stmt->close();
+        if (!$result) {
+            error_log("Error inserting comment in insertRoomComment: " . $conn->error);
+            return false;
+        }
+    } else {
+        error_log("Error preparing statement in insertRoomComment (binhluan): " . $conn->error);
+        return false;
+    }
+
+    // Chèn vào bảng loaiphong_binhluan
+    $sql = "INSERT INTO loaiphong_binhluan (id_binhluan, id_loaiphong) VALUES (?, ?)";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("ii", $id_binhluan, $id_loaiphong);
+        $result = $stmt->execute();
+        $stmt->close();
+        if (!$result) {
+            error_log("Error inserting into loaiphong_binhluan: " . $conn->error);
+            return false;
+        }
+        return true;
+    } else {
+        error_log("Error preparing statement in insertRoomComment (loaiphong_binhluan): " . $conn->error);
+        return false;
+    }
+
+    return false;
+}
+
+function insertRoomBooking($checkin_datetime, $checkout_datetime, $adults, $children, $special_requests, $status, $room_id, $customer_id)
+{
+    global $conn;
+    $sql = "INSERT INTO datphongkhachsan (time_come, time_leave, number_adult, number_children, note, status, created_at, id_phong, id_khachhang) 
+            VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?)";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("ssiissii", $checkin_datetime, $checkout_datetime, $adults, $children, $special_requests, $status, $room_id, $customer_id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+    return false;
+}
+
+// function getActiveTopicsWithVideo($languageId) {
+//     global $conn;
+//     $topics = [];
+
+//     // Lấy các chủ đề active từ bảng thuvien
+//     $sql_topics = "SELECT id, IF(? = 1, topic, topic_ngonngu) AS topic_display 
+//                    FROM thuvien 
+//                    WHERE active = 1 
+//                    ORDER BY id";
+//     $stmt_topics = $conn->prepare($sql_topics);
+//     $stmt_topics->bind_param("i", $languageId);
+//     $stmt_topics->execute();
+//     $result_topics = $stmt_topics->get_result();
+
+//     if ($result_topics->num_rows > 0) {
+//         while ($row = $result_topics->fetch_assoc()) {
+//             $topics[] = ['id' => $row['id'], 'topic_display' => $row['topic_display']];
+//         }
+//     }
+
+//     return $topics;
+// }
+
+function getImagesAndVideos($languageId = 1)
+{
+    global $conn;
+    $image_tables = [
+        'anhtintuc' => 'image',
+        'anhtongquat' => 'image',
+        'anhuudai' => 'image',
+        'anhhoitruong' => 'image',
+        'anhbar' => 'image',
+        'anhnhahang' => 'image',
+        'anhdichvu' => 'image',
+        'anhkhachsan' => 'image',
+        'anhsukiendatochuc' => 'image',
+        'anhsukien' => 'image',
+        'anhthucdon' => 'image'
+    ];
+
+    // Mảng lưu tất cả hình ảnh theo id_topic
+    $all_images = [];
+
+    // Lấy hình ảnh từ các bảng
+    foreach ($image_tables as $table => $image_column) {
+        $sql = "SELECT id_topic, $image_column FROM $table";
+        $result = $conn->query($sql);
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $all_images[$row['id_topic']][] = $row[$image_column];
+            }
+        }
+    }
+
+    // Lấy video từ bảng video
+    $videos = [];
+    $sql_videos = "SELECT video FROM video";
+    $result_videos = $conn->query($sql_videos);
+    if ($result_videos && $result_videos->num_rows > 0) {
+        while ($row = $result_videos->fetch_assoc()) {
+            $videos[] = $row['video'];
+        }
+    }
+
+    // Lấy các chủ đề active từ bảng thuvien
+    $topics = [];
+    $sql_topics = "SELECT id, IF(? = 1, topic, topic_ngonngu) AS topic_display 
+                   FROM thuvien 
+                   WHERE active = 1 
+                   ORDER BY id";
+    $stmt_topics = $conn->prepare($sql_topics);
+    $stmt_topics->bind_param("i", $languageId);
+    $stmt_topics->execute();
+    $result_topics = $stmt_topics->get_result();
+
+    if ($result_topics->num_rows > 0) {
+        while ($row = $result_topics->fetch_assoc()) {
+            $topics[] = ['id' => $row['id'], 'topic_display' => $row['topic_display']];
+        }
+    }
+
+    // Trả về dữ liệu
+    return [
+        'images' => $all_images,
+        'videos' => $videos,
+        'topics' => $topics
+    ];
+}
+
+function getAllRoomTypesWithRandomImage($languageId = 1)
+{
+    global $conn;
+    $roomTypes = [];
+
+    // Truy vấn lấy tất cả loại phòng và một ảnh ngẫu nhiên
+    $sql = "SELECT lpn.id, lpn.area, lpn.price, lpn_nn.name, lpn_nn.description,
+                   (SELECT ak.image 
+                    FROM anhkhachsan ak 
+                    WHERE ak.id_loaiphongnghi = lpn.id AND ak.active = 1 
+                    ORDER BY RAND() 
+                    LIMIT 1) AS image
+            FROM loaiphongnghi lpn
+            JOIN loaiphongnghi_ngonngu lpn_nn ON lpn.id = lpn_nn.id_loaiphongnghi
+            WHERE lpn_nn.id_ngonngu = ?";
+
+    $stmt = mysqli_prepare($conn, $sql);
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $languageId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            // Lấy thông tin loại giường cho loại phòng
+            $bedTypes = getBedTypesForRoom($row['id'], $languageId);
+
+            $roomTypes[] = [
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'description' => $row['description'],
+                'price' => $row['price'],
+                'area' => $row['area'],
+                'image' => $row['image'] ?? 'default_image.jpg', // Ảnh mặc định nếu không có ảnh
+                'bedTypes' => $bedTypes
+            ];
+        }
+        mysqli_stmt_close($stmt);
+    } else {
+        error_log("Lỗi chuẩn bị truy vấn getAllRoomTypesWithRandomImage: " . mysqli_error($conn));
+    }
+
+    return $roomTypes;
 }

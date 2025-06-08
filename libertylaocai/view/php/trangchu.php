@@ -132,9 +132,11 @@ foreach ($roomTypes as $room) {
         </div>
         <div class="form-field">
           <label><?php echo $languageId == 1 ? 'Số Lượng Khách' : 'Number Of People'; ?></label>
-          <input type="number" name="so_luong" min="1" max="6" placeholder=".............">
+          <input type="number" name="so_luong" min="1" max="6" placeholder="Nhập số người">
         </div>
-        <button class="btn-find"><?php echo $languageId == 1 ? 'TÌM PHÒNG' : 'Find Room'; ?> →</button>
+        <form action="/libertylaocai/user/submit" method="POST" style="display:inline; ">
+          <button type="submit" name="find_room" class="btn-find"><?php echo $languageId == 1 ? 'TÌM PHÒNG' : 'Find Room'; ?> →</button>
+        </form>
       </div>
     </div>
     <div class="service-icons">
@@ -257,13 +259,17 @@ foreach ($roomTypes as $room) {
             <ul class="room-amenities">
               <?php if (!empty($amenities)): ?>
                 <?php foreach ($amenities as $amenity): ?>
-                  <li><?php echo htmlspecialchars($amenity); ?></li>
+                  <li><i class="fas fa-check"></i><?php echo htmlspecialchars($amenity); ?></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <li><?php echo $languageId == 1 ? 'Không có tiện ích' : 'No amenities'; ?></li>
               <?php endif; ?>
             </ul>
-            <button class="btn-booking"><?php echo $languageId == 1 ? 'ĐẶT PHÒNG' : 'BOOK NOW'; ?></button>
+            <!-- Thay đổi nút đặt phòng thành form POST -->
+            <form action="/libertylaocai/user/submit" method="POST">
+              <input type="hidden" name="room_id" value="<?php echo $room['id']; ?>">
+              <button class="btn-booking"><?php echo $languageId == 1 ? 'ĐẶT PHÒNG' : 'BOOK NOW'; ?></button>
+            </form>
           </div>
           <div class="room-image-box">
             <div class="carousel-container">
@@ -374,7 +380,7 @@ foreach ($roomTypes as $room) {
                 </div>
               </div>
               <div class="news-content">
-                <span class="news-category">Sự kiện</span>
+               
                 <h3><?php echo htmlspecialchars($news['title']); ?></h3>
                 <p><?php echo htmlspecialchars(mb_substr($news['content'], 0, 100, 'UTF-8')) . '...'; ?></p>
                 <form action="/libertylaocai/user/submit" method="POST" style="display: inline; ">
@@ -610,7 +616,6 @@ foreach ($roomTypes as $room) {
                 </div>
               </div>
             </div>
-
 
             <div class="quality-item">
               <div class="quality-card">

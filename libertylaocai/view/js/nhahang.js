@@ -7,30 +7,7 @@ let totalPages = 1;
 
 let currentMenuPage = 1;
 let currentMenuLimit = 9;
-// let totalMenuPages = 1;
 
-// function fetchMenu(page = 1, limit = 9) {
-//   fetch("/libertylaocai/api/menu.php", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/x-www-form-urlencoded",
-//     },
-//     body: `page=${page}&limit=${limit}`,
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       if (data.status === "success") {
-//         updateMenu(data.data);
-//         currentMenuPage = data.data.currentPage;
-//         totalMenuPages = data.data.totalPages;
-//         currentMenuLimit = limit;
-//         updateMenuPaginationControls();
-//       }
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching menu:", error);
-//     });
-// }
 function fetchMenu(page = 1, limit = 9) {
   fetch("/libertylaocai/api/menu.php", {
     method: "POST",
@@ -79,33 +56,6 @@ function fetchMenu(page = 1, limit = 9) {
     });
 }
 
-// function updateMenu(data) {
-//   const menuList = document.getElementById("menu-list");
-//   menuList.innerHTML = "";
-//   data.menuImages.forEach((dish) => {
-//     const dishDiv = document.createElement("div");
-//     dishDiv.className = "service-featured-detail";
-//     dishDiv.innerHTML = `
-//             <div class="featured-img">
-//                 <img src="/libertylaocai/view/img/${dish.image}" alt="${
-//       dish.title
-//     }">
-//             </div>
-//             <div class="featured-content">
-//                 <div class="featured-title">${dish.title}</div>
-//                 <div class="featured-description">${
-//                   dish.description || ""
-//                 }</div>
-//                 <div class="price-container">
-//                     <div class="price">${Number(dish.price).toLocaleString(
-//                       "vi-VN"
-//                     )} VNĐ</div>
-//                 </div>
-//             </div>
-//         `;
-//     menuList.appendChild(dishDiv);
-//   });
-// }
 function updateMenu(data) {
   const menuList = document.getElementById("menu-list");
   if (!menuList) {
@@ -153,93 +103,6 @@ function updateMenu(data) {
   }
 }
 
-// function updateMenuPaginationControls() {
-//   const paginationControls = document.getElementById("menu-pagination");
-//   const showMoreBtn = document.querySelector(".show-more-menu");
-//   const paginationButtons = document.getElementById("menu-pagination-buttons");
-
-//   if (totalMenuPages <= 1 && currentMenuLimit >= 10) {
-//     paginationControls.style.display = "none";
-//     return;
-//   }
-
-//   paginationControls.style.display = "block";
-
-//   if (currentMenuLimit < 10) {
-//     showMoreBtn.style.display = "block";
-//     paginationButtons.style.display = "none";
-//   } else {
-//     showMoreBtn.style.display = "none";
-//     paginationButtons.style.display = "flex";
-
-//     paginationButtons.innerHTML = "";
-//     const maxButtons = 5;
-//     let startPage = Math.max(
-//       1,
-//       currentMenuPage - Math.floor((maxButtons - 1) / 2)
-//     );
-//     let endPage = Math.min(totalMenuPages, startPage + maxButtons - 1);
-
-//     if (endPage - startPage + 1 > maxButtons) {
-//       endPage = startPage + maxButtons - 1;
-//     }
-
-//     if (startPage > 1) {
-//       const firstPageBtn = document.createElement("button");
-//       firstPageBtn.className = "pagination-btn";
-//       firstPageBtn.textContent = "1";
-//       firstPageBtn.addEventListener("click", () =>
-//         fetchMenu(1, currentMenuLimit)
-//       );
-//       paginationButtons.appendChild(firstPageBtn);
-
-//       if (startPage > 2) {
-//         const ellipsis = document.createElement("span");
-//         ellipsis.className = "pagination-ellipsis";
-//         ellipsis.textContent = "...";
-//         paginationButtons.appendChild(ellipsis);
-//       }
-//       startPage++;
-//       endPage = Math.min(endPage, startPage + maxButtons - 2);
-//     }
-
-//     for (let i = startPage; i <= endPage; i++) {
-//       const pageBtn = document.createElement("button");
-//       pageBtn.className = `pagination-btn ${
-//         i === currentMenuPage ? "active" : ""
-//       }`;
-//       pageBtn.textContent = i;
-//       pageBtn.addEventListener("click", () => fetchMenu(i, currentMenuLimit));
-//       paginationButtons.appendChild(pageBtn);
-//     }
-
-//     if (endPage < totalMenuPages) {
-//       if (endPage < totalMenuPages - 1) {
-//         const ellipsis = document.createElement("span");
-//         ellipsis.className = "pagination-ellipsis";
-//         ellipsis.textContent = "...";
-//         paginationButtons.appendChild(ellipsis);
-//       }
-//       const lastPageBtn = document.createElement("button");
-//       lastPageBtn.className = "pagination-btn";
-//       lastPageBtn.textContent = totalMenuPages;
-//       lastPageBtn.addEventListener("click", () =>
-//         fetchMenu(totalMenuPages, currentMenuLimit)
-//       );
-//       paginationButtons.appendChild(lastPageBtn);
-//     }
-
-//     const buttonCount = paginationButtons.children.length;
-//     if (buttonCount > maxButtons) {
-//       while (paginationButtons.children.length > maxButtons) {
-//         paginationButtons.removeChild(paginationButtons.lastChild);
-//       }
-//     }
-//   }
-
-//   showMoreBtn.removeEventListener("click", handleShowMoreMenu);
-//   showMoreBtn.addEventListener("click", handleShowMoreMenu);
-// }
 function updateMenuPaginationControls() {
   const paginationControls = document.getElementById("menu-pagination");
   const paginationButtons = document.getElementById("menu-pagination-buttons");
@@ -382,16 +245,6 @@ document.addEventListener("DOMContentLoaded", function () {
   setMinDate();
   fetchReviews(1, 5);
 
-  // // Gắn sự kiện cho các nút phân trang menu
-  // const menuPaginationButtons = document.querySelectorAll(
-  //   "#menu-pagination-buttons .pagination-btn"
-  // );
-  // menuPaginationButtons.forEach((btn) => {
-  //   btn.addEventListener("click", () => {
-  //     const page = parseInt(btn.getAttribute("data-page"));
-  //     fetchMenu(page, currentMenuLimit);
-  //   });
-  // });
   // Gắn sự kiện cho các nút phân trang menu
   const menuPaginationButtons = document.querySelectorAll(
     "#menu-pagination-buttons .pagination-btn"
@@ -404,31 +257,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // // Gắn sự kiện cho nút "Xem thêm món ăn"
-  // const showMoreMenuBtn = document.querySelector(".show-more-menu");
-  // if (showMoreMenuBtn) {
-  //   showMoreMenuBtn.addEventListener("click", handleShowMoreMenu);
-  // }
-
-  // const phoneInput = document.getElementById("phone");
-  // if (phoneInput) {
-  //   phoneInput.addEventListener("input", function (e) {
-  //     let value = e.target.value.replace(/\D/g, "");
-  //     if (value.startsWith("84")) {
-  //       value =
-  //         "+84 " +
-  //         value.slice(2, 5) +
-  //         " " +
-  //         value.slice(5, 8) +
-  //         " " +
-  //         value.slice(8);
-  //     } else if (value.startsWith("0")) {
-  //       value =
-  //         value.slice(0, 4) + " " + value.slice(4, 7) + " " + value.slice(7);
-  //     }
-  //     e.target.value = value.trim();
-  //   });
-  // }
   const phoneInput = document.getElementById("phone");
   if (phoneInput) {
     phoneInput.addEventListener("input", function (e) {

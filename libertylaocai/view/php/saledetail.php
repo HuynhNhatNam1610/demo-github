@@ -59,14 +59,14 @@ $relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
                             <div class="promotions-grid" id="promotionsGrid">
                                 <?php
                                 foreach ($relatedPromotions as $promo) {
-                                    echo '<div class="promotion-item">';
+                                    echo '<div class="promotion-item" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
                                     echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promo['image']) . '" alt="Khuyến mãi">';
                                     echo '<div class="promotion-item-content">';
                                     echo '<h3>' . htmlspecialchars($promo['title']) . '</h3>';
-                                    echo '<p>' . htmlspecialchars(mb_substr($promo['content'], 0, 100, 'UTF-8')) . '...</p>';
+                                    echo '<p>' . mb_substr($promo['content'], 0, 100, 'UTF-8') . '...</p>';
                                     echo '<div class="promotion-date">' . htmlspecialchars($promo['created_at']) . '</div>';
-                                    echo '</div>
-                                </div>';
+                                    echo '</div>';
+                                    echo '</div>';
                                 }
                                 ?>
                             </div>
@@ -79,9 +79,15 @@ $relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
                 </div>
             </div>
         </div>
+
+        <!-- Hidden form for submission -->
+        <form id="promotionForm" action="/libertylaocai/user/submit" method="POST" style="display: none;">
+            <input type="hidden" name="other_promotion_id" id="promotionIdInput">
+        </form>
+
         <?php include "footer.php" ?>
-        <script src="/libertylaocai/view/js/saledetail.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/libertylaocai/view/js/saledetail.js"></script>
     </body>
 </body>
 

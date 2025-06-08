@@ -145,7 +145,8 @@ body {
   transition: all 0.3s ease;
   border: 1px solid #f0f0f0;
   display: flex;
-  flex-direction: column; /* Quan trọng: Sắp xếp theo chiều dọc */
+  flex-direction: column;
+  cursor: pointer;
 }
 
 .promotion-item:hover {
@@ -166,17 +167,16 @@ body {
 }
 
 .promotion-item-content {
-  padding: 25px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Mở rộng để chiếm hết không gian còn lại */
+  flex-grow: 1;
   justify-content: space-between;
 }
 
 .promotion-item h3 {
   font-size: 20px;
   color: #2c5f2d;
-  margin-bottom: 12px;
   font-weight: 500;
   line-height: 1.4;
   /* Giới hạn title chỉ hiển thị tối đa 2 dòng */
@@ -185,22 +185,19 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-height: 2.8em; /* Đảm bảo chiều cao tối thiểu cho 2 dòng */
+  min-height: 2.8em;
 }
 
 .promotion-item p {
   font-size: 14px;
   color: #666;
-  line-height: 1.6;
-  margin-bottom: 15px;
-  flex-grow: 1; /* Mở rộng để chiếm không gian */
-  /* Giới hạn content chỉ hiển thị tối đa 3 dòng */
+  line-height: 1.5;
+  flex-grow: 1;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-height: 4.8em; /* Đảm bảo chiều cao tối thiểu cho 3 dòng */
 }
 
 .promotion-date {

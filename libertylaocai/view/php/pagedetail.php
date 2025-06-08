@@ -28,6 +28,8 @@ if (!empty($_SESSION['image_organized_event'])) {
 
 $rooms = getConferenceRooms($languageId);
 
+$menus = getImagesMenu();
+
 // Mảng dịch ngôn ngữ
 $translations = [
     1 => [ // Tiếng Việt
@@ -132,9 +134,6 @@ $halls = getConferenceHalls($languageId);
         <div class="pagedetail-banner">
             <img src="/libertylaocai/view/img/<?= $getSelectedBanner['image']; ?>" alt="Banner Image" class="banner-image">
             <h1><?= $titleBanner ?></h1>
-            <!-- <div class="pagedetail-breadcumb">
-                Trang Chủ > Hội Nghị & Sự Kiện > Tiệc cưới
-            </div> -->
         </div>
         <div class="pagedetail-title">
             <?php if (!empty($descriptionPagedetailTitle)): ?>
@@ -171,6 +170,9 @@ $halls = getConferenceHalls($languageId);
             <div class="tab-nav">
                 <button class="tab-btn active" onclick="showTab('description')">
                     <i class="fas fa-info-circle"></i> <?php echo $languageId == 1 ? ' Mô Tả' : 'Describe'; ?>
+                </button>
+                <button class="tab-btn" onclick="showTab('menu')">
+                    <i class="fas fa-calendar-alt"></i> <?php echo $languageId == 1 ? ' Thực Đơn' : 'Menu'; ?>
                 </button>
                 <button class="tab-btn" onclick="showTab('booking')">
                     <i class="fas fa-calendar-alt"></i> <?php echo $languageId == 1 ? ' Đặt Ngay' : 'Book Now'; ?>
@@ -222,7 +224,54 @@ $halls = getConferenceHalls($languageId);
                         </div>
                     </div>
                 </div>
+                <div id="menu" class="tab-pane">
+                    <div class="room-description">
+                        <div class="desc-section">
+                            <div class="menu-gallery">
+                                <h3><?php echo $languageId == 1 ? 'NHẤN VÀO ẢNH' : 'CLICK ON THE IMAGE'; ?></h3>
+                                <?php if (!empty($menus)): ?>
+                                    <div class="menu-slider-container">
+                                        <div class="menu-slider-wrapper">
+                                            <div class="menu-slider">
+                                                <?php foreach ($menus as $index => $menu): ?>
+                                                    <div class="menu-slide" data-index="<?= $index ?>">
+                                                        <img src="/libertylaocai/view/img/menu_tiec_cuoi/<?= htmlspecialchars($menu['image']) ?>" alt="Menu Image <?= $index + 1 ?>" onclick="openImageModal('/libertylaocai/view/img/menu_tiec_cuoi/<?= htmlspecialchars($menu['image']) ?>')">
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                        <div class="menu-btn menu-prev-btn"><i class="fas fa-chevron-left"></i></div>
+                                        <div class="menu-btn menu-next-btn"><i class="fas fa-chevron-right"></i></div>
+                                        <div class="menu-dots">
+                                            <?php foreach ($menus as $index => $menu): ?>
+                                                <span class="menu-dot" data-index="<?= $index ?>" <?= $index === 0 ? 'class="active"' : '' ?>></span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                <?php else: ?>
+                                    <p><?php echo $languageId == 1 ? 'Chưa có thực đơn nào được tải lên.' : 'No menus have been uploaded yet.'; ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Modal cho ảnh phóng to -->
+                <div id="imageModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2><?php echo $languageId == 1 ? 'Xem Ảnh' : 'View Image'; ?></h2>
+                            <span class="close" onclick="closeImageModal()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <img id="modalImage" src="" alt="Zoomed Image" style="width: 100%; max-height: 70vh; object-fit: contain;">
+                            <div class="zoom-controls">
+                                <button id="zoomInBtn" class="zoom-btn"><i class="fas fa-plus"></i></button>
+                                <button id="zoomOutBtn" class="zoom-btn"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="booking" class="tab-pane">
                     <div class="room-description">
                         <div class="desc-section">

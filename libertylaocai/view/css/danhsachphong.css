@@ -10,9 +10,7 @@ body {
   padding-top: 100px;
 }
 .hero-content {
-
-  background-size: cover;
-  background-position: center;
+  position: relative;
   height: 300px;
   display: flex;
   flex-direction: column;
@@ -22,17 +20,25 @@ body {
   color: white;
   margin-bottom: 20px;
 }
+.hero-content .banner-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  filter: brightness(0.6);
+}
 .hero-content h1 {
   font-size: 48px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-weight: 300;
   letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 2;
 }
-
-.breadcumb {
-  font-size: 16px;
-  opacity: 0.8;
-} /* nàyyyyy*/
 
 .main-container {
   display: flex;
@@ -53,7 +59,6 @@ body {
   position: sticky;
   top: 20px;
   box-sizing: border-box;
-
 }
 
 .sidebar h3 {
@@ -65,16 +70,6 @@ body {
 
 .filter-section {
   margin-bottom: 30px;
-}
-
-.filter-title {
-  font-size: 18px;
-  color: #003c32;
-  margin-bottom: 15px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .clear-all {
@@ -344,7 +339,8 @@ body {
   color: #cbb69d;
 }
 
-.btn-booking, .btn-more {
+.btn-booking,
+.btn-more {
   background-color: #cbb69d;
   color: #003c32;
   border: none;
@@ -357,7 +353,8 @@ body {
   border-radius: 6px;
 }
 
-.btn-booking:hover, .btn-more:hover {
+.btn-booking:hover,
+.btn-more:hover {
   background-color: #d4c4a8;
   transform: translateY(-2px);
 }
@@ -381,6 +378,7 @@ body {
   width: 100%;
   height: 100%;
   transition: transform 0.5s ease-in-out;
+  will-change: transform;
 }
 
 .carousel-slide {
@@ -478,7 +476,7 @@ body {
     padding: 15px;
     gap: 20px;
   }
-  
+
   .room-info-box {
     padding: 30px;
   }
@@ -487,34 +485,34 @@ body {
 @media (max-width: 992px) {
   .main-container {
     flex-direction: column;
-    
   }
-  
+
   .sidebar {
     width: 100%;
     position: static;
     margin-bottom: 30px;
   }
-  
-  .room-block, .room-block.reverse {
+
+  .room-block,
+  .room-block.reverse {
     flex-direction: column;
   }
-  
-  .room-info-box, .room-image-box {
+
+  .room-info-box,
+  .room-image-box {
     width: 100%;
     height: auto;
   }
-  
+
   .room-info-box {
     padding: 25px;
- 
   }
-  
+
   .room-image-box {
     height: 350px;
   }
-  
-  .btn-booking  {
+
+  .btn-booking {
     display: block;
     margin: 20px auto; /* Căn giữa nút ĐẶT PHÒNG */
   }
@@ -524,51 +522,51 @@ body {
   .hero {
     height: 250px;
   }
-  
+
   .hero-content h1 {
     font-size: 36px;
   }
-  
+
   .results-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .sort-options {
     width: 100%;
   }
-  
+
   .sort-select {
     width: 100%;
   }
-  
+
   .room-amenities {
     grid-template-columns: 1fr;
   }
-  
+
   .carousel-controls {
     width: 90%;
     justify-content: center;
     padding: 8px 15px;
   }
-  
+
   .carousel-counter {
     display: none;
   }
-  
+
   .room-block .room-image-box {
     order: 1;
   }
-  
+
   .room-block .room-info-box {
     order: 2;
   }
-  
+
   .room-block.reverse .room-image-box {
     order: 1;
   }
-  
+
   .room-block.reverse .room-info-box {
     order: 2;
   }
@@ -578,49 +576,51 @@ body {
   .hero {
     height: 200px;
   }
-  
+
   .hero-content h1 {
     font-size: 28px;
   }
-  
+
   .breadcrumb {
     font-size: 14px;
   }
-  
+
   .main-container {
     padding: 10px;
   }
-  
+
   .room-image-box {
     height: 250px;
   }
-  
+
   .carousel-btn {
     width: 30px;
     height: 30px;
     font-size: 14px;
   }
-  
+
   .room-info-box h3 {
     font-size: 24px;
   }
-  
+
   .room-price {
     font-size: 20px;
   }
-  
-  .btn-booking, .btn-more {
+
+  .btn-booking,
+  .btn-more {
     padding: 10px 20px;
   }
-  
-  .room-block, .room-block.reverse {
+
+  .room-block,
+  .room-block.reverse {
     margin-bottom: 30px;
   }
-  
+
   .room-image-box {
     height: 220px;
   }
-  
+
   .room-info-box {
     padding: 20px;
   }
@@ -630,31 +630,27 @@ body {
   .hero-content h1 {
     font-size: 24px;
   }
-  
-  .filter-title {
-    font-size: 16px;
-  }
-  
+
   .room-info-box {
     padding: 15px;
   }
-  
+
   .room-info-box h3 {
     font-size: 20px;
   }
-  
+
   .room-price {
     font-size: 18px;
   }
-  
+
   .room-specs p {
     font-size: 13px;
   }
-  
+
   .room-amenities {
     font-size: 12px;
   }
-  
+
   .room-image-box {
     height: 200px;
   }

@@ -23,25 +23,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'], $_POST['phone
     $sql_khachhang = "INSERT INTO khachhang (name, phone, email) VALUES ('$name', '$phone', '$email')";
     if (mysqli_query($conn, $sql_khachhang)) {
         $id_khachhang = mysqli_insert_id($conn);
-        
+
         // Lưu thông tin đặt xe
         $sql_datxe = "INSERT INTO datxe (id_khachhang, vehicle_name, trip_type, pickup_time, passengers, note) 
                       VALUES ($id_khachhang, '$vehicle_name', '$trip_type', '$pickup_time', $passengers, '$note')";
         if (mysqli_query($conn, $sql_datxe)) {
-            $_SESSION['success_message'] = $language_id == 1 ? 
-                'Đặt xe thành công! Chúng tôi sẽ liên hệ với bạn sớm.' : 
+            $_SESSION['success_message'] = $language_id == 1 ?
+                'Đặt xe thành công! Chúng tôi sẽ liên hệ với bạn sớm.' :
                 'Booking successful! We will contact you soon.';
         } else {
-            $_SESSION['error_message'] = $language_id == 1 ? 
-                'Lỗi khi lưu thông tin đặt xe: ' . mysqli_error($conn) : 
+            $_SESSION['error_message'] = $language_id == 1 ?
+                'Lỗi khi lưu thông tin đặt xe: ' . mysqli_error($conn) :
                 'Error saving booking information: ' . mysqli_error($conn);
         }
     } else {
-        $_SESSION['error_message'] = $language_id == 1 ? 
-            'Lỗi khi lưu thông tin khách hàng: ' . mysqli_error($conn) : 
+        $_SESSION['error_message'] = $language_id == 1 ?
+            'Lỗi khi lưu thông tin khách hàng: ' . mysqli_error($conn) :
             'Error saving customer information: ' . mysqli_error($conn);
     }
-    
+
     // Redirect để tránh POST resubmission
     header('Location: ' . $_SERVER['PHP_SELF'] . '?booking=success#booking');
     exit();
@@ -61,8 +61,7 @@ $greeting_stmt = $conn->prepare($sql_greeting);
 $greeting_stmt->bind_param("i", $language_id);
 $greeting_stmt->execute();
 $greeting_result = $greeting_stmt->get_result();
-$greeting = $greeting_result->num_rows > 0 ? $greeting_result->fetch_assoc()['content'] : 
-    ($language_id == 1 ? 'Chuyên nghiệp - An toàn - Tiện lợi' : 'Professional - Safe - Convenient');
+$greeting = $greeting_result->num_rows > 0 ? $greeting_result->fetch_assoc()['content'] : ($language_id == 1 ? 'Chuyên nghiệp - An toàn - Tiện lợi' : 'Professional - Safe - Convenient');
 $greeting_stmt->close();
 
 // Lấy dữ liệu mô tả từ bảng chon_mo_ta
@@ -76,8 +75,8 @@ $service_stmt->execute();
 $service_result = $service_stmt->get_result();
 $service = $service_result->num_rows > 0 ? $service_result->fetch_assoc() : [
     'title' => $language_id == 1 ? 'Dịch Vụ Đưa Đón Sân Bay Chuyên Nghiệp' : 'Professional Airport Transfer Service',
-    'content' => $language_id == 1 ? 
-        'Chuyến đi của quý vị sẽ thuận tiện và thoải mái hơn với dịch vụ đưa đón sân bay chuyên nghiệp. Hãy để đội ngũ tài xế giàu kinh nghiệm cùng phương tiện hiện đại của chúng tôi đồng hành cùng quý vị ngay từ những phút đầu tiên đặt chân đến Lào Cai!' : 
+    'content' => $language_id == 1 ?
+        'Chuyến đi của quý vị sẽ thuận tiện và thoải mái hơn với dịch vụ đưa đón sân bay chuyên nghiệp. Hãy để đội ngũ tài xế giàu kinh nghiệm cùng phương tiện hiện đại của chúng tôi đồng hành cùng quý vị ngay từ những phút đầu tiên đặt chân đến Lào Cai!' :
         'Your trip will be more convenient and comfortable with our professional airport transfer service. Let our experienced drivers and modern vehicles accompany you from the moment you arrive in Lào Cai!'
 ];
 $service_stmt->close();
@@ -128,6 +127,7 @@ $faqs_stmt->close();
 
 <!DOCTYPE html>
 <html lang="<?php echo $language_id == 1 ? 'vi' : 'en'; ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -135,8 +135,9 @@ $faqs_stmt->close();
     <link rel="stylesheet" href="/libertylaocai/view/css/duadonsanbay.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
-<?php include "header.php"; ?>
+    <?php include "header.php"; ?>
     <div class="duadonsanbay-container">
         <!-- Hero Section -->
         <section class="hero">
@@ -211,8 +212,8 @@ $faqs_stmt->close();
                             <div class="vehicle-slide">
                                 <div class="vehicle-card">
                                     <div class="vehicle-image">
-                                        <img src="<?php echo htmlspecialchars($vehicle['image_car'] ? '/libertylaocai/view/img/' . $vehicle['image_car'] : '/libertylaocai/view/images/default-car-image.jpg'); ?>" 
-                                             alt="<?php echo htmlspecialchars($vehicle['name']); ?>">
+                                        <img src="<?php echo htmlspecialchars($vehicle['image_car'] ? '/libertylaocai/view/img/' . $vehicle['image_car'] : '/libertylaocai/view/images/default-car-image.jpg'); ?>"
+                                            alt="<?php echo htmlspecialchars($vehicle['name']); ?>">
                                         <span class="vehicle-badge">
                                             <?php
                                             $badges = $language_id == 1 ? ['Phổ biến', 'Gia đình', 'Nhóm lớn', 'VIP', 'Premium'] : ['Popular', 'Family', 'Large Group', 'VIP', 'Premium'];
@@ -245,21 +246,49 @@ $faqs_stmt->close();
         </section>
 
         <!-- Route Section -->
-        <?php
-        // Truy vấn dữ liệu bản đồ từ bảng thongtinkhachsan
-        $sql_map = "SELECT iframe FROM thongtinkhachsan WHERE id = 1";
-        $map_result = $conn->query($sql_map);
-        $map_data = $map_result->num_rows > 0 ? $map_result->fetch_assoc() : [
-            'iframe' => 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d528175.0010517685!2d104.8145062595557!3d22.08120514290854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x3134ab145bf0e6f7%3A0x4e0987b2a7a429d6!2sNoi%20Bai%20International%20Airport%2C%20Ph%C3%BA%20Minh%2C%20S%C3%B3c%20S%C6%A1n%2C%20H%C3%A0%20N%E1%BB%99i%2C%20Vietnam!3m2!1d21.221192!2d105.807178!4m5!1s0x36cd13340ae18b77%3A0x9a80a4daeb34e61f!2zS2jDoWNoIFPhuqFuIEzDoG8gQ2FpIExpYmVydHkgSG90ZWwgJiBFdmVudHM!3m2!1d22.4899038!2d103.9699094!5e0!3m2!1sen!2s!4v1754567891234!5m2!1sen!2s'
-        ];
-        ?>
-
-        <!-- Map Section -->
-        <section class="map-section">
+        <section class="route-section">
             <div class="container">
-                <h2 class="section-title"><?php echo $language_id == 1 ? 'Tuyến Đường Từ Sân Bay Nội Bài' : 'Route from Noi Bai Airport'; ?></h2>
-                <div class="map-wrapper">
-                    <iframe src="<?php echo htmlspecialchars($map_data['iframe']); ?>" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map-iframe"></iframe>
+                <h2 class="section-title"><?php echo $language_id == 1 ? 'Thông Tin Tuyến Đường' : 'Route Information'; ?></h2>
+                <div class="route-info">
+                    <div class="route-details">
+                        <div class="route-header">
+                            <h3><?php echo $language_id == 1 ? 'Sân Bay Nội Bài ⇄ Liberty Lào Cai' : 'Noi Bai Airport ⇄ Liberty Lào Cai'; ?></h3>
+                            <div class="route-badges">
+                                <span class="badge distance"><?php echo $language_id == 1 ? '~320 km' : '~320 km'; ?></span>
+                                <span class="badge time"><?php echo $language_id == 1 ? '~4.5 giờ' : '~4.5 hours'; ?></span>
+                                <span class="badge highway"><?php echo $language_id == 1 ? 'Cao tốc' : 'Highway'; ?></span>
+                            </div>
+                        </div>
+                        <div class="route-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fas fa-plane-departure"></i></div>
+                                <div class="timeline-content">
+                                    <h4><?php echo $language_id == 1 ? 'Sân Bay Nội Bài' : 'Noi Bai Airport'; ?></h4>
+                                    <p><?php echo $language_id == 1 ? 'Điểm đón tại khu vực quy định' : 'Pickup at designated area'; ?></p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fas fa-road"></i></div>
+                                <div class="timeline-content">
+                                    <h4><?php echo $language_id == 1 ? 'Cao tốc Nội Bài - Lào Cai' : 'Noi Bai - Lào Cai Highway'; ?></h4>
+                                    <p><?php echo $language_id == 1 ? 'Di chuyển trên tuyến cao tốc hiện đại' : 'Travel on a modern highway'; ?></p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div class="timeline-content">
+                                    <h4><?php echo $language_id == 1 ? 'Liberty Lào Cai' : 'Liberty Lào Cai'; ?></h4>
+                                    <p><?php echo $language_id == 1 ? 'Điểm đến cuối cùng' : 'Final destination'; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="route-map">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map"></i>
+                            <p><?php echo $language_id == 1 ? 'Bản đồ tuyến đường<br>Sân Bay Nội Bài → Lào Cai' : 'Route Map<br>Noi Bai Airport → Lào Cai'; ?></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -347,43 +376,31 @@ $faqs_stmt->close();
         </section>
 
         <!-- Contact Section -->
-        <!-- Contact Section -->
         <section class="contact-section" id="contact">
             <div class="container">
                 <div class="contact-wrapper">
                     <div class="contact-info">
                         <h2><?php echo $language_id == 1 ? 'Liên Hệ Trực Tiếp' : 'Direct Contact'; ?></h2>
                         <p><?php echo $language_id == 1 ? 'Cần hỗ trợ ngay? Hãy liên hệ với chúng tôi qua các kênh sau:' : 'Need immediate assistance? Contact us through the following channels:'; ?></p>
-                        <?php
-                        // Truy vấn dữ liệu từ bảng thongtinkhachsan
-                        $sql_contact = "SELECT phone, email, facebook, link_facebook FROM thongtinkhachsan WHERE id = 1";
-                        $contact_result = $conn->query($sql_contact);
-                        $contact_data = $contact_result->num_rows > 0 ? $contact_result->fetch_assoc() : [
-                            'phone' => '0214 366 1666',
-                            'email' => 'chamsockhachhang.liberty@gmail.com',
-                            'facebook' => 'www.facebook.com/libertylaocai',
-                            'link_facebook' => 'https://www.facebook.com/libertylaocai'
-                        ];
-                        ?>
                         <div class="contact-methods">
                             <div class="contact-method hotline">
                                 <div class="method-icon"><i class="fas fa-phone"></i></div>
                                 <div class="method-info">
-                                    <h4><?php echo $language_id == 1 ? 'Hotline 24/7: ' : '24/7 Hotline: '; ?><?php echo htmlspecialchars($contact_data['phone']); ?></h4>
+                                    <h4><?php echo $language_id == 1 ? 'Hotline 24/7: 0214 366 1666' : '24/7 Hotline: 0214 366 1666'; ?></h4>
                                     <p><?php echo $language_id == 1 ? 'Miễn phí gọi từ di động' : 'Free calls from mobile'; ?></p>
                                 </div>
                             </div>
                             <div class="contact-method email">
                                 <div class="method-icon"><i class="fas fa-envelope"></i></div>
                                 <div class="method-info">
-                                    <h4>Email: <?php echo htmlspecialchars($contact_data['email']); ?></h4>
+                                    <h4>Email: [email protected]</h4>
                                     <p><?php echo $language_id == 1 ? 'Phản hồi trong 30 phút' : 'Response within 30 minutes'; ?></p>
                                 </div>
                             </div>
                             <div class="contact-method zalo">
                                 <div class="method-icon"><i class="fas fa-comment-dots"></i></div>
                                 <div class="method-info">
-                                    <h4><?php echo $language_id == 1 ? 'Zalo/Messenger: ' : 'Zalo/Messenger: '; ?><a href="<?php echo htmlspecialchars($contact_data['link_facebook']); ?>" target="_blank"><?php echo htmlspecialchars($contact_data['facebook']); ?></a></h4>
+                                    <h4><?php echo $language_id == 1 ? 'Zalo/Messenger: 0214 366 1666' : 'Zalo/Messenger: 0214 366 1666'; ?></h4>
                                     <p><?php echo $language_id == 1 ? 'Nhắn tin trực tiếp' : 'Direct messaging'; ?></p>
                                 </div>
                             </div>
@@ -411,21 +428,22 @@ $faqs_stmt->close();
     </div>
 
     <?php include "footer.php"; ?>
-    
+
     <!-- Auto scroll to booking section if success -->
     <?php if (isset($_GET['booking']) && $_GET['booking'] === 'success'): ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                document.getElementById('booking').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }, 500);
-        });
-    </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(function() {
+                    document.getElementById('booking').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }, 500);
+            });
+        </script>
     <?php endif; ?>
-    
+
     <script src="/libertylaocai/view/js/duadonsanbay.js"></script>
 </body>
+
 </html>

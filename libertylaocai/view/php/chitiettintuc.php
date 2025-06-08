@@ -59,7 +59,7 @@ $getRelatedNews = getRelatedNews($languageId, $id_tintuc, 6);
                             <div class="promotions-grid" id="promotionsGrid">
                                 <?php
                                 foreach ($getRelatedNews as $promo) {
-                                    echo '<div class="promotion-item">';
+                                    echo '<div class="promotion-item" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
                                     echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promo['image']) . '" alt="Khuyến mãi">';
                                     echo '<div class="promotion-item-content">';
                                     echo '<h3>' . htmlspecialchars($promo['title']) . '</h3>';
@@ -79,6 +79,9 @@ $getRelatedNews = getRelatedNews($languageId, $id_tintuc, 6);
                 </div>
             </div>
         </div>
+        <form id="promotionForm" action="/libertylaocai/user/submit" method="POST" style="display: none;">
+            <input type="hidden" name="other_news_id" id="promotionIdInput">
+        </form>
         <?php include "footer.php" ?>
         <script src="/libertylaocai/view/js/chitiettintuc.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -33,12 +33,6 @@ while ($row = $result->fetch_assoc()) {
         'is_primary' => $row['is_primary']
     ];
 }
-
-//lấy thông tin khách sạn
-$thongtinkhachsan_query = "SELECT phone, email FROM thongtinkhachsan WHERE id = 1";
-$thongtinkhachsan_result = mysqli_query($conn, $thongtinkhachsan_query);
-$thongtinkhachsan = mysqli_fetch_assoc($thongtinkhachsan_result);
-
 // Xử lý POST từ form đặt tour
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullName'])) {
     $fullName = trim($_POST['fullName'] ?? '');
@@ -909,11 +903,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                 <h4><?php echo $languageId == 1 ? 'Cần hỗ trợ?' : 'Need Help?'; ?></h4>
                                 <div class="contact-item">
                                     <i class="fas fa-phone"></i>
-                                    <span><?php echo htmlspecialchars($thongtinkhachsan['phone']); ?></span>
+                                    <span>0214 366 1666</span>
                                 </div>
                                 <div class="contact-item">
                                     <i class="fas fa-envelope"></i>
-                                    <span><?php echo htmlspecialchars($thongtinkhachsan['email']); ?></span>
+                                    <span>chamsockhachhang.liberty@gmail.com</span>
                                 </div>
                             </div>
                         </div>

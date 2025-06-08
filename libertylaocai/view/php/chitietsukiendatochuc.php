@@ -59,7 +59,7 @@ $getRelatedEventOrganized = getRelatedEventOrganized($languageId, $id_sukiendato
                             <div class="promotions-grid" id="promotionsGrid">
                                 <?php
                                 foreach ($getRelatedEventOrganized as $promo) {
-                                    echo '<div class="promotion-item">';
+                                    echo '<div class="promotion-item" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
                                     echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promo['image']) . '" alt="Khuyến mãi">';
                                     echo '<div class="promotion-item-content">';
                                     echo '<h3>' . htmlspecialchars($promo['title']) . '</h3>';
@@ -79,6 +79,10 @@ $getRelatedEventOrganized = getRelatedEventOrganized($languageId, $id_sukiendato
                 </div>
             </div>
         </div>
+        <!-- Hidden form for submission -->
+        <form id="promotionForm" action="/libertylaocai/user/submit" method="POST" style="display: none;">
+            <input type="hidden" name="other_organized_id" id="promotionIdInput">
+        </form>
         <?php include "footer.php" ?>
         <script src="/libertylaocai/view/js/chitietsukiendatochuc.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
