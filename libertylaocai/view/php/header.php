@@ -22,6 +22,7 @@ $getSubsectionHeader = getSubsectionHeaderCategories($languageId);
     <meta name="description" content="<?php echo htmlspecialchars($informationHotel[0]['description'] ?? 'Liberty Hotel & Events Khách sạn Liberty Lào Cai'); ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/header.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <base href="/libertylaocai/">
 </head>
 
@@ -38,8 +39,11 @@ $getSubsectionHeader = getSubsectionHeaderCategories($languageId);
                                     <?php echo htmlspecialchars($info['address']); ?>
                                 </a></span>
                         </div>
-                        <div class="language">
-                            <img src="view/img/<?php echo $languageId == 1 ? 'vi.jpg' : 'en.jpg'; ?>" alt="<?php echo $languageId == 1 ? 'Vietnam Flag' : 'English Flag'; ?>" class="flag language-toggle" data-lang="<?php echo $languageId == 1 ? 2 : 1; ?>">
+                        <div class="right-align">
+                            <div class="language">
+                                <img src="view/img/<?php echo $languageId == 1 ? 'vi.jpg' : 'en.jpg'; ?>" alt="<?php echo $languageId == 1 ? 'Vietnam Flag' : 'English Flag'; ?>" class="flag language-toggle" data-lang="<?php echo $languageId == 1 ? 2 : 1; ?>">
+                            </div>
+                            <div class="login"><a href="/libertylaocai/dang-nhap" class="login-icon"><i class="fas fa-user"></i></a></div>
                         </div>
                     </div>
                     <div class="second-container">
@@ -107,7 +111,6 @@ $getSubsectionHeader = getSubsectionHeaderCategories($languageId);
     </header>
 
 
-    <!-- Phần mobile dropdown cần được sửa lại như sau: -->
     <div class="mobile-dropdown">
         <button class="close-menu"><i class="bi bi-x-lg"></i></button>
 
@@ -150,6 +153,13 @@ $getSubsectionHeader = getSubsectionHeaderCategories($languageId);
         <?php else: ?>
             <div class="mobile-category-option"><?php echo $languageId == 1 ? 'Không có danh mục nào.' : 'No categories available.'; ?></div>
         <?php endif; ?>
+
+        <!-- Dòng Đăng nhập -->
+        <div class="mobile-category-option">
+            <a href="/libertylaocai/dang-nhap" style="color: #e6faf0; text-decoration: none; display: flex; align-items: center;">
+                <?php echo $languageId == 1 ? 'Đăng nhập' : 'Login'; ?>
+            </a>
+        </div>
 
         <!-- Thông tin liên hệ -->
         <div style="margin-top: 30px; padding: 20px; border-top: 1px solid #006d5b;">

@@ -18,12 +18,13 @@ body {
 
 /* Main Content */
 .main-content {
-  padding: 40px 0;
+  padding: 0;
   min-height: calc(100vh - 200px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-top: 150px;
 }
 
 .login-container {
@@ -325,6 +326,9 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .main-content {
+    min-height: 50vh;
+  }
   .login-box {
     padding: 30px 20px;
     margin: 0 20px;
@@ -332,6 +336,12 @@ body {
 }
 
 @media (max-width: 480px) {
+  .main-content{
+    padding-top: 100px;
+  }
+  .login-container{
+    margin-bottom: 20px;
+  }
   .login-box {
     width: 100%;
     margin: 0 10px;

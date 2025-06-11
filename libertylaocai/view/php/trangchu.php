@@ -124,11 +124,11 @@ foreach ($roomTypes as $room) {
       <div class="booking-overlay">
         <div class="form-field">
           <label><?php echo $languageId == 1 ? 'Ngày Nhận Phòng' : 'Check-in'; ?></label>
-          <input type="date" value="2025-05-22" />
+          <input type="date" />
         </div>
         <div class="form-field">
           <label><?php echo $languageId == 1 ? 'Ngày Trả Phòng' : 'Check-out'; ?></label>
-          <input type="date" value="2025-05-23" />
+          <input type="date" />
         </div>
         <div class="form-field">
           <label><?php echo $languageId == 1 ? 'Số Lượng Khách' : 'Number Of People'; ?></label>
@@ -299,9 +299,11 @@ foreach ($roomTypes as $room) {
         </div>
       <?php endforeach; ?>
       <div class="view-all-rooms-wrapper">
-        <a href="/libertylaocai/danhsachphong" class="view-all-rooms-btn">
-          <?php echo $languageId == 1 ? 'Xem tất cả phòng' : 'View All Rooms'; ?>
-        </a>
+        <form action="/libertylaocai/user/submit" method="POST" style="display: inline;">
+          <button name="find_room" class="view-all-rooms-btn">
+            <?php echo $languageId == 1 ? 'Xem tất cả phòng' : 'View All Rooms'; ?>
+          </button>
+        </form>
       </div>
     </div>
     <div class="custom-banner" data-aos="fade-out">
@@ -313,7 +315,9 @@ foreach ($roomTypes as $room) {
           <h2><?php echo $languageId == 1 ? 'Không gian hoàn hảo cho sự kiện của bạn' : 'The perfect space for your event'; ?></h2>
           <p><?php echo $languageId == 1 ? 'Liên hệ với chúng tôi ngay hôm nay để được tư vấn và đặt lịch.' : 'Contact us today for a consultation and appointment.'; ?></p>
         <?php endif; ?>
-        <a href="/libertylaocai/event" class="banner-button"><?php echo $languageId == 1 ? 'Đặt lịch ngay' : 'Schedule now'; ?></a>
+        <form action="/libertylaocai/user/submit" method="POST" style="display: inline;">
+          <button name="datlichngay" class="banner-button"><?php echo $languageId == 1 ? 'Đặt lịch ngay' : 'Schedule now'; ?></button>
+        </form>
       </div>
       <?php if (!empty($getSelectedBannerOverlay)): ?>
         <img src="/libertylaocai/view/img/<?= $getSelectedBannerOverlay['image'] ?>" alt="Hình ảnh khách sạn">
@@ -380,7 +384,7 @@ foreach ($roomTypes as $room) {
                 </div>
               </div>
               <div class="news-content">
-               
+
                 <h3><?php echo htmlspecialchars($news['title']); ?></h3>
                 <p><?php echo htmlspecialchars(mb_substr($news['content'], 0, 100, 'UTF-8')) . '...'; ?></p>
                 <form action="/libertylaocai/user/submit" method="POST" style="display: inline; ">

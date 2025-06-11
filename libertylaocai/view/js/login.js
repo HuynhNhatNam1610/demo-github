@@ -1,15 +1,3 @@
-// Cấu hình cứng
-const ADMIN_CREDENTIALS = {
-  username: "admin",
-  password: "12345678",
-  email: "admin@example.com",
-};
-
-const OTP_CODES = {
-  login: "123456",
-  reset: "654321",
-};
-
 // Biến toàn cục
 let currentTab = "loginTab";
 let tempCredentials = {};
@@ -30,26 +18,11 @@ const tabs = {
 // Khởi tạo
 document.addEventListener("DOMContentLoaded", function () {
   initializeEventListeners();
-  initializeOtpInputs();
+  // initializeOtpInputs();
 });
 
 // Event Listeners
 function initializeEventListeners() {
-  // Form submissions
-  document.getElementById("loginForm").addEventListener("submit", handleLogin);
-  document
-    .getElementById("loginOtpForm")
-    .addEventListener("submit", handleLoginOtp);
-  document
-    .getElementById("forgotPasswordForm")
-    .addEventListener("submit", handleForgotPassword);
-  document
-    .getElementById("resetOtpForm")
-    .addEventListener("submit", handleResetOtp);
-  document
-    .getElementById("newPasswordForm")
-    .addEventListener("submit", handleNewPassword);
-
   // Navigation links
   document
     .getElementById("forgotPasswordLink")
@@ -77,16 +50,16 @@ function initializeEventListeners() {
       switchTab("forgotPasswordTab");
     });
 
-  // Resend OTP links
-  document.getElementById("resendLoginOtp").addEventListener("click", (e) => {
-    e.preventDefault();
-    resendOtp("login");
-  });
+  // // Resend OTP links
+  // document.getElementById("resendLoginOtp").addEventListener("click", (e) => {
+  //   e.preventDefault();
+  //   resendOtp("login");
+  // });
 
-  document.getElementById("resendResetOtp").addEventListener("click", (e) => {
-    e.preventDefault();
-    resendOtp("reset");
-  });
+  // document.getElementById("resendResetOtp").addEventListener("click", (e) => {
+  //   e.preventDefault();
+  //   resendOtp("reset");
+  // });
 
   // Password toggles
   document.getElementById("togglePassword").addEventListener("click", () => {
@@ -101,6 +74,33 @@ function initializeEventListeners() {
     .getElementById("toggleConfirmPassword")
     .addEventListener("click", () => {
       togglePasswordVisibility("confirmPassword", "toggleConfirmPassword");
+    });
+
+  // Submit form đăng nhập
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault(); // Ngăn gửi form mặc định
+    await handleLogin();
+  });
+
+  // Submit form quên mk
+  document
+    .getElementById("forgotPasswordForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault(); // Ngăn gửi form mặc định
+      await handleForgotPassword();
+    });
+
+  document
+    .getElementById("resetOtpForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await handleResetOtp();
+    });
+  document
+    .getElementById("newPasswordForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await handleNewPassword();
     });
 }
 
@@ -118,399 +118,18 @@ function switchTab(tabName) {
   // Clear messages
   clearAllMessages();
 
-  // Reset forms
-  resetAllForms();
+  // // Reset forms
+  // resetAllForms();
 
-  // Clear timers
-  clearResendTimers();
+  // // Clear timers
+  // clearResendTimers();
 }
 
-// Xử lý đăng nhập
-function handleLogin(e) {
-  e.preventDefault();
-
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value;
-
-  if (!username || !password) {
-    showMessage(
-      "loginMessage",
-      "Vui lòng nhập đầy đủ thông tin đăng nhập",
-      "error"
-    );
-    return;
-  }
-
-  showLoading("loginForm", true);
-
-  setTimeout(() => {
-    if (
-      username === ADMIN_CREDENTIALS.username &&
-      password === ADMIN_CREDENTIALS.password
-    ) {
-      tempCredentials = { username, password };
-      document.getElementById("loginOtpEmail").textContent =
-        ADMIN_CREDENTIALS.email;
-      showMessage(
-        "loginMessage",
-        "Đăng nhập thành công! Mã OTP đã được gửi đến email của bạn",
-        "success"
-      );
-      setTimeout(() => {
-        switchTab("loginOtpTab");
-        startResendTimer("login");
-        focusFirstOtpInput("#loginOtpTab");
-      }, 1000);
-    } else {
-      showMessage(
-        "loginMessage",
-        "Tên đăng nhập hoặc mật khẩu không chính xác",
-        "error"
-      );
-      document.getElementById("password").value = "";
-      shakeElement("loginForm");
-    }
-    showLoading("loginForm", false);
-  }, 1000);
-}
-
-// Xử lý OTP đăng nhập
-function handleLoginOtp(e) {
-  e.preventDefault();
-
-  const otpInputs = document.querySelectorAll("#loginOtpTab .otp-input");
-  const otp = Array.from(otpInputs)
-    .map((input) => input.value)
-    .join("");
-
-  if (otp.length !== 6) {
-    showMessage("loginOtpMessage", "Vui lòng nhập đầy đủ mã OTP", "error");
-    markOtpInputsError(otpInputs);
-    return;
-  }
-
-  showLoading("loginOtpForm", true);
-
-  setTimeout(() => {
-    if (otp === OTP_CODES.login) {
-      showMessage(
-        "loginOtpMessage",
-        "Xác thực thành công! Đang chuyển hướng...",
-        "success"
-      );
-      setTimeout(() => {
-        alert("Chuyển hướng đến trang quản trị!");
-        // window.location.href = 'admin-dashboard.html';
-      }, 1500);
-    } else {
-      showMessage("loginOtpMessage", "Mã OTP không chính xác", "error");
-      clearOtpInputs("#loginOtpTab .otp-input");
-      markOtpInputsError(otpInputs);
-      focusFirstOtpInput("#loginOtpTab");
-    }
-    showLoading("loginOtpForm", false);
-  }, 1000);
-}
-
-// Xử lý quên mật khẩu
-function handleForgotPassword(e) {
-  e.preventDefault();
-
-  const email = document.getElementById("resetEmail").value.trim();
-
-  if (!email) {
-    showMessage("forgotMessage", "Vui lòng nhập email", "error");
-    return;
-  }
-
-  showLoading("forgotPasswordForm", true);
-
-  setTimeout(() => {
-    if (email === ADMIN_CREDENTIALS.email) {
-      document.getElementById("resetOtpEmail").textContent = email;
-      showMessage(
-        "forgotMessage",
-        "Mã OTP đã được gửi đến email của bạn",
-        "success"
-      );
-      setTimeout(() => {
-        switchTab("resetOtpTab");
-        startResendTimer("reset");
-        focusFirstOtpInput("#resetOtpTab");
-      }, 1000);
-    } else {
-      showMessage(
-        "forgotMessage",
-        "Email không tồn tại trong hệ thống",
-        "error"
-      );
-    }
-    showLoading("forgotPasswordForm", false);
-  }, 1000);
-}
-
-// Xử lý OTP đặt lại mật khẩu
-function handleResetOtp(e) {
-  e.preventDefault();
-
-  const otpInputs = document.querySelectorAll("#resetOtpTab .otp-input");
-  const otp = Array.from(otpInputs)
-    .map((input) => input.value)
-    .join("");
-
-  if (otp.length !== 6) {
-    showMessage("resetOtpMessage", "Vui lòng nhập đầy đủ mã OTP", "error");
-    markOtpInputsError(otpInputs);
-    return;
-  }
-
-  showLoading("resetOtpForm", true);
-
-  setTimeout(() => {
-    if (otp === OTP_CODES.reset) {
-      showMessage("resetOtpMessage", "Xác thực thành công!", "success");
-      setTimeout(() => {
-        switchTab("newPasswordTab");
-      }, 1000);
-    } else {
-      showMessage("resetOtpMessage", "Mã OTP không chính xác", "error");
-      clearOtpInputs("#resetOtpTab .otp-input");
-      markOtpInputsError(otpInputs);
-      focusFirstOtpInput("#resetOtpTab");
-    }
-    showLoading("resetOtpForm", false);
-  }, 1000);
-}
-
-// Xử lý đặt mật khẩu mới
-function handleNewPassword(e) {
-  e.preventDefault();
-
-  const newPassword = document.getElementById("newPassword").value;
-  const confirmPassword = document.getElementById("confirmPassword").value;
-
-  if (!newPassword || !confirmPassword) {
-    showMessage(
-      "newPasswordMessage",
-      "Vui lòng nhập đầy đủ thông tin",
-      "error"
-    );
-    return;
-  }
-
-  if (newPassword.length < 6) {
-    showMessage(
-      "newPasswordMessage",
-      "Mật khẩu phải có ít nhất 6 ký tự",
-      "error"
-    );
-    return;
-  }
-
-  if (newPassword !== confirmPassword) {
-    showMessage("newPasswordMessage", "Mật khẩu xác nhận không khớp", "error");
-    return;
-  }
-
-  showLoading("newPasswordForm", true);
-
-  setTimeout(() => {
-    // Cập nhật mật khẩu cứng (trong thực tế sẽ gửi API)
-    ADMIN_CREDENTIALS.password = newPassword;
-
-    showMessage(
-      "newPasswordMessage",
-      "Đặt lại mật khẩu thành công! Đang chuyển về trang đăng nhập...",
-      "success"
-    );
-
-    setTimeout(() => {
-      switchTab("loginTab");
-      showMessage(
-        "loginMessage",
-        "Vui lòng đăng nhập với mật khẩu mới",
-        "info"
-      );
-    }, 2000);
-
-    showLoading("newPasswordForm", false);
-  }, 1000);
-}
-
-// Khởi tạo OTP inputs với nhập liên tục
-function initializeOtpInputs() {
-  const allOtpInputs = document.querySelectorAll(".otp-input");
-
-  allOtpInputs.forEach((input, globalIndex) => {
-    const container = input.parentElement;
-    const localInputs = Array.from(container.children);
-    const localIndex = localInputs.indexOf(input);
-
-    input.addEventListener("input", function (e) {
-      const value = e.target.value;
-
-      // Chỉ cho phép số
-      if (!/^\d*$/.test(value)) {
-        e.target.value = "";
-        return;
-      }
-
-      // Remove error styling
-      input.classList.remove("error");
-      input.classList.add("filled");
-
-      // Tự động chuyển sang input tiếp theo
-      if (value && localIndex < localInputs.length - 1) {
-        localInputs[localIndex + 1].focus();
-      }
-    });
-
-    input.addEventListener("keydown", function (e) {
-      // Xử lý Backspace
-      if (e.key === "Backspace") {
-        if (!input.value && localIndex > 0) {
-          localInputs[localIndex - 1].focus();
-          localInputs[localIndex - 1].value = "";
-          localInputs[localIndex - 1].classList.remove("filled");
-        } else if (input.value) {
-          input.value = "";
-          input.classList.remove("filled");
-        }
-      }
-
-      // Xử lý Arrow keys
-      if (e.key === "ArrowLeft" && localIndex > 0) {
-        e.preventDefault();
-        localInputs[localIndex - 1].focus();
-      }
-      if (e.key === "ArrowRight" && localIndex < localInputs.length - 1) {
-        e.preventDefault();
-        localInputs[localIndex + 1].focus();
-      }
-    });
-
-    input.addEventListener("paste", function (e) {
-      e.preventDefault();
-      const paste = (e.clipboardData || window.clipboardData).getData("text");
-      const digits = paste.replace(/\D/g, "").slice(0, 6);
-
-      // Clear all inputs first
-      localInputs.forEach((inp) => {
-        inp.value = "";
-        inp.classList.remove("filled", "error");
-      });
-
-      // Fill inputs with pasted digits
-      for (let i = 0; i < Math.min(digits.length, localInputs.length); i++) {
-        localInputs[i].value = digits[i];
-        localInputs[i].classList.add("filled");
-      }
-
-      // Focus on next empty input or last input
-      const nextEmpty = localInputs.find((inp) => !inp.value);
-      if (nextEmpty) {
-        nextEmpty.focus();
-      } else {
-        localInputs[localInputs.length - 1].focus();
-      }
-    });
-
-    // Remove error styling on focus
-    input.addEventListener("focus", function () {
-      input.classList.remove("error");
-    });
-  });
-}
-
-// Gửi lại OTP
-function resendOtp(type) {
-  const resendLink = document.getElementById(
-    `resend${type === "login" ? "Login" : "Reset"}Otp`
-  );
-  const countdownEl = document.getElementById(`${type}Countdown`);
-  const messageEl = document.getElementById(
-    `${type === "login" ? "loginOtp" : "resetOtp"}Message`
-  );
-
-  if (resendLink.classList.contains("disabled")) {
-    return;
-  }
-
-  // Simulate sending OTP
-  showMessage(messageEl.id, "Đang gửi lại mã OTP...", "info");
-
-  setTimeout(() => {
-    showMessage(
-      messageEl.id,
-      "Mã OTP mới đã được gửi đến email của bạn",
-      "success"
-    );
-    startResendTimer(type);
-
-    // Clear and focus first OTP input
-    const tabId = type === "login" ? "#loginOtpTab" : "#resetOtpTab";
-    clearOtpInputs(`${tabId} .otp-input`);
-    focusFirstOtpInput(tabId);
-  }, 1000);
-}
-
-// Bắt đầu đếm ngược gửi lại OTP
-function startResendTimer(type) {
-  const resendLink = document.getElementById(
-    `resend${type === "login" ? "Login" : "Reset"}Otp`
-  );
-  const countdownEl = document.getElementById(`${type}Countdown`);
-
-  let timeLeft = 60;
-  resendLink.classList.add("disabled");
-
-  const timer = setInterval(() => {
-    countdownEl.textContent = `Gửi lại sau ${timeLeft}s`;
-    timeLeft--;
-
-    if (timeLeft < 0) {
-      clearInterval(timer);
-      resendLink.classList.remove("disabled");
-      countdownEl.textContent = "";
-    }
-  }, 1000);
-
-  resendTimers[type] = timer;
-}
-
-// Xóa tất cả timer
-function clearResendTimers() {
-  Object.values(resendTimers).forEach((timer) => {
-    if (timer) clearInterval(timer);
-  });
-  resendTimers = { login: null, reset: null };
-
-  // Reset UI
-  document.querySelectorAll(".resend-link").forEach((link) => {
-    link.classList.remove("disabled");
-  });
-  document.querySelectorAll(".countdown").forEach((countdown) => {
-    countdown.textContent = "";
-  });
-}
-
-// Focus vào ô OTP đầu tiên
-function focusFirstOtpInput(containerSelector) {
-  setTimeout(() => {
-    const firstInput = document.querySelector(
-      `${containerSelector} .otp-input`
-    );
-    if (firstInput) {
-      firstInput.focus();
-    }
-  }, 100);
-}
-
-// Đánh dấu lỗi cho OTP inputs
-function markOtpInputsError(inputs) {
+// Thêm hàm clearOtpInputs
+function clearOtpInputs(selector) {
+  const inputs = document.querySelectorAll(selector);
   inputs.forEach((input) => {
-    input.classList.add("error");
-    input.classList.remove("filled");
+    input.value = "";
   });
 }
 
@@ -550,44 +169,12 @@ function clearAllMessages() {
   });
 }
 
-// Reset tất cả forms
-function resetAllForms() {
-  const forms = document.querySelectorAll("form");
-  forms.forEach((form) => form.reset());
-  clearOtpInputs(".otp-input");
-}
-
-// Xóa OTP inputs
-function clearOtpInputs(selector) {
-  const inputs = document.querySelectorAll(selector);
-  inputs.forEach((input) => {
-    input.value = "";
-    input.classList.remove("filled", "error");
-  });
-}
-
-// Hiển thị loading
-function showLoading(formId, isLoading) {
-  const form = document.getElementById(formId);
-  const btn = form.querySelector('button[type="submit"]');
-  const originalHtml = btn.innerHTML;
-
-  if (isLoading) {
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Đang xử lý...';
-  } else {
-    btn.disabled = false;
-    // Khôi phục text gốc
-    const originalTexts = {
-      loginForm: "ĐĂNG NHẬP",
-      loginOtpForm: "XÁC NHẬN OTP",
-      forgotPasswordForm: '<i class="bi bi-send"></i> GỬI MÃ OTP',
-      resetOtpForm: "XÁC NHẬN OTP",
-      newPasswordForm: '<i class="bi bi-shield-check"></i> ĐẶT LẠI MẬT KHẨU',
-    };
-    btn.innerHTML = originalTexts[formId] || "XÁC NHẬN";
-  }
-}
+// // Reset tất cả forms
+// function resetAllForms() {
+//   const forms = document.querySelectorAll("form");
+//   forms.forEach((form) => form.reset());
+//   clearOtpInputs(".otp-input");
+// }
 
 // Shake animation
 function shakeElement(elementId) {
@@ -596,4 +183,647 @@ function shakeElement(elementId) {
   setTimeout(() => {
     element.style.animation = "";
   }, 500);
+}
+
+async function handleLogin() {
+  const form = document.getElementById("loginForm");
+  const email = form.querySelector("#username").value.trim();
+  const password = form.querySelector("#password").value.trim();
+  const loginBtn = form.querySelector(".login-btn");
+
+  if (!email || !password) {
+    showMessage("loginMessage", "Vui lòng nhập email và mật khẩu.", "error");
+    if (!email) shakeElement("email");
+    if (!password) shakeElement("password");
+    return;
+  }
+
+  loginBtn.disabled = true;
+  loginBtn.innerHTML = '<span class="spinner"></span> Đang xử lý...';
+
+  try {
+    const formData = new FormData();
+    formData.append("login", "1");
+    formData.append("email", email);
+    formData.append("password", password);
+
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const text = await response.text();
+    console.log("Raw response:", text);
+
+    let data;
+
+    // Cải thiện phần xử lý JSON
+    const cleanedText = text.trim().replace(/^\uFEFF/, "");
+
+    // Kiểm tra xem response có phải JSON hợp lệ không
+    if (!cleanedText.startsWith("{") && !cleanedText.startsWith("[")) {
+      throw new Error("Server returned non-JSON response");
+    }
+
+    try {
+      data = JSON.parse(cleanedText);
+    } catch (parseError) {
+      // Thay vì throw error generic, hiển thị lỗi cụ thể
+      showMessage("loginMessage", "Lỗi định dạng phản hồi từ server.", "error");
+      return; // Thoát sớm thay vì throw
+    }
+
+    // Xử lý response
+    if (data.success) {
+      showMessage(
+        "loginMessage",
+        data.message || "Đăng nhập thành công!",
+        "success"
+      );
+      setTimeout(() => {
+        window.location.href = "/libertylaocai/admin";
+      }, 1000);
+    } else {
+      // Hiển thị thông báo lỗi từ server
+      showMessage(
+        "loginMessage",
+        data.message || "Email hoặc mật khẩu không đúng.",
+        "error"
+      );
+      shakeElement("username"); // Sửa từ "email" thành "username"
+      shakeElement("password");
+    }
+  } catch (error) {
+    showMessage(
+      "loginMessage",
+      "Không thể kết nối tới server. Vui lòng thử lại.",
+      "error"
+    );
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = "ĐĂNG NHẬP";
+  }
+}
+
+async function handleForgotPassword() {
+  const form = document.getElementById("forgotPasswordForm");
+  const email = form.querySelector("#resetEmail").value.trim();
+  const submitBtn = form.querySelector(".submit-btn");
+
+  if (!email) {
+    showMessage("forgotMessage", "Vui lòng nhập email.", "error");
+    shakeElement("forgotEmail");
+    return;
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showMessage("forgotMessage", "Email không đúng định dạng.", "error");
+    shakeElement("forgotEmail");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span> Đang xử lý...';
+
+  try {
+    const formData = new FormData();
+    formData.append("forgot_password", "1");
+    formData.append("email", email);
+
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const text = await response.text();
+    console.log("Raw response:", text);
+
+    let data;
+    const cleanedText = text.trim().replace(/^\uFEFF/, "");
+
+    if (!cleanedText.startsWith("{") && !cleanedText.startsWith("[")) {
+      throw new Error("Server returned non-JSON response");
+    }
+
+    try {
+      data = JSON.parse(cleanedText);
+    } catch (parseError) {
+      showMessage(
+        "forgotMessage",
+        "Lỗi định dạng phản hồi từ server.",
+        "error"
+      );
+      return;
+    }
+
+    // Xử lý response
+    if (data.success) {
+      showMessage(
+        "forgotMessage",
+        data.message || "Đã gửi email khôi phục mật khẩu thành công!",
+        "success"
+      );
+      // Chuyển sang tab resetOtpTab
+      switchTab("resetOtpTab");
+      // Lưu email tạm thời để sử dụng trong tab OTP
+      sessionStorage.setItem("reset_email", email);
+      // Reset form sau khi thành công
+      form.reset();
+    } else {
+      showMessage(
+        "forgotMessage",
+        data.message || "Email không tồn tại trong hệ thống.",
+        "error"
+      );
+      shakeElement("resetEmail");
+    }
+  } catch (error) {
+    showMessage(
+      "forgotMessage",
+      "Không thể kết nối tới server. Vui lòng thử lại.",
+      "error"
+    );
+    console.error("Forgot password error:", error);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = "GỬI OTP KHÔI PHỤC";
+  }
+}
+
+async function handleResetOtp() {
+  const form = document.getElementById("resetOtpForm");
+  const otpInputs = form.querySelectorAll(".reset-otp");
+  const submitBtn = form.querySelector(".submit-btn");
+
+  // Lấy OTP từ các input
+  let otp = "";
+  otpInputs.forEach((input) => {
+    otp += input.value.trim();
+  });
+
+  if (otp.length !== 6) {
+    showMessage(
+      "resetOtpMessage",
+      "Vui lòng nhập đầy đủ mã OTP 6 số.",
+      "error"
+    );
+    otpInputs.forEach((input, index) => {
+      if (!input.value.trim()) {
+        shakeElement(`otp-${index}`);
+      }
+    });
+    return;
+  }
+
+  // Kiểm tra OTP chỉ chứa số
+  if (!/^\d{6}$/.test(otp)) {
+    showMessage("resetOtpMessage", "Mã OTP phải là 6 chữ số.", "error");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span> Đang xác thực...';
+
+  try {
+    const formData = new FormData();
+    formData.append("verify_reset_otp", "1");
+    formData.append("otp", otp);
+
+    // Lấy email từ sessionStorage
+    const email = sessionStorage.getItem("reset_email");
+    if (!email) {
+      showMessage(
+        "resetOtpMessage",
+        "Không tìm thấy email. Vui lòng thử lại từ đầu.",
+        "error"
+      );
+      return;
+    }
+    formData.append("email", email);
+
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const text = await response.text();
+    console.log("Raw response:", text);
+
+    let data;
+    const cleanedText = text.trim().replace(/^\uFEFF/, "");
+
+    if (!cleanedText.startsWith("{") && !cleanedText.startsWith("[")) {
+      throw new Error("Server returned non-JSON response");
+    }
+
+    try {
+      data = JSON.parse(cleanedText);
+    } catch (parseError) {
+      showMessage(
+        "resetOtpMessage",
+        "Lỗi định dạng phản hồi từ server.",
+        "error"
+      );
+      return;
+    }
+
+    // Xử lý response
+    if (data.success) {
+      showMessage(
+        "resetOtpMessage",
+        data.message || "Xác thực OTP thành công!",
+        "success"
+      );
+
+      // Lưu token reset password nếu có
+      if (data.reset_token) {
+        sessionStorage.setItem("reset_token", data.reset_token);
+      }
+
+      // Chuyển đến tab đặt lại mật khẩu sau 1 giây
+      setTimeout(() => {
+        switchTab("newPasswordTab"); // Sửa từ showTab thành switchTab
+      }, 1000);
+
+      clearOtpInputs(".reset-otp");
+    } else {
+      showMessage(
+        "resetOtpMessage",
+        data.message || "Mã OTP không đúng hoặc đã hết hạn.",
+        "error"
+      );
+
+      // Clear OTP inputs nếu sai
+      clearOtpInputs(".reset-otp");
+
+      // Focus vào input đầu tiên
+      if (otpInputs[0]) {
+        otpInputs[0].focus();
+      }
+    }
+  } catch (error) {
+    showMessage(
+      "resetOtpMessage",
+      "Không thể kết nối tới server. Vui lòng thử lại.",
+      "error"
+    );
+    console.error("Reset OTP error:", error);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = "XÁC NHẬN OTP";
+  }
+}
+
+// Hàm xử lý gửi lại OTP
+async function handleResendResetOtp() {
+  const form = document.getElementById("resetOtpForm");
+  const resendLink = document.getElementById("resendResetOtp");
+  const countdown = document.getElementById("resetCountdown");
+
+  resendLink.style.display = "none";
+  const submitBtn = form.querySelector(".submit-btn");
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span> Đang xử lý...';
+
+  try {
+    const formData = new FormData();
+    formData.append("resend_reset_otp", "1");
+
+    const email = sessionStorage.getItem("reset_email");
+    if (!email) {
+      showMessage(
+        "resetOtpMessage",
+        "Không tìm thấy email. Vui lòng thử lại từ đầu.",
+        "error"
+      );
+      resendLink.style.display = "inline-block";
+      return;
+    }
+    formData.append("email", email);
+
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const text = await response.text();
+    const cleanedText = text.trim().replace(/^\uFEFF/, "");
+
+    let data;
+    try {
+      data = JSON.parse(cleanedText);
+    } catch (parseError) {
+      showMessage(
+        "resetOtpMessage",
+        "Lỗi định dạng phản hồi từ server.",
+        "error"
+      );
+      return;
+    }
+
+    if (data.success) {
+      showMessage(
+        "resetOtpMessage",
+        data.message || "Đã gửi lại mã OTP.",
+        "success"
+      );
+
+      // Bắt đầu đếm ngược 60 giây
+      startCountdown("resetCountdown", 60, () => {
+        resendLink.style.display = "inline-block";
+      });
+
+      // Clear OTP inputs
+      clearOtpInputs("reset-otp");
+    } else {
+      showMessage(
+        "resetOtpMessage",
+        data.message || "Không thể gửi lại OTP.",
+        "error"
+      );
+      resendLink.style.display = "inline-block";
+    }
+  } catch (error) {
+    showMessage("resetOtpMessage", "Lỗi kết nối server.", "error");
+    resendLink.style.display = "inline-block";
+    console.error("Resend reset OTP error:", error);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = "XÁC NHẬN OTP";
+  }
+}
+
+// Hàm clear OTP inputs
+function clearOtpInputs(className) {
+  const inputs = document.querySelectorAll(`${className}`);
+  inputs.forEach((input) => {
+    input.value = "";
+  });
+}
+
+// Hàm xử lý OTP input navigation
+function setupResetOtpInputs() {
+  const otpInputs = document.querySelectorAll(".reset-otp");
+
+  otpInputs.forEach((input, index) => {
+    // Chỉ cho phép nhập số
+    input.addEventListener("input", (e) => {
+      const value = e.target.value;
+
+      // Chỉ giữ lại số
+      e.target.value = value.replace(/[^0-9]/g, "");
+
+      // Auto focus đến ô tiếp theo
+      if (e.target.value && index < otpInputs.length - 1) {
+        otpInputs[index + 1].focus();
+      }
+    });
+
+    // Xử lý phím Backspace
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !e.target.value && index > 0) {
+        otpInputs[index - 1].focus();
+      }
+    });
+
+    // Xử lý paste
+    input.addEventListener("paste", (e) => {
+      e.preventDefault();
+      const paste = (e.clipboardData || window.clipboardData).getData("text");
+      const numbers = paste.replace(/[^0-9]/g, "").slice(0, 6);
+
+      // Điền numbers vào các ô
+      for (let i = 0; i < numbers.length && i < otpInputs.length; i++) {
+        otpInputs[i].value = numbers[i];
+      }
+
+      // Focus vào ô cuối cùng được điền
+      const lastFilledIndex = Math.min(numbers.length, otpInputs.length) - 1;
+      if (lastFilledIndex >= 0) {
+        otpInputs[lastFilledIndex].focus();
+      }
+    });
+  });
+}
+
+// Hàm đếm ngược
+function startCountdown(elementId, seconds, callback) {
+  const element = document.getElementById(elementId);
+  let timeLeft = seconds;
+
+  const updateCountdown = () => {
+    const minutes = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+    element.textContent = `Gửi lại sau ${minutes}:${secs
+      .toString()
+      .padStart(2, "0")}`;
+
+    if (timeLeft <= 0) {
+      element.textContent = "";
+      if (callback) callback();
+      return;
+    }
+
+    timeLeft--;
+    setTimeout(updateCountdown, 1000);
+  };
+
+  updateCountdown();
+}
+
+// Event listeners
+document.addEventListener("DOMContentLoaded", function () {
+  // Setup OTP inputs
+  setupResetOtpInputs();
+
+  // Submit form OTP
+  document
+    .getElementById("resetOtpForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await handleResetOtp();
+    });
+
+  // Resend OTP
+  document
+    .getElementById("resendResetOtp")
+    .addEventListener("click", async (e) => {
+      e.preventDefault();
+      await handleResendResetOtp();
+    });
+
+  // Back to forgot password
+  document
+    .getElementById("backToForgotPassword")
+    .addEventListener("click", (e) => {
+      e.preventDefault();
+      switchTab("forgotPasswordTab");
+    });
+});
+
+async function handleNewPassword() {
+  const form = document.getElementById("newPasswordForm");
+  const newPassword = form.querySelector("#newPassword").value.trim();
+  const confirmPassword = form.querySelector("#confirmPassword").value.trim();
+  const submitBtn = form.querySelector(".submit-btn");
+
+  // Kiểm tra mật khẩu
+  if (!newPassword || !confirmPassword) {
+    showMessage(
+      "newPasswordMessage",
+      "Vui lòng nhập đầy đủ mật khẩu và xác nhận mật khẩu.",
+      "error"
+    );
+    if (!newPassword) shakeElement("newPassword");
+    if (!confirmPassword) shakeElement("confirmPassword");
+    return;
+  }
+
+  // Kiểm tra độ dài mật khẩu (ví dụ: tối thiểu 8 ký tự)
+  if (newPassword.length < 8) {
+    showMessage(
+      "newPasswordMessage",
+      "Mật khẩu phải có ít nhất 8 ký tự.",
+      "error"
+    );
+    shakeElement("newPassword");
+    return;
+  }
+
+  if (newPassword.includes(" ")) {
+    showMessage(
+      "newPasswordMessage",
+      "Mật khẩu không được chứa khoảng trắng.",
+      "error"
+    );
+    shakeElement("newPassword");
+    return;
+  }
+
+  // Kiểm tra mật khẩu khớp nhau
+  if (newPassword !== confirmPassword) {
+    showMessage("newPasswordMessage", "Mật khẩu xác nhận không khớp.", "error");
+    shakeElement("confirmPassword");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span> Đang xử lý...';
+
+  try {
+    const formData = new FormData();
+    formData.append("reset_password", "1");
+    formData.append("new_password", newPassword);
+
+    // Lấy email và reset_token từ sessionStorage
+    const email = sessionStorage.getItem("reset_email");
+    const reset_token = sessionStorage.getItem("reset_token");
+    if (!email || !reset_token) {
+      showMessage(
+        "newPasswordMessage",
+        "Không tìm thấy thông tin email hoặc token. Vui lòng thử lại từ đầu.",
+        "error"
+      );
+      return;
+    }
+    formData.append("email", email);
+    formData.append("reset_token", reset_token);
+
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const text = await response.text();
+    console.log("Raw response:", text);
+
+    let data;
+    const cleanedText = text.trim().replace(/^\uFEFF/, "");
+
+    if (!cleanedText.startsWith("{") && !cleanedText.startsWith("[")) {
+      throw new Error("Server returned non-JSON response");
+    }
+
+    try {
+      data = JSON.parse(cleanedText);
+    } catch (parseError) {
+      showMessage(
+        "newPasswordMessage",
+        "Lỗi định dạng phản hồi từ server.",
+        "error"
+      );
+      return;
+    }
+
+    if (data.success) {
+      showMessage(
+        "newPasswordMessage",
+        data.message || "Đặt lại mật khẩu thành công!",
+        "success"
+      );
+      // Xóa sessionStorage
+      sessionStorage.removeItem("reset_email");
+      sessionStorage.removeItem("reset_token");
+      // Chuyển về tab đăng nhập sau 1 giây
+      setTimeout(() => {
+        switchTab("loginTab");
+        showMessage("loginMessage", "Đăng nhập để tiếp tục", "success");
+      }, 1000);
+    } else {
+      showMessage(
+        "newPasswordMessage",
+        data.message || "Đặt lại mật khẩu thất bại.",
+        "error"
+      );
+      shakeElement("newPassword");
+      shakeElement("confirmPassword");
+    }
+  } catch (error) {
+    showMessage(
+      "newPasswordMessage",
+      "Không thể kết nối tới server. Vui lòng thử lại.",
+      "error"
+    );
+    console.error("Reset password error:", error);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = "ĐẶT LẠI MẬT KHẨU";
+  }
 }

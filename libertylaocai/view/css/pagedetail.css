@@ -1304,7 +1304,7 @@ body {
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  background-color: #004d40;
+  background-color: rgb(218 241 227 / var(--tw-bg-opacity, 1));
 }
 
 .menu-slider-wrapper {

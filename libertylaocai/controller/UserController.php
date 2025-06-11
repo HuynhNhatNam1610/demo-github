@@ -1,6 +1,7 @@
 <?php
 require_once '../model/UserModel.php';
 require_once '../view/php/session.php';
+require_once '../model/mail/sendmail.php';
 
 // Kiểm tra ngôn ngữ từ session, mặc định là 1 (tiếng Việt)
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
@@ -69,9 +70,159 @@ function to_short_slug($productName, $slug)
     return to_slug(implode("-", array_slice($words, 0, $slug)));
 }
 
+//function tạo mã OTP
+function generateOTP($length = 6)
+{
+    $min = pow(10, $length - 1);
+    $max = pow(10, $length) - 1;
+    return sprintf("%0{$length}d", mt_rand($min, $max));
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     file_put_contents('debug.log', date('Y-m-d H:i:s') . " - POST: " . print_r($_POST, true) . "\n", FILE_APPEND);
     file_put_contents('debug.log', date('Y-m-d H:i:s') . " - FILES: " . print_r($_FILES, true) . "\n", FILE_APPEND);
+
+    $action = isset($_POST['action']) ? $_POST['action'] : '';
+
+    // Xử lý hành động add_room
+    if ($action === 'add_room') {
+        $room_number = $_POST['room_number'] ?? '';
+        $id_loaiphong = $_POST['id_loaiphong'] ?? '';
+        $status = $_POST['status'] ?? '';
+
+        $result = addRoom($conn, $room_number, $id_loaiphong, $status);
+        echo json_encode(array_merge($result, [
+            'rooms' => getRooms($conn),
+            'stats' => getStats($conn),
+            'room_type_stats' => getRoomTypeStats($conn),
+            'room_types' => getRoomTypes1($conn)
+        ]));
+        exit;
+    }
+
+    if ($action === 'bulk_update_status') {
+        $status = $_POST['status'] ?? '';
+        $room_ids = $_POST['room_ids'] ?? [];
+
+        if (empty($status) || empty($room_ids)) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Vui lòng chọn trạng thái và ít nhất một phòng!'
+            ]);
+            exit;
+        }
+
+        if (!in_array($status, ['available', 'reserved', 'maintenance', 'pending'])) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Trạng thái không hợp lệ!'
+            ]);
+            exit;
+        }
+
+        $result = bulkUpdateRoomStatus($conn, $status, $room_ids);
+        echo json_encode(array_merge($result, [
+            'rooms' => getRooms($conn),
+            'stats' => getStats($conn),
+            'room_type_stats' => getRoomTypeStats($conn)
+        ]));
+        exit;
+    }
+
+    // Xử lý hành động update_room
+    if ($action === 'update_room') {
+        $id = $_POST['room_id'] ?? '';
+        $room_number = $_POST['room_number'] ?? '';
+        $id_loaiphong = $_POST['id_loaiphong'] ?? '';
+        $status = $_POST['status'] ?? '';
+        $phone = ($status === 'reserved') ? ($_POST['phone'] ?? '') : '';
+
+        $result = updateRoom($conn, $id, $room_number, $id_loaiphong, $status, $phone);
+        echo json_encode(array_merge($result, [
+            'rooms' => getRooms($conn),
+            'stats' => getStats($conn),
+            'room_type_stats' => getRoomTypeStats($conn),
+            'room_types' => getRoomTypes1($conn)
+        ]));
+        exit;
+    }
+
+    // Xử lý hành động delete_room
+    if ($action === 'delete_room') {
+        $id = $_POST['room_id'] ?? '';
+        $result = deleteRoom($conn, $id);
+        echo json_encode(array_merge($result, [
+            'rooms' => getRooms($conn),
+            'stats' => getStats($conn),
+            'room_type_stats' => getRoomTypeStats($conn),
+            'room_types' => getRoomTypes1($conn)
+        ]));
+        exit;
+    }
+
+    // Xử lý hành động add_room_type
+    if ($action === 'add_room_type') {
+        $name_vi = $_POST['name_vi'] ?? '';
+        $name_en = $_POST['name_en'] ?? '';
+        $description_vi = $_POST['description_vi'] ?? '';
+        $description_en = $_POST['description_en'] ?? '';
+        $quantity = $_POST['quantity'] ?? '';
+        $area = $_POST['area'] ?? '';
+        $price = $_POST['price'] ?? '';
+        $images = $_FILES['images'] ?? ['name' => [], 'size' => []];
+
+        $result = addRoomType($conn, $name_vi, $name_en, $description_vi, $description_en, $quantity, $area, $price, $images);
+        echo json_encode(array_merge($result, [
+            'room_types' => getRoomTypes1($conn),
+            'room_type_stats' => getRoomTypeStats($conn)
+        ]));
+        exit;
+    }
+
+    // Xử lý hành động update_room_type
+    if ($action === 'update_room_type') {
+        $id = $_POST['room_type_id'] ?? '';
+        $name_vi = $_POST['name_vi'] ?? '';
+        $name_en = $_POST['name_en'] ?? '';
+        $description_vi = $_POST['description_vi'] ?? '';
+        $description_en = $_POST['description_en'] ?? '';
+        $quantity = $_POST['quantity'] ?? '';
+        $area = $_POST['area'] ?? '';
+        $price = $_POST['price'] ?? '';
+        $delete_images = $_POST['delete_images'] ?? [];
+        $new_images = $_FILES['new_images'] ?? ['name' => [], 'size' => []];
+
+        $result = updateRoomType($conn, $id, $name_vi, $name_en, $description_vi, $description_en, $quantity, $area, $price, $delete_images, $new_images);
+        echo json_encode(array_merge($result, [
+            'room_types' => getRoomTypes1($conn),
+            'room_type_stats' => getRoomTypeStats($conn)
+        ]));
+        exit;
+    }
+
+    // Xử lý hành động delete_room_type
+    if ($action === 'delete_room_type') {
+        $id = $_POST['room_type_id'] ?? '';
+        $result = deleteRoomType($conn, $id);
+        echo json_encode(array_merge($result, [
+            'room_types' => getRoomTypes1($conn),
+            'room_type_stats' => getRoomTypeStats($conn),
+            'rooms' => getRooms($conn)
+        ]));
+        exit;
+    }
+
+    // Xử lý hành động fetch_room_types
+    if ($action === 'fetch_room_types') {
+        echo json_encode([
+            'status' => 'success',
+            'room_types' => getRoomTypes1($conn)
+        ]);
+        exit;
+    }
+
     //danh mục header
     if (isset($_POST['category_code'])) {
         $categoryCode = $_POST['category_code'];
@@ -87,6 +238,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['head_banner'] = getSelectedBanner('dat-phong', 'hero-content');
         }
         header("location: /libertylaocai/$categoryCode");
+        exit();
+    }
+
+    if(isset($_POST['datlichngay'])){
+        $_SESSION['head_banner'] = getSelectedBanner('event', 'event-banner');
+         header("location: /libertylaocai/event");
         exit();
     }
 
@@ -523,6 +680,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $footer_category_code = $_POST['footer_category_code'];
         if ($footer_category_code === 'tin-tuc') {
             $_SESSION['head_banner'] = getSelectedBanner('tintuc', 'tintuc-banner');
+        } elseif ($footer_category_code === 'event') {
+            $_SESSION['head_banner'] = getSelectedBanner('event', 'event-banner');
+        } elseif ($footer_category_code === 'nhahang&bar') {
+            $_SESSION['head_banner'] = getSelectedBanner('nhahang&bar', 'service-banner');
+        } elseif ($footer_category_code === 'dat-phong') {
+            $_SESSION['head_banner'] = getSelectedBanner('dat-phong', 'hero-content');
         }
         header("location: /libertylaocai/$footer_category_code");
     }
@@ -696,5 +859,267 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => false, 'message' => 'Lỗi khi lưu dữ liệu: ' . $conn->error]);
         }
         exit();
+    }
+
+    if (isset($_POST['login'])) {
+        header('Content-Type: application/json; charset=utf-8');
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        if (empty($email) || empty($password)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Vui lòng nhập đầy đủ thông tin.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $user = checkUserLogin($email);
+        if (empty($user)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Tài khoản không tồn tại.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $passBrypt = passBrypt($email);
+        if (empty($passBrypt)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Lỗi hệ thống. Vui lòng thử lại sau.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        if (!password_verify($password, $passBrypt)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Sai mật khẩu.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Đăng nhập thành công!'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if (isset($_POST['forgot_password'])) {
+        header('Content-Type: application/json; charset=utf-8');
+        $email = $_POST['email'] ?? '';
+
+        if (empty($email)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Vui lòng nhập đầy đủ thông tin.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $emailExist = checkEmailExist($email);
+        if (!$emailExist) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Email không tồn tại.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $token = generateOTP();
+        storeResetToken($email, $token);
+        $subject = "Xác thực để đăng nhập";
+        $message = "Mã OTP của bạn là: $token\nVui lòng nhập mã này để xác thực đăng nhập.\nMã có hiệu lực trong 5 phút.";
+        if (sendMail($email, $subject, $message)) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Đã gửi OTP xác minh.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Lỗi khi gửi mail để xác thực.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+    }
+
+    // Xử lý xác thực OTP reset password
+    if (isset($_POST['verify_reset_otp'])) {
+        ob_clean();
+        header('Content-Type: application/json; charset=utf-8');
+
+        $otp = $_POST['otp'] ?? '';
+        $email = $_POST['email'] ?? '';
+
+        if (empty($otp) || empty($email)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Thiếu thông tin OTP hoặc email.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        // Validate OTP format (6 digits)
+        if (!preg_match('/^\d{6}$/', $otp)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Mã OTP phải là 6 chữ số.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        try {
+
+            $user = getUserByToken($otp);
+
+            if ($user && $user['email'] === $email && strtotime($user['reset_expires']) > time()) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Xác thực OTP thành công!',
+                    'reset_token' => $otp
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'OTP không hợp lệ hoặc đã hết hạn.'
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+        } catch (Exception $e) {
+            error_log("Verify reset OTP error: " . $e->getMessage());
+            echo json_encode([
+                'success' => false,
+                'message' => 'Lỗi hệ thống. Vui lòng thử lại sau.'
+            ], JSON_UNESCAPED_UNICODE);
+        }
+
+        exit;
+    }
+
+    if (isset($_POST['reset_password'])) {
+        ob_clean();
+        header('Content-Type: application/json; charset=utf-8');
+
+        $email = $_POST['email'] ?? '';
+        $reset_token = $_POST['reset_token'] ?? '';
+        $new_password = $_POST['new_password'] ?? '';
+
+        if (empty($email) || empty($reset_token) || empty($new_password)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Thiếu thông tin email, token hoặc mật khẩu.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        // Kiểm tra độ dài mật khẩu
+        if (strlen($new_password) < 8) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Mật khẩu phải có ít nhất 8 ký tự.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        try {
+            $user = getUserByToken($reset_token);
+
+            if ($user && $user['email'] === $email && strtotime($user['reset_expires']) > time()) {
+                // Mã hóa mật khẩu mới
+                $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
+                $result = changePassword($hashed_password, $email);
+                if ($result) {
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'Đặt lại mật khẩu thành công!'
+                    ], JSON_UNESCAPED_UNICODE);
+                    exit;
+                } else {
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Token không hợp lệ hoặc đã hết hạn.'
+                    ], JSON_UNESCAPED_UNICODE);
+                    exit;
+                }
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Token không hợp lệ hoặc đã hết hạn.'
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+        } catch (Exception $e) {
+            error_log("Reset password error: " . $e->getMessage());
+            echo json_encode([
+                'success' => false,
+                'message' => 'Lỗi hệ thống. Vui lòng thử lại sau.'
+            ], JSON_UNESCAPED_UNICODE);
+        }
+
+        exit;
+    }
+
+    if (isset($_POST['resend_reset_otp'])) {
+        ob_clean();
+        header('Content-Type: application/json; charset=utf-8');
+
+        $email = $_POST['email'] ?? '';
+        if (empty($email)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Thiếu email.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Email không đúng định dạng.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        try {
+            // Giả định: Tạo và gửi OTP mới
+            $emailExist = checkEmailExist($email);
+            if (!$emailExist) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Email không tồn tại.'
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+
+            $otp = generateOtp();
+            storeResetToken($email, $otp);
+            $subject = "Xác thực để đăng nhập";
+            $message = "Mã OTP của bạn là: $otp\nVui lòng nhập mã này để xác thực đăng nhập.\nMã có hiệu lực trong 5 phút.";
+            if (sendMail($email, $subject, $message)) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Đã gửi OTP xác minh.'
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Lỗi khi gửi mail để xác thực.'
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+        } catch (Exception $e) {
+            error_log("Resend OTP error: " . $e->getMessage());
+            echo json_encode([
+                'success' => false,
+                'message' => 'Lỗi hệ thống. Vui lòng thử lại sau.'
+            ], JSON_UNESCAPED_UNICODE);
+        }
+        exit;
     }
 }

@@ -1,0 +1,18 @@
+2025-06-08 22:05:10 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:05:10 - FILES: Array
+(
+)
+
+2025-06-08 22:05:55 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:05:55 - FILES: Array
+(
+)
+

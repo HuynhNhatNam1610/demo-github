@@ -445,7 +445,7 @@ body {
 .view-all-rooms-wrapper {
   display: flex;
   justify-content: center;
-  padding-bottom: 10px;
+  margin-bottom: 30px;
 }
 
 .view-all-rooms-btn {
@@ -459,6 +459,11 @@ body {
   text-decoration: none;
   overflow: hidden;
   transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.view-all-rooms-btn {
+  border: none;
 }
 
 .view-all-rooms-btn::before {
@@ -534,6 +539,8 @@ body {
   text-decoration: none;
   font-weight: bold;
   transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
 }
 
 .banner-button:hover {

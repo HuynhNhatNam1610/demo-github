@@ -17,53 +17,7 @@
     <div class="sidebar-overlay" onclick="closeSidebar()"></div>
 
     <div class="admin-container">
-        <!-- Sidebar -->
-        <nav class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-            <div class="logo"><img src="../img/Logoliberty.jpg" alt="Liberty Logo" style="width: 40px; height: 40px; border-radius: 40%;"></div>
-                <div class="sidebar-title">Liberty Lào Cai</div>
-            </div>
-            
-            <div class="sidebar-nav">
-                <a href="#" class="nav-item active" onclick="showSection('dashboard', this)">
-                    <span class="nav-icon"><i class="bi bi-speedometer2"></i></span>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#" class="nav-item" onclick="showSection('bookings', this)">
-                    <span class="nav-icon"><i class="bi bi-calendar-check"></i></span>
-                    <span>Quản lý đặt phòng</span>
-                </a>
-                <a href="#" class="nav-item" onclick="showSection('rooms', this)">
-                    <span class="nav-icon"><i class="bi bi-building"></i></span>
-                    <span>Quản lý phòng</span>
-                </a>
-                <a href="#" class="nav-item" onclick="showSection('events', this)">
-                    <span class="nav-icon"><i class="bi bi-calendar-event"></i></span>
-                    <span>Quản lý sự kiện</span>
-                </a>
-                <a href="#" class="nav-item" onclick="showSection('services', this)">
-                    <span class="nav-icon"><i class="bi bi-bell-fill"></i></span>
-                    <span>Dịch vụ</span>
-                </a>
-                <a href="#" class="nav-item" onclick="showSection('reports', this)">
-                    <span class="nav-icon"><i class="bi bi-graph-up"></i></span>
-                    <span>Báo cáo</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><i class="bi bi-gear"></i></span>
-                    <span>Cài đặt</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><i class="bi bi-box-arrow-right"></i></span>
-                    <span>Đăng xuất</span>
-                </a>
-                <a href="#" class="nav-item" onclick="showSection('reports', this)">
-                    <span class="nav-icon"><i class="bi bi-graph-up"></i></span>
-                    <span>Báo cáo</span>
-                </a>
-                
-            </div>
-        </nav>
+       <?php include "sidebar.php"; ?>
 
         <main class="main-content" id="mainContent">
             <header class="header">

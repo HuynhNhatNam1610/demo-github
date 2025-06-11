@@ -339,3 +339,12 @@ body {
     font-size: 1.2rem;
   }
 }
+a {
+  text-decoration: none;
+  color: #3a3c3e;
+}
+
+/* Đảm bảo các liên kết trong contact-item không có gạch chân khi hover */
+.contact-item a:hover {
+  text-decoration: none;
+}

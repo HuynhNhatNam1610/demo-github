@@ -34,6 +34,11 @@ header {
   border-bottom: 0.5px solid #e6faf0;
 }
 
+.right-align {
+  display: flex;
+  align-items: center;
+}
+
 .head-info {
   display: flex;
 }
@@ -53,7 +58,7 @@ header {
   opacity: 0.7;
 }
 .language {
-  display: flex;
+  margin-right: 20px;
 }
 
 .language-toggle {
@@ -67,8 +72,25 @@ header {
 }
 
 .language .flag {
-  width: 2.5vw;
+  width: 2.5vw; 
   height: auto;
+  cursor: pointer;
+}
+
+.login {
+  display: flex;
+  align-items: center;
+}
+
+.login-icon {
+  color: #e6faf0;
+  font-size: 18px; 
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.login-icon:hover {
+  opacity: 0.7;
 }
 
 .header .second-container {

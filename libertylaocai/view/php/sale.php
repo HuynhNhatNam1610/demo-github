@@ -7,7 +7,7 @@ if (!empty($_SESSION['head_banner'])) {
 }
 
 // Lấy ưu đãi
-$promotions = getPromotions($languageId, $conn);
+$promotions = getPromotions($languageId);
 
 
 ?>
@@ -40,7 +40,7 @@ $promotions = getPromotions($languageId, $conn);
                     echo '<div class="promotion-card">';
                     echo '<div class="promotion-image">';
                     echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promotion['image']) . '" alt="' . htmlspecialchars($promotion['title']) . '">';
-                    echo '<span class="corner-text">'.date('Y-m-d', strtotime($promotion['created_at'])).'</span>';
+                    echo '<span class="corner-text">'.date('Y-m-d', strtotime($promotion['date'])).'</span>';
                     echo '</div>';
                     echo '<div class="promotion-content">';
                     echo '<h3 class="promotion-title">' . htmlspecialchars($promotion['title']) . '</h3>';

@@ -7804,3 +7804,3173 @@
 (
 )
 
+2025-06-08 20:43:06 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 20:43:06 - FILES: Array
+(
+)
+
+2025-06-08 21:47:39 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 21:47:39 - FILES: Array
+(
+)
+
+2025-06-08 22:06:20 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 22:06:20 - FILES: Array
+(
+)
+
+2025-06-08 22:06:21 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 22:06:21 - FILES: Array
+(
+)
+
+2025-06-08 22:09:05 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:09:05 - FILES: Array
+(
+)
+
+2025-06-08 22:09:42 - POST: Array
+(
+    [action] => bulk_update_status
+    [status] => reserved
+    [room_ids] => Array
+        (
+            [0] => 2
+        )
+
+)
+
+2025-06-08 22:09:42 - FILES: Array
+(
+)
+
+2025-06-08 22:10:55 - POST: Array
+(
+    [action] => bulk_update_status
+    [status] => available
+    [room_ids] => Array
+        (
+            [0] => 1
+        )
+
+)
+
+2025-06-08 22:10:55 - FILES: Array
+(
+)
+
+2025-06-08 22:14:23 - POST: Array
+(
+    [action] => bulk_update_status
+    [status] => available
+    [room_ids] => Array
+        (
+            [0] => 1
+        )
+
+)
+
+2025-06-08 22:14:23 - FILES: Array
+(
+)
+
+2025-06-08 22:14:45 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:14:45 - FILES: Array
+(
+)
+
+2025-06-08 22:15:07 - POST: Array
+(
+    [action] => bulk_update_status
+    [status] => available
+    [room_ids] => Array
+        (
+            [0] => 1
+        )
+
+)
+
+2025-06-08 22:15:07 - FILES: Array
+(
+)
+
+2025-06-08 22:18:59 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 22:18:59 - FILES: Array
+(
+)
+
+2025-06-08 22:19:07 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-08 22:19:07 - FILES: Array
+(
+)
+
+2025-06-08 22:19:43 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-08 22:19:43 - FILES: Array
+(
+)
+
+2025-06-08 22:19:45 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-08 22:19:45 - FILES: Array
+(
+)
+
+2025-06-08 22:19:48 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-08 22:19:48 - FILES: Array
+(
+)
+
+2025-06-08 22:19:52 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 22:19:52 - FILES: Array
+(
+)
+
+2025-06-08 22:19:54 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 22:19:54 - FILES: Array
+(
+)
+
+2025-06-08 22:19:57 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-08 22:19:57 - FILES: Array
+(
+)
+
+2025-06-08 22:20:15 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-08 22:20:15 - FILES: Array
+(
+)
+
+2025-06-08 22:20:20 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-08 22:20:20 - FILES: Array
+(
+)
+
+2025-06-08 22:20:22 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-08 22:20:22 - FILES: Array
+(
+)
+
+2025-06-08 22:21:03 - POST: Array
+(
+    [id_sukiendatochuc] => 2
+)
+
+2025-06-08 22:21:03 - FILES: Array
+(
+)
+
+2025-06-08 22:21:18 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-08 22:21:18 - FILES: Array
+(
+)
+
+2025-06-08 22:21:20 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-08 22:21:20 - FILES: Array
+(
+)
+
+2025-06-08 22:21:27 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-08 22:21:27 - FILES: Array
+(
+)
+
+2025-06-08 22:21:34 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-08 22:21:34 - FILES: Array
+(
+)
+
+2025-06-08 22:21:41 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 22:21:41 - FILES: Array
+(
+)
+
+2025-06-08 22:22:02 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-08 22:22:02 - FILES: Array
+(
+)
+
+2025-06-08 22:22:04 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-08 22:22:04 - FILES: Array
+(
+)
+
+2025-06-08 22:22:11 - POST: Array
+(
+    [id_sukiendatochuc] => 1
+)
+
+2025-06-08 22:22:11 - FILES: Array
+(
+)
+
+2025-06-08 22:22:24 - POST: Array
+(
+    [id_sukiendatochuc] => 1
+)
+
+2025-06-08 22:22:24 - FILES: Array
+(
+)
+
+2025-06-08 22:22:38 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-08 22:22:38 - FILES: Array
+(
+)
+
+2025-06-08 22:22:44 - POST: Array
+(
+    [id_uudai] => 2
+)
+
+2025-06-08 22:22:44 - FILES: Array
+(
+)
+
+2025-06-08 22:22:51 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-08 22:22:51 - FILES: Array
+(
+)
+
+2025-06-08 22:22:54 - POST: Array
+(
+    [id_tintuc] => 1
+)
+
+2025-06-08 22:22:54 - FILES: Array
+(
+)
+
+2025-06-08 22:23:15 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-08 22:23:15 - FILES: Array
+(
+)
+
+2025-06-08 22:23:38 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-08 22:23:38 - FILES: Array
+(
+)
+
+2025-06-08 22:23:42 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-08 22:23:42 - FILES: Array
+(
+)
+
+2025-06-08 22:27:24 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:27:24 - FILES: Array
+(
+)
+
+2025-06-08 22:27:53 - POST: Array
+(
+    [action] => update_room
+    [room_id] => 2
+    [room_number] => 102
+    [id_loaiphong] => 1
+    [status] => available
+    [phone] => 0777566325
+)
+
+2025-06-08 22:27:53 - FILES: Array
+(
+)
+
+2025-06-08 22:30:17 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-08 22:30:17 - FILES: Array
+(
+)
+
+2025-06-08 22:30:41 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:30:41 - FILES: Array
+(
+)
+
+2025-06-08 22:30:54 - POST: Array
+(
+    [action] => update_room_type
+    [room_type_id] => 1
+    [name_vi] => Phòng Đơn 
+    [name_en] => Single Room
+    [description_vi] => <p>Phòng đơn được thiết kế hiện đại với đầy đủ tiện nghi cao cấp, mang đến trải nghiệm nghỉ dưỡng thoải mái và đẳng cấp tại trung tâm thành phố Lào Cai. </p>
+<p>Dịch vụ bao gồm</p>
+<ul>
+<li>Bữa sáng buffet miễn phí</li>
+<li>Thuế GTGT</li>
+<li>WiFi tốc độ cao</li>
+<li>Bãi đỗ xe miễn phí</li>
+</ul>
+<img src="https://thewesternhill.com/storage/anh-moi-t6/phong-nghi/president-suite/president-suite-6.jpg"> </img>
+    [description_en] => Single rooms are modernly designed with full high-class amenities, providing a comfortable and classy resort experience in the center of Lao Cai city.
+    [quantity] => 10
+    [area] => 34
+    [price] => 700000
+)
+
+2025-06-08 22:30:54 - FILES: Array
+(
+    [new_images] => Array
+        (
+            [name] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [full_path] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [type] => Array
+                (
+                    [0] => image/jpeg
+                )
+
+            [tmp_name] => Array
+                (
+                    [0] => C:\xampp\tmp\php3DC1.tmp
+                )
+
+            [error] => Array
+                (
+                    [0] => 0
+                )
+
+            [size] => Array
+                (
+                    [0] => 159868
+                )
+
+        )
+
+)
+
+2025-06-08 22:31:01 - POST: Array
+(
+    [action] => update_room_type
+    [room_type_id] => 1
+    [name_vi] => Phòng Đơn 
+    [name_en] => Single Room
+    [description_vi] => <p>Phòng đơn được thiết kế hiện đại với đầy đủ tiện nghi cao cấp, mang đến trải nghiệm nghỉ dưỡng thoải mái và đẳng cấp tại trung tâm thành phố Lào Cai. </p>
+<p>Dịch vụ bao gồm</p>
+<ul>
+<li>Bữa sáng buffet miễn phí</li>
+<li>Thuế GTGT</li>
+<li>WiFi tốc độ cao</li>
+<li>Bãi đỗ xe miễn phí</li>
+</ul>
+<img src="https://thewesternhill.com/storage/anh-moi-t6/phong-nghi/president-suite/president-suite-6.jpg"> </img>
+    [description_en] => Single rooms are modernly designed with full high-class amenities, providing a comfortable and classy resort experience in the center of Lao Cai city.
+    [quantity] => 10
+    [area] => 34
+    [price] => 700000
+)
+
+2025-06-08 22:31:01 - FILES: Array
+(
+    [new_images] => Array
+        (
+            [name] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [full_path] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [type] => Array
+                (
+                    [0] => image/jpeg
+                )
+
+            [tmp_name] => Array
+                (
+                    [0] => C:\xampp\tmp\php5699.tmp
+                )
+
+            [error] => Array
+                (
+                    [0] => 0
+                )
+
+            [size] => Array
+                (
+                    [0] => 159868
+                )
+
+        )
+
+)
+
+2025-06-08 22:32:49 - POST: Array
+(
+    [action] => update_room_type
+    [room_type_id] => 1
+    [name_vi] => Phòng Đơn 
+    [name_en] => Single Room
+    [description_vi] => <p>Phòng đơn được thiết kế hiện đại với đầy đủ tiện nghi cao cấp, mang đến trải nghiệm nghỉ dưỡng thoải mái và đẳng cấp tại trung tâm thành phố Lào Cai. </p>
+<p>Dịch vụ bao gồm</p>
+<ul>
+<li>Bữa sáng buffet miễn phí</li>
+<li>Thuế GTGT</li>
+<li>WiFi tốc độ cao</li>
+<li>Bãi đỗ xe miễn phí</li>
+</ul>
+<img src="https://thewesternhill.com/storage/anh-moi-t6/phong-nghi/president-suite/president-suite-6.jpg"> </img>
+    [description_en] => Single rooms are modernly designed with full high-class amenities, providing a comfortable and classy resort experience in the center of Lao Cai city.
+    [quantity] => 10
+    [area] => 34
+    [price] => 700000
+)
+
+2025-06-08 22:32:49 - FILES: Array
+(
+    [new_images] => Array
+        (
+            [name] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [full_path] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [type] => Array
+                (
+                    [0] => image/jpeg
+                )
+
+            [tmp_name] => Array
+                (
+                    [0] => C:\xampp\tmp\phpFDE1.tmp
+                )
+
+            [error] => Array
+                (
+                    [0] => 0
+                )
+
+            [size] => Array
+                (
+                    [0] => 159868
+                )
+
+        )
+
+)
+
+2025-06-08 22:35:23 - POST: Array
+(
+    [action] => update_room_type
+    [room_type_id] => 1
+    [name_vi] => Phòng Đơn 
+    [name_en] => Single Room
+    [description_vi] => <p>Phòng đơn được thiết kế hiện đại với đầy đủ tiện nghi cao cấp, mang đến trải nghiệm nghỉ dưỡng thoải mái và đẳng cấp tại trung tâm thành phố Lào Cai. </p>
+<p>Dịch vụ bao gồm</p>
+<ul>
+<li>Bữa sáng buffet miễn phí</li>
+<li>Thuế GTGT</li>
+<li>WiFi tốc độ cao</li>
+<li>Bãi đỗ xe miễn phí</li>
+</ul>
+<img src="https://thewesternhill.com/storage/anh-moi-t6/phong-nghi/president-suite/president-suite-6.jpg"> </img>
+    [description_en] => Single rooms are modernly designed with full high-class amenities, providing a comfortable and classy resort experience in the center of Lao Cai city.
+    [quantity] => 10
+    [area] => 35
+    [price] => 700000
+)
+
+2025-06-08 22:35:23 - FILES: Array
+(
+)
+
+2025-06-08 22:35:28 - POST: Array
+(
+    [action] => update_room_type
+    [room_type_id] => 1
+    [name_vi] => Phòng Đơn 
+    [name_en] => Single Room
+    [description_vi] => <p>Phòng đơn được thiết kế hiện đại với đầy đủ tiện nghi cao cấp, mang đến trải nghiệm nghỉ dưỡng thoải mái và đẳng cấp tại trung tâm thành phố Lào Cai. </p>
+<p>Dịch vụ bao gồm</p>
+<ul>
+<li>Bữa sáng buffet miễn phí</li>
+<li>Thuế GTGT</li>
+<li>WiFi tốc độ cao</li>
+<li>Bãi đỗ xe miễn phí</li>
+</ul>
+<img src="https://thewesternhill.com/storage/anh-moi-t6/phong-nghi/president-suite/president-suite-6.jpg"> </img>
+    [description_en] => Single rooms are modernly designed with full high-class amenities, providing a comfortable and classy resort experience in the center of Lao Cai city.
+    [quantity] => 10
+    [area] => 34
+    [price] => 700000
+)
+
+2025-06-08 22:35:28 - FILES: Array
+(
+)
+
+2025-06-08 22:36:05 - POST: Array
+(
+    [action] => update_room_type
+    [room_type_id] => 1
+    [name_vi] => Phòng Đơn 
+    [name_en] => Single Room
+    [description_vi] => <p>Phòng đơn được thiết kế hiện đại với đầy đủ tiện nghi cao cấp, mang đến trải nghiệm nghỉ dưỡng thoải mái và đẳng cấp tại trung tâm thành phố Lào Cai. </p>
+<p>Dịch vụ bao gồm</p>
+<ul>
+<li>Bữa sáng buffet miễn phí</li>
+<li>Thuế GTGT</li>
+<li>WiFi tốc độ cao</li>
+<li>Bãi đỗ xe miễn phí</li>
+</ul>
+<img src="https://thewesternhill.com/storage/anh-moi-t6/phong-nghi/president-suite/president-suite-6.jpg"> </img>
+    [description_en] => Single rooms are modernly designed with full high-class amenities, providing a comfortable and classy resort experience in the center of Lao Cai city.
+    [quantity] => 10
+    [area] => 34
+    [price] => 700000
+)
+
+2025-06-08 22:36:05 - FILES: Array
+(
+    [new_images] => Array
+        (
+            [name] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [full_path] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [type] => Array
+                (
+                    [0] => image/jpeg
+                )
+
+            [tmp_name] => Array
+                (
+                    [0] => C:\xampp\tmp\phpFC6D.tmp
+                )
+
+            [error] => Array
+                (
+                    [0] => 0
+                )
+
+            [size] => Array
+                (
+                    [0] => 159868
+                )
+
+        )
+
+)
+
+2025-06-08 22:36:49 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:36:49 - FILES: Array
+(
+)
+
+2025-06-08 22:36:55 - POST: Array
+(
+    [action] => update_room_type
+    [room_type_id] => 1
+    [name_vi] => Phòng Đơn 
+    [name_en] => Single Room
+    [description_vi] => <p>Phòng đơn được thiết kế hiện đại với đầy đủ tiện nghi cao cấp, mang đến trải nghiệm nghỉ dưỡng thoải mái và đẳng cấp tại trung tâm thành phố Lào Cai. </p>
+<p>Dịch vụ bao gồm</p>
+<ul>
+<li>Bữa sáng buffet miễn phí</li>
+<li>Thuế GTGT</li>
+<li>WiFi tốc độ cao</li>
+<li>Bãi đỗ xe miễn phí</li>
+</ul>
+<img src="https://thewesternhill.com/storage/anh-moi-t6/phong-nghi/president-suite/president-suite-6.jpg"> </img>
+    [description_en] => Single rooms are modernly designed with full high-class amenities, providing a comfortable and classy resort experience in the center of Lao Cai city.
+    [quantity] => 10
+    [area] => 34
+    [price] => 700000
+)
+
+2025-06-08 22:36:55 - FILES: Array
+(
+    [new_images] => Array
+        (
+            [name] => Array
+                (
+                    [0] => IMG_9901.jpg
+                )
+
+            [full_path] => Array
+                (
+                    [0] => IMG_9901.jpg
+                )
+
+            [type] => Array
+                (
+                    [0] => image/jpeg
+                )
+
+            [tmp_name] => Array
+                (
+                    [0] => C:\xampp\tmp\phpBF8F.tmp
+                )
+
+            [error] => Array
+                (
+                    [0] => 0
+                )
+
+            [size] => Array
+                (
+                    [0] => 1577822
+                )
+
+        )
+
+)
+
+2025-06-08 22:37:01 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:37:01 - FILES: Array
+(
+)
+
+2025-06-08 22:37:02 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:37:02 - FILES: Array
+(
+)
+
+2025-06-08 22:37:07 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:37:07 - FILES: Array
+(
+)
+
+2025-06-08 22:37:14 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:37:14 - FILES: Array
+(
+)
+
+2025-06-08 22:37:35 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:37:35 - FILES: Array
+(
+)
+
+2025-06-08 22:52:54 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 22:52:54 - FILES: Array
+(
+)
+
+2025-06-08 22:55:02 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:55:02 - FILES: Array
+(
+)
+
+2025-06-08 22:55:04 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-08 22:55:04 - FILES: Array
+(
+)
+
+2025-06-08 22:55:13 - POST: Array
+(
+    [action] => update_room_type
+    [room_type_id] => 1
+    [name_vi] => Phòng Đơn 
+    [name_en] => Single Room
+    [description_vi] => <p>Phòng đơn được thiết kế hiện đại với đầy đủ tiện nghi cao cấp, mang đến trải nghiệm nghỉ dưỡng thoải mái và đẳng cấp tại trung tâm thành phố Lào Cai. </p>
+<p>Dịch vụ bao gồm</p>
+<ul>
+<li>Bữa sáng buffet miễn phí</li>
+<li>Thuế GTGT</li>
+<li>WiFi tốc độ cao</li>
+<li>Bãi đỗ xe miễn phí</li>
+</ul>
+<img src="https://thewesternhill.com/storage/anh-moi-t6/phong-nghi/president-suite/president-suite-6.jpg"> </img>
+    [description_en] => Single rooms are modernly designed with full high-class amenities, providing a comfortable and classy resort experience in the center of Lao Cai city.
+    [quantity] => 10
+    [area] => 34
+    [price] => 700000
+)
+
+2025-06-08 22:55:13 - FILES: Array
+(
+    [new_images] => Array
+        (
+            [name] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [full_path] => Array
+                (
+                    [0] => 491300369_1219960726801063_8042948838168308558_n.jpg
+                )
+
+            [type] => Array
+                (
+                    [0] => image/jpeg
+                )
+
+            [tmp_name] => Array
+                (
+                    [0] => C:\xampp\tmp\php7E1F.tmp
+                )
+
+            [error] => Array
+                (
+                    [0] => 0
+                )
+
+            [size] => Array
+                (
+                    [0] => 159868
+                )
+
+        )
+
+)
+
+2025-06-08 22:55:23 - POST: Array
+(
+    [action] => bulk_update_status
+    [status] => pending
+    [room_ids] => Array
+        (
+            [0] => 1
+        )
+
+)
+
+2025-06-08 22:55:23 - FILES: Array
+(
+)
+
+2025-06-08 22:56:24 - POST: Array
+(
+    [action] => bulk_update_status
+    [status] => pending
+    [room_ids] => Array
+        (
+            [0] => 1
+            [1] => 2
+        )
+
+)
+
+2025-06-08 22:56:24 - FILES: Array
+(
+)
+
+2025-06-08 22:57:56 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 22:57:56 - FILES: Array
+(
+)
+
+2025-06-08 22:59:45 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 22:59:45 - FILES: Array
+(
+)
+
+2025-06-08 23:06:52 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 23:06:52 - FILES: Array
+(
+)
+
+2025-06-08 23:07:43 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 23:07:43 - FILES: Array
+(
+)
+
+2025-06-08 23:09:05 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 23:09:05 - FILES: Array
+(
+)
+
+2025-06-08 23:09:39 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 23:09:39 - FILES: Array
+(
+)
+
+2025-06-08 23:10:19 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 23:10:19 - FILES: Array
+(
+)
+
+2025-06-08 23:13:20 - POST: Array
+(
+    [login] => 1
+    [email] => cham
+    [password] => 12345678
+)
+
+2025-06-08 23:13:20 - FILES: Array
+(
+)
+
+2025-06-08 23:17:42 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 23:17:42 - FILES: Array
+(
+)
+
+2025-06-08 23:19:03 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 23:19:03 - FILES: Array
+(
+)
+
+2025-06-08 23:19:39 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 23:19:39 - FILES: Array
+(
+)
+
+2025-06-08 23:24:35 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-08 23:24:35 - FILES: Array
+(
+)
+
+2025-06-09 07:56:47 - POST: Array
+(
+    [login] => 1
+    [email] => hahaha
+    [password] => hahaha
+)
+
+2025-06-09 07:56:47 - FILES: Array
+(
+)
+
+2025-06-09 07:57:18 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => hahahah
+)
+
+2025-06-09 07:57:18 - FILES: Array
+(
+)
+
+2025-06-09 07:59:15 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-09 07:59:15 - FILES: Array
+(
+)
+
+2025-06-09 08:02:51 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => hahhaha
+)
+
+2025-06-09 08:02:51 - FILES: Array
+(
+)
+
+2025-06-09 08:03:10 - POST: Array
+(
+    [login] => 1
+    [email] => hihi
+    [password] => hahhaha
+)
+
+2025-06-09 08:03:10 - FILES: Array
+(
+)
+
+2025-06-09 08:03:36 - POST: Array
+(
+    [login] => 1
+    [email] => hihi
+    [password] => hahaha
+)
+
+2025-06-09 08:03:36 - FILES: Array
+(
+)
+
+2025-06-09 08:06:30 - POST: Array
+(
+    [login] => 1
+    [email] => hahaha
+    [password] => hahaha
+)
+
+2025-06-09 08:06:30 - FILES: Array
+(
+)
+
+2025-06-09 08:07:50 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => hahah
+)
+
+2025-06-09 08:07:50 - FILES: Array
+(
+)
+
+2025-06-09 08:08:09 - POST: Array
+(
+    [login] => 1
+    [email] => hahah
+    [password] => hahah
+)
+
+2025-06-09 08:08:09 - FILES: Array
+(
+)
+
+2025-06-09 08:10:03 - POST: Array
+(
+    [login] => 1
+    [email] => ahahah
+    [password] => hahaha
+)
+
+2025-06-09 08:10:03 - FILES: Array
+(
+)
+
+2025-06-09 08:10:14 - POST: Array
+(
+    [login] => 1
+    [email] => hahaa
+    [password] => hsaha
+)
+
+2025-06-09 08:10:14 - FILES: Array
+(
+)
+
+2025-06-09 08:11:32 - POST: Array
+(
+    [login] => 1
+    [email] => hahaha
+    [password] => hahaa
+)
+
+2025-06-09 08:11:32 - FILES: Array
+(
+)
+
+2025-06-09 08:11:41 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-09 08:11:41 - FILES: Array
+(
+)
+
+2025-06-09 08:13:16 - POST: Array
+(
+    [login] => 1
+    [email] => ahjhaha
+    [password] => hâhha
+)
+
+2025-06-09 08:13:16 - FILES: Array
+(
+)
+
+2025-06-09 08:13:37 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => hahahaha
+)
+
+2025-06-09 08:13:37 - FILES: Array
+(
+)
+
+2025-06-09 08:15:44 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => ahahah
+)
+
+2025-06-09 08:15:44 - FILES: Array
+(
+)
+
+2025-06-09 08:16:21 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-09 08:16:21 - FILES: Array
+(
+)
+
+2025-06-09 08:17:24 - POST: Array
+(
+    [login] => 1
+    [email] => haha
+    [password] => hihi
+)
+
+2025-06-09 08:17:24 - FILES: Array
+(
+)
+
+2025-06-09 08:18:56 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => hahaha
+)
+
+2025-06-09 08:18:56 - FILES: Array
+(
+)
+
+2025-06-09 08:19:03 - POST: Array
+(
+    [login] => 1
+    [email] => hihi
+    [password] => hahaha
+)
+
+2025-06-09 08:19:03 - FILES: Array
+(
+)
+
+2025-06-09 08:19:10 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => hahaha
+)
+
+2025-06-09 08:19:10 - FILES: Array
+(
+)
+
+2025-06-09 09:01:33 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 09:01:33 - FILES: Array
+(
+)
+
+2025-06-09 09:03:36 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 09:03:36 - FILES: Array
+(
+)
+
+2025-06-09 09:05:03 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 09:05:03 - FILES: Array
+(
+)
+
+2025-06-09 09:05:56 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 09:05:56 - FILES: Array
+(
+)
+
+2025-06-09 09:21:30 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 09:21:30 - FILES: Array
+(
+)
+
+2025-06-09 09:22:52 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 09:22:52 - FILES: Array
+(
+)
+
+2025-06-09 09:59:48 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 09:59:48 - FILES: Array
+(
+)
+
+2025-06-09 10:00:50 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 10:00:50 - FILES: Array
+(
+)
+
+2025-06-09 10:01:11 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 792302
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 10:01:11 - FILES: Array
+(
+)
+
+2025-06-09 10:01:11 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 792302
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 10:01:11 - FILES: Array
+(
+)
+
+2025-06-09 10:02:20 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 123456789
+)
+
+2025-06-09 10:02:20 - FILES: Array
+(
+)
+
+2025-06-09 18:59:48 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 18:59:48 - FILES: Array
+(
+)
+
+2025-06-09 19:00:12 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 341527
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 19:00:12 - FILES: Array
+(
+)
+
+2025-06-09 19:00:12 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 341527
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 19:00:12 - FILES: Array
+(
+)
+
+2025-06-09 19:00:23 - POST: Array
+(
+    [reset_password] => 1
+    [new_password] => 123456789
+    [email] => nhatnam161005@gmail.com
+    [reset_token] => 341527
+)
+
+2025-06-09 19:00:23 - FILES: Array
+(
+)
+
+2025-06-09 20:02:57 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:02:57 - FILES: Array
+(
+)
+
+2025-06-09 20:03:10 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 452101
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:03:10 - FILES: Array
+(
+)
+
+2025-06-09 20:03:10 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 452101
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:03:10 - FILES: Array
+(
+)
+
+2025-06-09 20:04:23 - POST: Array
+(
+    [reset_password] => 1
+    [new_password] => 123456789
+    [email] => nhatnam161005@gmail.com
+    [reset_token] => 452101
+)
+
+2025-06-09 20:04:23 - FILES: Array
+(
+)
+
+2025-06-09 20:04:33 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 123456789
+)
+
+2025-06-09 20:04:33 - FILES: Array
+(
+)
+
+2025-06-09 20:17:06 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:17:06 - FILES: Array
+(
+)
+
+2025-06-09 20:17:13 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:17:13 - FILES: Array
+(
+)
+
+2025-06-09 20:20:57 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:20:57 - FILES: Array
+(
+)
+
+2025-06-09 20:21:04 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:21:04 - FILES: Array
+(
+)
+
+2025-06-09 20:28:12 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-09 20:28:12 - FILES: Array
+(
+)
+
+2025-06-09 20:28:14 - POST: Array
+(
+    [room_id] => 1
+    [room_name] => Phòng Đơn 
+)
+
+2025-06-09 20:28:14 - FILES: Array
+(
+)
+
+2025-06-09 20:28:26 - POST: Array
+(
+    [room_other_id] => 4
+    [orther_room] => Phòng Gia Đình
+)
+
+2025-06-09 20:28:26 - FILES: Array
+(
+)
+
+2025-06-09 20:28:38 - POST: Array
+(
+    [room_other_id] => 2
+    [orther_room] => Phòng Đôi
+)
+
+2025-06-09 20:28:38 - FILES: Array
+(
+)
+
+2025-06-09 20:29:02 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-09 20:29:02 - FILES: Array
+(
+)
+
+2025-06-09 20:30:33 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:30:33 - FILES: Array
+(
+)
+
+2025-06-09 20:30:39 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:30:39 - FILES: Array
+(
+)
+
+2025-06-09 20:31:04 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 689871
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:31:04 - FILES: Array
+(
+)
+
+2025-06-09 20:31:05 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 689871
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:31:05 - FILES: Array
+(
+)
+
+2025-06-09 20:31:15 - POST: Array
+(
+    [reset_password] => 1
+    [new_password] => 12345678
+    [email] => nhatnam161005@gmail.com
+    [reset_token] => 689871
+)
+
+2025-06-09 20:31:15 - FILES: Array
+(
+)
+
+2025-06-09 20:31:28 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:31:28 - FILES: Array
+(
+)
+
+2025-06-09 20:33:39 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:33:39 - FILES: Array
+(
+)
+
+2025-06-09 20:33:57 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:33:57 - FILES: Array
+(
+)
+
+2025-06-09 20:35:09 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:35:09 - FILES: Array
+(
+)
+
+2025-06-09 20:35:20 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:35:20 - FILES: Array
+(
+)
+
+2025-06-09 20:36:51 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:36:51 - FILES: Array
+(
+)
+
+2025-06-09 20:57:31 - POST: Array
+(
+    [login] => 1
+    [email] => hahah
+    [password] => hihi
+)
+
+2025-06-09 20:57:31 - FILES: Array
+(
+)
+
+2025-06-09 20:57:39 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => hihi
+)
+
+2025-06-09 20:57:39 - FILES: Array
+(
+)
+
+2025-06-09 20:57:45 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.c
+)
+
+2025-06-09 20:57:45 - FILES: Array
+(
+)
+
+2025-06-09 20:58:21 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+)
+
+2025-06-09 20:58:21 - FILES: Array
+(
+)
+
+2025-06-09 20:59:15 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+)
+
+2025-06-09 20:59:15 - FILES: Array
+(
+)
+
+2025-06-09 20:59:22 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:59:22 - FILES: Array
+(
+)
+
+2025-06-09 20:59:43 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:59:43 - FILES: Array
+(
+)
+
+2025-06-09 20:59:43 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 20:59:43 - FILES: Array
+(
+)
+
+2025-06-09 21:01:22 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:01:22 - FILES: Array
+(
+)
+
+2025-06-09 21:02:15 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:02:15 - FILES: Array
+(
+)
+
+2025-06-09 21:02:38 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:02:38 - FILES: Array
+(
+)
+
+2025-06-09 21:02:43 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:02:43 - FILES: Array
+(
+)
+
+2025-06-09 21:02:54 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:02:54 - FILES: Array
+(
+)
+
+2025-06-09 21:03:18 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:03:18 - FILES: Array
+(
+)
+
+2025-06-09 21:03:29 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:03:29 - FILES: Array
+(
+)
+
+2025-06-09 21:03:29 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:03:29 - FILES: Array
+(
+)
+
+2025-06-09 21:03:48 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:03:48 - FILES: Array
+(
+)
+
+2025-06-09 21:10:23 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:10:23 - FILES: Array
+(
+)
+
+2025-06-09 21:13:00 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:13:00 - FILES: Array
+(
+)
+
+2025-06-09 21:13:06 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:13:06 - FILES: Array
+(
+)
+
+2025-06-09 21:13:18 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:13:18 - FILES: Array
+(
+)
+
+2025-06-09 21:14:35 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:14:35 - FILES: Array
+(
+)
+
+2025-06-09 21:14:42 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:14:42 - FILES: Array
+(
+)
+
+2025-06-09 21:15:43 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:15:43 - FILES: Array
+(
+)
+
+2025-06-09 21:15:48 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:15:48 - FILES: Array
+(
+)
+
+2025-06-09 21:17:06 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:17:06 - FILES: Array
+(
+)
+
+2025-06-09 21:17:15 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:17:15 - FILES: Array
+(
+)
+
+2025-06-09 21:18:18 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:18:18 - FILES: Array
+(
+)
+
+2025-06-09 21:18:18 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:18:18 - FILES: Array
+(
+)
+
+2025-06-09 21:20:15 - POST: Array
+(
+    [subcategory_code] => phong-don
+)
+
+2025-06-09 21:20:15 - FILES: Array
+(
+)
+
+2025-06-09 21:22:48 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.c
+)
+
+2025-06-09 21:22:48 - FILES: Array
+(
+)
+
+2025-06-09 21:24:38 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+)
+
+2025-06-09 21:24:38 - FILES: Array
+(
+)
+
+2025-06-09 21:25:20 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => phuquoc22711@gmail.com
+)
+
+2025-06-09 21:25:20 - FILES: Array
+(
+)
+
+2025-06-09 21:30:33 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.co
+)
+
+2025-06-09 21:30:33 - FILES: Array
+(
+)
+
+2025-06-09 21:31:25 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.co
+)
+
+2025-06-09 21:31:25 - FILES: Array
+(
+)
+
+2025-06-09 21:31:31 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => phuquoc22711@gmail.com
+)
+
+2025-06-09 21:31:31 - FILES: Array
+(
+)
+
+2025-06-09 21:31:59 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => phuquoc22711@gmail.com
+)
+
+2025-06-09 21:31:59 - FILES: Array
+(
+)
+
+2025-06-09 21:32:05 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:32:05 - FILES: Array
+(
+)
+
+2025-06-09 21:32:18 - POST: Array
+(
+    [resend_reset_otp] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:32:18 - FILES: Array
+(
+)
+
+2025-06-09 21:32:27 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:32:27 - FILES: Array
+(
+)
+
+2025-06-09 21:32:27 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:32:27 - FILES: Array
+(
+)
+
+2025-06-09 21:37:26 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:37:26 - FILES: Array
+(
+)
+
+2025-06-09 21:37:35 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:37:35 - FILES: Array
+(
+)
+
+2025-06-09 21:37:35 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:37:35 - FILES: Array
+(
+)
+
+2025-06-09 21:38:34 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:38:34 - FILES: Array
+(
+)
+
+2025-06-09 21:38:42 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:38:42 - FILES: Array
+(
+)
+
+2025-06-09 21:38:42 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 111111
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:38:42 - FILES: Array
+(
+)
+
+2025-06-09 21:38:57 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 555743
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:38:57 - FILES: Array
+(
+)
+
+2025-06-09 21:38:57 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 555743
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:38:57 - FILES: Array
+(
+)
+
+2025-06-09 21:39:07 - POST: Array
+(
+    [reset_password] => 1
+    [new_password] => 12345678
+    [email] => nhatnam161005@gmail.com
+    [reset_token] => 555743
+)
+
+2025-06-09 21:39:07 - FILES: Array
+(
+)
+
+2025-06-09 21:50:07 - POST: Array
+(
+    [forgot_password] => 1
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:50:07 - FILES: Array
+(
+)
+
+2025-06-09 21:50:23 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 501714
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:50:23 - FILES: Array
+(
+)
+
+2025-06-09 21:50:23 - POST: Array
+(
+    [verify_reset_otp] => 1
+    [otp] => 501714
+    [email] => nhatnam161005@gmail.com
+)
+
+2025-06-09 21:50:23 - FILES: Array
+(
+)
+
+2025-06-09 21:50:47 - POST: Array
+(
+    [find_room] => 
+)
+
+2025-06-09 21:50:47 - FILES: Array
+(
+)
+
+2025-06-09 21:51:05 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-09 21:51:05 - FILES: Array
+(
+)
+
+2025-06-09 21:51:16 - POST: Array
+(
+    [footer_category_code] => lien-he
+)
+
+2025-06-09 21:51:16 - FILES: Array
+(
+)
+
+2025-06-09 21:51:22 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-09 21:51:22 - FILES: Array
+(
+)
+
+2025-06-09 21:51:50 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-09 21:51:50 - FILES: Array
+(
+)
+
+2025-06-09 21:51:53 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-09 21:51:53 - FILES: Array
+(
+)
+
+2025-06-09 21:52:01 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-09 21:52:01 - FILES: Array
+(
+)
+
+2025-06-09 21:52:50 - POST: Array
+(
+    [footer_category_code] => dieu-khoan
+)
+
+2025-06-09 21:52:50 - FILES: Array
+(
+)
+
+2025-06-09 21:54:48 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-09 21:54:48 - FILES: Array
+(
+)
+
+2025-06-09 21:55:27 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-09 21:55:27 - FILES: Array
+(
+)
+
+2025-06-09 21:55:44 - POST: Array
+(
+    [footer_category_code] => event
+)
+
+2025-06-09 21:55:44 - FILES: Array
+(
+)
+
+2025-06-09 21:56:21 - POST: Array
+(
+    [footer_category_code] => event
+)
+
+2025-06-09 21:56:21 - FILES: Array
+(
+)
+
+2025-06-09 21:56:31 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-09 21:56:31 - FILES: Array
+(
+)
+
+2025-06-09 21:57:24 - POST: Array
+(
+    [footer_category_code] => danhsachphong
+)
+
+2025-06-09 21:57:24 - FILES: Array
+(
+)
+
+2025-06-09 21:57:30 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-09 21:57:30 - FILES: Array
+(
+)
+
+2025-06-09 21:59:08 - POST: Array
+(
+    [footer_category_code] => gioi-thieu
+)
+
+2025-06-09 21:59:08 - FILES: Array
+(
+)
+
+2025-06-09 21:59:12 - POST: Array
+(
+    [footer_category_code] => dieu-khoan
+)
+
+2025-06-09 21:59:12 - FILES: Array
+(
+)
+
+2025-06-09 21:59:16 - POST: Array
+(
+    [footer_category_code] => lien-he
+)
+
+2025-06-09 21:59:16 - FILES: Array
+(
+)
+
+2025-06-09 21:59:21 - POST: Array
+(
+    [footer_category_code] => nhahang&bar
+)
+
+2025-06-09 21:59:21 - FILES: Array
+(
+)
+
+2025-06-09 21:59:26 - POST: Array
+(
+    [cuisine_code] => sky-bar
+)
+
+2025-06-09 21:59:26 - FILES: Array
+(
+)
+
+2025-06-09 22:00:41 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-09 22:00:41 - FILES: Array
+(
+)
+
+2025-06-09 22:00:48 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-09 22:00:48 - FILES: Array
+(
+)
+
+2025-06-09 22:01:09 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-09 22:01:09 - FILES: Array
+(
+)
+
+2025-06-09 22:01:30 - POST: Array
+(
+    [room_id] => 1
+)
+
+2025-06-09 22:01:30 - FILES: Array
+(
+)
+
+2025-06-09 22:01:36 - POST: Array
+(
+    [room_id] => 3
+)
+
+2025-06-09 22:01:36 - FILES: Array
+(
+)
+
+2025-06-09 22:09:35 - POST: Array
+(
+    [find_room] => 
+)
+
+2025-06-09 22:09:35 - FILES: Array
+(
+)
+
+2025-06-09 22:10:14 - POST: Array
+(
+    [find_room] => 
+)
+
+2025-06-09 22:10:14 - FILES: Array
+(
+)
+
+2025-06-09 22:12:22 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-09 22:12:22 - FILES: Array
+(
+)
+
+2025-06-09 22:14:30 - POST: Array
+(
+    [datlichngay] => 
+)
+
+2025-06-09 22:14:30 - FILES: Array
+(
+)
+
+2025-06-09 22:14:53 - POST: Array
+(
+    [xem_them_tin] => tin-tuc
+)
+
+2025-06-09 22:14:53 - FILES: Array
+(
+)
+
+2025-06-09 22:15:34 - POST: Array
+(
+    [find_room] => 
+)
+
+2025-06-09 22:15:34 - FILES: Array
+(
+)
+
+2025-06-09 22:18:20 - POST: Array
+(
+    [footer_category_code] => dieu-khoan
+)
+
+2025-06-09 22:18:20 - FILES: Array
+(
+)
+
+2025-06-09 22:18:37 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-09 22:18:37 - FILES: Array
+(
+)
+
+2025-06-09 22:19:06 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-09 22:19:06 - FILES: Array
+(
+)
+
+2025-06-09 22:19:08 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-09 22:19:08 - FILES: Array
+(
+)
+
+2025-06-09 22:19:09 - POST: Array
+(
+    [event_code] => tiec-cuoi
+)
+
+2025-06-09 22:19:09 - FILES: Array
+(
+)
+
+2025-06-09 22:28:07 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-09 22:28:07 - FILES: Array
+(
+)
+
+2025-06-09 22:28:09 - POST: Array
+(
+    [subcategory_code] => tour-sapa
+)
+
+2025-06-09 22:28:09 - FILES: Array
+(
+)
+
+2025-06-09 22:29:08 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-09 22:29:08 - FILES: Array
+(
+)
+
+2025-06-09 22:29:11 - POST: Array
+(
+    [subcategory_code] => tour-sapa
+)
+
+2025-06-09 22:29:11 - FILES: Array
+(
+)
+
+2025-06-09 22:30:01 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-09 22:30:01 - FILES: Array
+(
+)
+
+2025-06-09 22:35:18 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-09 22:35:18 - FILES: Array
+(
+)
+
+2025-06-09 22:35:20 - POST: Array
+(
+    [category_code] => dich-vu
+)
+
+2025-06-09 22:35:20 - FILES: Array
+(
+)
+
+2025-06-09 22:35:23 - POST: Array
+(
+    [subcategory_code] => dua-don
+)
+
+2025-06-09 22:35:23 - FILES: Array
+(
+)
+
+2025-06-09 22:35:24 - POST: Array
+(
+    [subcategory_code] => tour-sapa
+)
+
+2025-06-09 22:35:24 - FILES: Array
+(
+)
+
+2025-06-09 22:35:41 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-09 22:35:41 - FILES: Array
+(
+)
+
+2025-06-09 22:35:43 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-09 22:35:43 - FILES: Array
+(
+)
+
+2025-06-09 22:39:57 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-09 22:39:57 - FILES: Array
+(
+)
+
+2025-06-09 22:41:10 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-09 22:41:10 - FILES: Array
+(
+)
+
+2025-06-09 22:41:12 - POST: Array
+(
+    [event_code] => tiec-cuoi
+)
+
+2025-06-09 22:41:12 - FILES: Array
+(
+)
+
+2025-06-09 22:44:29 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-09 22:44:29 - FILES: Array
+(
+)
+
+2025-06-09 22:44:37 - POST: Array
+(
+    [subcategory_code] => phong-doi
+)
+
+2025-06-09 22:44:37 - FILES: Array
+(
+)
+
+2025-06-09 22:44:41 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-09 22:44:41 - FILES: Array
+(
+)
+
+2025-06-09 22:45:02 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-09 22:45:02 - FILES: Array
+(
+)
+
+2025-06-09 22:47:06 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-09 22:47:06 - FILES: Array
+(
+)
+
+2025-06-09 22:48:09 - POST: Array
+(
+    [action] => update_room
+    [room_id] => 3
+    [room_number] => 103
+    [id_loaiphong] => 1
+    [status] => available
+    [phone] => 0777 566 324
+)
+
+2025-06-09 22:48:09 - FILES: Array
+(
+)
+
+2025-06-09 22:48:32 - POST: Array
+(
+    [action] => update_room
+    [room_id] => 3
+    [room_number] => 103
+    [id_loaiphong] => 1
+    [status] => available
+    [phone] => 0777 566 324
+)
+
+2025-06-09 22:48:32 - FILES: Array
+(
+)
+
+2025-06-09 22:50:09 - POST: Array
+(
+    [action] => update_room
+    [room_id] => 3
+    [room_number] => 103
+    [id_loaiphong] => 1
+    [status] => available
+    [phone] => 0936362596
+)
+
+2025-06-09 22:50:09 - FILES: Array
+(
+)
+
+2025-06-09 22:58:05 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-09 22:58:05 - FILES: Array
+(
+)
+
+2025-06-09 22:58:25 - POST: Array
+(
+    [action] => update_room
+    [room_id] => 3
+    [room_number] => 103
+    [id_loaiphong] => 1
+    [status] => available
+    [phone] => 0935613729
+)
+
+2025-06-09 22:58:25 - FILES: Array
+(
+)
+
+2025-06-09 22:58:44 - POST: Array
+(
+    [action] => bulk_update_status
+    [status] => reserved
+    [room_ids] => Array
+        (
+            [0] => 3
+        )
+
+)
+
+2025-06-09 22:58:44 - FILES: Array
+(
+)
+
+2025-06-09 22:59:12 - POST: Array
+(
+    [action] => update_room
+    [room_id] => 4
+    [room_number] => 104
+    [id_loaiphong] => 1
+    [status] => available
+    [phone] => 0342443803
+)
+
+2025-06-09 22:59:12 - FILES: Array
+(
+)
+
+2025-06-09 23:00:38 - POST: Array
+(
+    [action] => update_room
+    [room_id] => 4
+    [room_number] => 104
+    [id_loaiphong] => 1
+    [status] => available
+    [phone] => 0777566324
+)
+
+2025-06-09 23:00:38 - FILES: Array
+(
+)
+
+2025-06-09 23:01:03 - POST: Array
+(
+    [action] => update_room
+    [room_id] => 4
+    [room_number] => 104
+    [id_loaiphong] => 1
+    [status] => pending
+    [phone] => 0777566324
+)
+
+2025-06-09 23:01:03 - FILES: Array
+(
+)
+
+2025-06-09 23:04:11 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-09 23:04:11 - FILES: Array
+(
+)
+
+2025-06-10 12:00:00 - POST: Array
+(
+    [action] => fetch_room_types
+)
+
+2025-06-10 12:00:00 - FILES: Array
+(
+)
+
+2025-06-10 14:28:28 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-10 14:28:28 - FILES: Array
+(
+)
+
+2025-06-10 14:28:30 - POST: Array
+(
+    [event_code] => tiec-cuoi
+)
+
+2025-06-10 14:28:30 - FILES: Array
+(
+)
+
+2025-06-10 15:22:13 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-10 15:22:13 - FILES: Array
+(
+)
+
+2025-06-10 15:22:15 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-10 15:22:15 - FILES: Array
+(
+)
+
+2025-06-10 15:22:16 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-10 15:22:16 - FILES: Array
+(
+)
+
+2025-06-10 20:08:15 - POST: Array
+(
+    [login] => 1
+    [email] => chamsockhachhang.liberty@gmail.com
+    [password] => 12345678
+)
+
+2025-06-10 20:08:15 - FILES: Array
+(
+)
+
+2025-06-10 20:17:31 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-10 20:17:31 - FILES: Array
+(
+)
+
+2025-06-10 22:13:38 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-10 22:13:38 - FILES: Array
+(
+)
+
+2025-06-10 22:13:42 - POST: Array
+(
+    [room_id] => 3
+    [room_name] => Phòng Triple
+)
+
+2025-06-10 22:13:42 - FILES: Array
+(
+)
+
+2025-06-10 22:13:48 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-10 22:13:48 - FILES: Array
+(
+)
+
+2025-06-11 20:11:05 - POST: Array
+(
+    [category_code] => thu-vien
+)
+
+2025-06-11 20:11:05 - FILES: Array
+(
+)
+
+2025-06-11 20:33:08 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-11 20:33:08 - FILES: Array
+(
+)
+
+2025-06-11 20:33:15 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-11 20:33:15 - FILES: Array
+(
+)
+
+2025-06-11 20:33:16 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-11 20:33:16 - FILES: Array
+(
+)
+
+2025-06-11 20:33:25 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-11 20:33:25 - FILES: Array
+(
+)
+
+2025-06-11 20:35:02 - POST: Array
+(
+    [category_code] => dat-phong
+)
+
+2025-06-11 20:35:02 - FILES: Array
+(
+)
+
+2025-06-11 20:35:03 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-11 20:35:03 - FILES: Array
+(
+)
+
+2025-06-11 20:35:05 - POST: Array
+(
+    [subcategory_code] => hoi-nghi
+)
+
+2025-06-11 20:35:05 - FILES: Array
+(
+)
+
+2025-06-11 20:35:08 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-11 20:35:08 - FILES: Array
+(
+)
+
+2025-06-11 20:35:09 - POST: Array
+(
+    [category_code] => nhahang&bar
+)
+
+2025-06-11 20:35:09 - FILES: Array
+(
+)
+
+2025-06-11 20:35:11 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-11 20:35:11 - FILES: Array
+(
+)
+
+2025-06-11 20:35:17 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-11 20:35:17 - FILES: Array
+(
+)
+
+2025-06-11 20:35:20 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-11 20:35:20 - FILES: Array
+(
+)
+
+2025-06-11 20:55:25 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-11 20:55:25 - FILES: Array
+(
+)
+
+2025-06-11 20:55:46 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-11 20:55:46 - FILES: Array
+(
+)
+
+2025-06-11 20:56:52 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-11 20:56:52 - FILES: Array
+(
+)
+
+2025-06-11 21:04:13 - POST: Array
+(
+    [footer_category_code] => tin-tuc
+)
+
+2025-06-11 21:04:13 - FILES: Array
+(
+)
+
+2025-06-11 21:04:14 - POST: Array
+(
+    [category_code] => khuyen-mai
+)
+
+2025-06-11 21:04:14 - FILES: Array
+(
+)
+
+2025-06-11 21:04:31 - POST: Array
+(
+    [category_code] => event
+)
+
+2025-06-11 21:04:31 - FILES: Array
+(
+)
+
+2025-06-11 21:04:33 - POST: Array
+(
+    [sukiendatochuc] => 1
+)
+
+2025-06-11 21:04:33 - FILES: Array
+(
+)
+
+2025-06-11 21:04:38 - POST: Array
+(
+    [category_code] => trangchu
+)
+
+2025-06-11 21:04:38 - FILES: Array
+(
+)
+
