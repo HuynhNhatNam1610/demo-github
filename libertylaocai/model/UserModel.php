@@ -2164,7 +2164,7 @@ function getPriceRange()
 function getOtherRooms($room_id, $languageId, $limit = 6)
 {
     global $conn;
-    // Câu truy vấn SQL để lấy danh sách các phòng khác
+    // Câu truy vấn SQL để lấy danh sách các phòng khác và thông tin giường
     $sql_other_rooms = "
         SELECT 
             lpn.id,
@@ -2172,10 +2172,14 @@ function getOtherRooms($room_id, $languageId, $limit = 6)
             lpn.area,
             lpn.price,
             lpnnn.name,
-            lpnnn.description
+            lpnnn.description,
+            GROUP_CONCAT(CONCAT(lg_nn.name, ': ', lg_lp.quantity) SEPARATOR ', ') as bed_info
         FROM loaiphongnghi lpn
         LEFT JOIN loaiphongnghi_ngonngu lpnnn ON lpn.id = lpnnn.id_loaiphongnghi
+        LEFT JOIN loaigiuong_loaiphong lg_lp ON lpn.id = lg_lp.id_loaiphongnghi
+        LEFT JOIN loaigiuong_ngonngu lg_nn ON lg_lp.id_loaigiuong = lg_nn.id_loaigiuong AND lg_nn.id_ngonngu = ?
         WHERE lpn.id != ? AND (lpnnn.id_ngonngu = ? OR lpnnn.id_ngonngu IS NULL)
+        GROUP BY lpn.id
         ORDER BY lpn.price ASC
         LIMIT ?
     ";
@@ -2190,7 +2194,7 @@ function getOtherRooms($room_id, $languageId, $limit = 6)
 
     // Ép kiểu $limit thành số nguyên để đảm bảo an toàn
     $limit = (int)$limit;
-    $stmt->bind_param("iii", $room_id, $languageId, $limit);
+    $stmt->bind_param("iiii", $languageId, $room_id, $languageId, $limit);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -2207,7 +2211,6 @@ function getOtherRooms($room_id, $languageId, $limit = 6)
 
     return $other_rooms;
 }
-
 // Hàm lấy đánh giá của phòng với phân trang
 function getRoomReviews($id_loaiphong, $page = 1, $limit = 5)
 {
