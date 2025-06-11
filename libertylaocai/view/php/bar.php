@@ -5,9 +5,43 @@ require_once "../../model/UserModel.php";
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
 $getAmThucNgonNgu = getAmThucNgonNgu($languageId, 2);
 
+// Define multilingual texts
+$texts = [
+    1 => [ // Vietnamese
+        'reviews_title' => 'Đánh giá từ khách hàng',
+        'no_reviews' => 'Chưa có đánh giá nào cho Sky Bar này. Hãy là người đầu tiên đánh giá!',
+        'write_review' => 'Viết đánh giá của bạn',
+        'share_experience' => 'Chia sẻ trải nghiệm của bạn',
+        'rating_label' => 'Đánh giá của bạn:',
+        'select_stars' => 'Chọn số sao',
+        'name_label' => 'Họ và tên:',
+        'email_label' => 'Email:',
+        'review_content_label' => 'Nội dung đánh giá:',
+        'review_content_placeholder' => 'Chia sẻ trải nghiệm của bạn về Sky Bar này...',
+        'cancel' => 'Hủy',
+        'submit_review' => 'Gửi đánh giá'
+    ],
+    2 => [ // English
+        'reviews_title' => 'Customer Reviews',
+        'no_reviews' => 'No reviews yet for this Sky Bar. Be the first to review!',
+        'write_review' => 'Write Your Review',
+        'share_experience' => 'Share Your Experience',
+        'rating_label' => 'Your Rating:',
+        'select_stars' => 'Select stars',
+        'name_label' => 'Full Name:',
+        'email_label' => 'Email:',
+        'review_content_label' => 'Review Content:',
+        'review_content_placeholder' => 'Share your experience about this Sky Bar...',
+        'cancel' => 'Cancel',
+        'submit_review' => 'Submit Review'
+    ]
+];
+
+$text = $texts[$languageId];
 ?>
+
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="<?php echo $languageId == 1 ? 'vi' : 'en'; ?>">
 
 <head>
     <meta charset="UTF-8">
@@ -26,7 +60,7 @@ $getAmThucNgonNgu = getAmThucNgonNgu($languageId, 2);
             <div class="hero-content">
                 <h1 class="hero-title">SKY BAR</h1>
                 <p class="hero-subtitle"><?php echo $languageId == 1 ? 'Tầng 7 - Liberty Hotel' : '7th Floor - Liberty Hotel'; ?></p>
-                <p class="hero-location">V<?php echo $languageId == 1 ? 'iew toàn cảnh thành phố Lào Cai' : 'Panoramic view of Lao Cai city'; ?></p>
+                <p class="hero-location"><?php echo $languageId == 1 ? 'View toàn cảnh thành phố Lào Cai' : 'Panoramic view of Lao Cai city'; ?></p>
             </div>
         </section>
 
@@ -70,7 +104,7 @@ $getAmThucNgonNgu = getAmThucNgonNgu($languageId, 2);
                             <i class="fas fa-music"></i>
                         </div>
                         <h3 class="feature-title"><?php echo $languageId == 1 ? 'Band nhạc sống' : 'Live music band'; ?></h3>
-                        <p><?php echo $languageId == 1 ? '-	Có tổ chức Band nhạc hàng tuần vào tối thứ 3 & thứ 7' : 'Band performances are held weekly on Tuesday & Saturday evenings'; ?></p>
+                        <p><?php echo $languageId == 1 ? 'Có tổ chức Band nhạc hàng tuần vào tối thứ 3 & thứ 7' : 'Band performances are held weekly on Tuesday & Saturday evenings'; ?></p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -87,13 +121,11 @@ $getAmThucNgonNgu = getAmThucNgonNgu($languageId, 2);
         <div id="menu" class="tab-content">
             <div class="container">
                 <div class="menu-categories">
-                    <button class="category-btn active" data-category="cocktails">Đồ uống</button>
-                    <button class="category-btn" data-category="main">Đồ ăn</button>
+                    <button class="category-btn active" data-category="cocktails"><?php echo $languageId == 1 ? 'Đồ uống' : 'Beverage'; ?></button>
+                    <button class="category-btn" data-category="main"><?php echo $languageId == 1 ? 'Đồ ăn' : 'Food'; ?></button>
                 </div>
 
-                <div class="menu-grid" id="menuItems">
-
-                </div>
+                <div class="menu-grid" id="menuItems"></div>
                 <div class="menu-pagination" id="menuPagination">
                     <div class="menu-pagination-buttons" data-category="cocktails"></div>
                     <div class="menu-pagination-buttons" data-category="main"></div>
@@ -184,11 +216,12 @@ $getAmThucNgonNgu = getAmThucNgonNgu($languageId, 2);
                 </div>
             </div>
         </div>
+
         <!-- Reviews Section -->
         <div class="reviews-section" id="reviews">
             <div class="container">
                 <div class="reviews-header">
-                    <h3><?php echo $languageId == 1 ? 'Đánh giá từ khách hàng' : 'Customer Reviews'; ?></h3>
+                    <h3><?php echo $text['reviews_title']; ?></h3>
                     <div class="overall-rating">
                         <span class="rating-score">0.0</span>
                         <div class="rating-stars"></div>
@@ -202,36 +235,36 @@ $getAmThucNgonNgu = getAmThucNgonNgu($languageId, 2);
                     <div class="pagination-buttons" style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;"></div>
                 </div>
                 <div class="write-review-section">
-                    <button class="write-review-btn" onclick="toggleReviewForm()"><i class="fas fa-pen"></i> <?php echo $languageId == 1 ? 'Viết đánh giá của bạn' : 'Write your review'; ?></button>
+                    <button class="write-review-btn" onclick="toggleReviewForm()"><i class="fas fa-pen"></i> <?php echo $text['write_review']; ?></button>
                     <div class="review-form-container" id="reviewForm" style="display: none;">
-                        <h4><?php echo $languageId == 1 ? 'Chia sẻ trải nghiệm của bạn' : 'Share your experience'; ?></h4>
+                        <h4><?php echo $text['share_experience']; ?></h4>
                         <form class="review-form" onsubmit="submitReview(event)">
                             <div class="rating-input">
-                                <label><?php echo $languageId == 1 ? 'Đánh giá của bạn:' : 'Your rating:'; ?></label>
+                                <label><?php echo $text['rating_label']; ?></label>
                                 <div class="star-rating">
                                     <input type="radio" name="rating" value="5" id="star5"><label for="star5" class="star"><i class="fas fa-star"></i></label>
                                     <input type="radio" name="rating" value="4" id="star4"><label for="star4" class="star"><i class="fas fa-star"></i></label>
                                     <input type="radio" name="rating" value="3" id="star3"><label for="star3" class="star"><i class="fas fa-star"></i></label>
                                     <input type="radio" name="rating" value="2" id="star2"><label for="star2" class="star"><i class="fas fa-star"></i></label>
                                     <input type="radio" name="rating" value="1" id="star1"><label for="star1" class="star"><i class="fas fa-star"></i></label>
-                                    <span class="rating-text"><?php echo $languageId == 1 ? 'Chọn số sao' : 'Select stars'; ?></span>
+                                    <span class="rating-text"><?php echo $text['select_stars']; ?></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label><?php echo $languageId == 1 ? 'Họ và tên:' : 'Full name:'; ?></label>
+                                <label><?php echo $text['name_label']; ?></label>
                                 <input type="text" name="reviewer-name" required>
                             </div>
                             <div class="form-group">
-                                <label>Email:</label>
+                                <label><?php echo $text['email_label']; ?></label>
                                 <input type="email" name="reviewer-email" required>
                             </div>
                             <div class="form-group">
-                                <label><?php echo $languageId == 1 ? 'Nội dung đánh giá:' : 'Review content:'; ?></label>
-                                <textarea name="review-content" required></textarea>
+                                <label><?php echo $text['review_content_label']; ?></label>
+                                <textarea name="review-content" placeholder="<?php echo $text['review_content_placeholder']; ?>" required></textarea>
                             </div>
                             <div class="form-actions">
-                                <button type="button" class="cancel-btn" onclick="toggleReviewForm()"><?php echo $languageId == 1 ? 'Hủy' : 'Cancel'; ?></button>
-                                <button type="submit" class="submit-review-btn"><i class="fas fa-paper-plane"></i> <?php echo $languageId == 1 ? 'Gửi đánh giá' : 'Submit review'; ?></button>
+                                <button type="button" class="cancel-btn" onclick="toggleReviewForm()"><?php echo $text['cancel']; ?></button>
+                                <button type="submit" class="submit-review-btn"><i class="fas fa-paper-plane"></i> <?php echo $text['submit_review']; ?></button>
                             </div>
                         </form>
                     </div>
@@ -239,11 +272,10 @@ $getAmThucNgonNgu = getAmThucNgonNgu($languageId, 2);
             </div>
         </div>
     </div>
-    <?php
-    include "footer.php";
-    ?>
+    <?php include "footer.php"; ?>
     <script>
         const languageId = <?php echo json_encode($languageId); ?>;
+        const texts = <?php echo json_encode($texts[$languageId]); ?>;
     </script>
     <script src="/libertylaocai/view/js/bar.js"></script>
 </body>
