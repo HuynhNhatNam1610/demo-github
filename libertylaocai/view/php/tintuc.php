@@ -7,7 +7,7 @@ if (!empty($_SESSION['head_banner'])) {
 }
 
 // Lấy ưu đãi
-$news = getNews($languageId);
+$news = getNews($languageId, $conn);
 
 
 ?>
@@ -40,7 +40,7 @@ $news = getNews($languageId);
                     echo '<div class="promotion-card">';
                     echo '<div class="promotion-image">';
                     echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($new['image']) . '" alt="' . htmlspecialchars($new['title']) . '">';
-                    echo '<span class="corner-text">' . date('Y-m-d', strtotime($new['date'])) . '</span>';
+                    echo '<span class="corner-text">' . date('Y-m-d', strtotime($new['create_at'])) . '</span>';
                     echo '</div>';
                     echo '<div class="promotion-content">';
                     echo '<h3 class="promotion-title">' . htmlspecialchars($new['title']) . '</h3>';

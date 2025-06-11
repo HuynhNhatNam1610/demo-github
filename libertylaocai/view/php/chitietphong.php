@@ -291,6 +291,11 @@ $amenities = getRoomAmenities($room_id, $languageId);   /// lấy tiện tích c
                                                 <h3>
                                                     <?php echo htmlspecialchars($other_room['name'] ?? $text['no_name_room']); ?>
                                                 </h3>
+                                                <p>
+                                                    <?php echo "Diện tích: " . $other_room['area']; ?>m² <br>
+                                                    <?php echo !empty($other_room['bed_info']) ? htmlspecialchars($other_room['bed_info']) : ($languageId == 1 ? 'Không có thông tin giường' : 'No bed information'); ?>
+                                                    </p>
+
                                                 <div class="room-card-price"><?php echo number_format($other_price, 0, '.', '.'); ?> <?php echo $languageId == 1 ? 'VNĐ' : 'VND'; ?><?php echo $text['price_per_night']; ?></div>
                                                 <form action="/libertylaocai/user/submit" method="POST" style="display:inline;">
                                                     <input type="hidden" name="room_other_id" value="<?= $other_room['id']; ?>">

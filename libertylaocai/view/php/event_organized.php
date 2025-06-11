@@ -7,8 +7,7 @@ if (!empty($_SESSION['head_banner'])) {
 }
 
 // Lấy ưu đãi
-$getEventOrganized = getEventOrganized($languageId);
-
+$getEventOrganized = getEventOrganized($languageId, $conn);
 
 ?>
 <!DOCTYPE html>
@@ -40,7 +39,7 @@ $getEventOrganized = getEventOrganized($languageId);
                     echo '<div class="promotion-card">';
                     echo '<div class="promotion-image">';
                     echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($organized['image']) . '" alt="' . htmlspecialchars($organized['title']) . '">';
-                    echo '<span class="corner-text">' . date('Y-m-d', strtotime($organized['date'])) . '</span>';
+                    echo '<span class="corner-text">' . date('Y-m-d', strtotime($organized['create_at'])) . '</span>';
                     echo '</div>';
                     echo '<div class="promotion-content">';
                     echo '<h3 class="promotion-title">' . htmlspecialchars($organized['title']) . '</h3>';

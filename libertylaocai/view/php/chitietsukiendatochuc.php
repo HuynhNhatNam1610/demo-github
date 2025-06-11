@@ -27,66 +27,70 @@ $getRelatedEventOrganized = getRelatedEventOrganized($languageId, $id_sukiendato
 <body>
     <?php include "header.php" ?>
 
-    <body>
-        <div class="saledetail-container">
-            <div class="organized-detail-banner">
-                <img src="/libertylaocai/view/img/<?= $getSelectedBanner['image']; ?>" alt="Banner Image" class="banner-image">
-                <h1><?php echo $languageId == 1 ? 'SỰ KIỆN ĐÃ TỔ CHỨC' : 'EVENTS ORGANIZED'; ?></h1>
-            </div>
+    <div class="saledetail-container">
+        <div class="organized-detail-banner">
+            <img src="/libertylaocai/view/img/<?= $getSelectedBanner['image']; ?>" alt="Banner Image" class="banner-image">
+            <h1><?php echo $languageId == 1 ? 'SỰ KIỆN ĐÃ TỔ CHỨC' : 'EVENTS ORGANIZED'; ?></h1>
+        </div>
 
-            <div class="saledetail-content">
-                <div class="content-wrapper">
-                    <div class="promotion-content">
-                        <?php if (!empty($getEventOrganizedById)): ?>
-                            <h2><?= $getEventOrganizedById['title']; ?></h2>
-                            <p class="promotion-meta"><?php echo $languageId == 1 ? 'Ngày đăng' : 'Date posted'; ?>: <?= $getEventOrganizedById['create_at']; ?></p>
-                            <div class="content-text">
-                                <?= $getEventOrganizedById['content']; ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-
-            <div class="related-promotions">
-                <div class="content-wrapper">
-                    <h2><?php echo $languageId == 1 ? 'Liên quan' : 'Relate to'; ?></h2>
-                    <div class="promotion-slider-container">
-                        <button class="promotion-nav-btn promotion-nav-prev">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <div class="promotions-grid-wrapper">
-                            <div class="promotions-grid" id="promotionsGrid">
-                                <?php
-                                foreach ($getRelatedEventOrganized as $promo) {
-                                    echo '<div class="promotion-item" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
-                                    echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promo['image']) . '" alt="Khuyến mãi">';
-                                    echo '<div class="promotion-item-content">';
-                                    echo '<h3>' . htmlspecialchars($promo['title']) . '</h3>';
-                                    echo '<p>' . htmlspecialchars(mb_substr($promo['content'], 0, 100, 'UTF-8')) . '...</p>';
-                                    echo '<div class="promotion-date">' . htmlspecialchars($promo['create_at']) . '</div>';
-                                    echo '</div>
-                                </div>';
-                                }
-                                ?>
-                            </div>
+        <div class="saledetail-content">
+            <div class="content-wrapper">
+                <div class="promotion-content">
+                    <?php if (!empty($getEventOrganizedById)): ?>
+                        <h2><?= $getEventOrganizedById['title']; ?></h2>
+                        <p class="promotion-meta"><?php echo $languageId == 1 ? 'Ngày đăng' : 'Date posted'; ?>: <?= $getEventOrganizedById['create_at']; ?></p>
+                        <div class="content-text">
+                            <?= $getEventOrganizedById['content']; ?>
                         </div>
-                        <button class="promotion-nav-btn promotion-nav-next">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <div class="promotion-slider-dots"></div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
-        <!-- Hidden form for submission -->
-        <form id="promotionForm" action="/libertylaocai/user/submit" method="POST" style="display: none;">
-            <input type="hidden" name="other_organized_id" id="promotionIdInput">
-        </form>
-        <?php include "footer.php" ?>
-        <script src="/libertylaocai/view/js/chitietsukiendatochuc.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    </body>
+
+        <div class="related-promotions">
+            <div class="content-wrapper">
+                <h2><?php echo $languageId == 1 ? 'Liên quan' : 'Relate to'; ?></h2>
+                <div class="promotion-slider-container">
+                    <button class="promotion-nav-btn promotion-nav-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="promotions-grid-wrapper">
+                        <div class="promotions-grid" id="promotionsGrid">
+                            <?php
+                            foreach ($getRelatedEventOrganized as $promo) {
+                                echo '<div class="promotion-card" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
+                                echo '<div class="promotion-image">';
+                                echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promo['image']) . '" alt="' . htmlspecialchars($promo['title']) . '">';
+                                echo '<span class="corner-text">' . date('Y-m-d', strtotime($promo['create_at'])) . '</span>';
+                                echo '</div>';
+                                echo '<div class="promotion-item-content">';
+                                echo '<h3>' . htmlspecialchars($promo['title']) . '</h3>';
+                                echo '<p>' . htmlspecialchars(mb_substr($promo['content'], 0, 100, 'UTF-8')) . '...</p>';
+                                echo '<form action="/libertylaocai/user/submit" method="POST" style="display: inline;">';
+                                echo '<input type="hidden" name="id_sukiendatochuc" value="' . htmlspecialchars($promo['id']) . '">';
+                                echo '<button type="submit" class="promotion-button">CHI TIẾT</button>';
+                                echo '</form>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <button class="promotion-nav-btn promotion-nav-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="promotion-slider-dots"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Hidden form for submission -->
+    <form id="promotionForm" action="/libertylaocai/user/submit" method="POST" style="display: none;">
+        <input type="hidden" name="other_organized_id" id="promotionIdInput">
+    </form>
+    <?php include "footer.php" ?>
+    <script src="/libertylaocai/view/js/chitietsukiendatochuc.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>
