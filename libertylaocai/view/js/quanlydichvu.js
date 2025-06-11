@@ -1,11 +1,58 @@
 let currentEditingBanner = null;
 let currentEditingTour = null;
+let currentEditingService = null;
 
 document.addEventListener("DOMContentLoaded", function () {
   initializeEventListeners();
   initializeImagePreview();
   autoHideAlerts();
 });
+
+// Hàm kiểm tra chuỗi có phải là số
+function isNumeric(str) {
+  return /^\d+$/.test(str);
+}
+
+// Hàm định dạng số với dấu phân cách hàng nghìn
+function formatNumberWithCommas(number) {
+  if (!number) return "";
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+// Hàm loại bỏ dấu phân cách để lấy số gốc
+function parseNumberWithCommas(str) {
+  return str.replace(/\./g, "");
+}
+
+// Hàm khởi tạo định dạng giá tiền cho các input
+function initializePriceInputs() {
+  const priceInputs = document.querySelectorAll('input[name="price_vi"]');
+  priceInputs.forEach((input) => {
+    if (input.value) {
+      if (isNumeric(input.value)) {
+        input.dataset.rawValue = input.value;
+        input.value = formatNumberWithCommas(input.value);
+      } else {
+        input.dataset.rawValue = input.value;
+      }
+    } else {
+      input.dataset.rawValue = "";
+    }
+
+    input.addEventListener("input", function (e) {
+      let value = e.target.value;
+      let rawValue = parseNumberWithCommas(value);
+
+      if (isNumeric(rawValue)) {
+        e.target.dataset.rawValue = rawValue;
+        e.target.value = formatNumberWithCommas(rawValue);
+      } else {
+        e.target.dataset.rawValue = value;
+        e.target.value = value;
+      }
+    });
+  });
+}
 
 // Hàm xử lý submit form bằng AJAX
 function handleAjaxFormSubmit(form, successMessage) {
@@ -29,7 +76,6 @@ function handleAjaxFormSubmit(form, successMessage) {
         if (form.closest(".modal")) {
           closeModal(form.closest(".modal").id);
         }
-        // Thêm độ trễ trước khi tải lại trang
         setTimeout(() => {
           location.reload();
         }, 1000);
@@ -45,30 +91,41 @@ function handleAjaxFormSubmit(form, successMessage) {
     });
 }
 
-// Cập nhật initializeEventListeners để xử lý AJAX
 function initializeEventListeners() {
   const forms = document.querySelectorAll("form");
   forms.forEach((form) => {
     form.addEventListener("submit", function (e) {
-      e.preventDefault(); // Ngăn submit form mặc định
-      if (!validateForm(this)) {
-        return;
-      }
+      e.preventDefault();
+      if (!validateForm(this)) return;
 
       const submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) {
-        submitBtn.dataset.originalText = submitBtn.innerHTML; // Lưu text gốc
+        submitBtn.dataset.originalText = submitBtn.innerHTML;
       }
 
-      // Xử lý các form cụ thể
+      const priceInput = form.querySelector('input[name="price_vi"]');
+      if (priceInput && priceInput.dataset.rawValue) {
+        priceInput.value = priceInput.dataset.rawValue;
+      }
+
       if (form.id === "bannerForm") {
         handleAjaxFormSubmit(form, "Thành công với banner!");
       } else if (form.id === "addGreetingForm" || form.id === "greetingForm") {
         handleAjaxFormSubmit(form, "Thành công với lời chào!");
       } else if (form.id === "featureForm") {
         handleAjaxFormSubmit(form, "Thành công với tiện ích!");
-      } else if (form.id === "tourForm") {
-        handleAjaxFormSubmit(form, "Thành công với tour!");
+      } else if (form.id === "serviceTourForm") {
+        const action = document.getElementById("serviceTourAction").value;
+        handleAjaxFormSubmit(
+          form,
+          action === "add_tour"
+            ? "Thêm tour thành công!"
+            : "Thêm dịch vụ thành công!"
+        );
+      } else if (form.id === "editServiceForm") {
+        handleAjaxFormSubmit(form, "Cập nhật dịch vụ thành công!");
+      } else if (form.id === "highlightForm") {
+        handleAjaxFormSubmit(form, "Thành công với highlight!");
       } else if (form.id === "activeGreetingForm") {
         if (!document.getElementById("activeGreetingId").value) {
           showAlert("Vui lòng chọn một lời chào để kích hoạt!", "error");
@@ -85,7 +142,6 @@ function initializeEventListeners() {
         }
         if (confirmDelete("Bạn có chắc chắn muốn xóa lời chào này?")) {
           handleAjaxFormSubmit(form, "Xóa lời chào thành công!");
-          // Làm mới danh sách select
           const greetingSelect = document.getElementById("greetingSelect");
           const activeGreetingSelect = document.getElementById(
             "activeGreetingSelect"
@@ -114,14 +170,21 @@ function initializeEventListeners() {
           handleAjaxFormSubmit(form, "Xóa tour thành công!");
         }
       } else if (
-        form.querySelector('input[name="action"][value="update_service"]')
+        form.querySelector('input[name="action"][value="delete_service"]')
       ) {
-        handleAjaxFormSubmit(form, "Cập nhật dịch vụ thành công!");
+        if (confirmDelete("Bạn có chắc muốn xóa dịch vụ này?")) {
+          handleAjaxFormSubmit(form, "Xóa dịch vụ thành công!");
+        }
+      } else if (
+        form.querySelector('input[name="action"][value="delete_highlight"]')
+      ) {
+        if (confirmDelete("Bạn có chắc muốn xóa highlight này?")) {
+          handleAjaxFormSubmit(form, "Xóa highlight thành công!");
+        }
       }
     });
   });
 
-  // Giữ nguyên các listener khác
   const fileInputs = document.querySelectorAll('input[type="file"]');
   fileInputs.forEach((input) => {
     input.addEventListener("change", handleFileInput);
@@ -141,58 +204,8 @@ function initializeEventListeners() {
       closeAllModals();
     }
   });
-}
 
-function initializeImagePreview() {
-  const imageInputs = document.querySelectorAll(
-    'input[type="file"][accept*="image"]'
-  );
-  imageInputs.forEach((input) => {
-    input.addEventListener("change", function (e) {
-      // previewImage(e.target);
-    });
-  });
-}
-function previewImage(input) {
-  // if (input.files && input.files[0]) {
-  //   const reader = new FileReader();
-  //   const previewContainer =
-  //     input.closest(".form-group").querySelector(".image-preview") ||
-  //     createPreviewContainer(input);
-  //   reader.onload = function (e) {
-  //     previewContainer.innerHTML = `
-  //               <div class="preview-image-container">
-  //                   <img src="${e.target.result}" alt="Preview" class="preview-image">
-  //                   <button type="button" class="remove-preview" onclick="removeImagePreview(this)">
-  //                       <i class="fas fa-times"></i>
-  //                   </button>
-  //               </div>
-  //           `;
-  //     previewContainer.style.display = "";
-  //   };
-  //   reader.readAsDataURL(input.files[0]);
-  // }
-}
-
-function createPreviewContainer(input) {
-  const container = document.createElement("div");
-  container.className = "image-preview";
-  container.style.marginTop = "10px";
-  input.parentNode.appendChild(container);
-  return container;
-}
-
-function removeImagePreview(button) {
-  const previewContainer = button.closest(".image-preview");
-  const fileInput =
-    previewContainer.previousElementSibling.querySelector("input[type='file']");
-
-  if (fileInput) {
-    fileInput.value = "";
-  }
-
-  previewContainer.innerHTML = "";
-  previewContainer.style.display = "none";
+  initializePriceInputs();
 }
 
 function handleFileInput(e) {
@@ -222,32 +235,35 @@ function openModal(modalId, data = null) {
     clearImagePreviews(form);
   }
 
-  // Đặt tiêu đề modal dựa trên modalId và trạng thái data
-  const titleElement = modal.querySelector(".modal-header h3");
+  const titleElement = modal.querySelector(".modal-title");
   if (titleElement) {
     if (data) {
-      // Trường hợp chỉnh sửa
       if (modalId === "bannerModal") {
         titleElement.textContent = "Chỉnh Sửa Banner";
-      } else if (modalId === "tourModal") {
-        titleElement.textContent = "Chỉnh Sửa Tour";
+      } else if (modalId === "editServiceModal") {
+        titleElement.textContent = "Chỉnh Sửa Dịch Vụ";
       } else if (modalId === "featureModal") {
         titleElement.textContent = "Chỉnh Sửa Tiện Ích";
+      } else if (modalId === "highlightModal") {
+        titleElement.textContent = "Chỉnh Sửa Highlight";
       }
     } else {
-      // Trường hợp thêm mới
       if (modalId === "bannerModal") {
         titleElement.textContent = "Thêm Banner Mới";
         const actionInput = document.getElementById("bannerAction");
         if (actionInput) actionInput.value = "add_banner";
-      } else if (modalId === "tourModal") {
-        titleElement.textContent = "Thêm Tour Mới";
-        const actionInput = document.getElementById("tourAction");
-        if (actionInput) actionInput.value = "add_tour";
+      } else if (modalId === "serviceTourModal") {
+        titleElement.textContent = "Thêm Dịch Vụ/Tour Mới";
+        const actionInput = document.getElementById("serviceTourAction");
+        if (actionInput) actionInput.value = "add_service";
       } else if (modalId === "featureModal") {
         titleElement.textContent = "Thêm Tiện Ích Mới";
         const actionInput = document.getElementById("featureAction");
         if (actionInput) actionInput.value = "add_feature";
+      } else if (modalId === "highlightModal") {
+        titleElement.textContent = "Thêm Highlight Mới";
+        const actionInput = document.getElementById("highlightAction");
+        if (actionInput) actionInput.value = "add_highlight";
       } else if (modalId === "greetingModal") {
         titleElement.textContent = "Thêm Lời Chào Mới";
       }
@@ -258,8 +274,13 @@ function openModal(modalId, data = null) {
     populateModalForm(modalId, data);
   } else if (modalId === "greetingModal") {
     const greetingForm = document.getElementById("addGreetingForm");
-    if (greetingForm) {
-      greetingForm.reset();
+    if (greetingForm) greetingForm.reset();
+  } else {
+    if (modalId === "serviceTourModal") {
+      const actionInput = document.getElementById("serviceTourAction");
+      if (actionInput) actionInput.value = "add_service";
+      const titleElement = document.getElementById("serviceTourModalTitle");
+      if (titleElement) titleElement.textContent = "Thêm Dịch Vụ/Tour Mới";
     }
   }
 
@@ -268,9 +289,7 @@ function openModal(modalId, data = null) {
 
   setTimeout(() => {
     const firstInput = modal.querySelector("input, textarea, select");
-    if (firstInput) {
-      firstInput.focus();
-    }
+    if (firstInput) firstInput.focus();
   }, 100);
 }
 
@@ -289,19 +308,13 @@ function closeModal(modalId) {
 
   currentEditingBanner = null;
   currentEditingTour = null;
+  currentEditingService = null;
+  currentEditingHighlight = null;
 
   const activeGreetingSelect = document.getElementById("activeGreetingSelect");
   if (activeGreetingSelect) {
     updateActiveGreetingInputs(activeGreetingSelect);
   }
-}
-
-function closeAllModals() {
-  const modals = document.querySelectorAll(".modal");
-  modals.forEach((modal) => {
-    modal.style.display = "none";
-  });
-  document.body.style.overflow = "";
 }
 
 function clearImagePreviews(form) {
@@ -318,8 +331,10 @@ function populateModalForm(modalId, data) {
 
   if (modalId === "bannerModal") {
     populateBannerForm(form, data);
-  } else if (modalId === "tourModal") {
-    populateTourForm(form, data);
+  } else if (modalId === "editServiceModal") {
+    populateEditServiceForm(form, data);
+  } else if (modalId === "serviceTourModal") {
+    populateServiceTourForm(form, data);
   }
 }
 
@@ -353,42 +368,91 @@ function populateBannerForm(form, banner) {
   currentEditingBanner = banner;
 }
 
-function populateTourForm(form, tour) {
-  const titleElement = document.getElementById("tourModalTitle");
-  const actionInput = document.getElementById("tourAction");
-  const idInput = document.getElementById("tourId");
-  const topicInput = document.getElementById("tourTopic");
-  const priceInputVi = document.getElementById("tourPrice_vi");
-  const priceInputEn = document.getElementById("tourPrice_en");
-  const iconInput = document.getElementById("tourIcon");
+function populateEditServiceForm(form, service) {
+  const titleElement = document.getElementById("editServiceModalTitle");
+  const actionInput = document.getElementById("editServiceAction");
+  const idInput = document.getElementById("editServiceId");
+  const titleInputVi = document.getElementById("editServiceTitle_vi");
+  const contentInputVi = document.getElementById("editServiceContent_vi");
+  const titleInputEn = document.getElementById("editServiceTitle_en");
+  const contentInputEn = document.getElementById("editServiceContent_en");
+  const priceInput = document.getElementById("editServicePrice_vi");
+  const currentImageDiv = document.getElementById("currentEditServiceImage");
 
-  if (titleElement) titleElement.textContent = "Chỉnh Sửa Tour";
+  titleElement.textContent = "Chỉnh Sửa Dịch Vụ";
+  actionInput.value = "update_service";
+  idInput.value = service.id_dichvu;
+
+  titleInputVi.value = service.title_vi || "";
+  contentInputVi.value = service.content_vi || "";
+  titleInputEn.value = service.title_en || "";
+  contentInputEn.value = service.content_en || "";
+
+  if (service.price) {
+    if (isNumeric(service.price)) {
+      priceInput.value = formatNumberWithCommas(service.price);
+      priceInput.dataset.rawValue = service.price;
+    } else {
+      priceInput.value = service.price;
+      priceInput.dataset.rawValue = service.price;
+    }
+  } else {
+    priceInput.value = "";
+    priceInput.dataset.rawValue = "";
+  }
+
+  if (service.image) {
+    currentImageDiv.innerHTML = `
+            <div class="current-image">
+                <p>Hình ảnh hiện tại:</p>
+                <img src="../../view/img/${service.image}" alt="Current Service" class="current-image-preview">
+            </div>
+        `;
+  } else {
+    currentImageDiv.innerHTML = "";
+  }
+
+  currentEditingService = service;
+}
+
+function populateServiceTourForm(form, tour) {
+  const actionInput = document.getElementById("serviceTourAction");
+  const idInput = document.getElementById("serviceTourId");
+  const titleInputVi = document.getElementById("serviceTourTitle_vi");
+  const contentInputVi = document.getElementById("serviceTourContent_vi");
+  const titleInputEn = document.getElementById("serviceTourTitle_en");
+  const contentInputEn = document.getElementById("serviceTourContent_en");
+  const priceInput = document.getElementById("serviceTourPrice_vi");
+  const currentImageDiv = document.getElementById("currentServiceTourImage");
+
   if (actionInput) actionInput.value = "update_tour";
-  if (idInput) idInput.value = tour.id_dichvu;
-
-  const titleInputVi = document.getElementById("tourTitle_vi");
-  const contentInputVi = document.getElementById("tourContent_vi");
-  const titleInputEn = document.getElementById("tourTitle_en");
-  const contentInputEn = document.getElementById("tourContent_en");
-  const currentImageDiv = document.getElementById("currentTourImage");
-
+  if (idInput) idInput.value = tour.id_dichvu || "";
   if (titleInputVi) titleInputVi.value = tour.title_vi || "";
   if (contentInputVi) contentInputVi.value = tour.content_vi || "";
   if (titleInputEn) titleInputEn.value = tour.title_en || "";
   if (contentInputEn) contentInputEn.value = tour.content_en || "";
-  if (topicInput) topicInput.value = tour.id_topic || "1";
-  if (priceInputVi) priceInputVi.value = tour.price || "Liên hệ";
-  if (priceInputEn) priceInputEn.value = tour.price_en || "Contact us";
-  if (iconInput) iconInput.value = tour.icon || "fas fa-map-marked-alt";
+
+  if (tour.price) {
+    if (isNumeric(tour.price)) {
+      if (priceInput) priceInput.value = formatNumberWithCommas(tour.price);
+      if (priceInput) priceInput.dataset.rawValue = tour.price;
+    } else {
+      if (priceInput) priceInput.value = tour.price;
+      if (priceInput) priceInput.dataset.rawValue = tour.price;
+    }
+  } else {
+    if (priceInput) priceInput.value = "";
+    if (priceInput) priceInput.dataset.rawValue = "";
+  }
 
   if (tour.image) {
     if (currentImageDiv) {
-      // currentImageDiv.innerHTML = `
-      //     <div class="current-image">
-      //         <p>Hình ảnh hiện tại:</p>
-      //         <img src="../../view/img/${tour.image}" alt="Current Tour" class="current-image-preview">
-      //     </div>
-      // `;
+      currentImageDiv.innerHTML = `
+                <div class="current-image">
+                    <p>Hình ảnh hiện tại:</p>
+                    <img src="../../view/img/${tour.image}" alt="Current Tour" class="current-image-preview">
+                </div>
+            `;
     }
   } else {
     if (currentImageDiv) currentImageDiv.innerHTML = "";
@@ -421,7 +485,7 @@ function loadGreeting(select) {
         return;
       }
       greetingIdInput.value = greeting.id_nhungcauchaohoi_ngonngu || "";
-      deleteGreetingIdInput.value = greeting.id_nhungcauchaohoi || ""; // Sửa ở đây
+      deleteGreetingIdInput.value = greeting.id_nhungcauchaohoi || "";
       greetingContentViInput.value = greeting.content_vi || "";
       greetingContentEnInput.value = greeting.content_en || "";
       updateBtn.disabled = false;
@@ -468,11 +532,45 @@ function updateActiveGreetingInputs(select) {
 }
 
 function editTour(tour) {
-  openModal("tourModal", tour);
+  openModal("serviceTourModal", tour);
+  const actionInput = document.getElementById("serviceTourAction");
+  if (actionInput) actionInput.value = "update_tour";
+  const titleElement = document.getElementById("serviceTourModalTitle");
+  if (titleElement) titleElement.textContent = "Chỉnh Sửa Tour";
 }
 
 function editBanner(banner) {
   openModal("bannerModal", banner);
+}
+
+function editHighlight(highlight) {
+  const modal = document.getElementById("highlightModal");
+  const form = document.getElementById("highlightForm");
+  const titleElement = document.getElementById("highlightModalTitle");
+  const actionInput = document.getElementById("highlightAction");
+  const idInput = document.getElementById("highlightId");
+  const titleInputVi = document.getElementById("highlightTitle_vi");
+  const contentInputVi = document.getElementById("highlightContent_vi");
+  const titleInputEn = document.getElementById("highlightTitle_en");
+  const contentInputEn = document.getElementById("highlightContent_en");
+  const serviceSelect = document.getElementById("highlightService");
+
+  titleElement.textContent = "Chỉnh Sửa Highlight";
+  actionInput.value = "update_highlight";
+  idInput.value = highlight.id;
+  titleInputVi.value = highlight.title_vi || "";
+  contentInputVi.value = highlight.content_vi || "";
+  titleInputEn.value = "";
+  contentInputEn.value = "";
+  serviceSelect.value = highlight.id_dichvu || "";
+
+  loadHighlightEnglishData(highlight.id, (data) => {
+    titleInputEn.value = data.title || "";
+    contentInputEn.value = data.content || "";
+  });
+
+  modal.style.display = "grid";
+  document.body.style.overflow = "hidden";
 }
 
 function showLoadingState(button) {
@@ -503,7 +601,7 @@ function showAlert(message, type = "info", duration = 5000) {
     ${message}
   `;
 
-  document.body.appendChild(alert); // Chèn trực tiếp vào body
+  document.body.appendChild(alert);
 
   setTimeout(() => {
     if (alert.parentNode) {
@@ -526,6 +624,7 @@ function autoHideAlerts() {
     }, 5000);
   });
 }
+
 function validateForm(form) {
   const requiredFields = form.querySelectorAll("[required]");
   let isValid = true;
@@ -552,102 +651,72 @@ function validateForm(form) {
   return isValid;
 }
 
+function editService(service) {
+  const modal = document.getElementById("editServiceModal");
+  const form = document.getElementById("editServiceForm");
+  const titleElement = document.getElementById("editServiceModalTitle");
+  const actionInput = document.getElementById("editServiceAction");
+  const idInput = document.getElementById("editServiceId");
+  const titleInputVi = document.getElementById("editServiceTitle_vi");
+  const contentInputVi = document.getElementById("editServiceContent_vi");
+  const titleInputEn = document.getElementById("editServiceTitle_en");
+  const contentInputEn = document.getElementById("editServiceContent_en");
+  const priceInput = document.getElementById("editServicePrice_vi");
+  const currentImageDiv = document.getElementById("currentEditServiceImage");
+
+  if (!modal || !form) {
+    console.error("Modal hoặc form không tồn tại!");
+    return;
+  }
+
+  titleElement.textContent = "Chỉnh Sửa Dịch Vụ";
+  actionInput.value = "update_service";
+  idInput.value = service.id_dichvu;
+
+  titleInputVi.value = service.title_vi || "";
+  contentInputVi.value = service.content_vi || "";
+  titleInputEn.value = service.title_en || "";
+  contentInputEn.value = service.content_en || "";
+
+  if (service.price) {
+    if (isNumeric(service.price)) {
+      priceInput.value = formatNumberWithCommas(service.price);
+      priceInput.dataset.rawValue = service.price;
+    } else {
+      priceInput.value = service.price;
+      priceInput.dataset.rawValue = service.price;
+    }
+  } else {
+    priceInput.value = "";
+    priceInput.dataset.rawValue = "";
+  }
+
+  if (service.image) {
+    currentImageDiv.innerHTML = `
+            <div class="current-image">
+                <p>Hình ảnh hiện tại:</p>
+                <img src="../../view/img/${service.image}" alt="Current Service" class="current-image-preview">
+            </div>
+        `;
+  } else {
+    currentImageDiv.innerHTML = "";
+  }
+
+  modal.style.display = "grid";
+  document.body.style.overflow = "hidden";
+
+  setTimeout(() => {
+    const firstInput = modal.querySelector("input, textarea, select");
+    if (firstInput) firstInput.focus();
+  }, 100);
+
+  currentEditingService = service;
+}
+
 function confirmDelete(message = "Bạn có chắc chắn muốn xóa không?") {
   return confirm(message);
 }
 
-function formatFileSize(bytes) {
-  if (bytes === 0) return "0 Bytes";
-  const k = 1024;
-  const sizes = ["Bytes", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
-}
-
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-}
-
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
-function enableAutoSave(formElement, saveCallback, interval = 30000) {
-  let autoSaveInterval;
-
-  function startAutoSave() {
-    autoSaveInterval = setInterval(() => {
-      const formData = new FormData(formElement);
-      saveCallback(formData);
-    }, interval);
-  }
-
-  function stopAutoSave() {
-    if (autoSaveInterval) {
-      clearInterval(autoSaveInterval);
-    }
-  }
-
-  formElement.addEventListener("input", debounce(startAutoSave, 1000));
-  formElement.addEventListener("submit", stopAutoSave);
-
-  return { start: startAutoSave, stop: stopAutoSave };
-}
-
-function copyToClipboard(text) {
-  navigator.clipboard
-    .writeText(text)
-    .then(() => {
-      showAlert("Đã sao chép vào clipboard!", "success", 2000);
-    })
-    .catch(() => {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      showAlert("Đã sao chép vào clipboard!", "success", 2000);
-    });
-}
-
-function toggleTheme() {
-  const body = document.body;
-  const isDark = body.classList.contains("dark-theme");
-
-  if (isDark) {
-    body.classList.remove("dark-theme");
-    localStorage.setItem("theme", "light");
-  } else {
-    body.classList.add("dark-theme");
-    localStorage.setItem("theme", "dark");
-  }
-}
-
-function loadSavedTheme() {
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark-theme");
-  }
-}
-
-function initializeSavedSettings() {
-  loadSavedTheme();
-}
-
-document.addEventListener("DOMContentLoaded", initializeSavedSettings);
-// Hàm cập nhật icon và preview
 function updateIcon() {
   const iconSelect = document.getElementById("featureIconSelect");
   const iconCustomInput = document.getElementById("featureIconCustom");
@@ -667,7 +736,44 @@ function updateIcon() {
   iconPreview.innerHTML = iconClass ? `<i class="${iconClass}"></i>` : "";
 }
 
-// Hàm xử lý chỉnh sửa tiện ích
+function openServiceTourModal(type) {
+  const modal = document.getElementById("serviceTourModal");
+  const titleElement = document.getElementById("serviceTourModalTitle");
+  const actionInput = document.getElementById("serviceTourAction");
+  const form = document.getElementById("serviceTourForm");
+  const currentImageDiv = document.getElementById("currentServiceTourImage");
+  const titleInputVi = document.getElementById("serviceTourTitle_vi");
+
+  if (!modal || !form) {
+    console.error("Modal hoặc form không tồn tại!");
+    return;
+  }
+
+  form.reset();
+  clearImagePreviews(form);
+  if (currentImageDiv) {
+    currentImageDiv.innerHTML = "";
+  }
+
+  if (type === "tour") {
+    titleElement.textContent = "Thêm Tour Mới";
+    actionInput.value = "add_tour";
+    titleInputVi.value = "";
+  } else {
+    titleElement.textContent = "Thêm Dịch Vụ Mới";
+    actionInput.value = "add_service";
+    titleInputVi.value = "";
+  }
+
+  modal.style.display = "grid";
+  document.body.style.overflow = "hidden";
+
+  setTimeout(() => {
+    const firstInput = modal.querySelector("input, textarea, select");
+    if (firstInput) firstInput.focus();
+  }, 100);
+}
+
 function editFeature(feature) {
   const modal = document.getElementById("featureModal");
   const form = document.getElementById("featureForm");
@@ -691,7 +797,6 @@ function editFeature(feature) {
   titleInputEn.value = "";
   contentInputEn.value = "";
 
-  // Lấy dữ liệu tiếng Anh
   fetch(
     `quanlydichvu.php?action=get_feature_en&id_tienich=${feature.id_tienich}`
   )
@@ -722,7 +827,7 @@ function editFeature(feature) {
   modal.style.display = "grid";
   document.body.style.overflow = "hidden";
 }
-// Đảm bảo icon được cập nhật khi thay đổi input tùy chỉnh
+
 document.addEventListener("DOMContentLoaded", function () {
   const iconCustomInput = document.getElementById("featureIconCustom");
   const featureForm = document.getElementById("featureForm");
@@ -735,11 +840,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
 window.AdminDichVu = {
   openModal,
   closeModal,
   editBanner,
   editTour,
+  editService,
+  editHighlight,
   showAlert,
   confirmDelete,
   copyToClipboard,
@@ -749,5 +857,4 @@ window.AdminDichVu = {
   updateActiveGreetingInputs,
   editFeature,
 };
-
 console.log("Admin Dịch Vụ JavaScript loaded successfully!");

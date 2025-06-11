@@ -1,16 +1,24 @@
 let selectedFiles = [];
 
 function showTab(tabName) {
+  // Kiểm tra xem tab có tồn tại không
+  const targetTab = document.getElementById(tabName);
+  if (!targetTab) {
+    console.warn(`Tab ${tabName} does not exist. Falling back to 'description' tab.`);
+    showTab('description'); // Chuyển về tab mặc định nếu tab không tồn tại
+    return;
+  }
+
   const panes = document.querySelectorAll(".tab-pane");
   panes.forEach((pane) => pane.classList.remove("active"));
 
   const buttons = document.querySelectorAll(".tab-btn");
   buttons.forEach((btn) => btn.classList.remove("active"));
 
-  document.getElementById(tabName).classList.add("active");
+  targetTab.classList.add("active");
   document
     .querySelector(`[onclick="showTab('${tabName}')"]`)
-    .classList.add("active");
+    ?.classList.add("active"); // Dùng optional chaining để tránh lỗi nếu nút không tồn tại
 
   if (tabName === "booking") {
     clearImagePreviews();

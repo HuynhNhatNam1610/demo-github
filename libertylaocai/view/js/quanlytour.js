@@ -308,11 +308,18 @@ function hideToast() {
 }
 
 function formatPriceInput(input) {
-  let value = input.value.replace(/[^0-9]/g, "");
-  if (value) {
-    value = parseInt(value).toLocaleString("vi-VN");
-    input.value = value;
+  let value = input.value.trim();
+
+  // Kiểm tra nếu giá trị chỉ chứa số (có thể có dấu phẩy hoặc dấu chấm)
+  if (/^\d*[.,]?\d*$/.test(value)) {
+    // Loại bỏ các ký tự không phải số
+    value = value.replace(/[^0-9]/g, "");
+    if (value) {
+      value = parseInt(value).toLocaleString("vi-VN");
+      input.value = value;
+    }
   }
+  // Nếu không phải số, giữ nguyên giá trị người dùng nhập
 }
 
 function autoResizeTextarea(textarea) {
@@ -757,7 +764,231 @@ document.addEventListener("DOMContentLoaded", function () {
     highlightForm.addEventListener("submit", handleHighlightFormSubmit);
   }
 });
+let selectedFiles = [];
 
+function attachImageUploadListener() {
+  const imageUpload = document.getElementById("imageUpload");
+  const uploadArea = document.querySelector(".upload-area");
+  if (!imageUpload || !uploadArea) {
+    console.log("Không tìm thấy imageUpload hoặc uploadArea");
+    return;
+  }
+
+  const uploadText = uploadArea.querySelector(".upload-text");
+  if (uploadText) {
+    uploadText.onclick = function () {
+      imageUpload.click();
+    };
+  }
+
+  imageUpload.addEventListener("change", function (e) {
+    const files = e.target.files;
+    if (!files.length) return;
+
+    const maxTotalFiles = 5;
+    let validNewFiles = [];
+
+    Array.from(files).forEach((file) => {
+      const isDuplicate = selectedFiles.some(
+        (existingFile) =>
+          existingFile.name === file.name && existingFile.size === file.size
+      );
+
+      if (isDuplicate) {
+        showToast(`Tệp ${file.name} đã được chọn trước đó.`, "error");
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        showToast(`Tệp ${file.name} quá lớn (tối đa 5MB).`, "error");
+        return;
+      }
+
+      if (!file.type.includes("image")) {
+        showToast(`Tệp ${file.name} không phải là hình ảnh.`, "error");
+        return;
+      }
+
+      validNewFiles.push(file);
+    });
+
+    if (selectedFiles.length + validNewFiles.length > maxTotalFiles) {
+      const remainingSlots = maxTotalFiles - selectedFiles.length;
+      if (remainingSlots > 0) {
+        showToast(
+          `Chỉ có thể thêm ${remainingSlots} ảnh nữa. Tối đa ${maxTotalFiles} ảnh.`,
+          "error"
+        );
+        validNewFiles = validNewFiles.slice(0, remainingSlots);
+      } else {
+        showToast(`Đã đạt giới hạn tối đa ${maxTotalFiles} ảnh.`, "error");
+        return;
+      }
+    }
+
+    if (validNewFiles.length > 0) {
+      selectedFiles = selectedFiles.concat(validNewFiles);
+      updateFileInput();
+      renderImagePreviews();
+    }
+
+    e.target.value = "";
+  });
+}
+
+function clearImagePreviews() {
+  const uploadArea = document.querySelector(".upload-area");
+  const imageUpload = document.getElementById("imageUpload");
+  if (!uploadArea || !imageUpload) return;
+
+  selectedFiles = [];
+  uploadArea.innerHTML = `
+        <div class="upload-icon">📷</div>
+        <div class="upload-text">
+            Nhấp để tải lên hình ảnh<br>
+            <small>Có thể tải lên nhiều hình ảnh (tối đa 5)</small>
+        </div>
+    `;
+  uploadArea.appendChild(imageUpload);
+  uploadArea.style.borderColor = "";
+  uploadArea.style.background = "";
+  attachImageUploadListener();
+}
+
+function updateFileInput() {
+  const imageUpload = document.getElementById("imageUpload");
+  if (!imageUpload) return;
+
+  const dt = new DataTransfer();
+  selectedFiles.forEach((file) => {
+    dt.items.add(file);
+  });
+  imageUpload.files = dt.files;
+}
+
+function renderImagePreviews() {
+  const uploadArea = document.querySelector(".upload-area");
+  const imageUpload = document.getElementById("imageUpload");
+  if (!uploadArea || !imageUpload) return;
+
+  if (selectedFiles.length === 0) {
+    clearImagePreviews();
+    return;
+  }
+
+  const previewContainer = document.createElement("div");
+  previewContainer.className = "images-grid";
+  previewContainer.style.marginTop = "10px";
+
+  selectedFiles.forEach((file, index) => {
+    const previewItem = document.createElement("div");
+    previewItem.className = "image-preview-item";
+
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+
+    const overlay = document.createElement("div");
+    overlay.className = "image-overlay";
+
+    const imageName = document.createElement("span");
+    imageName.className = "image-name";
+    imageName.textContent = file.name;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "remove-btn";
+    removeBtn.innerHTML = "×";
+    removeBtn.onclick = function (e) {
+      e.stopPropagation();
+      selectedFiles.splice(index, 1);
+      updateFileInput();
+      renderImagePreviews();
+    };
+
+    overlay.appendChild(imageName);
+    overlay.appendChild(removeBtn);
+    previewItem.appendChild(img);
+    previewItem.appendChild(overlay);
+    previewContainer.appendChild(previewItem);
+  });
+
+  uploadArea.innerHTML = `
+        <div class="upload-header">
+            <span class="upload-count">Đã chọn ${selectedFiles.length} hình ảnh</span>
+            <button class="add-more-btn" type="button">Thêm ảnh</button>
+        </div>
+    `;
+  uploadArea.appendChild(previewContainer);
+  uploadArea.appendChild(imageUpload);
+  uploadArea.style.borderColor = "#004d40";
+  uploadArea.style.background = "#f0f8f0";
+
+  const addMoreBtn = uploadArea.querySelector(".add-more-btn");
+  if (addMoreBtn) {
+    addMoreBtn.onclick = function () {
+      imageUpload.click();
+    };
+  }
+}
+
+async function handleImageSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const isPrimaryCheckbox = form.querySelector('input[name="is_primary"]');
+  if (!selectedFiles.length) {
+    showToast("Vui lòng chọn ít nhất một file ảnh", "error");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("action", "add_image");
+  formData.append(
+    "id_dichvu",
+    form.querySelector('input[name="id_dichvu"]').value
+  );
+  formData.append(
+    "id_topic",
+    form.querySelector('input[name="id_topic"]').value
+  );
+  formData.append("is_primary", isPrimaryCheckbox.checked ? "1" : "0");
+
+  selectedFiles.forEach((file) => {
+    formData.append("images[]", file);
+  });
+
+  const button = form.querySelector('button[type="submit"]');
+  try {
+    setButtonLoading(button, true);
+    showLoading();
+    const response = await fetch(window.location.href, {
+      method: "POST",
+      body: formData,
+    });
+    const result = await response.json();
+    if (result.success) {
+      showToast(result.message, "success");
+      toggleForm("imageForm");
+      selectedFiles = [];
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } else {
+      showToast(result.message, "error");
+      if (result.message.includes("Chỉ được phép có một ảnh chính")) {
+        isPrimaryCheckbox.checked = false;
+      }
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    showToast("Có lỗi xảy ra khi tải ảnh lên", "error");
+  } finally {
+    setButtonLoading(button, false);
+    hideLoading();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  attachImageUploadListener();
+});
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.editHighlight = editHighlight;
