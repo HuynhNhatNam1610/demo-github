@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .admin-tabs {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+        .admin-tabs .tab-link {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #333;
+            background: #f5f5f5;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s;
+        }
+        .admin-tabs .tab-link.active {
+            background: #2d3748;
+            color: #fff;
+            border-bottom: 2px solid #007bff;
+        }
+        .admin-tabs .tab-link:hover {
+            background: #e0e0e0;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container main-content" id="mainContent"> <!-- Thêm lớp main-content và id -->
+        <div class="admin-tabs">
+            <div class="tab-link <?php echo $current_tab === 'tour-service' ? 'active' : ''; ?>" data-tab="tour-service">
+                <i class="fas fa-concierge-bell"></i> Quản Lý Dịch Vụ Du Lịch
+            </div>
+            <div class="tab-link <?php echo $current_tab === 'tour-management' ? 'active' : ''; ?>" data-tab="tour-management">
+                <i class="fas fa-map-marked-alt"></i> Quản Lý chi tiết dịch vụ
+            </div>
+        </div>
+
+        <div id="tour-service" class="tab-content <?php echo $current_tab === 'tour-service' ? 'active' : ''; ?>">
+            <?php if ($current_tab === 'tour-service') echo $tab_content; ?>
+        </div>
+        <div id="tour-management" class="tab-content <?php echo $current_tab === 'tour-management' ? 'active' : ''; ?>">
+            <?php if ($current_tab === 'tour-management') echo $tab_content; ?>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabLinks = document.querySelectorAll('.tab-link');
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Xóa lớp active khỏi tất cả các tab và nội dung
+                    document.querySelectorAll('.tab-link').forEach(tab => tab.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+                    // Thêm lớp active cho tab được chọn và nội dung tương ứng
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+
+                    // Chuyển hướng đến trang tương ứng
+                    if (tabId === 'tour-service') {
+                        window.location.href = 'quanlydichvu.php';
+                    } else if (tabId === 'tour-management') {
+                        window.location.href = 'quanlytour.php';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

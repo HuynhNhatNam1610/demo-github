@@ -71,74 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         switch ($action) {
-            case 'add_banner':
-                $page = mysqli_real_escape_string($conn, $_POST['page']);
-                $id_topic = (int)$_POST['id_topic'];
-                
-                if (isset($_FILES['banner_image']) && $_FILES['banner_image']['error'] === 0) {
-                    $imageName = uploadImage($_FILES['banner_image']);
-                    if ($imageName) {
-                        $query = "INSERT INTO head_banner (image, page, id_topic) VALUES ('$imageName', '$page', $id_topic)";
-                        if (mysqli_query($conn, $query)) {
-                            $response['success'] = true;
-                            $response['message'] = "Thêm banner thành công!";
-                        } else {
-                            $response['message'] = "Lỗi khi thêm banner: " . mysqli_error($conn);
-                        }
-                    } else {
-                        $response['message'] = "Lỗi khi upload hình ảnh banner.";
-                    }
-                } else {
-                    $response['message'] = "Vui lòng chọn hình ảnh banner.";
-                }
-                break;
-
-            case 'update_banner':
-                $banner_id = (int)$_POST['banner_id'];
-                $page = mysqli_real_escape_string($conn, $_POST['page']);
-                $id_topic = (int)$_POST['id_topic'];
-                
-                $query = "UPDATE head_banner SET page='$page', id_topic=$id_topic WHERE id=$banner_id";
-                if (mysqli_query($conn, $query)) {
-                    if (isset($_FILES['banner_image']) && $_FILES['banner_image']['error'] === 0) {
-                        $imageName = uploadImage($_FILES['banner_image']);
-                        if ($imageName) {
-                            $old_image_query = "SELECT image FROM head_banner WHERE id=$banner_id";
-                            $old_image_result = mysqli_query($conn, $old_image_query);
-                            $old_image = mysqli_fetch_assoc($old_image_result)['image'];
-                            if ($old_image && file_exists('../../view/img/' . $old_image)) {
-                                unlink('../../view/img/' . $old_image);
-                            }
-                            $update_image = "UPDATE head_banner SET image='$imageName' WHERE id=$banner_id";
-                            mysqli_query($conn, $update_image);
-                        }
-                    }
-                    $response['success'] = true;
-                    $response['message'] = "Cập nhật banner thành công!";
-                } else {
-                    $response['message'] = "Lỗi khi cập nhật banner: " . mysqli_error($conn);
-                }
-                break;
-
-            case 'delete_banner':
-                $banner_id = (int)$_POST['banner_id'];
-                
-                $image_query = "SELECT image FROM head_banner WHERE id=$banner_id";
-                $image_result = mysqli_query($conn, $image_query);
-                $image = mysqli_fetch_assoc($image_result)['image'];
-                if ($image && file_exists('../../view/img/' . $image)) {
-                    unlink('../../view/img/' . $image);
-                }
-                
-                $query = "DELETE FROM head_banner WHERE id=$banner_id";
-                if (mysqli_query($conn, $query)) {
-                    $response['success'] = true;
-                    $response['message'] = "Xóa banner thành công!";
-                } else {
-                    $response['message'] = "Lỗi khi xóa banner: " . mysqli_error($conn);
-                }
-                break;
-
             case 'add_greeting':
                 $content_vi = mysqli_real_escape_string($conn, $_POST['content_vi']);
                 $content_en = mysqli_real_escape_string($conn, $_POST['content_en'] ?? '');
@@ -219,126 +151,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->close();
                 break;
 
-        case 'delete_greeting':
-            $id_nhungcauchaohoi = (int)$_POST['id_nhungcauchaohoi'];
+            case 'delete_greeting':
+                $id_nhungcauchaohoi = (int)$_POST['id_nhungcauchaohoi'];
 
-            // Kiểm tra xem id_nhungcauchaohoi có tồn tại
-            $check_exists = $conn->prepare("SELECT id FROM nhungcauchaohoi WHERE id = ?");
-            $check_exists->bind_param("i", $id_nhungcauchaohoi);
-            $check_exists->execute();
-            if ($check_exists->get_result()->num_rows === 0) {
-                $response['success'] = false;
-                $response['message'] = "Lời chào không tồn tại!";
-                header('Content-Type: application/json');
-                echo json_encode($response);
-                exit();
-            }
-            $check_exists->close();
+                // Kiểm tra xem id_nhungcauchaohoi có tồn tại
+                $check_exists = $conn->prepare("SELECT id FROM nhungcauchaohoi WHERE id = ?");
+                $check_exists->bind_param("i", $id_nhungcauchaohoi);
+                $check_exists->execute();
+                if ($check_exists->get_result()->num_rows === 0) {
+                    $response['success'] = false;
+                    $response['message'] = "Lời chào không tồn tại!";
+                    header('Content-Type: application/json');
+                    echo json_encode($response);
+                    exit();
+                }
+                $check_exists->close();
 
-            // Kiểm tra sử dụng bởi các trang khác
-            $check_usage_query = "SELECT DISTINCT page FROM loichaoduocchon lc 
-                                JOIN nhungcauchaohoi_ngonngu nn ON lc.id_nhungcauchaohoi_ngonngu = nn.id 
-                                WHERE nn.id_nhungcauchaohoi = ? AND lc.page != 'dichvu'";
-            $stmt = $conn->prepare($check_usage_query);
-            $stmt->bind_param("i", $id_nhungcauchaohoi);
-            $stmt->execute();
-            $usage_result = $stmt->get_result();
-            
-            if ($usage_result->num_rows > 0) {
-                $used_pages = [];
-                while ($row = $usage_result->fetch_assoc()) {
-                    $used_pages[] = $row['page'];
+                // Kiểm tra sử dụng bởi các trang khác
+                $check_usage_query = "SELECT DISTINCT page FROM loichaoduocchon lc 
+                                    JOIN nhungcauchaohoi_ngonngu nn ON lc.id_nhungcauchaohoi_ngonngu = nn.id 
+                                    WHERE nn.id_nhungcauchaohoi = ? AND lc.page != 'dichvu'";
+                $stmt = $conn->prepare($check_usage_query);
+                $stmt->bind_param("i", $id_nhungcauchaohoi);
+                $stmt->execute();
+                $usage_result = $stmt->get_result();
+                
+                if ($usage_result->num_rows > 0) {
+                    $used_pages = [];
+                    while ($row = $usage_result->fetch_assoc()) {
+                        $used_pages[] = $row['page'];
+                    }
+                    $stmt->close();
+                    $response['success'] = false;
+                    $response['message'] = "Lời chào đang được sử dụng bởi trang: " . implode(", ", $used_pages) . ". Không thể xóa!";
+                    header('Content-Type: application/json');
+                    echo json_encode($response);
+                    exit();
                 }
                 $stmt->close();
-                $response['success'] = false;
-                $response['message'] = "Lời chào đang được sử dụng bởi trang: " . implode(", ", $used_pages) . ". Không thể xóa!";
+
+                // Xóa dữ liệu
+                $stmt = $conn->prepare("DELETE FROM loichaoduocchon WHERE id_nhungcauchaohoi_ngonngu IN (SELECT id FROM nhungcauchaohoi_ngonngu WHERE id_nhungcauchaohoi = ?)");
+                $stmt->bind_param("i", $id_nhungcauchaohoi);
+                $stmt->execute();
+
+                $stmt = $conn->prepare("DELETE FROM nhungcauchaohoi_ngonngu WHERE id_nhungcauchaohoi = ?");
+                $stmt->bind_param("i", $id_nhungcauchaohoi);
+                if ($stmt->execute()) {
+                    $stmt = $conn->prepare("DELETE FROM nhungcauchaohoi WHERE id = ?");
+                    $stmt->bind_param("i", $id_nhungcauchaohoi);
+                    if ($stmt->execute()) {
+                        $response['success'] = true;
+                        $response['message'] = "Xóa lời chào thành công!";
+                    } else {
+                        $response['message'] = "Lỗi khi xóa lời chào: " . $conn->error;
+                    }
+                } else {
+                    $response['message'] = "Lỗi khi xóa nội dung lời chào: " . $conn->error;
+                }
+                $stmt->close();
                 header('Content-Type: application/json');
                 echo json_encode($response);
                 exit();
-            }
-            $stmt->close();
+                break;
 
-            // Xóa dữ liệu
-            $stmt = $conn->prepare("DELETE FROM loichaoduocchon WHERE id_nhungcauchaohoi_ngonngu IN (SELECT id FROM nhungcauchaohoi_ngonngu WHERE id_nhungcauchaohoi = ?)");
-            $stmt->bind_param("i", $id_nhungcauchaohoi);
-            $stmt->execute();
+            case 'update_greeting':
+                $id_nhungcauchaohoi_ngonngu = (int)$_POST['post_id'];
+                $content_vi = mysqli_real_escape_string($conn, $_POST['content']);
+                $content_en = mysqli_real_escape_string($conn, $_POST['content_en'] ?? '');
 
-            $stmt = $conn->prepare("DELETE FROM nhungcauchaohoi_ngonngu WHERE id_nhungcauchaohoi = ?");
-            $stmt->bind_param("i", $id_nhungcauchaohoi);
-            if ($stmt->execute()) {
-                $stmt = $conn->prepare("DELETE FROM nhungcauchaohoi WHERE id = ?");
-                $stmt->bind_param("i", $id_nhungcauchaohoi);
-                if ($stmt->execute()) {
-                    $response['success'] = true;
-                    $response['message'] = "Xóa lời chào thành công!";
-                } else {
-                    $response['message'] = "Lỗi khi xóa lời chào: " . $conn->error;
+                // Kiểm tra xem id_nhungcauchaohoi_ngonngu có tồn tại
+                $check_query = "SELECT id_nhungcauchaohoi FROM nhungcauchaohoi_ngonngu WHERE id = ?";
+                $stmt = $conn->prepare($check_query);
+                $stmt->bind_param("i", $id_nhungcauchaohoi_ngonngu);
+                $stmt->execute();
+                $check_row = $stmt->get_result()->fetch_assoc();
+
+                if (!$check_row) {
+                    $response['message'] = "Lời chào không tồn tại!";
+                    break;
                 }
-            } else {
-                $response['message'] = "Lỗi khi xóa nội dung lời chào: " . $conn->error;
-            }
-            $stmt->close();
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            exit();
-            break;
 
-case 'update_greeting':
-    $id_nhungcauchaohoi_ngonngu = (int)$_POST['post_id'];
-    $content_vi = mysqli_real_escape_string($conn, $_POST['content']);
-    $content_en = mysqli_real_escape_string($conn, $_POST['content_en'] ?? '');
+                $id_nhungcauchaohoi = $check_row['id_nhungcauchaohoi'];
 
-    // Kiểm tra xem id_nhungcauchaohoi_ngonngu có tồn tại
-    $check_query = "SELECT id_nhungcauchaohoi FROM nhungcauchaohoi_ngonngu WHERE id = ?";
-    $stmt = $conn->prepare($check_query);
-    $stmt->bind_param("i", $id_nhungcauchaohoi_ngonngu);
-    $stmt->execute();
-    $check_row = $stmt->get_result()->fetch_assoc();
+                // Cập nhật nội dung tiếng Việt
+                $stmt = $conn->prepare("UPDATE nhungcauchaohoi_ngonngu SET content = ? WHERE id_nhungcauchaohoi = ? AND id_ngonngu = 1");
+                $stmt->bind_param("si", $content_vi, $id_nhungcauchaohoi);
+                if ($stmt->execute()) {
+                    // Kiểm tra và cập nhật/xóa nội dung tiếng Anh
+                    $check_en_query = "SELECT COUNT(*) as count FROM nhungcauchaohoi_ngonngu WHERE id_nhungcauchaohoi = ? AND id_ngonngu = 2";
+                    $stmt = $conn->prepare($check_en_query);
+                    $stmt->bind_param("i", $id_nhungcauchaohoi);
+                    $stmt->execute();
+                    $check_en_row = $stmt->get_result()->fetch_assoc();
 
-    if (!$check_row) {
-        $response['message'] = "Lời chào không tồn tại!";
-        break;
-    }
+                    if (!empty($content_en)) {
+                        if ($check_en_row['count'] > 0) {
+                            // Cập nhật nếu bản ghi tiếng Anh đã tồn tại
+                            $stmt = $conn->prepare("UPDATE nhungcauchaohoi_ngonngu SET content = ? WHERE id_nhungcauchaohoi = ? AND id_ngonngu = 2");
+                            $stmt->bind_param("si", $content_en, $id_nhungcauchaohoi);
+                            $stmt->execute();
+                        } else {
+                            // Thêm mới bản ghi tiếng Anh nếu chưa tồn tại
+                            $stmt = $conn->prepare("INSERT INTO nhungcauchaohoi_ngonngu (id_nhungcauchaohoi, id_ngonngu, content) VALUES (?, 2, ?)");
+                            $stmt->bind_param("is", $id_nhungcauchaohoi, $content_en);
+                            $stmt->execute();
+                        }
+                    } elseif ($check_en_row['count'] > 0) {
+                        // Xóa bản ghi tiếng Anh nếu nội dung tiếng Anh rỗng
+                        $stmt = $conn->prepare("DELETE FROM nhungcauchaohoi_ngonngu WHERE id_nhungcauchaohoi = ? AND id_ngonngu = 2");
+                        $stmt->bind_param("i", $id_nhungcauchaohoi);
+                        $stmt->execute();
+                    }
 
-    $id_nhungcauchaohoi = $check_row['id_nhungcauchaohoi'];
-
-    // Cập nhật nội dung tiếng Việt
-    $stmt = $conn->prepare("UPDATE nhungcauchaohoi_ngonngu SET content = ? WHERE id_nhungcauchaohoi = ? AND id_ngonngu = 1");
-    $stmt->bind_param("si", $content_vi, $id_nhungcauchaohoi);
-    if ($stmt->execute()) {
-        // Kiểm tra và cập nhật/xóa nội dung tiếng Anh
-        $check_en_query = "SELECT COUNT(*) as count FROM nhungcauchaohoi_ngonngu WHERE id_nhungcauchaohoi = ? AND id_ngonngu = 2";
-        $stmt = $conn->prepare($check_en_query);
-        $stmt->bind_param("i", $id_nhungcauchaohoi);
-        $stmt->execute();
-        $check_en_row = $stmt->get_result()->fetch_assoc();
-
-        if (!empty($content_en)) {
-            if ($check_en_row['count'] > 0) {
-                // Cập nhật nếu bản ghi tiếng Anh đã tồn tại
-                $stmt = $conn->prepare("UPDATE nhungcauchaohoi_ngonngu SET content = ? WHERE id_nhungcauchaohoi = ? AND id_ngonngu = 2");
-                $stmt->bind_param("si", $content_en, $id_nhungcauchaohoi);
-                $stmt->execute();
-            } else {
-                // Thêm mới bản ghi tiếng Anh nếu chưa tồn tại
-                $stmt = $conn->prepare("INSERT INTO nhungcauchaohoi_ngonngu (id_nhungcauchaohoi, id_ngonngu, content) VALUES (?, 2, ?)");
-                $stmt->bind_param("is", $id_nhungcauchaohoi, $content_en);
-                $stmt->execute();
-            }
-        } elseif ($check_en_row['count'] > 0) {
-            // Xóa bản ghi tiếng Anh nếu nội dung tiếng Anh rỗng
-            $stmt = $conn->prepare("DELETE FROM nhungcauchaohoi_ngonngu WHERE id_nhungcauchaohoi = ? AND id_ngonngu = 2");
-            $stmt->bind_param("i", $id_nhungcauchaohoi);
-            $stmt->execute();
-        }
-
-        $response['success'] = true;
-        $response['message'] = "Cập nhật lời chào thành công!";
-    } else {
-        $response['message'] = "Lỗi khi cập nhật lời chào: " . $conn->error;
-    }
-    $stmt->close();
-    break;
+                    $response['success'] = true;
+                    $response['message'] = "Cập nhật lời chào thành công!";
+                } else {
+                    $response['message'] = "Lỗi khi cập nhật lời chào: " . $conn->error;
+                }
+                $stmt->close();
+                break;
 
             case 'add_feature':
                 $icon = mysqli_real_escape_string($conn, $_POST['icon']);
@@ -478,12 +410,10 @@ case 'update_greeting':
                 $content_vi = mysqli_real_escape_string($conn, $_POST['content_vi']);
                 $title_en = mysqli_real_escape_string($conn, $_POST['title_en'] ?? '');
                 $content_en = mysqli_real_escape_string($conn, $_POST['content_en'] ?? '');
-                $id_topic = (int)$_POST['id_topic'] ?? 1;
                 $price_vi = mysqli_real_escape_string($conn, $_POST['price_vi'] ?? 'Liên hệ');
-                $icon = mysqli_real_escape_string($conn, $_POST['icon'] ?? 'fas fa-map-marked-alt');
 
-                $stmt = $conn->prepare("INSERT INTO dichvu (icon, active, price) VALUES (?, 1, ?)");
-                $stmt->bind_param("ss", $icon, $price_vi);
+                $stmt = $conn->prepare("INSERT INTO dichvu (type, active, price) VALUES ('tour', 1, ?)");
+                $stmt->bind_param("s", $price_vi);
                 if ($stmt->execute()) {
                     $id_dichvu = $conn->insert_id;
                     
@@ -496,11 +426,11 @@ case 'update_greeting':
                             $stmt->execute();
                         }
                         
-                        if (isset($_FILES['tour_image']) && $_FILES['tour_image']['error'] === 0) {
-                            $imageName = uploadImage($_FILES['tour_image']);
+                        if (isset($_FILES['service_image']) && $_FILES['service_image']['error'] === 0) {
+                            $imageName = uploadImage($_FILES['service_image']);
                             if ($imageName) {
-                                $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, ?)");
-                                $stmt->bind_param("sii", $imageName, $id_dichvu, $id_topic);
+                                $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
+                                $stmt->bind_param("si", $imageName, $id_dichvu);
                                 $stmt->execute();
                             }
                         }
@@ -521,9 +451,7 @@ case 'update_greeting':
                 $content_vi = mysqli_real_escape_string($conn, $_POST['content_vi']);
                 $title_en = mysqli_real_escape_string($conn, $_POST['title_en'] ?? '');
                 $content_en = mysqli_real_escape_string($conn, $_POST['content_en'] ?? '');
-                $id_topic = (int)$_POST['id_topic'] ?? 1;
-                $price_vi = mysqli_real_escape_string($conn, $_POST['price_vi'] ?? '');
-                $icon = mysqli_real_escape_string($conn, $_POST['icon'] ?? 'fas fa-map-marked-alt');
+                $price_vi = mysqli_real_escape_string($conn, $_POST['price_vi'] ?? 'Liên hệ');
 
                 $stmt = $conn->prepare("UPDATE dichvu_ngonngu SET title=?, content=? WHERE id_dichvu=? AND id_ngonngu=1");
                 $stmt->bind_param("ssi", $title_vi, $content_vi, $id_dichvu);
@@ -548,13 +476,13 @@ case 'update_greeting':
                         }
                     }
                     
-                    $update_query = "UPDATE dichvu SET price=?, icon=? WHERE id=?";
+                    $update_query = "UPDATE dichvu SET price=?, type='tour' WHERE id=?";
                     $stmt = $conn->prepare($update_query);
-                    $stmt->bind_param("ssi", $price_vi, $icon, $id_dichvu);
+                    $stmt->bind_param("si", $price_vi, $id_dichvu);
                     $stmt->execute();
                     
-                    if (isset($_FILES['tour_image']) && $_FILES['tour_image']['error'] === 0) {
-                        $imageName = uploadImage($_FILES['tour_image']);
+                    if (isset($_FILES['service_image']) && $_FILES['service_image']['error'] === 0) {
+                        $imageName = uploadImage($_FILES['service_image']);
                         if ($imageName) {
                             $old_image_query = "SELECT image FROM anhdichvu WHERE id_dichvu=? AND is_primary=1";
                             $stmt = $conn->prepare($old_image_query);
@@ -567,8 +495,8 @@ case 'update_greeting':
                             $stmt = $conn->prepare("DELETE FROM anhdichvu WHERE id_dichvu=? AND is_primary=1");
                             $stmt->bind_param("i", $id_dichvu);
                             $stmt->execute();
-                            $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, ?)");
-                            $stmt->bind_param("sii", $imageName, $id_dichvu, $id_topic);
+                            $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
+                            $stmt->bind_param("si", $imageName, $id_dichvu);
                             $stmt->execute();
                         }
                     }
@@ -583,32 +511,83 @@ case 'update_greeting':
             case 'delete_tour':
                 $id_dichvu = (int)$_POST['id_dichvu'];
                 
-                $image_query = "SELECT image FROM anhdichvu WHERE id_dichvu=?";
-                $stmt = $conn->prepare($image_query);
-                $stmt->bind_param("i", $id_dichvu);
-                $stmt->execute();
-                $image_result = $stmt->get_result();
-                while ($image = $image_result->fetch_assoc()) {
-                    if ($image['image'] && file_exists('../../view/img/' . $image['image'])) {
-                        unlink('../../view/img/' . $image['image']);
-                    }
-                }
-                
-                $stmt = $conn->prepare("DELETE FROM anhdichvu WHERE id_dichvu=?");
-                $stmt->bind_param("i", $id_dichvu);
-                $stmt->execute();
-                
-                $stmt = $conn->prepare("DELETE FROM dichvu_ngonngu WHERE id_dichvu=?");
-                $stmt->bind_param("i", $id_dichvu);
-                $stmt->execute();
-                
-                $stmt = $conn->prepare("DELETE FROM dichvu WHERE id=?");
+                // Xóa bình luận liên quan trong bảng binhluan_dichvu
+                $stmt = $conn->prepare("DELETE FROM binhluan_dichvu WHERE id_dichvu = ?");
                 $stmt->bind_param("i", $id_dichvu);
                 if ($stmt->execute()) {
-                    $response['success'] = true;
-                    $response['message'] = "Xóa tour thành công!";
+                    // Xóa hình ảnh liên quan
+                    $image_query = "SELECT image FROM anhdichvu WHERE id_dichvu = ?";
+                    $stmt = $conn->prepare($image_query);
+                    $stmt->bind_param("i", $id_dichvu);
+                    $stmt->execute();
+                    $image_result = $stmt->get_result();
+                    while ($image = $image_result->fetch_assoc()) {
+                        if ($image['image'] && file_exists('../../view/img/' . $image['image'])) {
+                            unlink('../../view/img/' . $image['image']);
+                        }
+                    }
+                    
+                    // Xóa bản ghi hình ảnh
+                    $stmt = $conn->prepare("DELETE FROM anhdichvu WHERE id_dichvu = ?");
+                    $stmt->bind_param("i", $id_dichvu);
+                    $stmt->execute();
+                    
+                    // Xóa bản ghi ngôn ngữ
+                    $stmt = $conn->prepare("DELETE FROM dichvu_ngonngu WHERE id_dichvu = ?");
+                    $stmt->bind_param("i", $id_dichvu);
+                    $stmt->execute();
+                    
+                    // Xóa bản ghi tour
+                    $stmt = $conn->prepare("DELETE FROM dichvu WHERE id = ?");
+                    $stmt->bind_param("i", $id_dichvu);
+                    if ($stmt->execute()) {
+                        $response['success'] = true;
+                        $response['message'] = "Xóa tour thành công!";
+                    } else {
+                        $response['message'] = "Lỗi khi xóa tour: " . $conn->error;
+                    }
                 } else {
-                    $response['message'] = "Lỗi khi xóa tour: " . $conn->error;
+                    $response['message'] = "Lỗi khi xóa bình luận liên quan: " . $conn->error;
+                }
+                $stmt->close();
+                break;
+            
+            case 'add_service':
+                $title_vi = mysqli_real_escape_string($conn, $_POST['title_vi']);
+                $content_vi = mysqli_real_escape_string($conn, $_POST['content_vi']);
+                $title_en = mysqli_real_escape_string($conn, $_POST['title_en'] ?? '');
+                $content_en = mysqli_real_escape_string($conn, $_POST['content_en'] ?? '');
+                $price_vi = mysqli_real_escape_string($conn, $_POST['price_vi'] ?? 'Liên hệ');
+
+                $stmt = $conn->prepare("INSERT INTO dichvu (type, active, price) VALUES ('dichvu', 1, ?)");
+                $stmt->bind_param("s", $price_vi);
+                if ($stmt->execute()) {
+                    $id_dichvu = $conn->insert_id;
+                    
+                    $stmt = $conn->prepare("INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title, content) VALUES (?, 1, ?, ?)");
+                    $stmt->bind_param("iss", $id_dichvu, $title_vi, $content_vi);
+                    if ($stmt->execute()) {
+                        if (!empty($title_en) || !empty($content_en)) {
+                            $stmt = $conn->prepare("INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title, content) VALUES (?, 2, ?, ?)");
+                            $stmt->bind_param("iss", $id_dichvu, $title_en, $content_en);
+                            $stmt->execute();
+                        }
+                        
+                        if (isset($_FILES['service_image']) && $_FILES['service_image']['error'] === 0) {
+                            $imageName = uploadImage($_FILES['service_image']);
+                            if ($imageName) {
+                                $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
+                                $stmt->bind_param("si", $imageName, $id_dichvu);
+                                $stmt->execute();
+                            }
+                        }
+                        $response['success'] = true;
+                        $response['message'] = "Thêm dịch vụ thành công!";
+                    } else {
+                        $response['message'] = "Lỗi khi thêm dịch vụ: " . $conn->error;
+                    }
+                } else {
+                    $response['message'] = "Lỗi khi thêm dịch vụ: " . $conn->error;
                 }
                 $stmt->close();
                 break;
@@ -619,7 +598,7 @@ case 'update_greeting':
                 $content_vi = mysqli_real_escape_string($conn, $_POST['content_vi']);
                 $title_en = mysqli_real_escape_string($conn, $_POST['title_en'] ?? '');
                 $content_en = mysqli_real_escape_string($conn, $_POST['content_en'] ?? '');
-                $price = mysqli_real_escape_string($conn, $_POST['price']);
+                $price_vi = mysqli_real_escape_string($conn, $_POST['price_vi'] ?? 'Liên hệ');
 
                 $check_query = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 1";
                 $stmt = $conn->prepare($check_query);
@@ -664,8 +643,8 @@ case 'update_greeting':
                     $stmt->execute();
                 }
 
-                $stmt = $conn->prepare("UPDATE dichvu SET price = ? WHERE id = ?");
-                $stmt->bind_param("si", $price, $id_dichvu);
+                $stmt = $conn->prepare("UPDATE dichvu SET price = ?, type = 'dichvu' WHERE id = ?");
+                $stmt->bind_param("si", $price_vi, $id_dichvu);
                 $stmt->execute();
 
                 if (isset($_FILES['service_image']) && $_FILES['service_image']['error'] === 0) {
@@ -684,7 +663,7 @@ case 'update_greeting':
                         $stmt->bind_param("i", $id_dichvu);
                         $stmt->execute();
 
-                        $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 1)");
+                        $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
                         $stmt->bind_param("si", $imageName, $id_dichvu);
                         $stmt->execute();
                     }
@@ -692,6 +671,50 @@ case 'update_greeting':
 
                 $response['success'] = true;
                 $response['message'] = "Cập nhật dịch vụ thành công!";
+                $stmt->close();
+                break;
+                
+            case 'delete_service':
+                $id_dichvu = (int)$_POST['id_dichvu'];
+                
+                // Xóa bình luận liên quan trong bảng binhluan_dichvu
+                $stmt = $conn->prepare("DELETE FROM binhluan_dichvu WHERE id_dichvu = ?");
+                $stmt->bind_param("i", $id_dichvu);
+                if ($stmt->execute()) {
+                    // Xóa hình ảnh liên quan
+                    $image_query = "SELECT image FROM anhdichvu WHERE id_dichvu = ?";
+                    $stmt = $conn->prepare($image_query);
+                    $stmt->bind_param("i", $id_dichvu);
+                    $stmt->execute();
+                    $image_result = $stmt->get_result();
+                    while ($image = $image_result->fetch_assoc()) {
+                        if ($image['image'] && file_exists('../../view/img/' . $image['image'])) {
+                            unlink('../../view/img/' . $image['image']);
+                        }
+                    }
+                    
+                    // Xóa bản ghi hình ảnh
+                    $stmt = $conn->prepare("DELETE FROM anhdichvu WHERE id_dichvu = ?");
+                    $stmt->bind_param("i", $id_dichvu);
+                    $stmt->execute();
+                    
+                    // Xóa bản ghi ngôn ngữ
+                    $stmt = $conn->prepare("DELETE FROM dichvu_ngonngu WHERE id_dichvu = ?");
+                    $stmt->bind_param("i", $id_dichvu);
+                    $stmt->execute();
+                    
+                    // Xóa bản ghi dịch vụ
+                    $stmt = $conn->prepare("DELETE FROM dichvu WHERE id = ?");
+                    $stmt->bind_param("i", $id_dichvu);
+                    if ($stmt->execute()) {
+                        $response['success'] = true;
+                        $response['message'] = "Xóa dịch vụ thành công!";
+                    } else {
+                        $response['message'] = "Lỗi khi xóa dịch vụ: " . $conn->error;
+                    }
+                } else {
+                    $response['message'] = "Lỗi khi xóa bình luận liên quan: " . $conn->error;
+                }
                 $stmt->close();
                 break;
 
@@ -745,27 +768,34 @@ $active_greeting_query = "SELECT l.id_nhungcauchaohoi_ngonngu,
 $active_greeting_result = mysqli_query($conn, $active_greeting_query);
 $active_greeting = mysqli_fetch_assoc($active_greeting_result);
 
+// Lấy danh sách dịch vụ 
+$services_query = "
+    SELECT d.id as id_dichvu, dn.title as title_vi, dn.content as content_vi, 
+           (SELECT title FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as title_en,
+           (SELECT content FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as content_en,
+           a.image, d.price, d.icon 
+    FROM dichvu d 
+    LEFT JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
+    LEFT JOIN anhdichvu a ON d.id = a.id_dichvu AND a.is_primary = 1 
+    WHERE dn.id_ngonngu = 1 AND d.type = 'dichvu'
+    ORDER BY dn.id_dichvu";
+$services_result = mysqli_query($conn, $services_query);
+
 // Lấy danh sách tour
-$tours_query = "SELECT d.id as id_dichvu, dn.title as title_vi, dn.content as content_vi, 
-                (SELECT title FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as title_en,
-                (SELECT content FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as content_en,
-                a.image, d.price, d.icon 
-                FROM dichvu d 
-                LEFT JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
-                LEFT JOIN anhdichvu a ON d.id = a.id_dichvu AND a.is_primary = 1 
-                WHERE dn.id_ngonngu = 1 AND dn.id_dichvu >= 3 
-                ORDER BY dn.id_dichvu";
+$tours_query = "
+    SELECT d.id as id_dichvu, dn.title as title_vi, dn.content as content_vi, 
+           (SELECT title FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as title_en,
+           (SELECT content FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as content_en,
+           a.image, d.price, d.icon 
+    FROM dichvu d 
+    LEFT JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
+    LEFT JOIN anhdichvu a ON d.id = a.id_dichvu AND a.is_primary = 1 
+    WHERE dn.id_ngonngu = 1 AND d.type = 'tour'
+    ORDER BY dn.id_dichvu";
 $tours_result = mysqli_query($conn, $tours_query);
 
-$services_query = "SELECT d.id as id_dichvu, dn.*, d.price, a.image 
-                  FROM dichvu d 
-                  LEFT JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
-                  LEFT JOIN anhdichvu a ON d.id = a.id_dichvu AND a.is_primary = 1 
-                  WHERE dn.id_ngonngu = 1 AND dn.id_dichvu IN (1, 2) 
-                  ORDER BY dn.id_dichvu";
-$services_result = mysqli_query($conn, $services_query);
+ob_start();
 ?>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -777,6 +807,8 @@ $services_result = mysqli_query($conn, $services_query);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
+    <?php include "sidebar.php"; ?>
+
     <div class="admin-container">
         <div class="admin-header">
             <h1><i class="fas fa-cogs"></i> Quản Lý Dịch Vụ Du Lịch</h1>
@@ -802,53 +834,6 @@ $services_result = mysqli_query($conn, $services_query);
         <?php endif; ?>
 
         <div class="admin-sections">
-            <!-- Quản lý Banner -->
-            <section class="admin-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-image"></i> Quản Lý Banner</h2>
-                    <button class="btn btn-primary" onclick="openModal('bannerModal')">
-                        <i class="fas fa-plus"></i> Thêm Banner
-                    </button>
-                </div>
-                
-                <div class="data-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Hình Ảnh</th>
-                                <th>Trang</th>
-                                <th>Topic ID</th>
-                                <th>Thao Tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($banner = mysqli_fetch_assoc($banners_result)): ?>
-                            <tr>
-                                <td><?php echo $banner['id']; ?></td>
-                                <td>
-                                    <img src="../../view/img/<?php echo $banner['image']; ?>" alt="Banner" class="table-image">
-                                </td>
-                                <td><?php echo htmlspecialchars($banner['page']); ?></td>
-                                <td><?php echo $banner['id_topic']; ?></td>
-                                <td>
-                                    <button class="btn btn-small btn-secondary" onclick="editBanner(<?php echo htmlspecialchars(json_encode($banner)); ?>)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <form method="POST" style="display: inline;" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
-                                        <input type="hidden" name="action" value="delete_banner">
-                                        <input type="hidden" name="banner_id" value="<?php echo $banner['id']; ?>">
-                                        <button type="submit" class="btn btn-small btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
 
             <!-- Quản lý Lời Chào -->
             <section class="admin-section">
@@ -965,62 +950,43 @@ $services_result = mysqli_query($conn, $services_query);
             <section class="admin-section">
                 <div class="section-header">
                     <h2><i class="fas fa-concierge-bell"></i> Quản Lý Dịch Vụ</h2>
+                    <button class="btn btn-primary" onclick="openServiceTourModal('service')">
+                        <i class="fas fa-plus"></i> Thêm Dịch Vụ
+                    </button>
                 </div>
                 
                 <div class="services-grid">
                     <?php 
                     mysqli_data_seek($services_result, 0); // Reset con trỏ
                     while ($service = mysqli_fetch_assoc($services_result)): 
-                        // Lấy dữ liệu tiếng Anh
-                        $service_en_query = "SELECT title, content FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
-                        $stmt = $conn->prepare($service_en_query);
-                        $stmt->bind_param("i", $service['id_dichvu']);
-                        $stmt->execute();
-                        $service_en = $stmt->get_result()->fetch_assoc();
-                        $stmt->close();
                     ?>
                     <div class="service-item">
-                        <form method="POST" class="admin-form" enctype="multipart/form-data">
-                            <input type="hidden" name="action" value="update_service">
-                            <input type="hidden" name="id_dichvu" value="<?php echo $service['id_dichvu']; ?>">
-                            <div class="form-group">
-                                <label>Tiêu đề dịch vụ (Tiếng Việt):</label>
-                                <input type="text" name="title_vi" value="<?php echo htmlspecialchars($service['title']); ?>" required>
+                        <div class="service-header">
+                            <h3><?php echo htmlspecialchars($service['title_vi']); ?></h3>
+                            <div class="service-actions">
+                                <button class="btn btn-small btn-secondary" onclick="editService(<?php echo htmlspecialchars(json_encode($service)); ?>)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form method="POST" style="display: inline;" onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này?')">
+                                    <input type="hidden" name="action" value="delete_service">
+                                    <input type="hidden" name="id_dichvu" value="<?php echo $service['id_dichvu']; ?>">
+                                    <button type="submit" class="btn btn-small btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                             </div>
-                            <div class="form-group">
-                                <label>Tiêu đề dịch vụ (Tiếng Anh):</label>
-                                <input type="text" name="title_en" value="<?php echo htmlspecialchars($service_en['title'] ?? ''); ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>Nội dung (Tiếng Việt):</label>
-                                <textarea name="content_vi" rows="4" required><?php echo htmlspecialchars($service['content']); ?></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Nội dung (Tiếng Anh):</label>
-                                <textarea name="content_en" rows="4"><?php echo htmlspecialchars($service_en['content'] ?? ''); ?></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Giá:</label>
-                                <input type="text" name="price" value="<?php echo htmlspecialchars($service['price'] ?? 'Liên hệ'); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="service_image_<?php echo $service['id_dichvu']; ?>">Hình ảnh dịch vụ:</label>
-                                <input type="file" name="service_image" id="service_image_<?php echo $service['id_dichvu']; ?>" accept="image/*">
-                                <?php if ($service['image']): ?>
-                                    <div class="current-image">
-                                        <p>Hình ảnh hiện tại:</p>
-                                        <img src="../../view/img/<?php echo htmlspecialchars($service['image']); ?>" alt="<?php echo htmlspecialchars($service['title']); ?>" class="current-image-preview">
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Cập Nhật
-                            </button>
-                        </form>
+                        </div>
+                        <div class="service-content">
+                            <p><strong>Giá:</strong> <?php echo htmlspecialchars($service['price']); ?></p>
+                            <?php if ($service['image']): ?>
+                                <img src="../../view/img/<?php echo htmlspecialchars($service['image']); ?>" alt="<?php echo htmlspecialchars($service['title_vi']); ?>" class="service-image-preview">
+                            <?php endif; ?>
+                        </div>
                     </div>
                     <?php endwhile; ?>
                 </div>
             </section>
+
             <!-- Quản lý Tiện Ích -->
             <section class="admin-section">
                 <div class="section-header">
@@ -1111,7 +1077,7 @@ $services_result = mysqli_query($conn, $services_query);
             <section class="admin-section">
                 <div class="section-header">
                     <h2><i class="fas fa-map-marked-alt"></i> Quản Lý Tour Du Lịch</h2>
-                    <button class="btn btn-primary" onclick="openModal('tourModal')">
+                    <button class="btn btn-primary" onclick="openServiceTourModal('tour')">
                         <i class="fas fa-plus"></i> Thêm Tour
                     </button>
                 </div>
@@ -1147,99 +1113,133 @@ $services_result = mysqli_query($conn, $services_query);
                     <?php endwhile; ?>
                 </div>
             </section>
-        </div>
-    </div>
-
-    <!-- Modal Thêm/Sửa Banner -->
-    <div id="bannerModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="bannerModalTitle">Thêm Banner Mới</h3>
-                <span class="close" onclick="closeModal('bannerModal')">×</span>
+            <!-- Modal Thêm/Sửa Banner -->
+            <div id="bannerModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="bannerModalTitle">Thêm Banner Mới</h3>
+                        <span class="close" onclick="closeModal('bannerModal')">×</span>
+                    </div>
+                    <form id="bannerForm" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="action" value="add_banner" id="bannerAction">
+                        <input type="hidden" name="banner_id" id="bannerId">
+                        
+                        <div class="form-group">
+                            <label for="banner_image">Hình ảnh banner:</label>
+                            <input type="file" name="banner_image" id="bannerImage" accept="image/*">
+                            <div id="currentBannerImage"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="page">Trang:</label>
+                            <input type="text" name="page" id="bannerPage" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_topic">Topic ID:</label>
+                            <input type="number" name="id_topic" id="bannerTopic" required>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" onclick="closeModal('bannerModal')">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form id="bannerForm" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="action" value="add_banner" id="bannerAction">
-                <input type="hidden" name="banner_id" id="bannerId">
-                
-                <div class="form-group">
-                    <label for="banner_image">Hình ảnh banner:</label>
-                    <input type="file" name="banner_image" id="bannerImage" accept="image/*">
-                    <div id="currentBannerImage"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="page">Trang:</label>
-                    <input type="text" name="page" id="bannerPage" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="id_topic">Topic ID:</label>
-                    <input type="number" name="id_topic" id="bannerTopic" required>
-                </div>
-                
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('bannerModal')">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Lưu</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <!-- Modal Thêm/Sửa Tour -->
-    <div id="tourModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="tourModalTitle">Thêm Tour Mới</h3>
-                <span class="close" onclick="closeModal('tourModal')">×</span>
+            <!-- Modal Thêm Dịch Vụ/Tour -->
+            <div id="serviceTourModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="serviceTourModalTitle">Thêm Dịch Vụ/Tour Mới</h3>
+                        <span class="close" onclick="closeModal('serviceTourModal')">×</span>
+                    </div>
+                    <form id="serviceTourForm" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="action" value="add_service" id="serviceTourAction">
+                        <input type="hidden" name="id_dichvu" id="serviceTourId">
+                        <div class="form-group">
+                            <label for="service_tour_title_vi">Tiêu đề (Tiếng Việt):</label>
+                            <input type="text" name="title_vi" id="serviceTourTitle_vi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service_tour_title_en">Tiêu đề (Tiếng Anh):</label>
+                            <input type="text" name="title_en" id="serviceTourTitle_en">
+                        </div>
+                        <div class="form-group">
+                            <label for="service_tour_content_vi">Nội dung mô tả (Tiếng Việt):</label>
+                            <textarea name="content_vi" id="serviceTourContent_vi" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="service_tour_content_en">Nội dung mô tả (Tiếng Anh):</label>
+                            <textarea name="content_en" id="serviceTourContent_en" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="service_tour_price_vi">Giá:</label>
+                            <input type="text" name="price_vi" id="serviceTourPrice_vi" value="Liên hệ" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service_tour_image">Hình ảnh:</label>
+                            <input type="file" name="service_image" id="serviceTourImage" accept="image/*">
+                            <div id="currentServiceTourImage"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" onclick="closeModal('serviceTourModal')">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form id="tourForm" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="action" value="add_tour" id="tourAction">
-                <input type="hidden" name="id_dichvu" id="tourId">
-                <div class="form-group">
-                    <label for="tour_title_vi">Tiêu đề tour (Tiếng Việt):</label>
-                    <input type="text" name="title_vi" id="tourTitle_vi" required>
+            <!-- Modal Chỉnh Sửa Dịch Vụ -->
+            <div id="editServiceModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="editServiceModalTitle">Chỉnh Sửa Dịch Vụ</h3>
+                        <span class="close" onclick="closeModal('editServiceModal')">×</span>
+                    </div>
+                    <form id="editServiceForm" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="action" value="update_service" id="editServiceAction">
+                        <input type="hidden" name="id_dichvu" id="editServiceId">
+                        <div class="form-group">
+                            <label for="edit_service_title_vi">Tiêu đề dịch vụ (Tiếng Việt):</label>
+                            <input type="text" name="title_vi" id="editServiceTitle_vi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_service_title_en">Tiêu đề dịch vụ (Tiếng Anh):</label>
+                            <input type="text" name="title_en" id="editServiceTitle_en">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_service_content_vi">Nội dung (Tiếng Việt):</label>
+                            <textarea name="content_vi" id="editServiceContent_vi" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_service_content_en">Nội dung (Tiếng Anh):</label>
+                            <textarea name="content_en" id="editServiceContent_en" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_service_price_vi">Giá:</label>
+                            <input type="text" name="price_vi" id="editServicePrice_vi" value="Liên hệ" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_service_image">Hình ảnh dịch vụ:</label>
+                            <input type="file" name="service_image" id="editServiceImage" accept="image/*">
+                            <div id="currentEditServiceImage"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" onclick="closeModal('editServiceModal')">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="tour_title_en">Tiêu đề tour (Tiếng Anh):</label>
-                    <input type="text" name="title_en" id="tourTitle_en">
-                </div>
-                <div class="form-group">
-                    <label for="tour_content_vi">Nội dung mô tả (Tiếng Việt):</label>
-                    <textarea name="content_vi" id="tourContent_vi" rows="4" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="tour_content_en">Nội dung mô tả (Tiếng Anh):</label>
-                    <textarea name="content_en" id="tourContent_en" rows="4"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="tour_price_vi">Giá (Tiếng Việt):</label>
-                    <input type="text" name="price_vi" id="tourPrice_vi" value="Liên hệ" required>
-                </div>
-                <div class="form-group">
-                    <label for="tour_price_en">Giá (Tiếng Anh):</label>
-                    <input type="text" name="price_en" id="tourPrice_en" value="Contact us">
-                </div>
-                <div class="form-group">
-                    <label for="tour_icon">Biểu tượng (Font Awesome):</label>
-                    <input type="text" name="icon" id="tourIcon" value="fas fa-map-marked-alt">
-                </div>
-                <div class="form-group">
-                    <label for="tour_image">Hình ảnh tour:</label>
-                    <input type="file" name="tour_image" id="tourImage" accept="image/*">
-                    <div id="currentTourImage"></div>
-                </div>
-                <div class="form-group">
-                    <label for="id_topic">Topic ID:</label>
-                    <input type="number" name="id_topic" id="tourTopic" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('tourModal')">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Lưu</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
     <script src="/libertylaocai/view/js/quanlydichvu.js"></script>
 </body>
 </html>
+<?php
+$current_tab = 'tour-service';
+$tab_content = ob_get_clean();
+include 'tabdichvu.php'; // Điều chỉnh đường dẫn nếu cần
+?>

@@ -145,10 +145,12 @@ $greeting = $greeting_result->num_rows > 0 ? $greeting_result->fetch_assoc()['co
   ($language_id == 1 ? 'Đồng hành cùng bạn khám phá vẻ đẹp Tây Bắc' : 'Accompanying you to explore the beauty of the Northwest');
 $greeting_stmt->close();
 
-$services_query = "SELECT dn.title, dn.content, a.image 
-  FROM dichvu_ngonngu dn 
-  LEFT JOIN anhdichvu a ON dn.id_dichvu = a.id_dichvu AND a.is_primary = 1 
-  WHERE dn.id_ngonngu = ? AND dn.id_dichvu IN (1, 2) 
+$services_query = "
+  SELECT dn.id_dichvu, dn.title, dn.content, a.image 
+  FROM dichvu d
+  LEFT JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
+  LEFT JOIN anhdichvu a ON d.id = a.id_dichvu AND a.is_primary = 1 
+  WHERE dn.id_ngonngu = ? AND d.type = 'dichvu'
   ORDER BY dn.id_dichvu";
 $services_stmt = $conn->prepare($services_query);
 $services_stmt->bind_param("i", $language_id);
@@ -160,10 +162,12 @@ while ($row = $services_result->fetch_assoc()) {
 }
 $services_stmt->close();
 
-$tours_query = "SELECT dn.id_dichvu, dn.title, dn.content, a.image 
-  FROM dichvu_ngonngu dn 
-  LEFT JOIN anhdichvu a ON dn.id_dichvu = a.id_dichvu AND a.is_primary = 1 
-  WHERE dn.id_ngonngu = ? AND dn.id_dichvu >= 3 
+$tours_query = "
+  SELECT dn.id_dichvu, dn.title, dn.content, a.image 
+  FROM dichvu d
+  LEFT JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
+  LEFT JOIN anhdichvu a ON d.id = a.id_dichvu AND a.is_primary = 1 
+  WHERE dn.id_ngonngu = ? AND d.type = 'tour'
   ORDER BY dn.id_dichvu";
 $tours_stmt = $conn->prepare($tours_query);
 $tours_stmt->bind_param("i", $language_id);
@@ -184,6 +188,19 @@ if (!$banner_result) {
   $banner = mysqli_fetch_assoc($banner_result);
 }
 $banner_image = $banner ? '/libertylaocai/view/img/' . htmlspecialchars($banner['image']) : '/libertylaocai/view/img/background.png';
+
+// Hotel information
+$thongtinkhachsan_query = "SELECT phone, email FROM thongtinkhachsan WHERE id = 1";
+$thongtinkhachsan_result = mysqli_query($conn, $thongtinkhachsan_query);
+$thongtinkhachsan = mysqli_fetch_assoc($thongtinkhachsan_result);
+
+$thongtinkhachsan_ngonngu_query = "SELECT address FROM thongtinkhachsan_ngonngu WHERE id_thongtinkhachsan = 1 AND id_ngonngu = ?";
+$thongtinkhachsan_ngonngu_stmt = $conn->prepare($thongtinkhachsan_ngonngu_query);
+$thongtinkhachsan_ngonngu_stmt->bind_param("i", $language_id);
+$thongtinkhachsan_ngonngu_stmt->execute();
+$thongtinkhachsan_ngonngu_result = $thongtinkhachsan_ngonngu_stmt->get_result();
+$thongtinkhachsan_ngonngu = $thongtinkhachsan_ngonngu_result->fetch_assoc();
+$thongtinkhachsan_ngonngu_stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -227,58 +244,21 @@ $banner_image = $banner ? '/libertylaocai/view/img/' . htmlspecialchars($banner[
     </div>
   </section>
 
-  <?php foreach ($services as $index => $service): ?>
-    <section class="<?php echo $index == 0 ? 'document-service' : 'airport-service'; ?>">
-      <div class="container">
-        <div class="content-wrapper <?php echo $index == 1 ? 'reverse' : ''; ?>">
-          <div class="service-image" data-aos="fade-right">
-            <img src="<?php echo $service['image'] ? '/libertylaocai/view/img/' . htmlspecialchars($service['image']) : '/libertylaocai/view/img/default-service-image.png'; ?>" alt="<?php echo htmlspecialchars($service['title']); ?>">
-          </div>
-          <div class="text-content" data-aos="fade-left">
-            <h2 class="service-link" data-href="<?php echo $index == 0 ? '/libertylaocai/view/php/giaythonghanh.php' : '/libertylaocai/view/php/duadonsanbay.php'; ?>"><?php echo htmlspecialchars($service['title']); ?></h2>
-            <p class="service-link" data-href="<?php echo $index == 0 ? '/libertylaocai/view/php/giaythonghanh.php' : '/libertylaocai/view/php/duadonsanbay.php'; ?>"><?php echo htmlspecialchars($service['content']); ?></p>
-            <div class="highlights">
-              <?php if ($index == 0): ?>
-                <div class="highlight-item">
-                  <i class="fas fa-check-circle"></i>
-                  <div>
-                    <h4><?php echo $language_id == 1 ? 'Quy trình đơn giản' : 'Simple Process'; ?></h4>
-                  </div>
-                </div>
-                <div class="highlight-item">
-                  <i class="fas fa-check-circle"></i>
-                  <div>
-                    <h4><?php echo $language_id == 1 ? 'Xử lý nhanh chóng' : 'Fast Processing'; ?></h4>
-                  </div>
-                </div>
-                <div class="highlight-item">
-                  <i class="fas fa-check-circle"></i>
-                  <div>
-                    <h4><?php echo $language_id == 1 ? 'Cam kết an tâm tuyệt đối' : 'Absolute Peace of Mind'; ?></h4>
-                  </div>
-                </div>
-              <?php else: ?>
-                <div class="highlight-item">
-                  <i class="fas fa-check-circle"></i>
-                  <div>
-                    <h4><?php echo $language_id == 1 ? 'Tài Xế Chuyên Nghiệp' : 'Professional Drivers'; ?></h4>
-                    <p><?php echo $language_id == 1 ? 'Đội ngũ tài xế giàu kinh nghiệm' : 'Experienced driver team'; ?></p>
-                  </div>
-                </div>
-                <div class="highlight-item">
-                  <i class="fas fa-check-circle"></i>
-                  <div>
-                    <h4><?php echo $language_id == 1 ? 'Phương Tiện Hiện Đại' : 'Modern Vehicles'; ?></h4>
-                    <p><?php echo $language_id == 1 ? 'Xe đời mới, tiện nghi đầy đủ' : 'New vehicles with full amenities'; ?></p>
-                  </div>
-                </div>
-              <?php endif; ?>
-            </div>
-          </div>
+<?php foreach ($services as $index => $service): ?>
+  <section class="<?php echo $service['id_dichvu'] == 1 ? 'document-service' : 'airport-service'; ?>">
+    <div class="container">
+      <div class="content-wrapper <?php echo $index % 2 == 1 ? 'reverse' : ''; ?>">
+        <div class="service-image" data-aos="fade-<?php echo $index % 2 == 0 ? 'right' : 'left'; ?>">
+          <img src="<?php echo $service['image'] ? '/libertylaocai/view/img/' . htmlspecialchars($service['image']) : '/libertylaocai/view/img/default-service-image.png'; ?>" alt="<?php echo htmlspecialchars($service['title']); ?>">
+        </div>
+        <div class="text-content" data-aos="fade-<?php echo $index % 2 == 0 ? 'left' : 'right'; ?>">
+          <h2 class="service-link" data-href="/libertylaocai/view/php/chitiettour.php?id_dichvu=<?php echo htmlspecialchars($service['id_dichvu']); ?>"><?php echo htmlspecialchars($service['title']); ?></h2>
+          <p class="service-link" data-href="/libertylaocai/view/php/chitiettour.php?id_dichvu=<?php echo htmlspecialchars($service['id_dichvu']); ?>"><?php echo htmlspecialchars($service['content']); ?></p>
         </div>
       </div>
-    </section>
-  <?php endforeach; ?>
+    </div>
+  </section>
+<?php endforeach; ?>
 
   <section class="tours-section">
     <div class="container">
@@ -313,63 +293,63 @@ $banner_image = $banner ? '/libertylaocai/view/img/' . htmlspecialchars($banner[
 
   <section class="contact-section">
     <div class="container">
-      <div class="contact-wrapper">
-        <div class="contact-info" data-aos="fade-right">
-          <h2><?php echo $language_id == 1 ? 'Liên Hệ Đặt Tour' : 'Contact to Book a Tour'; ?></h2>
-          <p><?php echo $language_id == 1 ? 'Hãy liên hệ với chúng tôi để được tư vấn và đặt tour một cách nhanh chóng nhất!' : 'Contact us for consultation and to book your tour as quickly as possible!'; ?></p>
-          <div class="contact-methods">
-            <div class="contact-method">
-              <i class="fas fa-phone"></i>
-              <span><?php echo $language_id == 1 ? 'Hotline: 0123 456 789' : 'Hotline: 0123 456 789'; ?></span>
+        <div class="contact-wrapper">
+            <div class="contact-info" data-aos="fade-right">
+                <h2><?php echo $language_id == 1 ? 'Liên Hệ Đặt Tour' : 'Contact to Book a Tour'; ?></h2>
+                <p><?php echo $language_id == 1 ? 'Hãy liên hệ với chúng tôi để được tư vấn và đặt tour một cách nhanh chóng nhất!' : 'Contact us for consultation and to book your tour as quickly as possible!'; ?></p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <i class="fas fa-phone"></i>
+                        <span>Hotline: <?php echo htmlspecialchars($thongtinkhachsan['phone']); ?></span>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email: <?php echo htmlspecialchars($thongtinkhachsan['email']); ?></span>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><?php echo $language_id == 1 ? 'Địa chỉ: ' : 'Address: '; ?><?php echo htmlspecialchars($thongtinkhachsan_ngonngu['address']); ?></span>
+                    </div>
+                </div>
             </div>
-            <div class="contact-method">
-              <i class="fas fa-envelope"></i>
-              <span>Email: info@libertylc.com</span>
-            </div>
-            <div class="contact-method">
-              <i class="fas fa-map-marker-alt"></i>
-              <span><?php echo $language_id == 1 ? 'Địa chỉ: Lào Cai, Việt Nam' : 'Address: Lao Cai, Vietnam'; ?></span>
-            </div>
-          </div>
+            <form id="contactForm" class="contact-form" data-aos="fade-left" method="POST">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" required>
+                    <label for="name"><?php echo $language_id == 1 ? 'Họ và tên' : 'Full Name'; ?></label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="phone" name="phone" required>
+                    <label for="phone"><?php echo $language_id == 1 ? 'Số điện thoại' : 'Phone Number'; ?></label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" required>
+                    <label for="email">Email</label>
+                </div>
+                <div class="form-group">
+                    <select id="service" name="service" required>
+                        <option value="" disabled selected><?php echo $language_id == 1 ? 'Chọn dịch vụ' : 'Select a service'; ?></option>
+                        <?php foreach ($tours as $tour): ?>
+                            <option value="<?php echo htmlspecialchars($tour['title']); ?>"><?php echo htmlspecialchars($tour['title']); ?></option>
+                        <?php endforeach; ?>
+                        <option value="<?php echo $language_id == 1 ? 'Đưa đón sân bay' : 'Airport Transfer'; ?>">
+                            <?php echo $language_id == 1 ? 'Đưa đón sân bay' : 'Airport Transfer'; ?>
+                        </option>
+                        <option value="<?php echo $language_id == 1 ? 'Làm giấy thông hành' : 'Travel Pass Service'; ?>">
+                            <?php echo $language_id == 1 ? 'Làm giấy thông hành' : 'Travel Pass Service'; ?>
+                        </option>
+                    </select>
+                    <label for="service"><?php echo $language_id == 1 ? 'Dịch vụ quan tâm' : 'Service of Interest'; ?></label>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" name="message" required></textarea>
+                    <label for="message"><?php echo $language_id == 1 ? 'Tin nhắn' : 'Message'; ?></label>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <span><?php echo $language_id == 1 ? 'Gửi Yêu Cầu' : 'Send Request'; ?></span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
         </div>
-        <form id="contactForm" class="contact-form" data-aos="fade-left" method="POST">
-          <div class="form-group">
-            <input type="text" id="name" name="name" required>
-            <label for="name"><?php echo $language_id == 1 ? 'Họ và tên' : 'Full Name'; ?></label>
-          </div>
-          <div class="form-group">
-            <input type="text" id="phone" name="phone" required>
-            <label for="phone"><?php echo $language_id == 1 ? 'Số điện thoại' : 'Phone Number'; ?></label>
-          </div>
-          <div class="form-group">
-            <input type="email" id="email" name="email" required>
-            <label for="email">Email</label>
-          </div>
-          <div class="form-group">
-            <select id="service" name="service" required>
-              <option value="" disabled selected><?php echo $language_id == 1 ? 'Chọn dịch vụ' : 'Select a service'; ?></option>
-              <?php foreach ($tours as $tour): ?>
-                <option value="<?php echo htmlspecialchars($tour['title']); ?>"><?php echo htmlspecialchars($tour['title']); ?></option>
-              <?php endforeach; ?>
-              <option value="<?php echo $language_id == 1 ? 'Đưa đón sân bay' : 'Airport Transfer'; ?>">
-                <?php echo $language_id == 1 ? 'Đưa đón sân bay' : 'Airport Transfer'; ?>
-              </option>
-              <option value="<?php echo $language_id == 1 ? 'Làm giấy thông hành' : 'Travel Pass Service'; ?>">
-                <?php echo $language_id == 1 ? 'Làm giấy thông hành' : 'Travel Pass Service'; ?>
-              </option>
-            </select>
-            <label for="service"><?php echo $language_id == 1 ? 'Dịch vụ quan tâm' : 'Service of Interest'; ?></label>
-          </div>
-          <div class="form-group">
-            <textarea id="message" name="message" required></textarea>
-            <label for="message"><?php echo $language_id == 1 ? 'Tin nhắn' : 'Message'; ?></label>
-          </div>
-          <button type="submit" class="submit-btn">
-            <span><?php echo $language_id == 1 ? 'Gửi Yêu Cầu' : 'Send Request'; ?></span>
-            <i class="fas fa-paper-plane"></i>
-          </button>
-        </form>
-      </div>
     </div>
   </section>
 

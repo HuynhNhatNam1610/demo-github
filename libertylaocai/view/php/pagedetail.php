@@ -116,6 +116,38 @@ $eventTypes = getEventTypes($languageId);
 
 // Gọi hàm để lấy danh sách hội trường
 $halls = getConferenceHalls($languageId);
+
+// Lấy danh sách menu từ database dựa trên typeEvent
+$menuType = '';
+if ($typeEvent === 'tiec-cuoi') {
+    $menuType = 'tieccuoi';
+} elseif ($typeEvent === 'sinh-nhat') {
+    $menuType = 'sinhnhat';
+} elseif ($typeEvent === 'hoi-nghi') {
+    $menuType = 'hoinghi';
+} elseif ($typeEvent === 'gala-dinner') {
+    $menuType = 'galadinner';
+}
+
+$menus = [];
+if (!empty($menuType)) {
+    $sql = "SELECT td.id, tdn.title, tdn.content 
+            FROM thucdon_tour td
+            LEFT JOIN thucdontour_ngonngu tdn ON td.id = tdn.id_menu 
+            WHERE tdn.id_ngonngu = ? AND td.type = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("is", $languageId, $menuType);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $menus[] = [
+            'id' => $row['id'],
+            'title' => $row['title'],
+            'content' => $row['content']
+        ];
+    }
+    $stmt->close();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -166,217 +198,200 @@ $halls = getConferenceHalls($languageId);
             </div>
         </div>
         <!-- Tab Menu -->
-        <div class="tab-menu">
-            <div class="tab-nav">
-                <button class="tab-btn active" onclick="showTab('description')">
-                    <i class="fas fa-info-circle"></i> <?php echo $languageId == 1 ? ' Mô Tả' : 'Describe'; ?>
-                </button>
-                <button class="tab-btn" onclick="showTab('menu')">
-                    <i class="fas fa-calendar-alt"></i> <?php echo $languageId == 1 ? ' Thực Đơn' : 'Menu'; ?>
-                </button>
-                <button class="tab-btn" onclick="showTab('booking')">
-                    <i class="fas fa-calendar-alt"></i> <?php echo $languageId == 1 ? ' Đặt Ngay' : 'Book Now'; ?>
-                </button>
-            </div>
+<div class="tab-menu">
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('description')">
+            <i class="fas fa-info-circle"></i> <?php echo $languageId == 1 ? ' Mô Tả' : 'Describe'; ?>
+        </button>
+        <?php if (!empty($menus)): ?>
+            <button class="tab-btn" onclick="showTab('menu')">
+                <i class="fas fa-utensils"></i> <?php echo $languageId == 1 ? ' Thực Đơn' : 'Menu'; ?>
+            </button>
+        <?php endif; ?>
+        <button class="tab-btn" onclick="showTab('booking')">
+            <i class="fas fa-calendar-alt"></i> <?php echo $languageId == 1 ? ' Đặt Ngay' : 'Book Now'; ?>
+        </button>
+    </div>
 
-            <div class="tab-content">
-                <div id="description" class="tab-pane active">
-                    <div class="room-description">
-                        <div class="desc-section">
-                            <h3><?php echo $languageId == 1 ? 'CÁC HỘI TRƯỜNG HIỆN CÓ' : 'EXISTING HALLS'; ?></h3>
-                            <div class="room-specs">
-                                <?php foreach ($rooms as $room): ?>
-                                    <div class="spec-item">
-                                        <div class="spec-description">
-                                            <?= $room['description'] ?>
-                                            <div class="price-container">
-                                                <div class="price">
-                                                    <?= number_format($room['prices'][24] ?? 0, 0, ',', '.') ?> VNĐ <span>/ <?= $languageId == 1 ? 'Ngày' : 'Day' ?></span>
-                                                </div>
-                                                <div class="half-day-price">
-                                                    <?= number_format($room['prices'][12] ?? 0, 0, ',', '.') ?> VNĐ <span>/ 12h</span>
-                                                </div>
-                                            </div>
+    <div class="tab-content">
+        <div id="description" class="tab-pane active">
+            <div class="room-description">
+                <div class="desc-section">
+                    <h3><?php echo $languageId == 1 ? 'CÁC HỘI TRƯỜNG HIỆN CÓ' : 'EXISTING HALLS'; ?></h3>
+                    <div class="room-specs">
+                        <?php foreach ($rooms as $room): ?>
+                            <div class="spec-item">
+                                <div class="spec-description">
+                                    <?= $room['description'] ?>
+                                    <div class="price-container">
+                                        <div class="price">
+                                            <?= number_format($room['prices'][24] ?? 0, 0, ',', '.') ?> VNĐ <span>/ <?= $languageId == 1 ? 'Ngày' : 'Day' ?></span>
                                         </div>
-                                        <div class="spec-img">
-                                            <div class="spec-img-container">
-                                                <div class="spec-img-wrapper">
-                                                    <div class="spec-img-slider">
-                                                        <?php foreach ($room['images'] as $index => $image): ?>
-                                                            <div class="spec-img-item" data-index="<?= $index ?>">
-                                                                <img src="/libertylaocai/view/img/<?= htmlspecialchars($image) ?>" alt="Hall Image <?= $index + 1 ?>">
-                                                            </div>
-                                                        <?php endforeach; ?>
-                                                    </div>
-                                                    <div class="spec-img-btn spec-prev-btn"><i class="fas fa-chevron-left"></i></div>
-                                                    <div class="spec-img-btn spec-next-btn"><i class="fas fa-chevron-right"></i></div>
-                                                    <div class="spec-img-dots">
-                                                        <?php foreach ($room['images'] as $index => $image): ?>
-                                                            <span class="spec-dot" data-index="<?= $index ?>" <?= $index === 0 ? ' class="active"' : '' ?>></span>
-                                                        <?php endforeach; ?>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div class="half-day-price">
+                                            <?= number_format($room['prices'][12] ?? 0, 0, ',', '.') ?> VNĐ <span>/ 12h</span>
                                         </div>
                                     </div>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="menu" class="tab-pane">
-                    <div class="room-description">
-                        <div class="desc-section">
-                            <div class="menu-gallery">
-                                <h3><?php echo $languageId == 1 ? 'NHẤN VÀO ẢNH' : 'CLICK ON THE IMAGE'; ?></h3>
-                                <?php if (!empty($menus)): ?>
-                                    <div class="menu-slider-container">
-                                        <div class="menu-slider-wrapper">
-                                            <div class="menu-slider">
-                                                <?php foreach ($menus as $index => $menu): ?>
-                                                    <div class="menu-slide" data-index="<?= $index ?>">
-                                                        <img src="/libertylaocai/view/img/menu_tiec_cuoi/<?= htmlspecialchars($menu['image']) ?>" alt="Menu Image <?= $index + 1 ?>" onclick="openImageModal('/libertylaocai/view/img/menu_tiec_cuoi/<?= htmlspecialchars($menu['image']) ?>')">
+                                </div>
+                                <div class="spec-img">
+                                    <div class="spec-img-container">
+                                        <div class="spec-img-wrapper">
+                                            <div class="spec-img-slider">
+                                                <?php foreach ($room['images'] as $index => $image): ?>
+                                                    <div class="spec-img-item" data-index="<?= $index ?>">
+                                                        <img src="/libertylaocai/view/img/<?= htmlspecialchars($image) ?>" alt="Hall Image <?= $index + 1 ?>">
                                                     </div>
                                                 <?php endforeach; ?>
                                             </div>
-                                        </div>
-                                        <div class="menu-btn menu-prev-btn"><i class="fas fa-chevron-left"></i></div>
-                                        <div class="menu-btn menu-next-btn"><i class="fas fa-chevron-right"></i></div>
-                                        <div class="menu-dots">
-                                            <?php foreach ($menus as $index => $menu): ?>
-                                                <span class="menu-dot" data-index="<?= $index ?>" <?= $index === 0 ? 'class="active"' : '' ?>></span>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    </div>
-                                <?php else: ?>
-                                    <p><?php echo $languageId == 1 ? 'Chưa có thực đơn nào được tải lên.' : 'No menus have been uploaded yet.'; ?></p>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal cho ảnh phóng to -->
-                <div id="imageModal" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2><?php echo $languageId == 1 ? 'Xem Ảnh' : 'View Image'; ?></h2>
-                            <span class="close" onclick="closeImageModal()">&times;</span>
-                        </div>
-                        <div class="modal-body">
-                            <img id="modalImage" src="" alt="Zoomed Image" style="width: 100%; max-height: 70vh; object-fit: contain;">
-                            <div class="zoom-controls">
-                                <button id="zoomInBtn" class="zoom-btn"><i class="fas fa-plus"></i></button>
-                                <button id="zoomOutBtn" class="zoom-btn"><i class="fas fa-minus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="booking" class="tab-pane">
-                    <div class="room-description">
-                        <div class="desc-section">
-                            <h3><?= htmlspecialchars($trans['title']) ?></h3>
-                            <p><?= htmlspecialchars($trans['description']) ?></p>
-                            <form id="quickBookingForm" action="/libertylaocai/user/submit" method="POST" enctype="multipart/form-data" style="margin-top: 30px;">
-                                <input type="hidden" name="submit_booking" value="true">
-                                <div class="form-section">
-                                    <h3><?= htmlspecialchars($trans['contact_info']) ?></h3>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="quickFullName"><?= htmlspecialchars($trans['full_name_label']) ?> <span class="required">*</span></label>
-                                            <input type="text" id="quickFullName" name="fullName" placeholder="<?= htmlspecialchars($trans['full_name_placeholder']) ?>" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="quickPhone"><?= htmlspecialchars($trans['phone_label']) ?> <span class="required">*</span></label>
-                                            <input type="tel" id="quickPhone" name="phone" placeholder="<?= htmlspecialchars($trans['phone_placeholder']) ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="quickEmail"><?= htmlspecialchars($trans['email_label']) ?> <span class="required">*</span></label>
-                                        <input type="email" id="quickEmail" name="email" placeholder="<?= htmlspecialchars($trans['email_placeholder']) ?>" required>
-                                    </div>
-                                </div>
-                                <div class="form-section">
-                                    <h3><?= htmlspecialchars($trans['event_info']) ?></h3>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="quickEventType"><?= htmlspecialchars($trans['event_type_label']) ?> <span class="required">*</span></label>
-                                            <select id="quickEventType" name="eventType" required>
-                                                <option value=""><?= htmlspecialchars($trans['event_type_placeholder']) ?></option>
-                                                <?php foreach ($eventTypes as $event): ?>
-                                                    <option value="<?php echo htmlspecialchars($event['code']); ?>" <?php echo $event['code'] == $typeEvent ? 'selected' : ''; ?>><?php echo htmlspecialchars($event['title']); ?></option>
+                                            <div class="spec-img-btn spec-prev-btn"><i class="fas fa-chevron-left"></i></div>
+                                            <div class="spec-img-btn spec-next-btn"><i class="fas fa-chevron-right"></i></div>
+                                            <div class="spec-img-dots">
+                                                <?php foreach ($room['images'] as $index => $image): ?>
+                                                    <span class="spec-dot" data-index="<?= $index ?>" <?= $index === 0 ? ' class="active"' : '' ?>></span>
                                                 <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="quickGuestCount"><?= htmlspecialchars($trans['guest_count_label']) ?> <span class="required">*</span></label>
-                                            <input type="number" id="quickGuestCount" name="guestCount" placeholder="<?= htmlspecialchars($trans['guest_count_placeholder']) ?>" min="1" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="quickVenue"><?= htmlspecialchars($trans['venue_label']) ?> <span class="required">*</span></label>
-                                            <select id="quickVenue" name="venue" required>
-                                                <option value=""><?= htmlspecialchars($trans['venue_placeholder']) ?></option>
-                                                <?php foreach ($halls as $hall): ?>
-                                                    <option value="<?php echo htmlspecialchars($hall['id']); ?>"><?php echo htmlspecialchars($hall['name']); ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="quickBudget"><?= htmlspecialchars($trans['budget_label']) ?></label>
-                                            <input type="text" id="quickBudget" name="budget" placeholder="<?= htmlspecialchars($trans['budget_placeholder']) ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="quickEventDate"><?= htmlspecialchars($trans['checkin_label']) ?> <span class="required">*</span></label>
-                                            <input type="date" id="quickEventDate" name="eventDate" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="quickEndDate"><?= htmlspecialchars($trans['checkout_label']) ?> <span class="required">*</span></label>
-                                            <input type="date" id="quickEndDate" name="endDate" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="quickStartTime"><?= htmlspecialchars($trans['start_time_label']) ?> <span class="required">*</span></label>
-                                            <input type="time" id="quickStartTime" name="startTime" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="quickEndTime"><?= htmlspecialchars($trans['end_time_label']) ?> <span class="required">*</span></label>
-                                            <input type="time" id="quickEndTime" name="endTime" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="quickDescription"><?= htmlspecialchars($trans['note_label']) ?> <span class="required">*</span></label>
-                                        <textarea id="quickDescription" name="description" placeholder="<?= htmlspecialchars($trans['note_placeholder']) ?>" required></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-section">
-                                    <h3><?= htmlspecialchars($trans['image_section']) ?></h3>
-                                    <div class="form-group">
-                                        <div class="upload-area">
-                                            <div class="upload-icon">📷</div>
-                                            <div class="upload-text">
-                                                <?= $trans['upload_text'] ?>
                                             </div>
-                                            <input type="file" id="imageUpload" name="images[]" multiple accept="image/*">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <small style="color: #666;">* <?= htmlspecialchars($trans['required_note']) ?></small>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-submit"><?= htmlspecialchars($trans['submit_button']) ?></button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
         </div>
+        <?php if (!empty($menus)): ?>
+            <div id="menu" class="tab-pane">
+                <div class="room-description">
+                    <div class="desc-section">
+                        <h3><?php echo $languageId == 1 ? 'THỰC ĐƠN' : 'MENU'; ?></h3>
+                        <div class="menu-container">
+                            <?php foreach ($menus as $menu): ?>
+                                <div class="menu-set">
+                                    <h4><?php echo htmlspecialchars($menu['title']); ?></h4>
+                                    <?php
+                                    $items = explode("\n", trim($menu['content']));
+                                    if (!empty($items)): ?>
+                                        <ul>
+                                            <?php foreach ($items as $item): ?>
+                                                <?php if (!empty($item)): ?>
+                                                    <li><?php echo htmlspecialchars($item); ?></li>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php else: ?>
+                                        <p><?php echo $languageId == 1 ? 'Chưa có món ăn trong thực đơn này.' : 'No items in this menu.'; ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div id="booking" class="tab-pane">
+            <div class="room-description">
+                <div class="desc-section">
+                    <h3><?= htmlspecialchars($trans['title']) ?></h3>
+                    <p><?= htmlspecialchars($trans['description']) ?></p>
+                    <form id="quickBookingForm" action="/libertylaocai/user/submit" method="POST" enctype="multipart/form-data" style="margin-top: 30px;">
+                        <input type="hidden" name="submit_booking" value="true">
+                        <div class="form-section">
+                            <h3><?= htmlspecialchars($trans['contact_info']) ?></h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quickFullName"><?= htmlspecialchars($trans['full_name_label']) ?> <span class="required">*</span></label>
+                                    <input type="text" id="quickFullName" name="fullName" placeholder="<?= htmlspecialchars($trans['full_name_placeholder']) ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quickPhone"><?= htmlspecialchars($trans['phone_label']) ?> <span class="required">*</span></label>
+                                    <input type="tel" id="quickPhone" name="phone" placeholder="<?= htmlspecialchars($trans['phone_placeholder']) ?>" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="quickEmail"><?= htmlspecialchars($trans['email_label']) ?> <span class="required">*</span></label>
+                                <input type="email" id="quickEmail" name="email" placeholder="<?= htmlspecialchars($trans['email_placeholder']) ?>" required>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3><?= htmlspecialchars($trans['event_info']) ?></h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quickEventType"><?= htmlspecialchars($trans['event_type_label']) ?> <span class="required">*</span></label>
+                                    <select id="quickEventType" name="eventType" required>
+                                        <option value=""><?= htmlspecialchars($trans['event_type_placeholder']) ?></option>
+                                        <?php foreach ($eventTypes as $event): ?>
+                                            <option value="<?php echo htmlspecialchars($event['code']); ?>" <?php echo $event['code'] == $typeEvent ? 'selected' : ''; ?>><?php echo htmlspecialchars($event['title']); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guestCount"><?= htmlspecialchars($trans['guest_count_label']) ?> <span class="required">*</span></label>
+                                    <input type="number" id="guestCount" name="guestCount" placeholder="<?= htmlspecialchars($trans['guest_count_placeholder']) ?>" min="1" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quickVenue"><?= htmlspecialchars($trans['venue_label']) ?> <span class="required">*</span></label>
+                                    <select id="quickVenue" name="venue" required>
+                                        <option value=""><?= htmlspecialchars($trans['venue_placeholder']) ?></option>
+                                        <?php foreach ($halls as $hall): ?>
+                                            <option value="<?php echo htmlspecialchars($hall['id']); ?>"><?php echo htmlspecialchars($hall['name']); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quickBudget"><?= htmlspecialchars($trans['budget_label']) ?></label>
+                                    <input type="text" id="quickBudget" name="budget" placeholder="<?= htmlspecialchars($trans['budget_placeholder']) ?>">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quickEventDate"><?= htmlspecialchars($trans['checkin_label']) ?> <span class="required">*</span></label>
+                                    <input type="date" id="quickEventDate" name="eventDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quickEndDate"><?= htmlspecialchars($trans['checkout_label']) ?> <span class="required">*</span></label>
+                                    <input type="date" id="quickEndDate" name="endDate" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quickStartTime"><?= htmlspecialchars($trans['start_time_label']) ?> <span class="required">*</span></label>
+                                    <input type="time" id="quickStartTime" name="startTime" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quickEndTime"><?= htmlspecialchars($trans['end_time_label']) ?> <span class="required">*</span></label>
+                                    <input type="time" id="quickEndTime" name="endTime" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="quickDescription"><?= htmlspecialchars($trans['note_label']) ?> <span class="required">*</span></label>
+                                <textarea id="quickDescription" name="description" placeholder="<?= htmlspecialchars($trans['note_placeholder']) ?>" required></textarea>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3><?= htmlspecialchars($trans['image_section']) ?></h3>
+                            <div class="form-group">
+                                <div class="upload-area">
+                                    <div class="upload-icon">📷</div>
+                                    <div class="upload-text">
+                                        <?= $trans['upload_text'] ?>
+                                    </div>
+                                    <input type="file" id="imageUpload" name="images[]" multiple accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <small style="color: #666;">* <?= htmlspecialchars($trans['required_note']) ?></small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-submit"><?= htmlspecialchars($trans['submit_button']) ?></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     </div>
     <?php include "footer.php" ?>
     <script>

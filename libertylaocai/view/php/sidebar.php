@@ -36,7 +36,7 @@
             <span class="nav-icon"><i class="bi bi-calendar-check"></i></span>
             <span>Quản lý đặt phòng</span>
         </a>
-        <a href="/libertylaocai/quan-ly-phong" class="nav-item" data-page="rooms">
+        <a href="/libertylaocai/admin/rooms.php" class="nav-item" data-page="rooms">
             <span class="nav-icon"><i class="bi bi-building"></i></span>
             <span>Quản lý phòng</span>
         </a>
@@ -48,9 +48,9 @@
             <span class="nav-icon"><i class="bi bi-bell-fill"></i></span>
             <span>Dịch vụ</span>
         </a>
-        <a href="/libertylaocai/quan-ly-bai-viet" class="nav-item" data-page="reports">
-            <span class="nav-icon"><i class="bi bi-file-earmark-text"></i></span>
-            <span>Quản lý bài viết</span>
+        <a href="/libertylaocai/admin/reports.php" class="nav-item" data-page="reports">
+            <span class="nav-icon"><i class="bi bi-graph-up"></i></span>
+            <span>Báo cáo</span>
         </a>
         <a href="/libertylaocai/admin/settings.php" class="nav-item" data-page="settings">
             <span class="nav-icon"><i class="bi bi-gear"></i></span>
