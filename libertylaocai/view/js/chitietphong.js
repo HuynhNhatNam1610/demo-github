@@ -984,7 +984,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.documentElement.style.scrollBehavior = "smooth";
   const priceElements = document.querySelectorAll(
-    ".current-price, .room-card-price, .price-total span:last-child"
+    ".current-price, .price-total span:last-child"
   );
   priceElements.forEach((element) => {
     const price = element.textContent.replace(/\D/g, "");

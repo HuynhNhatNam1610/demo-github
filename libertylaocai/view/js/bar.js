@@ -451,7 +451,9 @@ function updateReviews(data) {
     const bar = document.createElement("div");
     bar.className = "rating-bar";
     bar.innerHTML = `
-      <span class="rating-label">${i} sao</span>
+      <span class="rating-label">${i}  ${
+      languageId == 1 ? "sao" : "stars"
+    }</span>
       <div class="bar-container">
           <div class="bar-fill" style="width: ${percentage}%"></div>
       </div>
