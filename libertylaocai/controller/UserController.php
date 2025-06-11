@@ -1123,3 +1123,131 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
+//quanlytour (liem)
+// Xử lý POST requests cho quản lý tour
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
+
+    try {
+        // Cập nhật thông tin tour
+        if (isset($_POST['action']) && $_POST['action'] === 'update_tour') {
+            $id_dichvu = (int)$_POST['id_dichvu'];
+            $title_vi = trim($_POST['title_vi']);
+            $title_en = trim($_POST['title_en']);
+            $price = trim($_POST['price']);
+
+            $result = updateTour($conn, $id_dichvu, $title_vi, $title_en, $price);
+            echo json_encode($result);
+            exit;
+        }
+
+        // Thêm ảnh
+        if (isset($_POST['action']) && $_POST['action'] === 'add_image') {
+            $id_dichvu = (int)$_POST['id_dichvu'];
+            $id_topic = (int)$_POST['id_topic'];
+            $is_primary = isset($_POST['is_primary']) ? (int)$_POST['is_primary'] : 0;
+            $images = $_FILES['images'] ?? ['name' => [], 'error' => []];
+
+            $result = addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images);
+            echo json_encode($result);
+            exit;
+        }
+
+        // Xóa ảnh
+        if (isset($_POST['action']) && $_POST['action'] === 'delete_image') {
+            $id_image = (int)$_POST['id_image'];
+            $image_name = trim($_POST['image_name']);
+
+            $result = deleteTourImage($conn, $id_image, $image_name);
+            echo json_encode($result);
+            exit;
+        }
+
+        // Cập nhật mô tả tour
+        if (isset($_POST['action']) && $_POST['action'] === 'update_description') {
+            $id_dichvu = (int)$_POST['id_dichvu'];
+            $content_vi = trim($_POST['content_vi']);
+            $content_en = trim($_POST['content_en']);
+
+            $result = updateTourDescription($conn, $id_dichvu, $content_vi, $content_en);
+            echo json_encode($result);
+            exit;
+        }
+
+        // Lấy dữ liệu điểm nổi bật
+        if (isset($_POST['action']) && $_POST['action'] === 'get_highlight' && isset($_POST['id_tienich']) && isset($_POST['id_ngonngu'])) {
+            $id_tienich = (int)$_POST['id_tienich'];
+            $id_ngonngu = (int)$_POST['id_ngonngu'];
+
+            $result = getHighlight($conn, $id_tienich, $id_ngonngu);
+            echo json_encode($result);
+            exit;
+        }
+
+        // Lấy dữ liệu lịch trình
+        if (isset($_POST['action']) && $_POST['action'] === 'get_schedule' && isset($_POST['id_lichtrinh']) && isset($_POST['id_ngonngu'])) {
+            $id_lichtrinh = (int)$_POST['id_lichtrinh'];
+            $id_ngonngu = (int)$_POST['id_ngonngu'];
+
+            $result = getSchedule($conn, $id_lichtrinh, $id_ngonngu);
+            echo json_encode($result);
+            exit;
+        }
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => 'Lỗi server: ' . $e->getMessage()]);
+        exit;
+    }
+}
+
+// Lấy dữ liệu cho view
+function getTourData($conn, $id_dichvu, $id_ngonngu) {
+    $data = [
+        'tours' => [],
+        'selected_tour' => null,
+        'images' => [],
+        'tour_description' => null
+    ];
+
+    // Lấy danh sách dịch vụ
+    $sql = "SELECT d.id, dn.title, d.price 
+            FROM dichvu d 
+            JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
+            WHERE dn.id_ngonngu = ? 
+            ORDER BY d.type = 'tour' DESC, d.id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_ngonngu);
+    $stmt->execute();
+    $data['tours'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    if ($id_dichvu > 0) {
+        // Lấy thông tin dịch vụ được chọn
+        $sql = "SELECT d.id, dn.title, d.price 
+                FROM dichvu d 
+                JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
+                WHERE d.id = ? AND dn.id_ngonngu = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $id_dichvu, $id_ngonngu);
+        $stmt->execute();
+        $data['selected_tour'] = $stmt->get_result()->fetch_assoc();
+
+        // Lấy danh sách ảnh
+        $sql = "SELECT id, image, is_primary FROM anhdichvu WHERE id_dichvu = ? AND id_topic = ?";
+        $stmt = $conn->prepare($sql);
+        $id_topic = 3;
+        $stmt->bind_param("ii", $id_dichvu, $id_topic);
+        $stmt->execute();
+        $data['images'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        // Lấy mô tả dịch vụ
+        $sql = "SELECT content 
+                FROM motatour 
+                WHERE id_dichvu = ? AND id_ngonngu = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $id_dichvu, $id_ngonngu);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data['tour_description'] = $result->num_rows > 0 ? $result->fetch_assoc() : null;
+    }
+
+    return $data;
+}
