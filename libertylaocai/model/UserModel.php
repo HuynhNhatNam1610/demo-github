@@ -2979,3 +2979,243 @@ function bulkUpdateRoomStatus($conn, $status, $room_ids)
         return ['status' => 'error', 'message' => $e->getMessage()];
     }
 }
+// quanlytour (liem)
+
+function uploadImage1($file, $uploadDir = '../../view/img/') {
+    // Đảm bảo thư mục tồn tại
+    if (!is_dir($uploadDir)) {
+        if (!mkdir($uploadDir, 0777, true)) {
+            error_log("Failed to create directory: $uploadDir");
+            return false;
+        }
+    }
+    
+    // Kiểm tra quyền ghi
+    if (!is_writable($uploadDir)) {
+        error_log("Directory not writable: $uploadDir");
+        return false;
+    }
+    
+    // Tạo tên file
+    $fileName = time() . '_' . basename($file['name']);
+    $targetPath = $uploadDir . $fileName;
+    
+    // Kiểm tra loại file
+    $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!in_array($file['type'], $allowed_types)) {
+        error_log("Invalid file type: {$file['type']}");
+        return false;
+    }
+    
+    // Kiểm tra kích thước file
+    if ($file['size'] > 5 * 1024 * 1024) {
+        error_log("File too large: {$file['size']} bytes");
+        return false;
+    }
+    
+    // Kiểm tra file tạm
+    if (!is_uploaded_file($file['tmp_name'])) {
+        error_log("Invalid temporary file: {$file['tmp_name']}");
+        return false;
+    }
+    
+    // Di chuyển file
+    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        error_log("File uploaded successfully: $targetPath");
+        return $fileName;
+    } else {
+        error_log("Failed to move file to: $targetPath. Error: " . error_get_last()['message']);
+        return false;
+    }
+}
+
+function updateTour($conn, $id_dichvu, $title_vi, $title_en, $price) {
+    // Kiểm tra và xử lý giá
+    if (preg_match('/^\d+[.,]?\d*$/', $price)) {
+        // Nếu giá trị là số (có thể chứa dấu phẩy hoặc chấm)
+        $price_value = (float)str_replace([',', '.'], '', $price);
+        $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("di", $price_value, $id_dichvu);
+    } else {
+        // Nếu giá trị là chuỗi bất kỳ (bao gồm "Liên hệ", "Miễn phí", v.v.)
+        $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $price, $id_dichvu);
+    }
+    $stmt->execute();
+
+    // Cập nhật tiêu đề tiếng Việt
+    $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_dichvu);
+    $stmt->execute();
+    $check_row = $stmt->get_result()->fetch_assoc();
+
+    if ($check_row['count'] > 0) {
+        $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $title_vi, $id_dichvu);
+    } else {
+        $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 1, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $id_dichvu, $title_vi);
+    }
+    $stmt->execute();
+
+    // Cập nhật tiêu đề tiếng Anh
+    $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_dichvu);
+    $stmt->execute();
+    $check_row = $stmt->get_result()->fetch_assoc();
+
+    if ($check_row['count'] > 0) {
+        $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 2";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $title_en, $id_dichvu);
+    } else {
+        $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 2, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $id_dichvu, $title_en);
+    }
+    $stmt->execute();
+
+    return ['success' => true, 'message' => 'Cập nhật thông tin tour thành công!'];
+}
+
+function addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images) {
+    // Kiểm tra id_dichvu và id_topic
+    $check_dichvu = $conn->prepare("SELECT id FROM dichvu WHERE id = ?");
+    $check_dichvu->bind_param("i", $id_dichvu);
+    $check_dichvu->execute();
+    if ($check_dichvu->get_result()->num_rows === 0) {
+        return ['success' => false, 'message' => 'ID dịch vụ không hợp lệ'];
+    }
+
+    $check_topic = $conn->prepare("SELECT id FROM thuvien WHERE id = ?");
+    $check_topic->bind_param("i", $id_topic);
+    $check_topic->execute();
+    if ($check_topic->get_result()->num_rows === 0) {
+        return ['success' => false, 'message' => 'ID topic không hợp lệ'];
+    }
+
+    // Kiểm tra xem đã có ảnh chính cho id_dichvu này chưa
+    if ($is_primary) {
+        $check_primary = $conn->prepare("SELECT id FROM anhdichvu WHERE id_dichvu = ? AND is_primary = 1");
+        $check_primary->bind_param("i", $id_dichvu);
+        $check_primary->execute();
+        if ($check_primary->get_result()->num_rows > 0) {
+            return ['success' => false, 'message' => 'Chỉ được phép có một ảnh chính cho mỗi dịch vụ!'];
+        }
+    }
+
+    if (!empty($images['name'][0])) {
+        $total_files = count($images['name']);
+        $success_count = 0;
+
+        for ($i = 0; $i < $total_files; $i++) {
+            if ($images['error'][$i] === UPLOAD_ERR_OK) {
+                $file = [
+                    'name' => $images['name'][$i],
+                    'type' => $images['type'][$i],
+                    'tmp_name' => $images['tmp_name'][$i],
+                    'error' => $images['error'][$i],
+                    'size' => $images['size'][$i]
+                ];
+
+                $imageName = uploadImage1($file);
+                if ($imageName) {
+                    // Nếu ảnh được chọn là ảnh chính, đặt các ảnh khác thành không chính
+                    if ($is_primary && $success_count === 0) {
+                        $reset_primary = $conn->prepare("UPDATE anhdichvu SET is_primary = 0 WHERE id_dichvu = ?");
+                        $reset_primary->bind_param("i", $id_dichvu);
+                        $reset_primary->execute();
+                    }
+
+                    $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, ?, ?, ?)");
+                    $current_is_primary = ($is_primary && $success_count === 0) ? 1 : 0;
+                    $stmt->bind_param("siii", $imageName, $current_is_primary, $id_dichvu, $id_topic);
+                    if ($stmt->execute()) {
+                        $success_count++;
+                    } else {
+                        error_log("SQL Error: " . $stmt->error);
+                    }
+                    $stmt->close();
+                }
+            }
+        }
+
+        if ($success_count > 0) {
+            return ['success' => true, 'message' => "Thêm $success_count ảnh thành công!"];
+        } else {
+            return ['success' => false, 'message' => 'Không có ảnh nào được thêm thành công'];
+        }
+    } else {
+        return ['success' => false, 'message' => 'Vui lòng chọn ít nhất một file ảnh'];
+    }
+}
+
+
+function deleteTourImage($conn, $id_image, $image_name) {
+    $upload_dir = '../../view/img/';
+    $file_path = $upload_dir . $image_name;
+
+    // Xóa file khỏi server
+    if (file_exists($file_path)) {
+        unlink($file_path);
+    }
+
+    // Xóa bản ghi khỏi cơ sở dữ liệu
+    $stmt = $conn->prepare("DELETE FROM anhdichvu WHERE id = ?");
+    $stmt->bind_param("i", $id_image);
+    if ($stmt->execute()) {
+        return ['success' => true, 'message' => 'Xóa ảnh thành công!'];
+    } else {
+        return ['success' => false, 'message' => 'Lỗi khi xóa ảnh: ' . $conn->error];
+    }
+}
+
+function updateTourDescription($conn, $id_dichvu, $content_vi, $content_en) {
+    // Cập nhật hoặc thêm tiếng Việt
+    $sql = "SELECT id FROM motatour WHERE id_dichvu = ? AND id_ngonngu = 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_dichvu);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $sql = "UPDATE motatour SET content = ? WHERE id_dichvu = ? AND id_ngonngu = 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $content_vi, $id_dichvu);
+    } else {
+        $sql = "INSERT INTO motatour (id_dichvu, id_ngonngu, content) VALUES (?, 1, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $id_dichvu, $content_vi);
+    }
+    if (!$stmt->execute()) {
+        return ['success' => false, 'message' => 'Lỗi khi cập nhật/thêm mô tả tiếng Việt: ' . $conn->error];
+    }
+
+    // Cập nhật hoặc thêm tiếng Anh
+    $sql = "SELECT id FROM motatour WHERE id_dichvu = ? AND id_ngonngu = 2";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_dichvu);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $sql = "UPDATE motatour SET content = ? WHERE id_dichvu = ? AND id_ngonngu = 2";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $content_en, $id_dichvu);
+    } else {
+        $sql = "INSERT INTO motatour (id_dichvu, id_ngonngu, content) VALUES (?, 2, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $id_dichvu, $content_en);
+    }
+    if ($stmt->execute()) {
+        return ['success' => true, 'message' => 'Cập nhật mô tả tour thành công!'];
+    } else {
+        return ['success' => false, 'message' => 'Lỗi khi cập nhật/thêm mô tả tiếng Anh: ' . $conn->error];
+    }
+}
