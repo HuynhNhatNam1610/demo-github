@@ -236,14 +236,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['head_banner'] = getSelectedBanner('thu-vien', 'gallery-banner');
         } elseif ($categoryCode === 'dat-phong') {
             $_SESSION['head_banner'] = getSelectedBanner('dat-phong', 'hero-content');
+        } elseif ($categoryCode === 'dich-vu') {
+            $_SESSION['head_banner'] = getSelectedBanner('dichvu', 'hero-background');
         }
         header("location: /libertylaocai/$categoryCode");
         exit();
     }
 
-    if(isset($_POST['datlichngay'])){
+    if (isset($_POST['datlichngay'])) {
         $_SESSION['head_banner'] = getSelectedBanner('event', 'event-banner');
-         header("location: /libertylaocai/event");
+        header("location: /libertylaocai/event");
         exit();
     }
 
@@ -292,13 +294,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['restaurant_images'] = getRestaurantImages();
         } elseif ($subcategory_code === 'sky-bar') {             /////// bar
 
-        } elseif ($subcategory_code === 'dua-don') {            ////duadonsanbay
-
-        } elseif ($subcategory_code === 'tour-sapa') {          ///tour
-
-        } elseif ($subcategory_code === 'tour-bac-ha') {
-        } elseif ($subcategory_code === 'tour-y-ty') {
-        } elseif ($subcategory_code === 'tour-ha-khau') {
+        } elseif ($subcategory_code === 'dua-don' || $subcategory_code === 'tour-sapa' || $subcategory_code === 'tour-bac-ha' || $subcategory_code === 'tour-y-ty' || $subcategory_code === 'tour-ha-khau') {            ////duadonsanbay
+            if ($subcategory_code === 'dua-don') {
+                $id_dichvu = 2;
+            } elseif ($subcategory_code === 'tour-sapa') {
+                $id_dichvu = 10;
+            } elseif ($subcategory_code === 'tour-bac-ha') {
+                $id_dichvu = 3;
+            } elseif ($subcategory_code === 'tour-y-ty') {
+                $id_dichvu = 4;
+            } elseif ($subcategory_code === 'tour-ha-khau') {
+                $id_dichvu = 5;
+            }
+            $service = getServiceById($languageId, $id_dichvu);
+            $_SESSION['id_dichvu'] = $id_dichvu;
+            header("location: /libertylaocai/dich-vu/" . to_short_slug($service['info']['title'], 5));
+            exit;
         }
 
         header("location: /libertylaocai/$subcategory_code");
@@ -606,22 +617,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // if (isset($_POST['id_uudai'])) {
-    //     $id_uudai = $_POST['id_uudai'];
-    //     $getPromotionById = getPromotionById(1, $id_uudai);
-    //     $_SESSION['id_uudai'] = $id_uudai;
-    //     $_SESSION['head_banner'] = getSelectedBanner('saledetail', 'saledetail-banner');
-    //     header("location: /libertylaocai/khuyen-mai/" . to_short_slug($getPromotionById['title'], 5));
-    // }
+    if (isset($_POST['comment_service']) && $_POST['comment_service'] === 'true') {
+        $name = $_POST['reviewer-name'] ?? '';
+        $email = $_POST['reviewer-email'] ?? '';
+        $content = $_POST['review-content'] ?? '';
+        $rating = $_POST['rating'] ?? 0;
+        $id_service = $_POST['id_service'] ?? '';
 
-    // //Ưu đãi liên quan
-    // if (isset($_POST['other_promotion_id'])) {
-    //     $id_uudai = $_POST['other_promotion_id'];
-    //     $getPromotionById = getPromotionById(1, $id_uudai);
-    //     $_SESSION['id_uudai'] = $id_uudai;
-    //     $_SESSION['head_banner'] = getSelectedBanner('saledetail', 'saledetail-banner');
-    //     header("location: /libertylaocai/khuyen-mai/" . to_short_slug($getPromotionById['title'], 5));
-    // }
+        // if (!$name || !$email || !$content || !$rating || !$id_service) {
+        //     echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
+        //     exit;
+        // }
+
+        if (insertServiceComment($id_service, $name, $email, $content, $rating)) {
+            echo json_encode(['status' => 'success', 'message' => 'Đánh giá đã được gửi thành công']);
+            // exit;
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Lỗi khi lưu đánh giá']);
+            // exit;
+        }
+    }
+
     // Nhận id ưu đãi (có thể đến từ id_uudai hoặc other_promotion_id)
     if (isset($_POST['id_uudai']) || isset($_POST['other_promotion_id'])) {
         // Ưu tiên id_uudai, còn không thì lấy other_promotion_id
@@ -643,22 +659,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    // if (isset($_POST['id_tintuc'])) {
-    //     $id_tintuc = $_POST['id_tintuc'];
-    //     $getNewById = getNewById(1, $id_tintuc);
-    //     $_SESSION['id_tintuc'] = $id_tintuc;
-    //     $_SESSION['head_banner'] = getSelectedBanner('tintuc-detail', 'tintuc-detail-banner');
-    //     header("location: /libertylaocai/tin-tuc/" . to_short_slug($getNewById['title'], 5));
-    // }
-
-    // //Ưu đãi liên quan
-    // if (isset($_POST['other_news_id'])) {
-    //     $id_tintuc = $_POST['other_news_id'];
-    //     $getNewById = getNewById(1, $id_tintuc);
-    //     $_SESSION['id_tintuc'] = $id_tintuc;
-    //     $_SESSION['head_banner'] = getSelectedBanner('tintuc-detail', 'tintuc-detail-banner');
-    //     header("location: /libertylaocai/tin-tuc/" . to_short_slug($getNewById['title'], 5));
-    // }
     // Nhận id tin tức (có thể đến từ id_tintuc hoặc other_news_id)
     if (isset($_POST['id_tintuc']) || isset($_POST['other_news_id'])) {
         // Ưu tiên id_tintuc, nếu không có thì dùng other_news_id
@@ -1122,7 +1122,253 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit;
     }
+
+    if (isset($_POST['lienhetour'])) {
+        $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+        $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
+        $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+        $service = isset($_POST['service']) ? trim($_POST['service']) : '';
+        $message = isset($_POST['message']) ? trim($_POST['message']) : '';
+        $lienhe = isset($_POST['lienhetour']) && $_POST['lienhetour'] === 'true';
+
+        // Validate input
+        if (empty($name) || empty($phone) || empty($email) || empty($service) || empty($message)) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $languageId == 1 ? 'Vui lòng điền đầy đủ thông tin!' : 'Please fill in all required fields!'
+            ]);
+            exit;
+        }
+
+        if (!$lienhe) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $languageId == 1 ? 'Yêu cầu không hợp lệ!' : 'Invalid request!'
+            ]);
+            exit;
+        }
+
+        $phone_clean = preg_replace('/\s+/', '', $phone);
+        if (!preg_match('/^0[0-9]{9,10}$/', $phone_clean)) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $languageId == 1 ? 'Số điện thoại không hợp lệ (phải bắt đầu bằng 0, 10-11 số)!' : 'Invalid phone number (must start with 0, 10-11 digits)!'
+            ]);
+            exit;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $languageId == 1 ? 'Email không hợp lệ!' : 'Invalid email address!'
+            ]);
+            exit;
+        }
+
+        if (strlen($name) > 255 || strlen($email) > 255 || strlen($phone) > 20 || strlen($service) > 255) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => $languageId == 1 ? 'Dữ liệu nhập vào quá dài!' : 'Input data is too long!'
+            ]);
+            exit;
+        }
+
+        // Check if customer exists or create new
+        $customerId = getCustomerIdByEmail($email);
+        if (!$customerId) {
+            $customerId = createCustomer($name, $phone, $email);
+        }
+
+        if (insertContactRequest($customerId, $service, $message)) {
+            echo json_encode([
+                'success' => true,
+                'message' => $languageId == 1 ? 'Yêu cầu của bạn đã được gửi thành công!' : 'Your request has been sent successfully!'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => $languageId == 1 ? 'Có lỗi xảy ra, vui lòng thử lại!' : 'An error occurred, please try again!'
+            ]);
+        }
+
+        exit;
+    }
+
+    // Thêm bình luận
+    if ($action === 'add') {
+        $content = $_POST['content'] ?? '';
+        $rate = (int)($_POST['rate'] ?? 0);
+        $type = $_POST['type'] ?? '';
+        $id_dichvu = isset($_POST['id_dichvu']) ? (int)$_POST['id_dichvu'] : null;
+        $id_nhahang = isset($_POST['id_nhahang']) ? (int)$_POST['id_nhahang'] : null;
+        $id_loaiphong = isset($_POST['id_loaiphong']) ? (int)$_POST['id_loaiphong'] : null;
+
+        if (isset($_POST['id_khachhang']) && $_POST['id_khachhang']) {
+            $id_khachhang = (int)$_POST['id_khachhang'];
+        } else {
+            $name = $_POST['name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            if (empty($name) || empty($email)) {
+                echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin khách hàng']);
+                exit;
+            }
+            $id_khachhang = addCustomer($conn, $name, $email);
+            if (!$id_khachhang) {
+                echo json_encode(['status' => 'error', 'message' => 'Lỗi khi thêm khách hàng']);
+                exit;
+            }
+        }
+
+        $result = addComment($conn, $content, $rate, $type, $id_khachhang, $id_dichvu, $id_nhahang, $id_loaiphong);
+        echo json_encode($result);
+        exit;
+    }
+
+    // Sửa bình luận
+    if ($action === 'edit') {
+        $id = (int)($_POST['id'] ?? 0);
+        $content = $_POST['content'] ?? '';
+        $rate = (int)($_POST['rate'] ?? 0);
+
+        if (empty($id) || empty($content) || empty($rate)) {
+            echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
+            exit;
+        }
+
+        $result = updateComment($conn, $id, $content, $rate);
+        echo json_encode($result);
+        exit;
+    }
+
+    // Ẩn/hiện nhiều bình luận
+    if ($action === 'bulk_toggle_active') {
+        $ids = isset($_POST['ids']) ? array_map('intval', $_POST['ids']) : [];
+        $result = bulkToggleComments($conn, $ids);
+        echo json_encode($result);
+        exit;
+    }
+
+    // Xóa nhiều bình luận
+    if ($action === 'bulk_delete') {
+        $ids = isset($_POST['ids']) ? array_map('intval', $_POST['ids']) : [];
+        $result = bulkDeleteComments($conn, $ids);
+        echo json_encode($result);
+        exit;
+    }
+
+    // Tải dữ liệu bình luận
+    if ($action === 'load_data') {
+        $tab = $_POST['tab'] ?? '';
+        $subtab = $_POST['subtab'] ?? '';
+        $search = $_POST['search'] ?? '';
+        $sort = $_POST['sort'] ?? 'newest';
+        $status = $_POST['status'] ?? '';
+        $date = $_POST['date'] ?? '';
+        $rate = $_POST['rate'] ?? '';
+        $page = (int)($_POST['page'] ?? 1);
+
+        $result = loadComments($conn, $tab, $subtab, $search, $sort, $status, $date, $rate, $page);
+        
+        if ($result['status'] === 'success') {
+            $html = '';
+            foreach ($result['comments'] as $row) {
+                $html .= "<tr data-name='{$row['name']}' data-email='{$row['email']}' data-date='" . date('Y-m-d', strtotime($row['create_at'])) . "' data-active='{$row['active']}'>
+                    <td><input type='checkbox' class='select-comment' value='{$row['id']}'></td>
+                    <td>{$row['id']}</td>
+                    <td>{$row['content']}</td>
+                    <td>";
+                for ($i = 1; $i <= 5; $i++) {
+                    $html .= $i <= $row['rate'] ? '★' : '☆';
+                }
+                $html .= "</td>
+                    <td>{$row['name']} ({$row['email']})</td>";
+                
+                if ($tab == 'dichvu') {
+                    $html .= "<td>{$row['title']}</td>";
+                } elseif ($tab == 'phong') {
+                    $html .= "<td>{$row['phong_name']}</td>";
+                }
+                
+                $html .= "<td>" . date('d/m/Y H:i', strtotime($row['create_at'])) . "</td>
+                    <td>" . ($row['active'] ? 
+                        '<span class="status-active" style="background-color: #d4edda; color: #155724; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Hiện</span>' : 
+                        '<span class="status-inactive" style="background-color: #f8d7da; color: #721c24; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Ẩn</span>') . "</td>
+                    <td>
+                        <button class='btn-edit edit' data-id='{$row['id']}' data-content='" . htmlspecialchars($row['content']) . "' data-rate='{$row['rate']}'>Sửa</button>
+                    </td>
+                </tr>";
+            }
+
+            if (empty($result['comments'])) {
+                $html = "<tr><td colspan='9' style='text-align: center;'>Không có bình luận nào để hiển thị.</td></tr>";
+            }
+
+            $pagination_html = '';
+            if ($result['total_pages'] > 1) {
+                $pagination_html = '<div class="pagination">';
+                
+                if ($page > 1) {
+                    $pagination_html .= '<button class="pagination-btn" data-page="' . ($page - 1) . '">‹ Trước</button>';
+                }
+                
+                $start_page = max(1, $page - 2);
+                $end_page = min($result['total_pages'], $page + 2);
+                
+                if ($start_page > 1) {
+                    $pagination_html .= '<button class="pagination-btn" data-page="1">1</button>';
+                    if ($start_page > 2) {
+                        $pagination_html .= '<span class="pagination-dots">...</span>';
+                    }
+                }
+                
+                for ($i = $start_page; $i <= $end_page; $i++) {
+                    $active_class = ($i == $page) ? 'active' : '';
+                    $pagination_html .= '<button class="pagination-btn ' . $active_class . '" data-page="' . $i . '">' . $i . '</button>';
+                }
+                
+                if ($end_page < $result['total_pages']) {
+                    if ($end_page < $result['total_pages'] - 1) {
+                        $pagination_html .= '<span class="pagination-dots">...</span>';
+                    }
+                    $pagination_html .= '<button class="pagination-btn" data-page="' . $result['total_pages'] . '">' . $result['total_pages'] . '</button>';
+                }
+                
+                if ($page < $result['total_pages']) {
+                    $pagination_html .= '<button class="pagination-btn" data-page="' . ($page + 1) . '">Tiếp ›</button>';
+                }
+                
+                $pagination_html .= '</div>';
+            }
+
+            echo json_encode([
+                'status' => 'success',
+                'html' => $html,
+                'pagination' => $pagination_html,
+                'total_records' => $result['total_records'],
+                'current_page' => $result['current_page'],
+                'total_pages' => $result['total_pages']
+            ]);
+        } else {
+            echo json_encode($result);
+        }
+        exit;
+    }
+
+    if (isset($_POST['chitietdichvu'])) {
+        $id_dichvu = $_POST['chitietdichvu'];
+        $service = getServiceById($languageId, $id_dichvu);
+        $_SESSION['id_dichvu'] = $id_dichvu;
+        header("location: /libertylaocai/dich-vu/" . to_short_slug($service['info']['title'], 5));
+    }
 }
+
+
+
 //quanlytour (liem)
 // Xử lý POST requests cho quản lý tour
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -1173,81 +1419,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode($result);
             exit;
         }
-
-        // Lấy dữ liệu điểm nổi bật
-        if (isset($_POST['action']) && $_POST['action'] === 'get_highlight' && isset($_POST['id_tienich']) && isset($_POST['id_ngonngu'])) {
-            $id_tienich = (int)$_POST['id_tienich'];
-            $id_ngonngu = (int)$_POST['id_ngonngu'];
-
-            $result = getHighlight($conn, $id_tienich, $id_ngonngu);
-            echo json_encode($result);
-            exit;
-        }
-
-        // Lấy dữ liệu lịch trình
-        if (isset($_POST['action']) && $_POST['action'] === 'get_schedule' && isset($_POST['id_lichtrinh']) && isset($_POST['id_ngonngu'])) {
-            $id_lichtrinh = (int)$_POST['id_lichtrinh'];
-            $id_ngonngu = (int)$_POST['id_ngonngu'];
-
-            $result = getSchedule($conn, $id_lichtrinh, $id_ngonngu);
-            echo json_encode($result);
-            exit;
-        }
     } catch (Exception $e) {
         echo json_encode(['success' => false, 'message' => 'Lỗi server: ' . $e->getMessage()]);
         exit;
     }
 }
-
-// Lấy dữ liệu cho view
-function getTourData($conn, $id_dichvu, $id_ngonngu) {
-    $data = [
-        'tours' => [],
-        'selected_tour' => null,
-        'images' => [],
-        'tour_description' => null
-    ];
-
-    // Lấy danh sách dịch vụ
-    $sql = "SELECT d.id, dn.title, d.price 
-            FROM dichvu d 
-            JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
-            WHERE dn.id_ngonngu = ? 
-            ORDER BY d.type = 'tour' DESC, d.id";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id_ngonngu);
-    $stmt->execute();
-    $data['tours'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-    if ($id_dichvu > 0) {
-        // Lấy thông tin dịch vụ được chọn
-        $sql = "SELECT d.id, dn.title, d.price 
-                FROM dichvu d 
-                JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
-                WHERE d.id = ? AND dn.id_ngonngu = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $id_dichvu, $id_ngonngu);
-        $stmt->execute();
-        $data['selected_tour'] = $stmt->get_result()->fetch_assoc();
-
-        // Lấy danh sách ảnh
-        $sql = "SELECT id, image, is_primary FROM anhdichvu WHERE id_dichvu = ? AND id_topic = ?";
-        $stmt = $conn->prepare($sql);
-        $id_topic = 3;
-        $stmt->bind_param("ii", $id_dichvu, $id_topic);
-        $stmt->execute();
-        $data['images'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-        // Lấy mô tả dịch vụ
-        $sql = "SELECT content 
-                FROM motatour 
-                WHERE id_dichvu = ? AND id_ngonngu = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $id_dichvu, $id_ngonngu);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $data['tour_description'] = $result->num_rows > 0 ? $result->fetch_assoc() : null;
-    }
-
-    return $data;
-}
+//quanlybinhluan
