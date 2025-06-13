@@ -1,241 +1,6 @@
 <?php
-require_once '../../model/config/connect.php';
-
-// Xử lý các yêu cầu AJAX
-if (isset($_POST['action'])) {
-    $action = $_POST['action'];
-
-    // Thêm bình luận (giữ nguyên)
-    if ($action == 'add') {
-        $content = $_POST['content'];
-        $rate = $_POST['rate'];
-        $type = $_POST['type'];
-        $id_dichvu = isset($_POST['id_dichvu']) ? $_POST['id_dichvu'] : null;
-        $id_nhahang = isset($_POST['id_nhahang']) ? $_POST['id_nhahang'] : null;
-        $id_loaiphong = isset($_POST['id_loaiphong']) ? $_POST['id_loaiphong'] : null;
-
-        if (isset($_POST['id_khachhang']) && $_POST['id_khachhang']) {
-            $id_khachhang = $_POST['id_khachhang'];
-        } else {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ss", $name, $email);
-            $stmt->execute();
-            $id_khachhang = $conn->insert_id;
-        }
-
-        $sql = "INSERT INTO binhluan (content, create_at, rate, active, id_khachhang) 
-                VALUES (?, NOW(), ?, 1, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sii", $content, $rate, $id_khachhang);
-        $stmt->execute();
-        $id_binhluan = $conn->insert_id;
-
-        if ($type == 'bar') {
-            $sql = "INSERT INTO binhluan_bar (id_binhluan) VALUES (?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $id_binhluan);
-            $stmt->execute();
-        } elseif ($type == 'dichvu' && $id_dichvu) {
-            $sql = "INSERT INTO binhluan_dichvu (id_dichvu, id_binhluan) VALUES (?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ii", $id_dichvu, $id_binhluan);
-            $stmt->execute();
-        } elseif ($type == 'nhahang') {
-            $sql = "INSERT INTO binhluan_nhahang (id_binhluan) VALUES (?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $id_binhluan);
-            $stmt->execute();
-        } elseif ($type == 'phong' && $id_loaiphong) {
-            $sql = "INSERT INTO loaiphong_binhluan (id_binhluan, id_loaiphong) VALUES (?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ii", $id_binhluan, $id_loaiphong);
-            $stmt->execute();
-        }
-
-        echo json_encode(['status' => 'success', 'message' => 'Thêm bình luận thành công!']);
-        exit;
-    }
-
-    // Ẩn/hiện nhiều bình luận
-    if ($action == 'bulk_toggle_active') {
-        $ids = isset($_POST['ids']) ? $_POST['ids'] : [];
-        $active = $_POST['active'];
-        if (!empty($ids)) {
-            $ids_placeholder = implode(',', array_fill(0, count($ids), '?'));
-            $sql = "UPDATE binhluan SET active = ? WHERE id IN ($ids_placeholder)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param(str_repeat('i', count($ids) + 1), $active, ...$ids);
-            $stmt->execute();
-            echo json_encode(['status' => 'success', 'message' => 'Cập nhật trạng thái thành công!']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Vui lòng chọn ít nhất một bình luận!']);
-        }
-        exit;
-    }
-
-    // Xóa nhiều bình luận
-    if ($action == 'bulk_delete') {
-        $ids = isset($_POST['ids']) ? $_POST['ids'] : [];
-        if (!empty($ids)) {
-            $ids_placeholder = implode(',', array_fill(0, count($ids), '?'));
-
-            // Xóa từ bảng binhluan_bar
-            $sql = "DELETE FROM binhluan_bar WHERE id_binhluan IN ($ids_placeholder)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param(str_repeat('i', count($ids)), ...$ids);
-            $stmt->execute();
-
-            // Xóa từ bảng binhluan_dichvu
-            $sql = "DELETE FROM binhluan_dichvu WHERE id_binhluan IN ($ids_placeholder)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param(str_repeat('i', count($ids)), ...$ids);
-            $stmt->execute();
-
-            // Xóa từ bảng binhluan_nhahang
-            $sql = "DELETE FROM binhluan_nhahang WHERE id_binhluan IN ($ids_placeholder)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param(str_repeat('i', count($ids)), ...$ids);
-            $stmt->execute();
-
-            // Xóa từ bảng loaiphong_binhluan
-            $sql = "DELETE FROM loaiphong_binhluan WHERE id_binhluan IN ($ids_placeholder)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param(str_repeat('i', count($ids)), ...$ids);
-            $stmt->execute();
-
-            // Xóa từ bảng binhluan
-            $sql = "DELETE FROM binhluan WHERE id IN ($ids_placeholder)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param(str_repeat('i', count($ids)), ...$ids);
-            $stmt->execute();
-
-            echo json_encode(['status' => 'success', 'message' => 'Xóa các bình luận thành công!']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Vui lòng chọn ít nhất một bình luận!']);
-        }
-        exit;
-    }
-
-    // Sửa bình luận
-    if ($action == 'edit') {
-        $id = $_POST['id'];
-        $content = $_POST['content'];
-        $rate = $_POST['rate'];
-        $sql = "UPDATE binhluan SET content = ?, rate = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sii", $content, $rate, $id);
-        $stmt->execute();
-        echo json_encode(['status' => 'success', 'message' => 'Cập nhật bình luận thành công!']);
-        exit;
-    }
-
-    // Tải lại dữ liệu cho tab
-    if ($action == 'load_data') {
-        $tab = $_POST['tab'];
-        $subtab = isset($_POST['subtab']) ? $_POST['subtab'] : '';
-        $search = isset($_POST['search']) ? $_POST['search'] : '';
-        $sort = isset($_POST['sort']) ? $_POST['sort'] : 'newest';
-        $date = isset($_POST['date']) ? $_POST['date'] : '';
-        $status = isset($_POST['status']) ? $_POST['status'] : '';
-
-        $html = '';
-        $where_conditions = [];
-        $params = [];
-
-        if ($search) {
-            $where_conditions[] = "(k.name LIKE ? OR k.email LIKE ?)";
-            $params[] = "%$search%";
-            $params[] = "%$search%";
-        }
-
-        if ($date) {
-            $where_conditions[] = "DATE(b.create_at) = ?";
-            $params[] = $date;
-        }
-
-        if ($status !== '') {
-            $where_conditions[] = "b.active = ?";
-            $params[] = $status;
-        }
-
-        $where_clause = $where_conditions ? "AND " . implode(" AND ", $where_conditions) : "";
-        $order_clause = $sort == 'newest' ? "ORDER BY b.create_at DESC" : "ORDER BY b.create_at ASC";
-
-        if ($tab == 'dichvu') {
-            $type_filter = $subtab == 'tour' ? 'tour' : 'dichvu';
-            $sql = "SELECT b.id, b.content, b.rate, b.active, b.create_at, k.name, k.email, dn.title 
-                    FROM binhluan b 
-                    JOIN khachhang k ON b.id_khachhang = k.id 
-                    JOIN binhluan_dichvu bd ON b.id = bd.id_binhluan 
-                    JOIN dichvu d ON bd.id_dichvu = d.id 
-                    JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
-                    WHERE d.type = '$type_filter' AND dn.id_ngonngu = 1 $where_clause $order_clause";
-        } elseif ($tab == 'bar') {
-            $sql = "SELECT b.id, b.content, b.rate, b.active, b.create_at, k.name, k.email 
-                    FROM binhluan b 
-                    JOIN khachhang k ON b.id_khachhang = k.id 
-                    JOIN binhluan_bar bb ON b.id = bb.id_binhluan 
-                    WHERE 1=1 $where_clause $order_clause";
-        } elseif ($tab == 'nhahang') {
-            $sql = "SELECT b.id, b.content, b.rate, b.active, b.create_at, k.name, k.email 
-                    FROM binhluan b 
-                    JOIN khachhang k ON b.id_khachhang = k.id 
-                    JOIN binhluan_nhahang bn ON b.id = bn.id_binhluan 
-                    WHERE 1=1 $where_clause $order_clause";
-        } elseif ($tab == 'phong') {
-            $room_id = $subtab == 'phongdon' ? 1 : ($subtab == 'phongdoi' ? 2 : ($subtab == 'phongtriple' ? 3 : 4));
-            $sql = "SELECT b.id, b.content, b.rate, b.active, b.create_at, k.name, k.email, lpn.name AS phong_name 
-                    FROM binhluan b 
-                    JOIN khachhang k ON b.id_khachhang = k.id 
-                    JOIN loaiphong_binhluan lpb ON b.id = lpb.id_binhluan 
-                    JOIN loaiphongnghi lp ON lpb.id_loaiphong = lp.id 
-                    JOIN loaiphongnghi_ngonngu lpn ON lp.id = lpn.id_loaiphongnghi 
-                    WHERE lpn.id_ngonngu = 1 AND lp.id = $room_id $where_clause $order_clause";
-        }
-
-        $stmt = $conn->prepare($sql);
-        if ($params) {
-            $types = str_repeat('s', count($params));
-            $stmt->bind_param($types, ...$params);
-        }
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        while ($row = $result->fetch_assoc()) {
-            $html .= "<tr data-name='{$row['name']}' data-email='{$row['email']}' data-date='" . date('Y-m-d', strtotime($row['create_at'])) . "'>
-                <td><input type='checkbox' class='select-comment' value='{$row['id']}'></td>
-                <td>{$row['id']}</td>
-                <td>{$row['content']}</td>
-                <td>";
-            for ($i = 1; $i <= 5; $i++) {
-                $html .= $i <= $row['rate'] ? '★' : '☆';
-            }
-            $html .= "</td>
-                <td>{$row['name']} ({$row['email']})</td>";
-            
-            if ($tab == 'dichvu') {
-                $html .= "<td>{$row['title']}</td>";
-            } elseif ($tab == 'nhahang') {
-                $html .= "<td>{$row['nhahang_name']}</td>";
-            } elseif ($tab == 'phong') {
-                $html .= "<td>{$row['phong_name']}</td>";
-            }
-            
-            $html .= "<td>" . date('d/m/Y H:i', strtotime($row['create_at'])) . "</td>
-                <td>" . ($row['active'] ? '<span class="status-active">Hiện</span>' : '<span class="status-inactive">Ẩn</span>') . "</td>
-                <td>
-                    <button class='btn-edit edit' data-id='{$row['id']}' data-content='" . htmlspecialchars($row['content']) . "' data-rate='{$row['rate']}'>Sửa</button>
-                </td>
-            </tr>";
-        }
-
-        echo json_encode(['status' => 'success', 'html' => $html]);
-        exit;
-    }
-}
+require_once '../../model/UserModel.php';
+require_once 'session.php';
 ?>
 
 <!DOCTYPE html>
@@ -248,7 +13,7 @@ if (isset($_POST['action'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-        <?php include "sidebar.php"; ?>
+    <?php include "sidebar.php"; ?>
     <div class="admin-container" id="mainContent">
         <div class="header-container">
             <h1>Quản lý bình luận</h1>
@@ -260,7 +25,7 @@ if (isset($_POST['action'])) {
         <!-- Thanh tìm kiếm và bộ lọc -->
         <div class="filter-section">
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên hoặc email khách hàng...">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên, email, nội dung bình luận hoặc dịch vụ...">
                 <button id="searchBtn" class="btn-search">Tìm kiếm</button>
             </div>
             <div class="filters">
@@ -272,6 +37,14 @@ if (isset($_POST['action'])) {
                     <option value="">Tất cả trạng thái</option>
                     <option value="1">Hiển thị</option>
                     <option value="0">Ẩn</option>
+                </select>
+                <select id="rateFilter">
+                    <option value="">Tất cả đánh giá</option>
+                    <option value="1">1 sao</option>
+                    <option value="2">2 sao</option>
+                    <option value="3">3 sao</option>
+                    <option value="4">4 sao</option>
+                    <option value="5">5 sao</option>
                 </select>
                 <input type="date" id="dateFilter">
                 <button id="clearFilter" class="btn-clear">Xóa bộ lọc</button>
@@ -319,6 +92,8 @@ if (isset($_POST['action'])) {
                     </tbody>
                 </table>
             </div>
+            <div class="pagination-info"></div>
+            <div class="pagination-container"></div>
         </div>
 
         <!-- Tab Bar -->
@@ -349,6 +124,8 @@ if (isset($_POST['action'])) {
                     </tbody>
                 </table>
             </div>
+            <div class="pagination-info"></div>
+            <div class="pagination-container"></div>
         </div>
 
         <!-- Tab Nhà hàng -->
@@ -379,6 +156,8 @@ if (isset($_POST['action'])) {
                     </tbody>
                 </table>
             </div>
+            <div class="pagination-info"></div>
+            <div class="pagination-container"></div>
         </div>
 
         <!-- Tab Phòng -->
@@ -426,6 +205,8 @@ if (isset($_POST['action'])) {
                     </tbody>
                 </table>
             </div>
+            <div class="pagination-info"></div>
+            <div class="pagination-container"></div>
         </div>
     </div>
 
