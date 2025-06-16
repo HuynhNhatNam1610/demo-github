@@ -962,14 +962,22 @@ function getImageOrganizedEvents($type_serviced, $limit = null)
     }
 
     // Xây dựng câu truy vấn SQL
+    // $sql = "SELECT 
+    //             skdt.type_serviced,
+    //             askdt.image
+    //         FROM sukiendatochuc skdt
+    //         LEFT JOIN anhsukiendatochuc askdt ON skdt.id = askdt.id_sukiendatochuc
+    //         WHERE skdt.active = 1 AND skdt.type_serviced = ?
+    //         GROUP BY skdt.type_serviced, askdt.image
+    //         ORDER BY skdt.id DESC";
     $sql = "SELECT 
                 skdt.type_serviced,
                 askdt.image
             FROM sukiendatochuc skdt
             LEFT JOIN anhsukiendatochuc askdt ON skdt.id = askdt.id_sukiendatochuc
             WHERE skdt.active = 1 AND skdt.type_serviced = ?
-            GROUP BY skdt.type_serviced, askdt.image
-            ORDER BY skdt.id DESC";
+            AND askdt.image IS NOT NULL
+            ORDER BY RAND()";
 
     // Thêm LIMIT nếu được cung cấp
     if ($limit !== null && is_numeric($limit) && $limit >= 0) {
@@ -1012,18 +1020,96 @@ function getImageOrganizedEvents($type_serviced, $limit = null)
     return $events;
 }
 
-function getConferenceRooms($languageId = null)
+// function getConferenceRooms($languageId = null)
+// {
+//     global $conn;
+//     $rooms = [];
+
+//     // Kiểm tra kết nối cơ sở dữ liệu
+//     if (!$conn) {
+//         error_log("Lỗi: Kết nối cơ sở dữ liệu không tồn tại.");
+//         return $rooms;
+//     }
+
+//     // Xây dựng câu truy vấn SQL
+//     $sql = "SELECT 
+//                 ht.id,
+//                 ht.room_number,
+//                 ht.opacity AS capacity,
+//                 ht.area,
+//                 ht.floor_number,
+//                 htnn.name,
+//                 htnn.description,
+//                 GROUP_CONCAT(DISTINCT CONCAT(gtht.how_long, ':', gtht.price) SEPARATOR '|') AS prices,
+//                 GROUP_CONCAT(DISTINCT aht.image) AS images
+//             FROM hoitruong ht
+//             LEFT JOIN hoitruong_ngonngu htnn ON ht.id = htnn.id_hoitruong
+//             LEFT JOIN giathuehoitruong gtht ON ht.id = gtht.id_hoitruong
+//             LEFT JOIN anhhoitruong aht ON ht.id = aht.id_hoitruong
+//             WHERE htnn.id_ngonngu = ? AND aht.active = 1
+//             GROUP BY ht.id, htnn.name, htnn.description
+//             ORDER BY ht.floor_number ASC";
+
+//     // Chuẩn bị truy vấn
+//     $stmt = mysqli_prepare($conn, $sql);
+//     if (!$stmt) {
+//         error_log("Lỗi chuẩn bị truy vấn getConferenceRooms: " . mysqli_error($conn));
+//         return $rooms;
+//     }
+
+//     // Gán tham số
+//     mysqli_stmt_bind_param($stmt, "i", $languageId);
+
+//     // Thực thi truy vấn
+//     if (!mysqli_stmt_execute($stmt)) {
+//         error_log("Lỗi thực thi truy vấn getConferenceRooms: " . mysqli_stmt_error($stmt));
+//         mysqli_stmt_close($stmt);
+//         return $rooms;
+//     }
+
+//     // Lấy kết quả
+//     $result = mysqli_stmt_get_result($stmt);
+//     while ($row = mysqli_fetch_assoc($result)) {
+//         // Xử lý giá thuê
+//         $prices = [];
+//         if ($row['prices']) {
+//             foreach (explode('|', $row['prices']) as $price) {
+//                 list($how_long, $price_value) = explode(':', $price);
+//                 $prices[$how_long] = $price_value;
+//             }
+//         }
+
+//         // Xử lý danh sách ảnh
+//         $images = $row['images'] ? explode(',', $row['images']) : ['default-room-image.jpg'];
+
+//         $rooms[] = [
+//             'id' => $row['id'],
+//             'room_number' => $row['room_number'],
+//             'capacity' => $row['capacity'],
+//             'area' => $row['area'],
+//             'floor_number' => $row['floor_number'],
+//             'name' => $row['name'],
+//             'description' => $row['description'],
+//             'prices' => $prices,
+//             'images' => $images
+//         ];
+//     }
+
+//     // Đóng statement
+//     mysqli_stmt_close($stmt);
+
+//     return $rooms;
+// }
+function getConferenceRooms($languageId = null, $active = 1)
 {
     global $conn;
     $rooms = [];
 
-    // Kiểm tra kết nối cơ sở dữ liệu
     if (!$conn) {
         error_log("Lỗi: Kết nối cơ sở dữ liệu không tồn tại.");
         return $rooms;
     }
 
-    // Xây dựng câu truy vấn SQL
     $sql = "SELECT 
                 ht.id,
                 ht.room_number,
@@ -1035,43 +1121,38 @@ function getConferenceRooms($languageId = null)
                 GROUP_CONCAT(DISTINCT CONCAT(gtht.how_long, ':', gtht.price) SEPARATOR '|') AS prices,
                 GROUP_CONCAT(DISTINCT aht.image) AS images
             FROM hoitruong ht
-            LEFT JOIN hoitruong_ngonngu htnn ON ht.id = htnn.id_hoitruong
+            LEFT JOIN hoitruong_ngonngu htnn ON ht.id = htnn.id_hoitruong AND htnn.id_ngonngu = ?
             LEFT JOIN giathuehoitruong gtht ON ht.id = gtht.id_hoitruong
-            LEFT JOIN anhhoitruong aht ON ht.id = aht.id_hoitruong
-            WHERE htnn.id_ngonngu = ? AND aht.active = 1
+            LEFT JOIN anhhoitruong aht ON ht.id = aht.id_hoitruong AND aht.active = 1
+            WHERE ht.active = ?
             GROUP BY ht.id, htnn.name, htnn.description
             ORDER BY ht.floor_number ASC";
 
-    // Chuẩn bị truy vấn
     $stmt = mysqli_prepare($conn, $sql);
     if (!$stmt) {
         error_log("Lỗi chuẩn bị truy vấn getConferenceRooms: " . mysqli_error($conn));
         return $rooms;
     }
 
-    // Gán tham số
-    mysqli_stmt_bind_param($stmt, "i", $languageId);
-
-    // Thực thi truy vấn
+    mysqli_stmt_bind_param($stmt, "ii", $languageId, $active);
     if (!mysqli_stmt_execute($stmt)) {
         error_log("Lỗi thực thi truy vấn getConferenceRooms: " . mysqli_stmt_error($stmt));
         mysqli_stmt_close($stmt);
         return $rooms;
     }
 
-    // Lấy kết quả
     $result = mysqli_stmt_get_result($stmt);
     while ($row = mysqli_fetch_assoc($result)) {
-        // Xử lý giá thuê
         $prices = [];
         if ($row['prices']) {
             foreach (explode('|', $row['prices']) as $price) {
-                list($how_long, $price_value) = explode(':', $price);
-                $prices[$how_long] = $price_value;
+                if (strpos($price, ':') !== false) {
+                    list($how_long, $price_value) = explode(':', $price);
+                    $prices[$how_long] = $price_value;
+                }
             }
         }
 
-        // Xử lý danh sách ảnh
         $images = $row['images'] ? explode(',', $row['images']) : ['default-room-image.jpg'];
 
         $rooms[] = [
@@ -1087,9 +1168,7 @@ function getConferenceRooms($languageId = null)
         ];
     }
 
-    // Đóng statement
     mysqli_stmt_close($stmt);
-
     return $rooms;
 }
 
@@ -1216,6 +1295,30 @@ function getCustomerIdByEmail($email)
     return $row['id'] ?? null;
 }
 
+function getCustomers()
+{
+    global $conn;
+    $customers = [];
+
+    $sql = "SELECT DISTINCT id, name, email FROM khachhang GROUP BY name, email ORDER BY name";
+    $result = $conn->query($sql);
+
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $customers[] = [
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'email' => $row['email']
+            ];
+        }
+        $result->free(); // Giải phóng bộ nhớ
+    } else {
+        error_log("Lỗi truy vấn getCustomers: " . $conn->error);
+    }
+
+    return $customers;
+}
+
 function createCustomer($name, $phone, $email, $img = null)
 {
     global $conn;
@@ -1227,11 +1330,11 @@ function createCustomer($name, $phone, $email, $img = null)
     return $customerId;
 }
 
-function createContactRequest($subject, $message, $customerId)
+function createContactRequest($subject, $message, $status, $type, $customerId)
 {
     global $conn;
-    $stmt = $conn->prepare("INSERT INTO contact_requests (service, message, id_khachhang) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $subject, $message, $customerId); // s = string, i = integer
+    $stmt = $conn->prepare("INSERT INTO contact_requests (service, message, status, type, id_khachhang) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssi", $subject, $message, $status, $type, $customerId); // s = string, i = integer
     $stmt->execute();
     $contactRequestId = $conn->insert_id;
     $stmt->close();
@@ -3092,110 +3195,61 @@ function bulkUpdateRoomStatus($conn, $status, $room_ids)
 }
 // quanlytour (liem)
 
-function uploadImage1($file, $uploadDir = '../../view/img/')
-{
-    // Đảm bảo thư mục tồn tại
-    if (!is_dir($uploadDir)) {
-        if (!mkdir($uploadDir, 0777, true)) {
-            error_log("Failed to create directory: $uploadDir");
-            return false;
-        }
-    }
+// function updateTour($conn, $id_dichvu, $title_vi, $title_en, $price)
+// {
+//     // Kiểm tra và xử lý giá
+//     if (preg_match('/^\d+[.,]?\d*$/', $price)) {
+//         // Nếu giá trị là số (có thể chứa dấu phẩy hoặc chấm)
+//         $price_value = (float)str_replace([',', '.'], '', $price);
+//         $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
+//         $stmt = $conn->prepare($sql);
+//         $stmt->bind_param("di", $price_value, $id_dichvu);
+//     } else {
+//         // Nếu giá trị là chuỗi bất kỳ (bao gồm "Liên hệ", "Miễn phí", v.v.)
+//         $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
+//         $stmt = $conn->prepare($sql);
+//         $stmt->bind_param("si", $price, $id_dichvu);
+//     }
+//     $stmt->execute();
 
-    // Kiểm tra quyền ghi
-    if (!is_writable($uploadDir)) {
-        error_log("Directory not writable: $uploadDir");
-        return false;
-    }
+//     // Cập nhật tiêu đề tiếng Việt
+//     $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 1";
+//     $stmt = $conn->prepare($sql);
+//     $stmt->bind_param("i", $id_dichvu);
+//     $stmt->execute();
+//     $check_row = $stmt->get_result()->fetch_assoc();
 
-    // Tạo tên file
-    $fileName = time() . '_' . basename($file['name']);
-    $targetPath = $uploadDir . $fileName;
+//     if ($check_row['count'] > 0) {
+//         $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 1";
+//         $stmt = $conn->prepare($sql);
+//         $stmt->bind_param("si", $title_vi, $id_dichvu);
+//     } else {
+//         $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 1, ?)";
+//         $stmt = $conn->prepare($sql);
+//         $stmt->bind_param("is", $id_dichvu, $title_vi);
+//     }
+//     $stmt->execute();
 
-    // Kiểm tra loại file
-    $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!in_array($file['type'], $allowed_types)) {
-        error_log("Invalid file type: {$file['type']}");
-        return false;
-    }
+//     // Cập nhật tiêu đề tiếng Anh
+//     $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
+//     $stmt = $conn->prepare($sql);
+//     $stmt->bind_param("i", $id_dichvu);
+//     $stmt->execute();
+//     $check_row = $stmt->get_result()->fetch_assoc();
 
-    // Kiểm tra kích thước file
-    if ($file['size'] > 5 * 1024 * 1024) {
-        error_log("File too large: {$file['size']} bytes");
-        return false;
-    }
+//     if ($check_row['count'] > 0) {
+//         $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 2";
+//         $stmt = $conn->prepare($sql);
+//         $stmt->bind_param("si", $title_en, $id_dichvu);
+//     } else {
+//         $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 2, ?)";
+//         $stmt = $conn->prepare($sql);
+//         $stmt->bind_param("is", $id_dichvu, $title_en);
+//     }
+//     $stmt->execute();
 
-    // Kiểm tra file tạm
-    if (!is_uploaded_file($file['tmp_name'])) {
-        error_log("Invalid temporary file: {$file['tmp_name']}");
-        return false;
-    }
-
-    // Di chuyển file
-    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-        error_log("File uploaded successfully: $targetPath");
-        return $fileName;
-    } else {
-        error_log("Failed to move file to: $targetPath. Error: " . error_get_last()['message']);
-        return false;
-    }
-}
-
-function updateTour($conn, $id_dichvu, $title_vi, $title_en, $price)
-{
-    // Kiểm tra và xử lý giá
-    if (preg_match('/^\d+[.,]?\d*$/', $price)) {
-        // Nếu giá trị là số (có thể chứa dấu phẩy hoặc chấm)
-        $price_value = (float)str_replace([',', '.'], '', $price);
-        $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("di", $price_value, $id_dichvu);
-    } else {
-        // Nếu giá trị là chuỗi bất kỳ (bao gồm "Liên hệ", "Miễn phí", v.v.)
-        $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $price, $id_dichvu);
-    }
-    $stmt->execute();
-
-    // Cập nhật tiêu đề tiếng Việt
-    $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 1";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id_dichvu);
-    $stmt->execute();
-    $check_row = $stmt->get_result()->fetch_assoc();
-
-    if ($check_row['count'] > 0) {
-        $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $title_vi, $id_dichvu);
-    } else {
-        $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 1, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("is", $id_dichvu, $title_vi);
-    }
-    $stmt->execute();
-
-    // Cập nhật tiêu đề tiếng Anh
-    $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id_dichvu);
-    $stmt->execute();
-    $check_row = $stmt->get_result()->fetch_assoc();
-
-    if ($check_row['count'] > 0) {
-        $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 2";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $title_en, $id_dichvu);
-    } else {
-        $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 2, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("is", $id_dichvu, $title_en);
-    }
-    $stmt->execute();
-
-    return ['success' => true, 'message' => 'Cập nhật thông tin tour thành công!'];
-}
+//     return ['success' => true, 'message' => 'Cập nhật thông tin tour thành công!'];
+// }
 
 function addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images)
 {
@@ -3238,7 +3292,7 @@ function addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images)
                     'size' => $images['size'][$i]
                 ];
 
-                $imageName = uploadImage1($file);
+                $imageName = uploadImage($file);
                 if ($imageName) {
                     // Nếu ảnh được chọn là ảnh chính, đặt các ảnh khác thành không chính
                     if ($is_primary && $success_count === 0) {
@@ -3377,6 +3431,7 @@ function getServices($language_id, $type = 'dichvu')
         SELECT dn.id_dichvu,
                dn.title,
                dn.content,
+               d.price,
                a.image
         FROM dichvu d
         LEFT JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu
@@ -3438,27 +3493,6 @@ function getToursByLanguage($language_id, $type = null)
 
     $stmt->close();
     return $tours;
-}
-
-function insertContactRequest($id_khachhang, $service, $message)
-{
-    global $conn;
-    $sql = "INSERT INTO contact_requests (id_khachhang, service, message) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-
-    if (!$stmt) {
-        throw new Exception("Prepare failed: " . $conn->error);
-    }
-
-    $stmt->bind_param("iss", $id_khachhang, $service, $message);
-
-    if (!$stmt->execute()) {
-        $stmt->close();
-        throw new Exception("Insert contact request failed: " . $stmt->error);
-    }
-
-    $stmt->close();
-    return true;
 }
 
 // Lấy dữ liệu cho view
@@ -3581,26 +3615,103 @@ function getServiceContentById($id_dichvu, $languageId)
     return $tour ?: null;  // Trả về null nếu không có dữ liệu
 }
 
-// function getTourDescriptionById($id_dichvu, $languageId)
-// {
-//     global $conn;
-//     $sql = "SELECT content 
-//             FROM motatour 
-//             WHERE id_dichvu = ? AND id_ngonngu = ?";
+function getServices1()
+{
+    global $conn;
+    $services_query = "
+        SELECT 
+            d.id as id_dichvu, 
+            dn.title as title_vi, 
+            dn.content as content_vi,
+            (SELECT title FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as title_en,
+            (SELECT content FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as content_en,
+            a.image, 
+            d.price, 
+            d.icon
+        FROM dichvu d
+        LEFT JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu
+        LEFT JOIN anhdichvu a ON d.id = a.id_dichvu AND a.is_primary = 1
+        WHERE dn.id_ngonngu = 1 AND d.type = 'dichvu'
+        ORDER BY dn.id_dichvu
+    ";
 
-//     $stmt = $conn->prepare($sql);
-//     if (!$stmt) {
-//         throw new Exception("Prepare failed: " . $conn->error);
+    $result = mysqli_query($conn, $services_query);
+
+    if (!$result) {
+        error_log("Error in getServices(): " . mysqli_error($conn));
+        return false;
+    }
+
+    $services = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $services[] = $row;
+    }
+
+    return $services;
+}
+
+function getTours()
+{
+    global $conn;
+    $tours_query = "
+        SELECT 
+            d.id as id_dichvu, 
+            dn.title as title_vi, 
+            dn.content as content_vi,
+            (SELECT title FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as title_en,
+            (SELECT content FROM dichvu_ngonngu WHERE id_dichvu = d.id AND id_ngonngu = 2) as content_en,
+            a.image, 
+            d.price, 
+            d.icon
+        FROM dichvu d
+        LEFT JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu
+        LEFT JOIN anhdichvu a ON d.id = a.id_dichvu AND a.is_primary = 1
+        WHERE dn.id_ngonngu = 1 AND d.type = 'tour'
+        ORDER BY dn.id_dichvu
+    ";
+
+    $result = mysqli_query($conn, $tours_query);
+
+    if (!$result) {
+        error_log("Error in getTours(): " . mysqli_error($conn));
+        return false;
+    }
+
+    $tours = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $tours[] = $row;
+    }
+
+    return $tours;
+}
+// function getServices1($languageId = 1) {
+//     global $conn;
+//     $services = [];
+
+//     $sql = "SELECT d.id, dn.title, d.type 
+//             FROM dichvu d 
+//             JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
+//             WHERE dn.id_ngonngu = ? 
+//             ORDER BY d.type, dn.title";
+//     $stmt = mysqli_prepare($conn, $sql);
+//     if ($stmt) {
+//         mysqli_stmt_bind_param($stmt, "i", $languageId);
+//         mysqli_stmt_execute($stmt);
+//         $result = mysqli_stmt_get_result($stmt);
+
+//         while ($row = mysqli_fetch_assoc($result)) {
+//             $services[] = [
+//                 'id' => $row['id'],
+//                 'title' => $row['title'],
+//                 'type' => $row['type']
+//             ];
+//         }
+//         mysqli_stmt_close($stmt);
+//     } else {
+//         error_log("Lỗi chuẩn bị truy vấn getServices: " . mysqli_error($conn));
 //     }
 
-//     $stmt->bind_param("ii", $id_dichvu, $languageId);
-//     $stmt->execute();
-
-//     $result = $stmt->get_result();
-//     $row = $result->fetch_assoc();
-
-//     $stmt->close();
-//     return $row ? $row['content'] : null;
+//     return $services;
 // }
 
 function getTourMenusIfApplicable($id_dichvu, $languageId)
@@ -3871,8 +3982,7 @@ function getMenu($languageId, $id_amthuc, $active = 1)
     // Lấy danh sách món ăn
     $sql = "
         SELECT 
-            t.id,
-            t.price,
+            t.*,
             tn.name AS title,
             tn.content AS description,
             a.image
@@ -3900,7 +4010,8 @@ function getMenu($languageId, $id_amthuc, $active = 1)
                 'price' => $row['price'],
                 'title' => $row['title'],
                 'description' => $row['description'],
-                'image' => $row['image']
+                'image' => $row['image'],
+                'outstanding' => $row['outstanding']
             ];
         }
         $stmt->close();
@@ -3916,7 +4027,7 @@ function getMenuBar($languageId, $type, $active = 1)
     global $conn;
 
     // Truy vấn danh sách món ăn
-    $query = "SELECT t.id, t.price, a.image, tn.name AS title, tn.content AS description 
+    $query = "SELECT t.*, a.image, tn.name AS title, tn.content AS description 
               FROM thucdon t 
               LEFT JOIN thucdon_ngonngu tn ON t.id = tn.id_thucdon 
               LEFT JOIN anhthucdon a ON t.id = a.id_menu
@@ -3933,15 +4044,19 @@ function getMenuBar($languageId, $type, $active = 1)
             'price' => $row['price'],
             'title' => $row['title'],
             'description' => $row['description'],
-            'image' => $row['image']
+            'image' => $row['image'],
+            'outstanding' => $row['outstanding']
         ];
     }
 
     return $menuItems;
 }
+
+
 //quanlybinhluan
 // Thêm bình luận
-function addComment($conn, $content, $rate, $type, $id_khachhang, $id_dichvu = null, $id_nhahang = null, $id_loaiphong = null) {
+function addComment($conn, $content, $rate, $type, $id_khachhang, $id_dichvu = null, $id_nhahang = null, $id_loaiphong = null)
+{
     try {
         $sql = "INSERT INTO binhluan (content, create_at, rate, active, id_khachhang) 
                 VALUES (?, NOW(), ?, 1, ?)";
@@ -3979,7 +4094,8 @@ function addComment($conn, $content, $rate, $type, $id_khachhang, $id_dichvu = n
 }
 
 // Thêm khách hàng mới
-function addCustomer($conn, $name, $email) {
+function addCustomer($conn, $name, $email)
+{
     try {
         $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)";
         $stmt = $conn->prepare($sql);
@@ -3991,8 +4107,23 @@ function addCustomer($conn, $name, $email) {
     }
 }
 
+function insertService($image, $id_dichvu)
+{
+    global $conn;
+    try {
+        $sql = "INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $image, $id_dichvu);
+        $stmt->execute();
+        return true;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
 // Sửa bình luận
-function updateComment($conn, $id, $content, $rate) {
+function updateComment($conn, $id, $content, $rate)
+{
     try {
         $sql = "UPDATE binhluan SET content = ?, rate = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
@@ -4005,7 +4136,8 @@ function updateComment($conn, $id, $content, $rate) {
 }
 
 // Ẩn/hiện nhiều bình luận
-function bulkToggleComments($conn, $ids) {
+function bulkToggleComments($conn, $ids)
+{
     try {
         if (empty($ids)) {
             return ['status' => 'error', 'message' => 'Vui lòng chọn ít nhất một bình luận!'];
@@ -4036,7 +4168,8 @@ function bulkToggleComments($conn, $ids) {
 }
 
 // Xóa nhiều bình luận
-function bulkDeleteComments($conn, $ids) {
+function bulkDeleteComments($conn, $ids)
+{
     try {
         if (empty($ids)) {
             return ['status' => 'error', 'message' => 'Vui lòng chọn ít nhất một bình luận!'];
@@ -4065,7 +4198,8 @@ function bulkDeleteComments($conn, $ids) {
 }
 
 // Tải dữ liệu bình luận
-function loadComments($conn, $tab, $subtab, $search, $sort, $status, $date, $rate, $page, $limit = 15) {
+function loadComments($conn, $tab, $subtab, $search, $sort, $status, $date, $rate, $page, $limit = 15)
+{
     try {
         $offset = ($page - 1) * $limit;
         $where_conditions = [];
@@ -4118,7 +4252,7 @@ function loadComments($conn, $tab, $subtab, $search, $sort, $status, $date, $rat
                            JOIN dichvu d ON bd.id_dichvu = d.id 
                            JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
                            WHERE d.type = '$type_filter' AND dn.id_ngonngu = 1 $where_clause";
-            
+
             $count_sql = "SELECT COUNT(*) as total $base_query";
             $sql = "SELECT b.id, b.content, b.rate, b.active, b.create_at, k.name, k.email, dn.title 
                     $base_query $order_clause LIMIT $limit OFFSET $offset";
@@ -4127,7 +4261,7 @@ function loadComments($conn, $tab, $subtab, $search, $sort, $status, $date, $rat
                            JOIN khachhang k ON b.id_khachhang = k.id 
                            JOIN binhluan_bar bb ON b.id = bb.id_binhluan 
                            WHERE 1=1 $where_clause";
-            
+
             $count_sql = "SELECT COUNT(*) as total $base_query";
             $sql = "SELECT b.id, b.content, b.rate, b.active, b.create_at, k.name, k.email 
                     $base_query $order_clause LIMIT $limit OFFSET $offset";
@@ -4136,7 +4270,7 @@ function loadComments($conn, $tab, $subtab, $search, $sort, $status, $date, $rat
                            JOIN khachhang k ON b.id_khachhang = k.id 
                            JOIN binhluan_nhahang bn ON b.id = bn.id_binhluan 
                            WHERE 1=1 $where_clause";
-            
+
             $count_sql = "SELECT COUNT(*) as total $base_query";
             $sql = "SELECT b.id, b.content, b.rate, b.active, b.create_at, k.name, k.email 
                     $base_query $order_clause LIMIT $limit OFFSET $offset";
@@ -4157,8 +4291,8 @@ function loadComments($conn, $tab, $subtab, $search, $sort, $status, $date, $rat
                 $subtab_to_room_id[$subtab_name] = $row['id'];
             }
 
-            $room_id = isset($subtab_to_room_id[$subtab]) && in_array($subtab_to_room_id[$subtab], $room_ids) 
-                    ? $subtab_to_room_id[$subtab] : 1;
+            $room_id = isset($subtab_to_room_id[$subtab]) && in_array($subtab_to_room_id[$subtab], $room_ids)
+                ? $subtab_to_room_id[$subtab] : 1;
 
             $base_query = "FROM binhluan b 
                            JOIN khachhang k ON b.id_khachhang = k.id 
@@ -4166,11 +4300,11 @@ function loadComments($conn, $tab, $subtab, $search, $sort, $status, $date, $rat
                            JOIN loaiphongnghi lp ON lpb.id_loaiphong = lp.id 
                            JOIN loaiphongnghi_ngonngu lpn ON lp.id = lpn.id_loaiphongnghi 
                            WHERE lpn.id_ngonngu = 1 AND lp.id = ? $where_clause";
-            
+
             $count_sql = "SELECT COUNT(*) as total $base_query";
             $sql = "SELECT b.id, b.content, b.rate, b.active, b.create_at, k.name, k.email, lpn.name AS phong_name 
                     $base_query $order_clause LIMIT $limit OFFSET $offset";
-            
+
             $count_params = array_merge([$room_id], $count_params);
             $params = array_merge([$room_id], $params);
         }
@@ -4209,5 +4343,1107 @@ function loadComments($conn, $tab, $subtab, $search, $sort, $status, $date, $rat
         ];
     } catch (Exception $e) {
         return ['status' => 'error', 'message' => 'Lỗi khi tải dữ liệu: ' . $e->getMessage()];
+    }
+}
+
+function getMenusByTypeAndLanguage($menuType, $languageId)
+{
+    global $conn;
+    $menus = [];
+
+    if (!empty($menuType)) {
+        $sql = "SELECT td.id, tdn.title, tdn.content 
+                FROM thucdon_tour td
+                LEFT JOIN thucdontour_ngonngu tdn ON td.id = tdn.id_menu 
+                WHERE tdn.id_ngonngu = ? AND td.type = ?";
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt) {
+            $stmt->bind_param("is", $languageId, $menuType);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            while ($row = $result->fetch_assoc()) {
+                $menus[] = [
+                    'id' => $row['id'],
+                    'title' => $row['title'],
+                    'content' => $row['content']
+                ];
+            }
+
+            $stmt->close();
+        } else {
+            error_log("Lỗi prepare: " . $conn->error);
+        }
+    }
+
+    return $menus;
+}
+
+function layDanhSachIcon()
+{
+    global $conn;
+    $icons = [];
+    $icons_query = "SELECT DISTINCT icon FROM tienich WHERE icon IS NOT NULL AND icon != ''";
+    $icons_result = mysqli_query($conn, $icons_query);
+
+    if ($icons_result) {
+        while ($row = mysqli_fetch_assoc($icons_result)) {
+            $icons[] = $row['icon'];
+        }
+        mysqli_free_result($icons_result);
+    }
+
+    return $icons;
+}
+
+function layTienIchNgonNgu($id_tienich)
+{
+    global $conn;
+    $id_tienich = (int)$id_tienich;
+
+    $stmt = $conn->prepare("SELECT title, content FROM tienich_ngonngu WHERE id_tienich = ? AND id_ngonngu = 2");
+    $stmt->bind_param("i", $id_tienich);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc() ?? ['title' => '', 'content' => ''];
+
+    $stmt->close();
+
+    return $data;
+}
+
+function addFeature($icon, $title_vi, $content_vi, $title_en, $content_en)
+{
+    global $conn;
+    $result = ['success' => false, 'message' => ''];
+
+    try {
+        // Kiểm tra biểu tượng
+        if (empty($icon)) {
+            $result['message'] = "Vui lòng chọn hoặc nhập biểu tượng!";
+            throw new Exception($result['message']);
+        }
+
+        // Chèn vào bảng tienich
+        $stmt = $conn->prepare("INSERT INTO tienich (icon) VALUES (?)");
+        $stmt->bind_param("s", $icon);
+        if (!$stmt->execute()) {
+            $result['message'] = "Lỗi khi tạo tiện ích: " . $conn->error;
+            throw new Exception($result['message']);
+        }
+        $id_tienich = $conn->insert_id;
+
+        // Chèn vào bảng tienich_ngonngu (Tiếng Việt)
+        $stmt = $conn->prepare("INSERT INTO tienich_ngonngu (id_tienich, id_ngonngu, title, content) VALUES (?, 1, ?, ?)");
+        $stmt->bind_param("iss", $id_tienich, $title_vi, $content_vi);
+        if (!$stmt->execute()) {
+            $result['message'] = "Lỗi khi thêm nội dung tiện ích: " . $conn->error;
+            throw new Exception($result['message']);
+        }
+
+        // Chèn vào bảng tienich_ngonngu (Tiếng Anh, nếu có)
+        if (!empty($title_en) || !empty($content_en)) {
+            $stmt = $conn->prepare("INSERT INTO tienich_ngonngu (id_tienich, id_ngonngu, title, content) VALUES (?, 2, ?, ?)");
+            $stmt->bind_param("iss", $id_tienich, $title_en, $content_en);
+            if (!$stmt->execute()) {
+                $result['message'] = "Lỗi khi thêm nội dung tiện ích tiếng Anh: " . $conn->error;
+                throw new Exception($result['message']);
+            }
+        }
+
+        // Chèn vào bảng tienichdichvu
+        $stmt = $conn->prepare("INSERT INTO tienichdichvu (id_tienich, page) VALUES (?, 'dichvu')");
+        $stmt->bind_param("i", $id_tienich);
+        if (!$stmt->execute()) {
+            $result['message'] = "Lỗi khi thêm tiện ích vào trang: " . $conn->error;
+            throw new Exception($result['message']);
+        }
+
+        $result['success'] = true;
+        $result['message'] = "Thêm tiện ích thành công!";
+        $stmt->close();
+    } catch (Exception $e) {
+        $result['message'] = $e->getMessage();
+        $result['success'] = false;
+    }
+
+    return $result;
+}
+
+function updateFeature($conn, $id_tienich, $icon, $title_vi, $content_vi, $title_en, $content_en)
+{
+    $result = ['success' => false, 'message' => ''];
+
+    try {
+        // Cập nhật bảng tienich
+        $stmt = $conn->prepare("UPDATE tienich SET icon = ? WHERE id = ?");
+        $stmt->bind_param("si", $icon, $id_tienich);
+        if (!$stmt->execute()) {
+            $result['message'] = "Lỗi khi cập nhật tiện ích: " . $conn->error;
+            throw new Exception($result['message']);
+        }
+
+        // Kiểm tra và cập nhật/chèn tiếng Việt (id_ngonngu = 1)
+        $check_query = "SELECT COUNT(*) as count FROM tienich_ngonngu WHERE id_tienich = ? AND id_ngonngu = 1";
+        $stmt = $conn->prepare($check_query);
+        $stmt->bind_param("i", $id_tienich);
+        $stmt->execute();
+        $check_row = $stmt->get_result()->fetch_assoc();
+
+        if ($check_row['count'] > 0) {
+            $query = "UPDATE tienich_ngonngu SET title = ?, content = ? WHERE id_tienich = ? AND id_ngonngu = 1";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ssi", $title_vi, $content_vi, $id_tienich);
+            if (!$stmt->execute()) {
+                $result['message'] = "Lỗi khi cập nhật nội dung tiếng Việt: " . $conn->error;
+                throw new Exception($result['message']);
+            }
+        } else {
+            $insert_query = "INSERT INTO tienich_ngonngu (id_tienich, id_ngonngu, title, content) VALUES (?, 1, ?, ?)";
+            $stmt = $conn->prepare($insert_query);
+            $stmt->bind_param("iss", $id_tienich, $title_vi, $content_vi);
+            if (!$stmt->execute()) {
+                $result['message'] = "Lỗi khi chèn nội dung tiếng Việt: " . $conn->error;
+                throw new Exception($result['message']);
+            }
+        }
+
+        // Kiểm tra và cập nhật/chèn/xóa tiếng Anh (id_ngonngu = 2)
+        $check_query = "SELECT COUNT(*) as count FROM tienich_ngonngu WHERE id_tienich = ? AND id_ngonngu = 2";
+        $stmt = $conn->prepare($check_query);
+        $stmt->bind_param("i", $id_tienich);
+        $stmt->execute();
+        $check_row = $stmt->get_result()->fetch_assoc();
+
+        if (!empty($title_en) || !empty($content_en)) {
+            if ($check_row['count'] > 0) {
+                $query = "UPDATE tienich_ngonngu SET title = ?, content = ? WHERE id_tienich = ? AND id_ngonngu = 2";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("ssi", $title_en, $content_en, $id_tienich);
+                if (!$stmt->execute()) {
+                    $result['message'] = "Lỗi khi cập nhật nội dung tiếng Anh: " . $conn->error;
+                    throw new Exception($result['message']);
+                }
+            } else {
+                $insert_query = "INSERT INTO tienich_ngonngu (id_tienich, id_ngonngu, title, content) VALUES (?, 2, ?, ?)";
+                $stmt = $conn->prepare($insert_query);
+                $stmt->bind_param("iss", $id_tienich, $title_en, $content_en);
+                if (!$stmt->execute()) {
+                    $result['message'] = "Lỗi khi chèn nội dung tiếng Anh: " . $conn->error;
+                    throw new Exception($result['message']);
+                }
+            }
+        } elseif ($check_row['count'] > 0) {
+            $delete_query = "DELETE FROM tienich_ngonngu WHERE id_tienich = ? AND id_ngonngu = 2";
+            $stmt = $conn->prepare($delete_query);
+            $stmt->bind_param("i", $id_tienich);
+            if (!$stmt->execute()) {
+                $result['message'] = "Lỗi khi xóa nội dung tiếng Anh: " . $conn->error;
+                throw new Exception($result['message']);
+            }
+        }
+
+        $result['success'] = true;
+        $result['message'] = "Cập nhật tiện ích thành công!";
+        $stmt->close();
+    } catch (Exception $e) {
+        $result['message'] = $e->getMessage();
+        $result['success'] = false;
+    }
+
+    return $result;
+}
+
+// Hàm xóa tiện ích
+function deleteFeature($id_tienich)
+{
+    global $conn;
+    $result = ['success' => false, 'message' => ''];
+
+    try {
+        $stmt = $conn->prepare("DELETE FROM tienichdichvu WHERE id_tienich = ?");
+        $stmt->bind_param("i", $id_tienich);
+        if (!$stmt->execute()) {
+            $result['message'] = "Lỗi khi xóa liên kết tiện ích: " . $conn->error;
+            throw new Exception($result['message']);
+        }
+
+        $stmt = $conn->prepare("DELETE FROM tienich_ngonngu WHERE id_tienich = ?");
+        $stmt->bind_param("i", $id_tienich);
+        if (!$stmt->execute()) {
+            $result['message'] = "Lỗi khi xóa nội dung tiện ích: " . $conn->error;
+            throw new Exception($result['message']);
+        }
+
+        $stmt = $conn->prepare("DELETE FROM tienich WHERE id = ?");
+        $stmt->bind_param("i", $id_tienich);
+        if (!$stmt->execute()) {
+            $result['message'] = "Lỗi khi xóa tiện ích: " . $conn->error;
+            throw new Exception($result['message']);
+        }
+
+        $result['success'] = true;
+        $result['message'] = "Xóa tiện ích thành công!";
+        $stmt->close();
+    } catch (Exception $e) {
+        $result['message'] = $e->getMessage();
+        $result['success'] = false;
+    }
+
+    return $result;
+}
+
+function addTourService($price = 'Liên hệ')
+{
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO dichvu (type, active, price) VALUES ('tour', 1, ?)");
+    if (!$stmt) {
+        return false;
+    }
+
+    $stmt->bind_param("s", $price);
+    $result = $stmt->execute();
+
+    if ($result) {
+        $id = $conn->insert_id;
+        $stmt->close();
+        return $id;
+    }
+
+    $stmt->close();
+    return false;
+}
+
+function addTourLanguage($id_dichvu, $id_ngonngu, $title, $content)
+{
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title, content) VALUES (?, ?, ?, ?)");
+    if (!$stmt) {
+        return false;
+    }
+
+    $stmt->bind_param("iiss", $id_dichvu, $id_ngonngu, $title, $content);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
+}
+
+function updateTour($id_dichvu, $title_vi, $content_vi, $title_en, $content_en, $price_vi, $image_file = null)
+{
+    global $conn;
+    try {
+        // Cập nhật thông tin tiếng Việt
+        $stmt = $conn->prepare("UPDATE dichvu_ngonngu SET title=?, content=? WHERE id_dichvu=? AND id_ngonngu=1");
+        $stmt->bind_param("ssi", $title_vi, $content_vi, $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Cập nhật hoặc chèn thông tin tiếng Anh
+        if (!empty($title_en) || !empty($content_en)) {
+            $check_query = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
+            $stmt = $conn->prepare($check_query);
+            $stmt->bind_param("i", $id_dichvu);
+            $stmt->execute();
+            $check_row = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+
+            if ($check_row['count'] > 0) {
+                $query = "UPDATE dichvu_ngonngu SET title=?, content=? WHERE id_dichvu=? AND id_ngonngu=2";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("ssi", $title_en, $content_en, $id_dichvu);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+            } else {
+                $insert_query = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title, content) VALUES (?, 2, ?, ?)";
+                $stmt = $conn->prepare($insert_query);
+                $stmt->bind_param("iss", $id_dichvu, $title_en, $content_en);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+            }
+            $stmt->close();
+        }
+
+        // Cập nhật giá và loại tour
+        $stmt = $conn->prepare("UPDATE dichvu SET price=?, type='tour' WHERE id=?");
+        $stmt->bind_param("si", $price_vi, $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Xử lý ảnh mới (nếu có)
+        if ($image_file && isset($image_file['error']) && $image_file['error'] === 0) {
+            $imageName = uploadImage($image_file);
+            if ($imageName) {
+                // Xóa ảnh cũ
+                $old_image_query = "SELECT image FROM anhdichvu WHERE id_dichvu=? AND is_primary=1";
+                $stmt = $conn->prepare($old_image_query);
+                $stmt->bind_param("i", $id_dichvu);
+                $stmt->execute();
+                $old_image = $stmt->get_result()->fetch_assoc()['image'] ?? null;
+                if ($old_image && file_exists('../view/img/uploads/dichvu/' . $old_image)) {
+                    unlink('../view/img/uploads/dichvu/' . $old_image);
+                }
+                $stmt->close();
+
+                // Xóa bản ghi ảnh cũ
+                $stmt = $conn->prepare("DELETE FROM anhdichvu WHERE id_dichvu=? AND is_primary=1");
+                $stmt->bind_param("i", $id_dichvu);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+                $stmt->close();
+
+                // Chèn ảnh mới
+                $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
+                $stmt->bind_param("si", $imageName, $id_dichvu);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+                $stmt->close();
+            }
+        }
+
+        return true;
+    } catch (Exception $e) {
+        error_log("Lỗi trong updateTour: " . $e->getMessage());
+        return false;
+    }
+}
+
+function deleteTour($id_dichvu)
+{
+    global $conn;
+    try {
+        // Xóa bình luận liên quan trong bảng binhluan_dichvu
+        $stmt = $conn->prepare("DELETE FROM binhluan_dichvu WHERE id_dichvu = ?");
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Xóa hình ảnh liên quan
+        $image_query = "SELECT image FROM anhdichvu WHERE id_dichvu = ?";
+        $stmt = $conn->prepare($image_query);
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $image_result = $stmt->get_result();
+        while ($image = $image_result->fetch_assoc()) {
+            if ($image['image'] && file_exists('../img/' . $image['image'])) {
+                unlink('../view/img/uploads/dichvu/' . $image['image']);
+            }
+        }
+        $stmt->close();
+
+        // Xóa bản ghi hình ảnh
+        $stmt = $conn->prepare("DELETE FROM anhdichvu WHERE id_dichvu = ?");
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Xóa bản ghi ngôn ngữ
+        $stmt = $conn->prepare("DELETE FROM dichvu_ngonngu WHERE id_dichvu = ?");
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Xóa bản ghi tour
+        $stmt = $conn->prepare("DELETE FROM dichvu WHERE id = ?");
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        return true;
+    } catch (Exception $e) {
+        error_log("Lỗi trong deleteTour: " . $e->getMessage());
+        return false;
+    }
+}
+
+function addService($title_vi, $content_vi, $title_en, $content_en, $price_vi, $image_file = null)
+{
+    global $conn;
+    try {
+        // Chèn dịch vụ mới
+        $stmt = $conn->prepare("INSERT INTO dichvu (type, active, price) VALUES ('dichvu', 1, ?)");
+        $stmt->bind_param("s", $price_vi);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $id_dichvu = $conn->insert_id;
+        $stmt->close();
+
+        // Chèn thông tin tiếng Việt
+        $stmt = $conn->prepare("INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title, content) VALUES (?, 1, ?, ?)");
+        $stmt->bind_param("iss", $id_dichvu, $title_vi, $content_vi);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Chèn thông tin tiếng Anh (nếu có)
+        if (!empty($title_en) || !empty($content_en)) {
+            $stmt = $conn->prepare("INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title, content) VALUES (?, 2, ?, ?)");
+            $stmt->bind_param("iss", $id_dichvu, $title_en, $content_en);
+            if (!$stmt->execute()) {
+                return false;
+            }
+            $stmt->close();
+        }
+
+        // Chèn ảnh (nếu có)
+        if ($image_file && isset($image_file['error']) && $image_file['error'] === 0) {
+            $imageName = uploadImage($image_file);
+            if ($imageName) {
+                $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
+                $stmt->bind_param("si", $imageName, $id_dichvu);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+                $stmt->close();
+            }
+        }
+
+        return true;
+    } catch (Exception $e) {
+        error_log("Lỗi trong addService: " . $e->getMessage());
+        return false;
+    }
+}
+
+function updateService($id_dichvu, $title_vi, $content_vi, $title_en, $content_en, $price_vi, $image_file = null)
+{
+    global $conn;
+    try {
+        // Kiểm tra và cập nhật/chèn tiếng Việt
+        $check_query = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 1";
+        $stmt = $conn->prepare($check_query);
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $check_row = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        if ($check_row['count'] > 0) {
+            $query = "UPDATE dichvu_ngonngu SET title = ?, content = ? WHERE id_dichvu = ? AND id_ngonngu = 1";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ssi", $title_vi, $content_vi, $id_dichvu);
+            if (!$stmt->execute()) {
+                return false;
+            }
+        } else {
+            $insert_query = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title, content) VALUES (?, 1, ?, ?)";
+            $stmt = $conn->prepare($insert_query);
+            $stmt->bind_param("iss", $id_dichvu, $title_vi, $content_vi);
+            if (!$stmt->execute()) {
+                return false;
+            }
+        }
+        $stmt->close();
+
+        // Kiểm tra và cập nhật/chèn/xóa tiếng Anh
+        $check_query = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
+        $stmt = $conn->prepare($check_query);
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $check_row = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        if (!empty($title_en) || !empty($content_en)) {
+            if ($check_row['count'] > 0) {
+                $query = "UPDATE dichvu_ngonngu SET title = ?, content = ? WHERE id_dichvu = ? AND id_ngonngu = 2";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("ssi", $title_en, $content_en, $id_dichvu);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+            } else {
+                $insert_query = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title, content) VALUES (?, 2, ?, ?)";
+                $stmt = $conn->prepare($insert_query);
+                $stmt->bind_param("iss", $id_dichvu, $title_en, $content_en);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+            }
+        } elseif ($check_row['count'] > 0) {
+            $delete_query = "DELETE FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
+            $stmt = $conn->prepare($delete_query);
+            $stmt->bind_param("i", $id_dichvu);
+            if (!$stmt->execute()) {
+                return false;
+            }
+        }
+        $stmt->close();
+
+        // Cập nhật giá và loại dịch vụ
+        $stmt = $conn->prepare("UPDATE dichvu SET price = ?, type = 'dichvu' WHERE id = ?");
+        $stmt->bind_param("si", $price_vi, $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Xử lý ảnh mới (nếu có)
+        if ($image_file && isset($image_file['error']) && $image_file['error'] === 0) {
+            $imageName = uploadImage($image_file);
+            if ($imageName) {
+                // Xóa ảnh cũ
+                $old_image_query = "SELECT image FROM anhdichvu WHERE id_dichvu = ? AND is_primary = 1";
+                $stmt = $conn->prepare($old_image_query);
+                $stmt->bind_param("i", $id_dichvu);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+                $old_image = $stmt->get_result()->fetch_assoc()['image'] ?? null;
+                if ($old_image && file_exists('../view/img/uploads/dichvu/' . $old_image)) {
+                    unlink('../view/img/uploads/dichvu/' . $old_image);
+                }
+                $stmt->close();
+
+                // Xóa bản ghi ảnh cũ
+                $stmt = $conn->prepare("DELETE FROM anhdichvu WHERE id_dichvu = ? AND is_primary = 1");
+                $stmt->bind_param("i", $id_dichvu);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+                $stmt->close();
+
+                // Chèn ảnh mới
+                $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
+                $stmt->bind_param("si", $imageName, $id_dichvu);
+                if (!$stmt->execute()) {
+                    return false;
+                }
+                $stmt->close();
+            }
+        }
+
+        return true;
+    } catch (Exception $e) {
+        error_log("Lỗi trong updateService: " . $e->getMessage());
+        return false;
+    }
+}
+
+function deleteService($id_dichvu)
+{
+    global $conn;
+    try {
+        // Xóa bình luận liên quan trong bảng binhluan_dichvu
+        $stmt = $conn->prepare("DELETE FROM binhluan_dichvu WHERE id_dichvu = ?");
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Xóa hình ảnh liên quan
+        $image_query = "SELECT image FROM anhdichvu WHERE id_dichvu = ?";
+        $stmt = $conn->prepare($image_query);
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $image_result = $stmt->get_result();
+        while ($image = $image_result->fetch_assoc()) {
+            if ($image['image'] && file_exists('../img/' . $image['image'])) {
+                unlink('../img/' . $image['image']);
+            }
+        }
+        $stmt->close();
+
+        // Xóa bản ghi hình ảnh
+        $stmt = $conn->prepare("DELETE FROM anhdichvu WHERE id_dichvu = ?");
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Xóa bản ghi ngôn ngữ
+        $stmt = $conn->prepare("DELETE FROM dichvu_ngonngu WHERE id_dichvu = ?");
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        // Xóa bản ghi dịch vụ
+        $stmt = $conn->prepare("DELETE FROM dichvu WHERE id = ?");
+        $stmt->bind_param("i", $id_dichvu);
+        if (!$stmt->execute()) {
+            return false;
+        }
+        $stmt->close();
+
+        return true;
+    } catch (Exception $e) {
+        error_log("Lỗi trong deleteService: " . $e->getMessage());
+        return false;
+    }
+}
+//quanlyanh (liem)
+
+// Lấy danh sách chủ đề
+function getTopics($conn) {
+    try {
+        $sql = "SELECT * FROM thuvien WHERE id IN (1, 4, 9, 12, 13, 16) ORDER BY id";
+        $result = $conn->query($sql);
+        $topics = [];
+        while ($row = $result->fetch_assoc()) {
+            $topics[] = $row;
+        }
+        return ['status' => 'success', 'topics' => $topics];
+    } catch (Exception $e) {
+        return ['status' => 'error', 'message' => 'Lỗi khi tải chủ đề: ' . $e->getMessage()];
+    }
+}
+
+// Lấy danh sách các trang
+function getPages($conn) {
+    try {
+        $sql = "SELECT DISTINCT page FROM head_banner WHERE id_topic = 4 AND page != '' ORDER BY page";
+        $result = $conn->query($sql);
+        $pages = [];
+        while ($row = $result->fetch_assoc()) {
+            $pages[] = $row['page'];
+        }
+        return ['status' => 'success', 'pages' => $pages];
+    } catch (Exception $e) {
+        return ['status' => 'error', 'message' => 'Lỗi khi tải danh sách trang: ' . $e->getMessage()];
+    }
+}
+
+// Lấy danh sách sự kiện
+function getSukien($conn) {
+    try {
+        $sql = "SELECT s.*, sn.title AS title 
+                FROM sukien s 
+                LEFT JOIN sukien_ngonngu sn ON s.id = sn.id_sukien 
+                WHERE sn.id_ngonngu = 1 
+                ORDER BY s.id";
+        $result = $conn->query($sql);
+        $sukien = [];
+        while ($row = $result->fetch_assoc()) {
+            $sukien[] = [
+                'id' => $row['id'],
+                'code' => $row['code'],
+                'active' => $row['active'],
+                'title' => $row['title'] ?: $row['code']
+            ];
+        }
+        return ['status' => 'success', 'sukien' => $sukien];
+    } catch (Exception $e) {
+        return ['status' => 'error', 'message' => 'Lỗi khi tải sự kiện: ' . $e->getMessage()];
+    }
+}
+
+// Lấy danh sách ảnh/video theo chủ đề
+function getImages($conn, $topic_id, $page = '', $id_sukien = '') {
+    try {
+        $images = [];
+        switch ($topic_id) {
+            case '1':
+                $sql = "SELECT atq.*, t.name AS hotel_name, ca.area AS chon_area 
+                        FROM anhtongquat atq 
+                        LEFT JOIN thongtinkhachsan t ON atq.id_thongtinhotel = t.id 
+                        LEFT JOIN chon_anhtongquat ca ON atq.id = ca.id_anhtongquat 
+                        WHERE atq.id_topic = ? 
+                        ORDER BY ca.area IS NOT NULL DESC, atq.id DESC";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $topic_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $area_display = '';
+                    if ($row['chon_area']) {
+                        $area_map = [
+                            'feature-image-right' => 'Ảnh dịch vụ phải',
+                            'feature-image-left' => 'Ảnh dịch vụ trái',
+                            'banner-overlay' => 'Ảnh banner phủ'
+                        ];
+                        $area_display = $area_map[$row['chon_area']] ?? $row['chon_area'];
+                    }
+                    $images[] = [
+                        'id' => $row['id'],
+                        'image' => $row['image'],
+                        'table' => 'anhtongquat',
+                        'active' => $row['active'],
+                        'chon_area' => $row['chon_area'],
+                        'area_display' => $area_display
+                    ];
+                }
+                break;
+
+            case '4':
+                $sql = "SELECT * FROM head_banner WHERE id_topic = ?";
+                if (!empty($page)) {
+                    $sql .= " AND page = ?";
+                }
+                $sql .= " ORDER BY id DESC";
+                $stmt = $conn->prepare($sql);
+                if (!empty($page)) {
+                    $stmt->bind_param("is", $topic_id, $page);
+                } else {
+                    $stmt->bind_param("i", $topic_id);
+                }
+                $stmt->execute();
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $images[] = [
+                        'id' => $row['id'],
+                        'image' => $row['image'],
+                        'table' => 'head_banner',
+                        'active' => 1,
+                        'created_at' => null,
+                        'extra_info' => 'Page: ' . ($row['page'] ?: 'N/A') . ($row['area'] ? ', Area: ' . $row['area'] : '')
+                    ];
+                }
+                break;
+
+            case '9':
+                $sql = "SELECT ask.*, s.code AS event_code, sn.title AS event_title 
+                        FROM anhsukien ask 
+                        LEFT JOIN sukien s ON ask.id_sukien = s.id 
+                        LEFT JOIN sukien_ngonngu sn ON s.id = sn.id_sukien AND sn.id_ngonngu = 1 
+                        WHERE ask.id_topic = ?";
+                if (!empty($id_sukien)) {
+                    $sql .= " AND ask.id_sukien = ?";
+                }
+                $sql .= " ORDER BY ask.id DESC";
+                $stmt = $conn->prepare($sql);
+                if (!empty($id_sukien)) {
+                    $stmt->bind_param("ii", $topic_id, $id_sukien);
+                } else {
+                    $stmt->bind_param("i", $topic_id);
+                }
+                $stmt->execute();
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $images[] = [
+                        'id' => $row['id'],
+                        'image' => $row['image'],
+                        'table' => 'anhsukien',
+                        'is_primary' => $row['is_primary'],
+                        'extra_info' => 'Sự kiện: ' . ($row['event_title'] ?: $row['event_code'])
+                    ];
+                }
+                break;
+
+            case '12':
+                $sql = "SELECT * FROM anhnhahang WHERE id_topic = ? ORDER BY id DESC";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $topic_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $images[] = [
+                        'id' => $row['id'],
+                        'image' => $row['image'],
+                        'table' => 'anhnhahang',
+                        'active' => $row['active'],
+                        'created_at' => $row['created_at']
+                    ];
+                }
+                break;
+
+            case '13':
+                $sql = "SELECT * FROM anhbar WHERE id_topic = ? ORDER BY id DESC";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $topic_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $images[] = [
+                        'id' => $row['id'],
+                        'image' => $row['image'],
+                        'table' => 'anhbar',
+                        'active' => $row['active'],
+                        'created_at' => $row['created_at']
+                    ];
+                }
+                break;
+
+            case '16':
+                $sql = "SELECT * FROM video WHERE id_topic = ? ORDER BY id DESC";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $topic_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $images[] = [
+                        'id' => $row['id'],
+                        'video' => $row['video'],
+                        'service' => $row['service'],
+                        'table' => 'video',
+                        'extra_info' => 'Dịch vụ: ' . ($row['service'] ?: 'Không có')
+                    ];
+                }
+                break;
+
+            default:
+                return ['status' => 'error', 'message' => 'Chủ đề không hợp lệ'];
+        }
+        return ['status' => 'success', 'images' => $images, 'topic_id' => $topic_id];
+    } catch (Exception $e) {
+        return ['status' => 'error', 'message' => 'Lỗi khi tải ảnh/video: ' . $e->getMessage()];
+    }
+}
+
+// Tải lên ảnh/video
+function uploadImages($conn, $topic_id, $files, $event_id = null, $service = null) {
+    try {
+        $uploaded_count = 0;
+        $upload_errors = [];
+        $upload_dir = ($topic_id == '16') ? '../view/video/' : '../view/img/';
+        $allowed_types = ($topic_id == '16') 
+            ? ['mp4', 'avi', 'mov', 'wmv', 'flv'] 
+            : ['jpg', 'jpeg', 'png', 'gif'];
+        $max_size = ($topic_id == '16') ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
+
+        if (!file_exists($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+
+        for ($i = 0; $i < count($files['name']); $i++) {
+            if ($files['error'][$i] == 0) {
+                $file_name = $files['name'][$i];
+                $file_tmp = $files['tmp_name'][$i];
+                $file_size = $files['size'][$i];
+                $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+                if (!in_array($file_ext, $allowed_types)) {
+                    $file_type = ($topic_id == '16') ? 'video' : 'ảnh';
+                    $upload_errors[] = "File $file_name không đúng định dạng $file_type!";
+                    continue;
+                }
+
+                if ($file_size > $max_size) {
+                    $size_limit = ($topic_id == '16') ? '50MB' : '10MB';
+                    $upload_errors[] = "File $file_name quá lớn (>$size_limit)!";
+                    continue;
+                }
+
+                $new_file_name = time() . '_' . rand(100000, 999999) . '_' . $file_name;
+                $upload_path = $upload_dir . $new_file_name;
+
+                if (move_uploaded_file($file_tmp, $upload_path)) {
+                    $insert_success = false;
+
+                    switch ($topic_id) {
+                        case '1':
+                            $sql = "INSERT INTO anhtongquat (image, active, id_topic, id_thongtinhotel) 
+                                    VALUES (?, 1, ?, 1)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("si", $new_file_name, $topic_id);
+                            $insert_success = $stmt->execute();
+                            break;
+
+                        case '9':
+                            if (!$event_id) {
+                                $upload_errors[] = "Thiếu ID sự kiện cho file $file_name!";
+                                unlink($upload_path);
+                                continue 2;
+                            }
+                            $sql = "INSERT INTO anhsukien (image, is_primary, id_topic, id_sukien) 
+                                    VALUES (?, 0, ?, ?)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("sii", $new_file_name, $topic_id, $event_id);
+                            $insert_success = $stmt->execute();
+                            break;
+
+                        case '12':
+                            $sql = "INSERT INTO anhnhahang (image, active, created_at, id_topic) 
+                                    VALUES (?, 1, NOW(), ?)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("si", $new_file_name, $topic_id);
+                            $insert_success = $stmt->execute();
+                            break;
+
+                        case '13':
+                            $sql = "INSERT INTO anhbar (image, active, created_at, id_topic) 
+                                    VALUES (?, 1, NOW(), ?)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("si", $new_file_name, $topic_id);
+                            $insert_success = $stmt->execute();
+                            break;
+
+                        case '16':
+                            $sql = "INSERT INTO video (video, service, id_topic) 
+                                    VALUES (?, ?, ?)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("ssi", $new_file_name, $service, $topic_id);
+                            $insert_success = $stmt->execute();
+                            break;
+                    }
+
+                    if ($insert_success) {
+                        $uploaded_count++;
+                    } else {
+                        $upload_errors[] = "Lỗi lưu database cho file $file_name: " . $conn->error;
+                        unlink($upload_path);
+                    }
+                } else {
+                    $upload_errors[] = "Lỗi upload file $file_name!";
+                }
+            } else {
+                $upload_errors[] = "Lỗi file " . $files['name'][$i] . ": " . $files['error'][$i];
+            }
+        }
+
+        if ($uploaded_count > 0) {
+            $file_type = ($topic_id == '16') ? 'video' : 'ảnh';
+            $message = "Đã upload thành công $uploaded_count $file_type!";
+            if (!empty($upload_errors)) {
+                $message .= " Có " . count($upload_errors) . " lỗi: " . implode(', ', $upload_errors);
+            }
+            return ['status' => 'success', 'uploaded_count' => $uploaded_count, 'message' => $message];
+        } else {
+            $file_type = ($topic_id == '16') ? 'video' : 'ảnh';
+            return ['status' => 'error', 'message' => "Không upload được $file_type nào! " . implode(', ', $upload_errors)];
+        }
+    } catch (Exception $e) {
+        return ['status' => 'error', 'message' => 'Lỗi khi upload: ' . $e->getMessage()];
+    }
+}
+
+// Chỉnh sửa ảnh (cho head_banner)
+function editImage($conn, $topic_id, $id, $file) {
+    try {
+        if (!in_array($topic_id, ['1', '4'])) {
+            return ['status' => 'error', 'message' => 'Chủ đề không hỗ trợ chỉnh sửa ảnh!'];
+        }
+
+        $upload_dir = '../view/img/';
+        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
+        $max_size = 10 * 1024 * 1024;
+
+        if (!file_exists($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+
+        $file_name = $file['name'];
+        $file_tmp = $file['tmp_name'];
+        $file_size = $file['size'];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        if (!in_array($file_ext, $allowed_types)) {
+            return ['status' => 'error', 'message' => "File $file_name không đúng định dạng ảnh!"];
+        }
+
+        if ($file_size > $max_size) {
+            return ['status' => 'error', 'message' => "File $file_name quá lớn (>10MB)!"];
+        }
+
+        // Lấy tên ảnh cũ
+        $table = ($topic_id == '1') ? 'anhtongquat' : 'head_banner';
+        $sql = "SELECT image FROM $table WHERE id = ? AND id_topic = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $id, $topic_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $old_image = $row['image'];
+
+        // Tạo tên file mới
+        $new_file_name = time() . '_' . rand(100000, 999999) . '_' . $file_name;
+        $upload_path = $upload_dir . $new_file_name;
+
+        if (move_uploaded_file($file_tmp, $upload_path)) {
+            // Cập nhật database
+            $sql = "UPDATE $table SET image = ? WHERE id = ? AND id_topic = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sii", $new_file_name, $id, $topic_id);
+            if ($stmt->execute()) {
+                // Xóa ảnh cũ
+                if ($old_image && file_exists($upload_dir . $old_image)) {
+                    unlink($upload_dir . $old_image);
+                }
+                return ['status' => 'success', 'message' => 'Cập nhật ảnh thành công!'];
+            } else {
+                unlink($upload_path);
+                return ['status' => 'error', 'message' => 'Lỗi lưu database: ' . $conn->error];
+            }
+        } else {
+            return ['status' => 'error', 'message' => "Lỗi upload file $file_name!"];
+        }
+    } catch (Exception $e) {
+        return ['status' => 'error', 'message' => 'Lỗi khi chỉnh sửa ảnh: ' . $e->getMessage()];
+    }
+}
+
+// Xóa ảnh/video
+function deleteItem($conn, $id, $table, $file_name) {
+    try {
+        $sql = "DELETE FROM $table WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            $file_path = ($table == 'video') ? '../view/video/' . $file_name : '../view/img/' . $file_name;
+            if (file_exists($file_path)) {
+                unlink($file_path);
+            }
+            return ['status' => 'success', 'message' => 'Xóa thành công!'];
+        } else {
+            return ['status' => 'error', 'message' => 'Lỗi khi xóa: ' . $conn->error];
+        }
+    } catch (Exception $e) {
+        return ['status' => 'error', 'message' => 'Lỗi khi xóa: ' . $e->getMessage()];
+    }
+}
+
+// Chuyển đổi trạng thái (active/is_primary)
+function toggleStatus($conn, $id, $table, $field, $current_status) {
+    try {
+        $new_status = $current_status == 1 ? 0 : 1;
+
+        if ($table == 'anhsukien' && $field == 'is_primary' && $new_status == 1) {
+            $sql = "SELECT id_sukien FROM anhsukien WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $id_sukien = $row['id_sukien'];
+
+            $sql = "SELECT id FROM anhsukien WHERE id_sukien = ? AND is_primary = 1 AND id != ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ii", $id_sukien, $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                return ['status' => 'error', 'message' => 'Sự kiện này đã có ảnh chính! Vui lòng bỏ ảnh chính hiện tại trước.'];
+            }
+        }
+
+        $sql = "UPDATE $table SET $field = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $new_status, $id);
+        if ($stmt->execute()) {
+            return ['status' => 'success', 'new_status' => $new_status];
+        } else {
+            return ['status' => 'error', 'message' => 'Lỗi khi cập nhật: ' . $conn->error];
+        }
+    } catch (Exception $e) {
+        return ['status' => 'error', 'message' => 'Lỗi khi cập nhật trạng thái: ' . $e->getMessage()];
     }
 }
