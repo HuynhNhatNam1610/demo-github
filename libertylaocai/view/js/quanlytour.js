@@ -1,33 +1,19 @@
-document.addEventListener("DOMContentLoaded", function () {
-  initializeEventListeners();
-});
-
+let editorVi = null;
+let editorEn = null;
 function initializeEventListeners() {
   const tourInfoForm = document.getElementById("tourInfoForm");
-  const addHighlightForm = document.getElementById("highlightForm");
-  const addScheduleForm = document.getElementById("addScheduleForm");
   const includesForm = document.getElementById("includesForm");
   const addImageForm = document.getElementById("addImageForm");
-  const scheduleEditForm = document.getElementById("scheduleEditForm");
   const descriptionForm = document.getElementById("descriptionForm");
 
   if (tourInfoForm) {
     tourInfoForm.addEventListener("submit", handleTourInfoSubmit);
-  }
-  if (addHighlightForm) {
-    addHighlightForm.addEventListener("submit", handleHighlightFormSubmit);
-  }
-  if (addScheduleForm) {
-    addScheduleForm.addEventListener("submit", handleScheduleSubmit);
   }
   if (includesForm) {
     includesForm.addEventListener("submit", handleIncludesSubmit);
   }
   if (addImageForm) {
     addImageForm.addEventListener("submit", handleImageSubmit);
-  }
-  if (scheduleEditForm) {
-    scheduleEditForm.addEventListener("submit", handleScheduleEditSubmit);
   }
   if (descriptionForm) {
     descriptionForm.addEventListener("submit", handleDescriptionSubmit);
@@ -36,9 +22,62 @@ function initializeEventListeners() {
   setTimeout(hideToast, 5000);
 }
 
-function selectTour(tourId) {
-  showLoading();
-  window.location.href = `?id_dichvu=${tourId}`;
+function initializeCKEditor() {
+  // Khởi tạo CKEditor cho content_vi
+  ClassicEditor.create(document.querySelector("#content_vi"), {
+    ckfinder: {
+      uploadUrl:
+        "/libertylaocai/model/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json",
+    },
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "|",
+      "imageUpload",
+      "blockQuote",
+    ],
+  })
+    .then((editor) => {
+      editorVi = editor;
+      console.log("CKEditor initialized for content_vi");
+    })
+    .catch((error) => {
+      console.error("Lỗi khởi tạo CKEditor tiếng Việt:", error);
+      showToast("Lỗi khởi tạo trình chỉnh sửa tiếng Việt", "error");
+    });
+
+  // Khởi tạo CKEditor cho content_en
+  ClassicEditor.create(document.querySelector("#content_en"), {
+    ckfinder: {
+      uploadUrl:
+        "/libertylaocai/model/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json",
+    },
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "|",
+      "imageUpload",
+      "blockQuote",
+    ],
+  })
+    .then((editor) => {
+      editorEn = editor;
+      console.log("CKEditor initialized for content_en");
+    })
+    .catch((error) => {
+      console.error("Lỗi khởi tạo CKEditor tiếng Anh:", error);
+      showToast("Lỗi khởi tạo trình chỉnh sửa tiếng Anh", "error");
+    });
 }
 
 function toggleForm(formId) {
@@ -64,7 +103,7 @@ async function handleTourInfoSubmit(e) {
   const formData = new FormData(e.target);
   try {
     showLoading();
-    const response = await fetch(window.location.href, {
+    const response = await fetch("/libertylaocai/user/submit", {
       method: "POST",
       body: formData,
     });
@@ -85,75 +124,12 @@ async function handleTourInfoSubmit(e) {
   }
 }
 
-async function handleScheduleSubmit(e) {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  const time = formData.get("time");
-  if (!time) {
-    showToast("Vui lòng chọn thời gian", "error");
-    return;
-  }
-  try {
-    showLoading();
-    const response = await fetch(window.location.href, {
-      method: "POST",
-      body: formData,
-    });
-    const result = await response.json();
-    if (result.success) {
-      showToast(result.message, "success");
-      toggleForm("scheduleForm");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } else {
-      showToast(result.message, "error");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    showToast("Có lỗi xảy ra khi thêm lịch trình", "error");
-  } finally {
-    hideLoading();
-  }
-}
-
-async function handleScheduleEditSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const formData = new FormData(form);
-  const button = form.querySelector('button[type="submit"]');
-  try {
-    setButtonLoading(button, true);
-    showLoading();
-    const response = await fetch(window.location.href, {
-      method: "POST",
-      body: formData,
-    });
-    const result = await response.json();
-    if (result.success) {
-      showToast(result.message, "Std::stringstream::sentryuccess");
-      closeModal("scheduleModal");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } else {
-      showToast(result.message, "error");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    showToast("Có lỗi xảy ra khi cập nhật lịch trình", "error");
-  } finally {
-    setButtonLoading(button, false);
-    hideLoading();
-  }
-}
-
 async function handleIncludesSubmit(e) {
   e.preventDefault();
   const formData = new FormData(e.target);
   try {
     showLoading();
-    const response = await fetch(window.location.href, {
+    const response = await fetch("/libertylaocai/user/submit", {
       method: "POST",
       body: formData,
     });
@@ -171,69 +147,6 @@ async function handleIncludesSubmit(e) {
   }
 }
 
-async function deleteHighlight(highlightId) {
-  if (!confirm("Bạn có chắc chắn muốn xóa điểm nổi bật này?")) {
-    return;
-  }
-  const urlParams = new URLSearchParams(window.location.search);
-  const tourId = urlParams.get("id_dichvu");
-  const formData = new FormData();
-  formData.append("action", "delete_highlight");
-  formData.append("id_tienich", highlightId);
-  formData.append("id_dichvu", tourId);
-  try {
-    showLoading();
-    const response = await fetch(window.location.href, {
-      method: "POST",
-      body: formData,
-    });
-    const result = await response.json();
-    if (result.success) {
-      showToast(result.message, "success");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } else {
-      showToast(result.message, "error");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    showToast("Có lỗi xảy ra khi xóa điểm nổi bật", "error");
-  } finally {
-    hideLoading();
-  }
-}
-
-async function deleteSchedule(scheduleId) {
-  if (!confirm("Bạn có chắc chắn muốn xóa lịch trình này?")) {
-    return;
-  }
-  const formData = new FormData();
-  formData.append("action", "delete_schedule");
-  formData.append("id_lichtrinh", scheduleId);
-  try {
-    showLoading();
-    const response = await fetch(window.location.href, {
-      method: "POST",
-      body: formData,
-    });
-    const result = await response.json();
-    if (result.success) {
-      showToast(result.message, "success");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } else {
-      showToast(result.message, "error");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    showToast("Có lỗi xảy ra khi xóa lịch trình", "error");
-  } finally {
-    hideLoading();
-  }
-}
-
 async function deleteImage(imageId, imageName) {
   if (!confirm("Bạn có chắc chắn muốn xóa ảnh này?")) {
     return;
@@ -244,7 +157,7 @@ async function deleteImage(imageId, imageName) {
   formData.append("image_name", imageName);
   try {
     showLoading();
-    const response = await fetch(window.location.href, {
+    const response = await fetch("/libertylaocai/user/submit", {
       method: "POST",
       body: formData,
     });
@@ -328,6 +241,21 @@ function autoResizeTextarea(textarea) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  initializeEventListeners();
+  initializeCKEditor(); // Khởi tạo CKEditor khi tải trang
+  attachImageUploadListener();
+
+  const tourItems = document.querySelectorAll(".tour-item");
+  tourItems.forEach((item) => {
+    item.style.cursor = "pointer";
+    item.addEventListener("click", function () {
+      const form = item.closest("form");
+      if (form) {
+        form.submit();
+      }
+    });
+  });
+
   const textareas = document.querySelectorAll("textarea");
   textareas.forEach((textarea) => {
     textarea.addEventListener("input", function () {
@@ -424,10 +352,10 @@ function setButtonLoading(button, loading = true) {
   }
 }
 
-window.addEventListener("error", function (e) {
-  console.error("JavaScript Error:", e.error);
-  showToast("Có lỗi xảy ra trong ứng dụng", "error");
-});
+// window.addEventListener("error", function (e) {
+//   console.error("JavaScript Error:", e.error);
+//   showToast("Có lỗi xảy ra trong ứng dụng", "error");
+// });
 
 window.addEventListener("unhandledrejection", function (e) {
   console.error("Unhandled Promise Rejection:", e.reason);
@@ -464,237 +392,40 @@ function closeModal(modalId) {
   }
 }
 
-function updateHighlightIcon() {
-  const iconSelect = document.getElementById("highlightIconSelect");
-  const iconCustomInput = document.getElementById("highlightIconCustom");
-  const iconHiddenInput = document.getElementById("highlightIcon");
-  const iconPreview = document.getElementById("iconPreview");
-  let iconClass = "";
-  if (iconSelect.value === "custom") {
-    iconCustomInput.style.display = "block";
-    iconClass = iconCustomInput.value.trim();
-  } else {
-    iconCustomInput.style.display = "none";
-    iconClass = iconSelect.value;
-  }
-  iconHiddenInput.value = iconClass;
-  iconPreview.innerHTML = iconClass ? `<i class="${iconClass}"></i>` : "";
-}
-
-function editHighlight(highlight) {
-  try {
-    if (!highlight || !highlight.id_tienich) {
-      showToast("Dữ liệu điểm nổi bật không hợp lệ", "error");
-      return;
-    }
-    const modal = document.getElementById("highlightModal");
-    const form = document.getElementById("highlightForm");
-    const titleElement = document.getElementById("highlightModalTitle");
-    const actionInput = document.getElementById("highlightAction");
-    const idInput = document.getElementById("highlightId");
-    const titleInputVi = document.getElementById("highlight_title_vi");
-    const contentInputVi = document.getElementById("highlight_content_vi");
-    const titleInputEn = document.getElementById("highlight_title_en");
-    const contentInputEn = document.getElementById("highlight_content_en");
-    const iconSelect = document.getElementById("highlightIconSelect");
-    const iconCustomInput = document.getElementById("highlightIconCustom");
-    const iconHiddenInput = document.getElementById("highlightIcon");
-    const iconPreview = document.getElementById("iconPreview");
-    if (
-      !modal ||
-      !form ||
-      !titleElement ||
-      !actionInput ||
-      !idInput ||
-      !titleInputVi ||
-      !contentInputVi ||
-      !titleInputEn ||
-      !contentInputEn ||
-      !iconSelect ||
-      !iconCustomInput ||
-      !iconHiddenInput ||
-      !iconPreview
-    ) {
-      showToast("Không tìm thấy các thành phần giao diện", "error");
-      return;
-    }
-    titleElement.textContent = "Chỉnh Sửa Điểm Nổi Bật";
-    actionInput.value = "update_highlight";
-    idInput.value = highlight.id_tienich || "";
-    titleInputVi.value = highlight.title || "";
-    contentInputVi.value = highlight.content || "";
-
-    // Lấy dữ liệu tiếng Anh từ server bằng POST
-    const formData = new FormData();
-    formData.append("action", "get_highlight");
-    formData.append("id_tienich", highlight.id_tienich);
-    formData.append("id_ngonngu", 2);
-    fetch(window.location.href, {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          titleInputEn.value = data.data.title || "";
-          contentInputEn.value = data.data.content || "";
-        } else {
-          titleInputEn.value = "";
-          contentInputEn.value = "";
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching English highlight:", error);
-        titleInputEn.value = "";
-        contentInputEn.value = "";
-      });
-
-    const iconOption = Array.from(iconSelect.options).find(
-      (option) => option.value === highlight.icon
-    );
-    if (iconOption) {
-      iconSelect.value = highlight.icon;
-      iconCustomInput.style.display = "none";
-    } else {
-      iconSelect.value = "custom";
-      iconCustomInput.style.display = "block";
-      iconCustomInput.value = highlight.icon || "";
-    }
-    iconHiddenInput.value = highlight.icon || "";
-    iconPreview.innerHTML = highlight.icon
-      ? `<i class="${highlight.icon}"></i>`
-      : "";
-    modal.style.display = "grid";
-    document.body.style.overflow = "hidden";
-  } catch (error) {
-    console.error("Error in editHighlight:", error);
-    showToast("Có lỗi xảy ra khi mở chỉnh sửa điểm nổi bật", "error");
-  }
-}
-
-function editSchedule(schedule) {
-  try {
-    if (!schedule || !schedule.id) {
-      showToast("Dữ liệu lịch trình không hợp lệ", "error");
-      return;
-    }
-    const modal = document.getElementById("scheduleModal");
-    const form = document.getElementById("scheduleEditForm");
-    const titleElement = document.getElementById("scheduleModalTitle");
-    const actionInput = document.getElementById("scheduleAction");
-    const idInput = document.getElementById("scheduleId");
-    const timeInput = document.getElementById("scheduleTime");
-    const ngayInputVi = document.getElementById("schedule_ngay_vi");
-    const titleInputVi = document.getElementById("schedule_title_vi");
-    const contentInputVi = document.getElementById("schedule_content_vi");
-    const ngayInputEn = document.getElementById("schedule_ngay_en");
-    const titleInputEn = document.getElementById("schedule_title_en");
-    const contentInputEn = document.getElementById("schedule_content_en");
-    if (
-      !modal ||
-      !form ||
-      !titleElement ||
-      !actionInput ||
-      !idInput ||
-      !timeInput ||
-      !ngayInputVi ||
-      !titleInputVi ||
-      !contentInputVi ||
-      !ngayInputEn ||
-      !titleInputEn ||
-      !contentInputEn
-    ) {
-      showToast("Không tìm thấy các thành phần giao diện", "error");
-      return;
-    }
-    titleElement.textContent = "Chỉnh Sửa Lịch Trình";
-    actionInput.value = "update_schedule";
-    idInput.value = schedule.id || "";
-    timeInput.value = schedule.time ? schedule.time.slice(0, 16) : "";
-    ngayInputVi.value = schedule.ngay || "";
-    titleInputVi.value = schedule.title || "";
-    contentInputVi.value = schedule.content || "";
-
-    // Lấy dữ liệu tiếng Anh từ server bằng POST
-    const formData = new FormData();
-    formData.append("action", "get_schedule");
-    formData.append("id_lichtrinh", schedule.id);
-    formData.append("id_ngonngu", 2);
-    fetch(window.location.href, {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          ngayInputEn.value = data.data.ngay || "";
-          titleInputEn.value = data.data.title || "";
-          contentInputEn.value = data.data.content || "";
-        } else {
-          ngayInputEn.value = "";
-          titleInputEn.value = "";
-          contentInputEn.value = "";
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching English schedule:", error);
-        ngayInputEn.value = "";
-        titleInputEn.value = "";
-        contentInputEn.value = "";
-      });
-
-    modal.style.display = "grid";
-    document.body.style.overflow = "hidden";
-  } catch (error) {
-    console.error("Error in editSchedule:", error);
-    showToast("Có lỗi xảy ra khi mở chỉnh sửa lịch trình", "error");
-  }
-}
-
-async function handleHighlightFormSubmit(e) {
+async function handleDescriptionSubmit(e) {
   e.preventDefault();
   const form = e.target;
   const formData = new FormData(form);
-  const button = form.querySelector('button[type="submit"]');
-  try {
-    setButtonLoading(button, true);
-    showLoading();
-    const response = await fetch(window.location.href, {
-      method: "POST",
-      body: formData,
-    });
-    const result = await response.json();
-    if (result.success) {
-      showToast(result.message, "success");
-      closeModal("highlightModal");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } else {
-      showToast(result.message, "error");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    showToast("Có lỗi xảy ra khi xử lý điểm nổi bật", "error");
-  } finally {
-    setButtonLoading(button, false);
-    hideLoading();
+
+  // Đồng bộ dữ liệu từ CKEditor
+  if (editorVi) {
+    const contentVi = editorVi.getData();
+    formData.set("content_vi", contentVi);
+    document.querySelector("#content_vi").value = contentVi;
   }
-}
-async function handleDescriptionSubmit(e) {
-  e.preventDefault();
-  const formData = new FormData(e.target);
+  if (editorEn) {
+    const contentEn = editorEn.getData();
+    formData.set("content_en", contentEn);
+    document.querySelector("#content_en").value = contentEn;
+  }
+
+  // Log FormData để gỡ lỗi
+  for (let [key, value] of formData.entries()) {
+    console.log(`FormData: ${key} = ${value}`);
+  }
+
   try {
     showLoading();
-    const response = await fetch(window.location.href, {
+    const response = await fetch("/libertylaocai/user/submit", {
       method: "POST",
       body: formData,
     });
     const result = await response.json();
+    console.log("Server response:", result);
     if (result.success) {
-      showToast(result.message, "success");
+      showToast(result.message || "Cập nhật mô tả tour thành công!", "success");
     } else {
-      showToast(result.message, "error");
+      showToast(result.message || "Lỗi khi cập nhật mô tả tour", "error");
     }
   } catch (error) {
     console.error("Error:", error);
@@ -703,67 +434,7 @@ async function handleDescriptionSubmit(e) {
     hideLoading();
   }
 }
-async function handleImageSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const fileInput = form.querySelector('input[type="file"]');
-  const isPrimaryCheckbox = form.querySelector('input[name="is_primary"]');
-  if (!fileInput.files.length) {
-    showToast("Vui lòng chọn file ảnh", "error");
-    return;
-  }
-  const file = fileInput.files[0];
-  if (file.size > 5 * 1024 * 1024) {
-    showToast("Kích thước file không được vượt quá 5MB!", "error");
-    fileInput.value = "";
-    return;
-  }
-  if (!file.type.includes("image")) {
-    showToast("Vui lòng chọn file hình ảnh!", "error");
-    fileInput.value = "";
-    return;
-  }
-  const formData = new FormData(form);
-  const button = form.querySelector('button[type="submit"]');
-  try {
-    setButtonLoading(button, true);
-    showLoading();
-    const response = await fetch(window.location.href, {
-      method: "POST",
-      body: formData,
-    });
-    const result = await response.json();
-    if (result.success) {
-      showToast(result.message, "success");
-      toggleForm("imageForm");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } else {
-      showToast(result.message, "error");
-      if (result.message.includes("Chỉ được phép có một ảnh chính")) {
-        isPrimaryCheckbox.checked = false; // Bỏ chọn checkbox nếu có lỗi ảnh chính
-      }
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    showToast("Có lỗi xảy ra khi tải ảnh lên", "error");
-  } finally {
-    setButtonLoading(button, false);
-    hideLoading();
-  }
-}
 
-document.addEventListener("DOMContentLoaded", function () {
-  const iconCustomInput = document.getElementById("highlightIconCustom");
-  const highlightForm = document.getElementById("highlightForm");
-  if (iconCustomInput) {
-    iconCustomInput.addEventListener("input", updateHighlightIcon);
-  }
-  if (highlightForm) {
-    highlightForm.addEventListener("submit", handleHighlightFormSubmit);
-  }
-});
 let selectedFiles = [];
 
 function attachImageUploadListener() {
@@ -959,7 +630,7 @@ async function handleImageSubmit(e) {
   try {
     setButtonLoading(button, true);
     showLoading();
-    const response = await fetch(window.location.href, {
+    const response = await fetch("/libertylaocai/user/submit", {
       method: "POST",
       body: formData,
     });
@@ -991,13 +662,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 window.openModal = openModal;
 window.closeModal = closeModal;
-window.editHighlight = editHighlight;
-window.editSchedule = editSchedule;
-window.updateHighlightIcon = updateHighlightIcon;
-window.selectTour = selectTour;
+// window.selectTour = selectTour;
 window.toggleForm = toggleForm;
-window.deleteHighlight = deleteHighlight;
-window.deleteSchedule = deleteSchedule;
 window.deleteImage = deleteImage;
 window.showToast = showToast;
 window.hideToast = hideToast;

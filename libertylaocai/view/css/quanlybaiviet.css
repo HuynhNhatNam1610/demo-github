@@ -838,3 +838,31 @@ h1 {
     border: 1px solid #ccc;
   }
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  margin: 0 5px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination-btn.active,
+.pagination-btn:hover {
+  background: #66bb6a;
+  color: white;
+  border-color: #66bb6a;
+}
+
+.pagination-ellipsis {
+  margin: 0 5px;
+  padding: 8px 12px;
+  color: #666;
+}

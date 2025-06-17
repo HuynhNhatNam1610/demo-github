@@ -8,6 +8,9 @@ $languageId = isset($_SESSION['language_id']) ? (int)$_SESSION['language_id'] : 
 // Lấy thông tin khách sạn theo ngôn ngữ
 $informationHotel = getHotelInfoWithLanguage($languageId);
 
+// Lấy danh sách dịch vụ theo ngôn ngữ
+$services = getServicesWithLanguage($languageId);
+
 $labels = [
     'section_title' => ['Dịch vụ của chúng tôi', 'Our Services'],
     'section_desc' => ['Trải nghiệm đa dạng các dịch vụ chất lượng cao', 'Experience a wide range of high-quality services'],
@@ -184,76 +187,20 @@ $rooms = getAllRoomTypesWithRandomImage($languageId);
                     </div>
                     <div class="services-grid">
                         <!-- Dịch vụ lưu trú -->
-                        <div class="service-card">
-                            <div class="service-icon"><i class="fas fa-bed"></i></div>
-                            <h3><?= $labels['stay_title'][$languageId == 1 ? 0 : 1]; ?></h3>
-                            <p><?= $labels['stay_desc'][$languageId == 1 ? 0 : 1]; ?></p>
-                            <ul class="service-features">
-                                <?php foreach ($labels['stay_features'] as $f): ?>
-                                    <li><?= $f[$languageId == 1 ? 0 : 1]; ?></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-
-                        <!-- Tổ chức sự kiện -->
-                        <div class="service-card">
-                            <div class="service-icon"><i class="fas fa-calendar-alt"></i></div>
-                            <h3><?= $labels['event_title'][$languageId == 1 ? 0 : 1]; ?></h3>
-                            <p><?= $labels['event_desc'][$languageId == 1 ? 0 : 1]; ?></p>
-                            <ul class="service-features">
-                                <?php foreach ($labels['event_features'] as $f): ?>
-                                    <li><?= $f[$languageId == 1 ? 0 : 1]; ?></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-
-                        <!-- Nhà hàng -->
-                        <div class="service-card">
-                            <div class="service-icon"><i class="fas fa-utensils"></i></div>
-                            <h3><?= $labels['restaurant_title'][$languageId == 1 ? 0 : 1]; ?></h3>
-                            <p><?= $labels['restaurant_desc'][$languageId == 1 ? 0 : 1]; ?></p>
-                            <ul class="service-features">
-                                <?php foreach ($labels['restaurant_features'] as $f): ?>
-                                    <li><?= $f[$languageId == 1 ? 0 : 1]; ?></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-
-                        <!-- Passport -->
-                        <div class="service-card">
-                            <div class="service-icon"><i class="fas fa-passport"></i></div>
-                            <h3><?= $labels['passport_title'][$languageId == 1 ? 0 : 1]; ?></h3>
-                            <p><?= $labels['passport_desc'][$languageId == 1 ? 0 : 1]; ?></p>
-                            <ul class="service-features">
-                                <?php foreach ($labels['passport_features'] as $f): ?>
-                                    <li><?= $f[$languageId == 1 ? 0 : 1]; ?></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-
-                        <!-- Tour -->
-                        <div class="service-card">
-                            <div class="service-icon"><i class="fas fa-plane"></i></div>
-                            <h3><?= $labels['tour_title'][$languageId == 1 ? 0 : 1]; ?></h3>
-                            <p><?= $labels['tour_desc'][$languageId == 1 ? 0 : 1]; ?></p>
-                            <ul class="service-features">
-                                <?php foreach ($labels['tour_features'] as $f): ?>
-                                    <li><?= $f[$languageId == 1 ? 0 : 1]; ?></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-
-                        <!-- Đưa đón -->
-                        <div class="service-card">
-                            <div class="service-icon"><i class="fas fa-car"></i></div>
-                            <h3><?= $labels['car_title'][$languageId == 1 ? 0 : 1]; ?></h3>
-                            <p><?= $labels['car_desc'][$languageId == 1 ? 0 : 1]; ?></p>
-                            <ul class="service-features">
-                                <?php foreach ($labels['car_features'] as $f): ?>
-                                    <li><?= $f[$languageId == 1 ? 0 : 1]; ?></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
+                        <?php foreach ($services as $service): ?>
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <?php if (!empty($info['logo'])): ?>
+                                        <div class="service-logo">
+                                            <img src="/libertylaocai/view/img/<?= htmlspecialchars($info['logo']); ?>" alt="Logo">
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="service-description service-description-<?php echo $index; ?>">
+                                    <?= $service['description']; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </section>

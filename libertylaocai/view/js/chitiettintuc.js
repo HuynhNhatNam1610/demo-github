@@ -13,9 +13,9 @@ function updatePromotionsPerSlide() {
     promotionsPerSlide = 3;
   }
 
-  const promotionCards = document.querySelectorAll(".promotion-item");
+  const promotionCards = document.querySelectorAll(".promotion-card");
   totalPromotionCards = promotionCards.length;
-  maxPromotionSlides = Math.max(0, totalPromotionCards - promotionsPerSlide);
+  maxPromotionSlides = Math.max(0, Math.ceil(totalPromotionCards / promotionsPerSlide) - 1);
 
   // Reset slide if current position is invalid
   if (currentPromotionSlide > maxPromotionSlides) {
@@ -28,7 +28,7 @@ function updatePromotionsPerSlide() {
 
 function updatePromotionSlider() {
   const promotionsGrid = document.querySelector(".promotions-grid");
-  const promotionCards = document.querySelectorAll(".promotion-item");
+  const promotionCards = document.querySelectorAll(".promotion-card");
 
   if (!promotionsGrid || promotionCards.length === 0) return;
 
@@ -51,36 +51,34 @@ function updatePromotionSlider() {
   promotionsGrid.style.setProperty("--card-width", `${cardWidth}%`);
   promotionsGrid.style.setProperty("--gap", `${gap}%`);
 
-  const translateX = currentPromotionSlide * (cardWidth + gap);
+  const translateX = currentPromotionSlide * 100;
   promotionsGrid.style.transform = `translateX(-${translateX}%)`;
 }
 
 function nextPromotionSlide() {
-  currentPromotionSlide =
-    (currentPromotionSlide + 1) % (maxPromotionSlides + 1);
-  updatePromotionSlider();
-  updatePromotionNavigation();
+  if (currentPromotionSlide < maxPromotionSlides) {
+    currentPromotionSlide++;
+    updatePromotionSlider();
+    updatePromotionNavigation();
+  }
 }
 
 function prevPromotionSlide() {
-  currentPromotionSlide =
-    (currentPromotionSlide - 1 + (maxPromotionSlides + 1)) %
-    (maxPromotionSlides + 1);
-  updatePromotionSlider();
-  updatePromotionNavigation();
+  if (currentPromotionSlide > 0) {
+    currentPromotionSlide--;
+    updatePromotionSlider();
+    updatePromotionNavigation();
+  }
 }
 
 function updatePromotionNavigation() {
   const prevBtn = document.querySelector(".promotion-nav-prev");
   const nextBtn = document.querySelector(".promotion-nav-next");
 
-  // if (prevBtn && nextBtn) {
-  //     prevBtn.style.opacity = currentPromotionSlide === 0 ? "0.5" : "1";
-  //     prevBtn.style.cursor = currentPromotionSlide === 0 ? "not-allowed" : "pointer";
-
-  //     nextBtn.style.opacity = currentPromotionSlide >= maxPromotionSlides ? "0.5" : "1";
-  //     nextBtn.style.cursor = currentPromotionSlide >= maxPromotionSlides ? "not-allowed" : "pointer";
-  // }
+  if (prevBtn && nextBtn) {
+    prevBtn.disabled = currentPromotionSlide === 0;
+    nextBtn.disabled = currentPromotionSlide >= maxPromotionSlides;
+  }
 
   // Update dots indicator
   const dots = document.querySelectorAll(".promotion-dot");
@@ -94,9 +92,7 @@ function initPromotionSlider() {
   updatePromotionsPerSlide();
 
   // Create navigation dots
-  const promotionSliderContainer = document.querySelector(
-    ".related-promotions"
-  );
+  const promotionSliderContainer = document.querySelector(".related-promotions .content-wrapper");
   const existingDots = document.querySelector(".promotion-slider-dots");
   if (existingDots) {
     existingDots.remove();
@@ -136,18 +132,14 @@ function initPromotionSlider() {
 let startX = 0;
 let endX = 0;
 
-document
-  .querySelector(".promotions-grid-wrapper")
-  .addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-  });
+document.querySelector(".promotions-grid-wrapper").addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
 
-document
-  .querySelector(".promotions-grid-wrapper")
-  .addEventListener("touchend", (e) => {
-    endX = e.changedTouches[0].clientX;
-    handlePromotionSwipe();
-  });
+document.querySelector(".promotions-grid-wrapper").addEventListener("touchend", (e) => {
+  endX = e.changedTouches[0].clientX;
+  handlePromotionSwipe();
+});
 
 function handlePromotionSwipe() {
   const swipeThreshold = 50;
@@ -163,17 +155,20 @@ function handlePromotionSwipe() {
 }
 
 // Initialize when DOM is loaded
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   initPromotionSlider();
 
-   // Handle promotion item clicks
-  $(document).on("click", ".promotion-item", function(e) {
-    e.preventDefault();
-    const promotionId = $(this).data("promotion-id");
-    
-    if (promotionId) {
-      $("#promotionIdInput").val(promotionId);
-      $("#promotionForm").submit();
+  // Handle promotion item clicks
+  $(document).on("click", ".promotion-card", function(e) {
+    // Prevent form submission if clicking on the card but not the button
+    if (!$(e.target).closest('.promotion-button').length) {
+      e.preventDefault();
+      const promotionId = $(this).data("promotion-id");
+      
+      if (promotionId) {
+        $("#promotionIdInput").val(promotionId);
+        $("#promotionForm").submit();
+      }
     }
   });
 });

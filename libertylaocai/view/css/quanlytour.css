@@ -1,16 +1,16 @@
 /* Reset và Base Styles */
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
   color: #333;
   line-height: 1.6;
-}
+} */
 
 /* Container chính */
 .admin-container {

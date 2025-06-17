@@ -301,29 +301,29 @@ function initTabs() {
   });
 }
 
-// Reservation form handling
-function initReservationForm() {
-  const form = document.getElementById("reservationForm");
-  const dateInput = document.getElementById("date");
-  const today = new Date().toISOString().split("T")[0];
-  dateInput.min = today;
+// // Reservation form handling
+// function initReservationForm() {
+//   const form = document.getElementById("reservationForm");
+//   const dateInput = document.getElementById("date");
+//   const today = new Date().toISOString().split("T")[0];
+//   dateInput.min = today;
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+//   form.addEventListener("submit", (e) => {
+//     e.preventDefault();
+//     const formData = new FormData(form);
+//     const data = Object.fromEntries(formData.entries());
 
-    if (!data.name || !data.phone || !data.date || !data.time || !data.guests) {
-      alert("Vui lòng điền đầy đủ thông tin bắt buộc!");
-      return;
-    }
+//     if (!data.name || !data.phone || !data.date || !data.time || !data.guests) {
+//       alert("Vui lòng điền đầy đủ thông tin bắt buộc!");
+//       return;
+//     }
 
-    alert(
-      `Cảm ơn ${data.name}! Yêu cầu đặt bàn của bạn đã được ghi nhận. Chúng tôi sẽ liên hệ với bạn qua số ${data.phone} trong thời gian sớm nhất để xác nhận.`
-    );
-    form.reset();
-  });
-}
+//     alert(
+//       `Cảm ơn ${data.name}! Yêu cầu đặt bàn của bạn đã được ghi nhận. Chúng tôi sẽ liên hệ với bạn qua số ${data.phone} trong thời gian sớm nhất để xác nhận.`
+//     );
+//     form.reset();
+//   });
+// }
 
 // Parallax effect for hero section
 function initParallax() {
@@ -709,6 +709,24 @@ function createReviewElement(reviewData) {
   return reviewDiv;
 }
 
+function quickBookTable() {
+  // Chuyển đến tab reservation
+  const navBtns = document.querySelectorAll(".nav-btn");
+  const tabContents = document.querySelectorAll(".tab-content");
+  const targetTab = document.getElementById("reservation");
+  const targetBtn = document.querySelector('[data-tab="reservation"]');
+
+  if (targetTab && targetBtn) {
+    navBtns.forEach((b) => b.classList.remove("active"));
+    tabContents.forEach((content) => content.classList.remove("active"));
+    targetBtn.classList.add("active");
+    targetTab.classList.add("active");
+
+    // Cuộn mượt mà đến phần đặt bàn
+    targetTab.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
 // Initialize all functionality when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   createParticles();
@@ -885,9 +903,177 @@ function initReservationForm() {
     });
   }
 
+  // if (form) {
+  //   form.addEventListener("submit", function (e) {
+  //     e.preventDefault();
+
+  //     // Xóa thông báo lỗi trước đó
+  //     document.querySelectorAll(".error-message").forEach((span) => {
+  //       span.style.display = "none";
+  //       span.textContent = "";
+  //     });
+  //     document
+  //       .querySelectorAll(".form-group input, .form-group select")
+  //       .forEach((input) => {
+  //         input.classList.remove("error");
+  //       });
+
+  //     const fieldNames = {
+  //       customerName: languageId == 1 ? "Họ và tên" : "Full Name",
+  //       phoneNumber: languageId == 1 ? "Số điện thoại" : "Phone Number",
+  //       email: languageId == 1 ? "Email" : "Email",
+  //       bookingDate: languageId == 1 ? "Ngày đặt bàn" : "Booking Date",
+  //       startTime: languageId == 1 ? "Giờ đặt bàn" : "Booking Time",
+  //       guestCount: languageId == 1 ? "Số lượng khách" : "Number of Guests",
+  //       diningArea: languageId == 1 ? "Khu vực đặt bàn" : "Dining Area",
+  //     };
+
+  //     const requiredFields = [
+  //       "customerName",
+  //       "phoneNumber",
+  //       "email",
+  //       "bookingDate",
+  //       "startTime",
+  //       "guestCount",
+  //       "diningArea",
+  //     ];
+  //     let isValid = true;
+
+  //     requiredFields.forEach((field) => {
+  //       const input = document.getElementById(field);
+  //       const errorSpan = document.getElementById(`${field}-error`);
+  //       if (!input || !input.value.trim()) {
+  //         if (input) input.classList.add("error");
+  //         if (errorSpan) {
+  //           errorSpan.textContent =
+  //             languageId == 1
+  //               ? `Vui lòng nhập ${fieldNames[field]}`
+  //               : `Please enter ${fieldNames[field]}`;
+  //           errorSpan.style.display = "block";
+  //           errorSpan.style.color = "red";
+  //           errorSpan.style.fontSize = "14px";
+  //         }
+  //         isValid = false;
+  //       }
+  //     });
+
+  //     const bookingDate = new Date(
+  //       document.getElementById("bookingDate").value
+  //     );
+  //     const todayDate = new Date();
+  //     todayDate.setHours(0, 0, 0, 0);
+  //     if (bookingDate < todayDate) {
+  //       const errorSpan = document.getElementById("bookingDate-error");
+  //       if (errorSpan) {
+  //         errorSpan.textContent =
+  //           languageId == 1
+  //             ? "Ngày đặt bàn không thể là ngày trong quá khứ"
+  //             : "Booking date cannot be in the past";
+  //         errorSpan.style.display = "block";
+  //         errorSpan.style.color = "red";
+  //         errorSpan.style.fontSize = "14px";
+  //       }
+  //       document.getElementById("bookingDate").classList.add("error");
+  //       isValid = false;
+  //     }
+
+  //     const email = document.getElementById("email")?.value;
+  //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //     if (email && !emailRegex.test(email)) {
+  //       const errorSpan = document.getElementById("email-error");
+  //       if (errorSpan) {
+  //         errorSpan.textContent =
+  //           languageId == 1
+  //             ? "Email không đúng định dạng"
+  //             : "Invalid email format";
+  //         errorSpan.style.display = "block";
+  //         errorSpan.style.color = "red";
+  //         errorSpan.style.fontSize = "14px";
+  //       }
+  //       document.getElementById("email").classList.add("error");
+  //       isValid = false;
+  //     }
+
+  //     const phoneNumber = document.getElementById("phoneNumber")?.value;
+  //     const phoneRegex = /^[0-9+\-\s\(\)]+$/;
+  //     if (
+  //       phoneNumber &&
+  //       (!phoneRegex.test(phoneNumber) || phoneNumber.length < 10)
+  //     ) {
+  //       const errorSpan = document.getElementById("phoneNumber-error");
+  //       if (errorSpan) {
+  //         errorSpan.textContent =
+  //           languageId == 1
+  //             ? "Số điện thoại không hợp lệ"
+  //             : "Invalid phone number";
+  //         errorSpan.style.display = "block";
+  //         errorSpan.style.color = "red";
+  //         errorSpan.style.fontSize = "14px";
+  //       }
+  //       document.getElementById("phoneNumber").classList.add("error");
+  //       isValid = false;
+  //     }
+
+  //     if (isValid) {
+  //       const submitBtn = document.querySelector(".submit-booking-btn");
+  //       const originalText = submitBtn.innerHTML;
+  //       submitBtn.innerHTML =
+  //         '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+  //       submitBtn.disabled = true;
+
+  //       const formData = new FormData(form);
+  //       formData.append("submit_booking_restaurant", "true");
+
+  //       fetch("/libertylaocai/user/submit", {
+  //         method: "POST",
+  //         body: formData,
+  //       })
+  //         .then((response) => {
+  //           if (!response.ok) {
+  //             throw new Error(`HTTP error! Status: ${response.status}`);
+  //           }
+  //           return response.json();
+  //         })
+  //         .then((data) => {
+  //           submitBtn.innerHTML = originalText;
+  //           submitBtn.disabled = false;
+  //           if (data.status === "success") {
+  //             alert(data.message);
+  //             form.reset();
+  //             document
+  //               .querySelectorAll(".nav-btn")
+  //               .forEach((btn) => btn.classList.remove("active"));
+  //             document
+  //               .querySelectorAll(".tab-content")
+  //               .forEach((content) => content.classList.remove("active"));
+  //             document
+  //               .querySelector('[data-tab="about"]')
+  //               .classList.add("active");
+  //             document.getElementById("about").classList.add("active");
+  //           } else {
+  //             alert(data.message);
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           submitBtn.innerHTML = originalText;
+  //           submitBtn.disabled = false;
+  //           console.error("Error:", error);
+  //           alert(
+  //             languageId == 1
+  //               ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
+  //               : "An error occurred while sending the request. Please try again."
+  //           );
+  //         });
+  //     }
+  //   });
+  // }
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+
+      // Hiển thị overlay loading toàn màn hình
+      const fullScreenLoader = document.getElementById("fullScreenLoader");
+      fullScreenLoader.style.display = "flex";
 
       // Xóa thông báo lỗi trước đó
       document.querySelectorAll(".error-message").forEach((span) => {
@@ -1019,6 +1205,8 @@ function initReservationForm() {
           .then((data) => {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
             if (data.status === "success") {
               alert(data.message);
               form.reset();
@@ -1039,6 +1227,8 @@ function initReservationForm() {
           .catch((error) => {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
             console.error("Error:", error);
             alert(
               languageId == 1
@@ -1046,6 +1236,9 @@ function initReservationForm() {
                 : "An error occurred while sending the request. Please try again."
             );
           });
+      } else {
+        // Ẩn overlay loading nếu form không hợp lệ
+        fullScreenLoader.style.display = "none";
       }
     });
   }

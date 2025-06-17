@@ -1,10 +1,10 @@
 <?php
-// Bật ghi log lỗi
-ob_clean();
-ini_set('display_errors', 0); // Tắt hiển thị lỗi cho người dùng
-ini_set('log_errors', 1); // Bật ghi log lỗi
-ini_set('error_log', 'php_errors.log'); // Đường dẫn tệp log
-error_reporting(E_ALL);
+// // Bật ghi log lỗi
+// ob_clean();
+// ini_set('display_errors', 0); // Tắt hiển thị lỗi cho người dùng
+// ini_set('log_errors', 1); // Bật ghi log lỗi
+// ini_set('error_log', 'php_errors.log'); // Đường dẫn tệp log
+// error_reporting(E_ALL);
 header('Content-Type: application/json');
 
 require_once "../model/UserModel.php";

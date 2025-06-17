@@ -2,12 +2,17 @@
 require_once '../model/UserModel.php';
 require_once '../view/php/session.php';
 require_once '../model/mail/sendmail.php';
-error_reporting(E_ALL);
-// // ini_set('log_errors', 1);
-ini_set('error_log', 'debug.log');
+// error_reporting(E_ALL);
+// // // ini_set('log_errors', 1);
+// ini_set('error_log', 'debug.log');
 // Kiểm tra ngôn ngữ từ session, mặc định là 1 (tiếng Việt)
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
-
+$informationHotel = getHotelInfoWithLanguage($languageId);
+if (!empty($informationHotel)) {
+    foreach ($informationHotel as $info) {
+        $liberty = $info['name'];
+    }
+}
 // Hàm trả về thông điệp đa ngôn ngữ
 function getMessage($key, $languageId)
 {
@@ -104,6 +109,384 @@ function uploadImage($file)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $action = isset($_POST['action']) ? $_POST['action'] : '';
+
+    // Lấy danh sách chủ đề
+    if ($action === 'get_topics') {
+        $result = getTopics($conn);
+        echo json_encode($result['topics']);
+        exit;
+    }
+
+    // Lấy danh sách trang
+    if ($action === 'get_pages') {
+        $result = getPages($conn);
+        echo json_encode($result['pages']);
+        exit;
+    }
+
+    // Lấy danh sách sự kiện
+    if ($action === 'get_sukien') {
+        $result = getSukien($conn);
+        echo json_encode($result['sukien']);
+        exit;
+    }
+
+    // Lấy danh sách ảnh/video
+    if ($action === 'get_images') {
+        $topic_id = $_POST['topic_id'] ?? '';
+        $page = $_POST['page'] ?? '';
+        $id_sukien = $_POST['id_sukien'] ?? '';
+
+        if (empty($topic_id)) {
+            echo json_encode(['status' => 'error', 'message' => 'Thiếu topic_id']);
+            exit;
+        }
+
+        $result = getImages($conn, $topic_id, $page, $id_sukien);
+        echo json_encode($result);
+        exit;
+    }
+
+    // Tải lên ảnh/video
+    if ($action === 'upload_images') {
+        $topic_id = $_POST['topic_id'] ?? '';
+        $event_id = $_POST['event_id'] ?? null;
+        $service = $_POST['service'] ?? null;
+
+        if (empty($topic_id)) {
+            echo json_encode(['status' => 'error', 'message' => 'Thiếu topic_id']);
+            exit;
+        }
+
+        if (!isset($_FILES['images']) || empty($_FILES['images']['name'][0])) {
+            echo json_encode(['status' => 'error', 'message' => 'Không có file nào được chọn!']);
+            exit;
+        }
+
+        $result = uploadImages($conn, $topic_id, $_FILES['images'], $event_id, $service);
+        echo json_encode([
+            'success' => $result['status'] === 'success',
+            'uploaded_count' => $result['uploaded_count'] ?? 0,
+            'message' => $result['message']
+        ]);
+        exit;
+    }
+
+    // Chỉnh sửa ảnh
+    if ($action === 'edit_image') {
+        $topic_id = $_POST['topic_id'] ?? '';
+        $id = $_POST['id'] ?? '';
+
+        if (empty($topic_id) || empty($id)) {
+            echo json_encode(['status' => 'error', 'message' => 'Thiếu topic_id hoặc id']);
+            exit;
+        }
+
+        if (!isset($_FILES['image']) || empty($_FILES['image']['name'])) {
+            echo json_encode(['status' => 'error', 'message' => 'Không có file ảnh được chọn!']);
+            exit;
+        }
+
+        $result = editImage($conn, $topic_id, $id, $_FILES['image']);
+        echo json_encode([
+            'success' => $result['status'] === 'success',
+            'message' => $result['message']
+        ]);
+        exit;
+    }
+
+    // Xóa ảnh/video
+    if ($action === 'delete_item') {
+        $id = $_POST['id'] ?? '';
+        $table = $_POST['table'] ?? '';
+        $image_name = $_POST['image_name'] ?? '';
+
+        if (empty($id) || empty($table) || empty($image_name)) {
+            echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
+            exit;
+        }
+
+        $result = deleteItem($conn, $id, $table, $image_name);
+        echo json_encode([
+            'success' => $result['status'] === 'success',
+            'message' => $result['message']
+        ]);
+        exit;
+    }
+
+    // Chuyển đổi trạng thái
+    if ($action === 'toggle_status') {
+        $id = $_POST['id'] ?? '';
+        $table = $_POST['table'] ?? '';
+        $field = $_POST['field'] ?? '';
+        $current_status = $_POST['current_status'] ?? '';
+
+        if (empty($id) || empty($table) || empty($field) || $current_status === '') {
+            echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
+            exit;
+        }
+
+        $result = toggleStatus($conn, $id, $table, $field, $current_status);
+        echo json_encode([
+            'success' => $result['status'] === 'success',
+            'new_status' => $result['new_status'] ?? null,
+            'message' => $result['message'] ?? 'Cập nhật thành công!'
+        ]);
+        exit;
+    }
+
+    if ($action === 'search_bookings') {
+        $search_term = $_POST['search_term'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getBookings($conn, $search_term, '', $page);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'filter_bookings') {
+        $status = $_POST['status'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getBookings($conn, '', $status, $page);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'update_booking') {
+        $id = $_POST['booking_id'] ?? 0;
+        $status = $_POST['status'] ?? '';
+        $result = updateBooking($conn, $id, $status);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'delete_booking') {
+        $id = $_POST['booking_id'] ?? 0;
+        $result = deleteBooking($conn, $id);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'mark_as_read') {
+        $id = $_POST['booking_id'] ?? 0;
+        $result = markBookingAsRead($conn, $id);
+        echo json_encode([
+            'status' => $result ? 'success' : 'error',
+            'message' => $result ? 'Đã đánh dấu đã đọc' : 'Lỗi khi đánh dấu đã đọc'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'search_events') {
+        $search_term = $_POST['search_term'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getEventBookings($conn, $search_term, '', $page);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'filter_events') {
+        $status = $_POST['status'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getEventBookings($conn, '', $status, $page);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'update_event') {
+        $id = $_POST['event_id'] ?? 0;
+        $status = $_POST['status'] ?? '';
+        $result = updateEventBooking($conn, $id, $status);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'delete_event') {
+        $id = $_POST['event_id'] ?? 0;
+        $result = deleteEventBooking($conn, $id);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'search_restaurants') {
+        $search_term = $_POST['search_term'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getRestaurantBookings($conn, $search_term, '', $page);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'filter_restaurants') {
+        $status = $_POST['status'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getRestaurantBookings($conn, '', $status, $page);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'update_restaurant') {
+        $id = $_POST['restaurant_id'] ?? 0;
+        $status = $_POST['status'] ?? '';
+        $result = updateRestaurantBooking($conn, $id, $status);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'delete_restaurant') {
+        $id = $_POST['restaurant_id'] ?? 0;
+        $result = deleteRestaurantBooking($conn, $id);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'mark_restaurant_as_read') {
+        $id = $_POST['restaurant_id'] ?? 0;
+        $result = markRestaurantBookingAsRead($conn, $id);
+        echo json_encode([
+            'status' => $result ? 'success' : 'error',
+            'message' => $result ? 'Đã đánh dấu đã đọc' : 'Lỗi khi đánh dấu đã đọc'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'search_bars') {
+        $search_term = $_POST['search_term'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getBarBookings($conn, $search_term, '', $page);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'filter_bars') {
+        $status = $_POST['status'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getBarBookings($conn, '', $status, $page);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'update_bar') {
+        $id = $_POST['bar_id'] ?? 0;
+        $status = $_POST['status'] ?? '';
+        $result = updateBarBooking($conn, $id, $status);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'delete_bar') {
+        $id = $_POST['bar_id'] ?? 0;
+        $result = deleteBarBooking($conn, $id);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'search_contacts') {
+        $search_term = $_POST['search_term'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getContactRequests($conn, $search_term, '', $page, 'lienhe');
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'filter_contacts') {
+        $status = $_POST['status'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getContactRequests($conn, '', $status, $page, 'lienhe');
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'update_contact') {
+        $id = $_POST['contact_id'] ?? 0;
+        $status = $_POST['status'] ?? '';
+        $result = updateContactRequest($conn, $id, $status);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'delete_contact') {
+        $id = $_POST['contact_id'] ?? 0;
+        $result = deleteContactRequest($conn, $id);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'search_services') {
+        $search_term = $_POST['search_term'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getContactRequests($conn, $search_term, '', $page, 'dichvu');
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'filter_services') {
+        $status = $_POST['status'] ?? '';
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+        $result = getContactRequests($conn, '', $status, $page, 'dichvu');
+        echo json_encode([
+            'status' => 'success',
+            'data' => $result
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'update_service') {
+        $id = $_POST['service_id'] ?? 0;
+        $status = $_POST['status'] ?? '';
+        $result = updateContactRequest($conn, $id, $status);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'delete_service') {
+        $id = $_POST['service_id'] ?? 0;
+        $result = deleteContactRequest($conn, $id);
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'mark_event_as_read') {
+        $id = $_POST['event_id'] ?? 0;
+        $result = markEventBookingAsRead($conn, $id);
+        echo json_encode([
+            'status' => $result ? 'success' : 'error',
+            'message' => $result ? 'Đã đánh dấu đã đọc' : 'Lỗi khi đánh dấu đã đọc'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'mark_bar_as_read') {
+        $id = $_POST['bar_id'] ?? 0;
+        $result = markBarBookingAsRead($conn, $id);
+        echo json_encode([
+            'status' => $result ? 'success' : 'error',
+            'message' => $result ? 'Đã đánh dấu đã đọc' : 'Lỗi khi đánh dấu đã đọc'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'mark_contact_as_read') {
+        $id = $_POST['contact_id'] ?? 0;
+        $result = markContactRequestAsRead($conn, $id);
+        echo json_encode([
+            'status' => $result ? 'success' : 'error',
+            'message' => $result ? 'Đã đánh dấu đã đọc' : 'Lỗi khi đánh dấu đã đọc'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    if ($action === 'mark_service_as_read') {
+        $id = $_POST['service_id'] ?? 0;
+        $result = markContactRequestAsRead($conn, $id);
+        echo json_encode([
+            'status' => $result ? 'success' : 'error',
+            'message' => $result ? 'Đã đánh dấu đã đọc' : 'Lỗi khi đánh dấu đã đọc'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
 
     if ($action === 'add_feature') {
         $response = ['success' => false, 'message' => ''];
@@ -223,9 +606,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_FILES['service_image']) && $_FILES['service_image']['error'] === 0) {
                 $imageName = uploadImage($_FILES['service_image']);
                 if ($imageName) {
-                    // $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
-                    // $stmt->bind_param("si", $imageName, $id_dichvu);
-                    if (!insertService($imageName, $id_dichvu)) {
+                    if (!insertService('/libertylaocai/view/img/uploads/dichvu/' . $imageName, $id_dichvu)) {
                         throw new Exception("Lỗi khi thêm ảnh: " . $conn->error);
                     }
                 }
@@ -779,6 +1160,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
 
         if ($result) {
+            $subject = "Đặt sự kiện tại $liberty";
+            $message = "Xin chào $fullName, cảm ơn bạn vì đã gửi yêu cầu đặt sự kiện đến $liberty.\n
+            SĐT: $phone\n
+            Email: $email\n
+            Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
+            sendMail($email, $subject, $message);
             echo json_encode(['status' => 'success', 'message' => getMessage('booking_success', $languageId)]);
         } else {
             echo json_encode(['status' => 'error', 'message' => getMessage('booking_failed', $languageId)]);
@@ -873,6 +1260,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             if ($result) {
+                $subject = "Đặt bàn sky bar tại $liberty";
+                $message = "Xin chào $customerName, cảm ơn bạn vì đã gửi yêu cầu đặt bàn đến $liberty.\n
+            SĐT: $phoneNumber\n
+            Email: $email\n
+            Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
+                sendMail($email, $subject, $message);
                 echo json_encode(['status' => 'success', 'message' => getMessage('booking_success', $languageId)]);
             } else {
                 echo json_encode(['status' => 'error', 'message' => getMessage('booking_failed', $languageId)]);
@@ -890,6 +1283,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             if ($result) {
+                $subject = "Đặt bàn nhà hàng tại $liberty";
+                $message = "Xin chào $customerName, cảm ơn bạn vì đã gửi yêu cầu đặt bàn đến $liberty.\n
+            SĐT: $phoneNumber\n
+            Email: $email\n
+            Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
+                sendMail($email, $subject, $message);
                 echo json_encode(['status' => 'success', 'message' => getMessage('booking_success', $languageId)]);
             } else {
                 echo json_encode(['status' => 'error', 'message' => getMessage('booking_failed', $languageId)]);
@@ -903,13 +1302,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['reviewer-email'] ?? '';
         $content = $_POST['review-content'] ?? '';
         $rating = $_POST['rating'] ?? 0;
+        $phone = null;
 
         if (!$name || !$email || !$content || !$rating) {
             echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
             exit;
         }
 
-        if (insertCommentRestaurant($name, $email, $content, $rating)) {
+        $customerId = getCustomerIdByEmail($email ?: $phone); // Sử dụng email hoặc phone làm key
+        if (!$customerId) {
+            $customerId = createCustomer($fullname, $phone, $email);
+        }
+
+        if (insertCommentRestaurant($customerId, $name, $email, $content, $rating)) {
             echo json_encode(['status' => 'success', 'message' => 'Đánh giá đã được gửi thành công']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Lỗi khi lưu đánh giá']);
@@ -921,13 +1326,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['reviewer-email'] ?? '';
         $content = $_POST['review-content'] ?? '';
         $rating = $_POST['rating'] ?? 0;
+        $phone = null;
 
         if (!$name || !$email || !$content || !$rating) {
             echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
             exit;
         }
 
-        if (insertCommentBar($name, $email, $content, $rating)) {
+        $customerId = getCustomerIdByEmail($email ?: $phone); // Sử dụng email hoặc phone làm key
+        if (!$customerId) {
+            $customerId = createCustomer($fullname, $phone, $email);
+        }
+
+        if (insertCommentBar($customerId, $name, $email, $content, $rating)) {
             echo json_encode(['status' => 'success', 'message' => 'Đánh giá đã được gửi thành công']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Lỗi khi lưu đánh giá']);
@@ -940,13 +1351,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $content = $_POST['review-content'] ?? '';
         $rating = $_POST['rating'] ?? 0;
         $id_loaiphong = $_POST['id_loaiphong'] ?? '';
+        $phone = null;
 
         if (!$name || !$email || !$content || !$rating || !$id_loaiphong) {
             echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
             exit;
         }
 
-        if (insertRoomComment($id_loaiphong, $name, $email, $content, $rating)) {
+        $customerId = getCustomerIdByEmail($email ?: $phone); // Sử dụng email hoặc phone làm key
+        if (!$customerId) {
+            $customerId = createCustomer($fullname, $phone, $email);
+        }
+
+        if (insertRoomComment($customerId, $id_loaiphong, $name, $email, $content, $rating)) {
             echo json_encode(['status' => 'success', 'message' => 'Đánh giá đã được gửi thành công']);
             // exit;
         } else {
@@ -961,13 +1378,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $content = $_POST['review-content'] ?? '';
         $rating = $_POST['rating'] ?? 0;
         $id_service = $_POST['id_service'] ?? '';
+        $phone = null;
 
         // if (!$name || !$email || !$content || !$rating || !$id_service) {
         //     echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
         //     exit;
         // }
 
-        if (insertServiceComment($id_service, $name, $email, $content, $rating)) {
+        $customerId = getCustomerIdByEmail($email ?: $phone); // Sử dụng email hoặc phone làm key
+        if (!$customerId) {
+            $customerId = createCustomer($fullname, $phone, $email);
+        }
+
+        if (insertServiceComment($customerId, $id_service, $name, $email, $content, $rating)) {
             echo json_encode(['status' => 'success', 'message' => 'Đánh giá đã được gửi thành công']);
             // exit;
         } else {
@@ -1024,7 +1447,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['head_banner'] = getSelectedBanner('nhahang&bar', 'service-banner');
         } elseif ($footer_category_code === 'dat-phong') {
             $_SESSION['head_banner'] = getSelectedBanner('dat-phong', 'hero-content');
+        } elseif ($footer_category_code === 'dich-vu') {
+            $_SESSION['head_banner'] = getSelectedBanner('dichvu', 'hero-background');
         }
+
         header("location: /libertylaocai/$footer_category_code");
     }
 
@@ -1151,6 +1577,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $result = insertRoomBooking($checkin_date, $checkout_date, $adults, $children, $special_requests, 'pending', $room_id, $customerId);
         if ($result) {
+            $subject = "Đặt phòng khách sạn tại $liberty";
+            $message = "Xin chào $fullname, cảm ơn bạn vì đã gửi yêu cầu đặt phòng đến $liberty.\n
+            SĐT: $phone\n
+            Email: $email\n
+            Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
+            sendMail($email, $subject, $message);
             echo json_encode(['status' => 'success', 'message' => getMessage('booking_success', $languageId)]);
         } else {
             echo json_encode(['status' => 'error', 'message' => getMessage('booking_failed', $languageId)]);
@@ -1192,6 +1624,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $result = createContactRequest($subject, $message, 'pending', 'lienhe', $customerId);
         if ($result) {
+            $subject = "Yêu cầu được hỗ trợ tại $liberty";
+            $message = "Xin chào $fullName, cảm ơn bạn vì đã gửi yêu cầu đến $liberty.\n
+            SĐT: $phone\n
+            Email: $email\n
+            Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
+            sendMail($email, $subject, $message);
             echo json_encode(['success' => true, 'message' => 'Thông tin liên hệ đã được gửi thành công']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Lỗi khi lưu dữ liệu: ' . $conn->error]);
@@ -1523,6 +1961,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (createContactRequest($service, $message, 'pending', 'dichvu', $customerId)) {
+            $subject = "Đặt dịch vụ tại $liberty";
+            $message = "Xin chào $name, cảm ơn bạn vì đã gửi yêu cầu đặt dịch vụ đến $liberty.\n
+            SĐT: $phone\n
+            Email: $email\n
+            Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
+            sendMail($email, $subject, $message);
             echo json_encode([
                 'success' => true,
                 'message' => $languageId == 1 ? 'Yêu cầu của bạn đã được gửi thành công!' : 'Your request has been sent successfully!'
@@ -1703,194 +2147,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['id_dichvu'] = $id_dichvu;
         header("location: /libertylaocai/dich-vu/" . to_short_slug($service['info']['title'], 5));
     }
-}
 
-
-
-// //quanlytour (liem)
-// // Xử lý POST requests cho quản lý tour
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     header('Content-Type: application/json');
-
-//     try {
-//         // Cập nhật thông tin tour
-//         if (isset($_POST['action']) && $_POST['action'] === 'update_tour') {
-//             $id_dichvu = (int)$_POST['id_dichvu'];
-//             $title_vi = trim($_POST['title_vi']);
-//             $title_en = trim($_POST['title_en']);
-//             $price = trim($_POST['price']);
-
-//             $result = updateTour($conn, $id_dichvu, $title_vi, $title_en, $price);
-//             echo json_encode($result);
-//             exit;
-//         }
-
-//         // Thêm ảnh
-//         if (isset($_POST['action']) && $_POST['action'] === 'add_image') {
-//             $id_dichvu = (int)$_POST['id_dichvu'];
-//             $id_topic = (int)$_POST['id_topic'];
-//             $is_primary = isset($_POST['is_primary']) ? (int)$_POST['is_primary'] : 0;
-//             $images = $_FILES['images'] ?? ['name' => [], 'error' => []];
-
-//             $result = addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images);
-//             echo json_encode($result);
-//             exit;
-//         }
-
-//         // Xóa ảnh
-//         if (isset($_POST['action']) && $_POST['action'] === 'delete_image') {
-//             $id_image = (int)$_POST['id_image'];
-//             $image_name = trim($_POST['image_name']);
-
-//             $result = deleteTourImage($conn, $id_image, $image_name);
-//             echo json_encode($result);
-//             exit;
-//         }
-
-//         // Cập nhật mô tả tour
-//         if (isset($_POST['action']) && $_POST['action'] === 'update_description') {
-//             $id_dichvu = (int)$_POST['id_dichvu'];
-//             $content_vi = trim($_POST['content_vi']);
-//             $content_en = trim($_POST['content_en']);
-
-//             $result = updateTourDescription($conn, $id_dichvu, $content_vi, $content_en);
-//             echo json_encode($result);
-//             exit;
-//         }
-//     } catch (Exception $e) {
-//         echo json_encode(['success' => false, 'message' => 'Lỗi server: ' . $e->getMessage()]);
-//         exit;
-//     }
-// }
-//quanlyanh (liem)
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    header('Content-Type: application/json');
-
-    $action = isset($_POST['action']) ? $_POST['action'] : '';
-
-    // Lấy danh sách chủ đề
-    if ($action === 'get_topics') {
-        $result = getTopics($conn);
-        echo json_encode($result['topics']);
-        exit;
+    if (isset($_POST['id_quanlytour'])) {
+        $id_quanlytour = isset($_POST['id_quanlytour']) && !empty($_POST['id_quanlytour'])
+            ? $_POST['id_quanlytour']
+            : getFirstDichVuId();
+        $service = getServiceById(1, $id_quanlytour);
+        $_SESSION['id_quanlytour'] = $id_quanlytour;
+        header("location: /libertylaocai/quan-ly-tour/" . to_short_slug($service['info']['title'], 5));
     }
 
-    // Lấy danh sách trang
-    if ($action === 'get_pages') {
-        $result = getPages($conn);
-        echo json_encode($result['pages']);
-        exit;
-    }
+    // Thêm ảnh
+    if (isset($_POST['action']) && $_POST['action'] === 'add_image') {
+        header('Content-Type: application/json');
+        $id_dichvu = (int)$_POST['id_dichvu'];
+        $id_topic = (int)$_POST['id_topic'];
+        $is_primary = isset($_POST['is_primary']) ? (int)$_POST['is_primary'] : 0;
+        $images = $_FILES['images'] ?? ['name' => [], 'error' => []];
 
-    // Lấy danh sách sự kiện
-    if ($action === 'get_sukien') {
-        $result = getSukien($conn);
-        echo json_encode($result['sukien']);
-        exit;
-    }
-
-    // Lấy danh sách ảnh/video
-    if ($action === 'get_images') {
-        $topic_id = $_POST['topic_id'] ?? '';
-        $page = $_POST['page'] ?? '';
-        $id_sukien = $_POST['id_sukien'] ?? '';
-
-        if (empty($topic_id)) {
-            echo json_encode(['status' => 'error', 'message' => 'Thiếu topic_id']);
-            exit;
-        }
-
-        $result = getImages($conn, $topic_id, $page, $id_sukien);
+        $result = addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images);
         echo json_encode($result);
         exit;
     }
 
-    // Tải lên ảnh/video
-    if ($action === 'upload_images') {
-        $topic_id = $_POST['topic_id'] ?? '';
-        $event_id = $_POST['event_id'] ?? null;
-        $service = $_POST['service'] ?? null;
+    // Xóa ảnh
+    if (isset($_POST['action']) && $_POST['action'] === 'delete_image') {
+        header('Content-Type: application/json');
+        $id_image = (int)$_POST['id_image'];
+        $image_name = trim($_POST['image_name']);
 
-        if (empty($topic_id)) {
-            echo json_encode(['status' => 'error', 'message' => 'Thiếu topic_id']);
-            exit;
-        }
-
-        if (!isset($_FILES['images']) || empty($_FILES['images']['name'][0])) {
-            echo json_encode(['status' => 'error', 'message' => 'Không có file nào được chọn!']);
-            exit;
-        }
-
-        $result = uploadImages($conn, $topic_id, $_FILES['images'], $event_id, $service);
-        echo json_encode([
-            'success' => $result['status'] === 'success',
-            'uploaded_count' => $result['uploaded_count'] ?? 0,
-            'message' => $result['message']
-        ]);
+        $result = deleteTourImage($conn, $id_image, $image_name);
+        echo json_encode($result);
         exit;
     }
 
-    // Chỉnh sửa ảnh
-    if ($action === 'edit_image') {
-        $topic_id = $_POST['topic_id'] ?? '';
-        $id = $_POST['id'] ?? '';
+    // Cập nhật mô tả tour
+    if (isset($_POST['action']) && $_POST['action'] === 'update_description') {
+        header('Content-Type: application/json');
+        $id_dichvu = (int)$_POST['id_dichvu'];
+        $content_vi = trim($_POST['content_vi']);
+        $content_en = trim($_POST['content_en']);
 
-        if (empty($topic_id) || empty($id)) {
-            echo json_encode(['status' => 'error', 'message' => 'Thiếu topic_id hoặc id']);
-            exit;
-        }
-
-        if (!isset($_FILES['image']) || empty($_FILES['image']['name'])) {
-            echo json_encode(['status' => 'error', 'message' => 'Không có file ảnh được chọn!']);
-            exit;
-        }
-
-        $result = editImage($conn, $topic_id, $id, $_FILES['image']);
-        echo json_encode([
-            'success' => $result['status'] === 'success',
-            'message' => $result['message']
-        ]);
+        $result = updateTourDescription($id_dichvu, $content_vi, $content_en);
+        echo json_encode($result);
         exit;
     }
 
-    // Xóa ảnh/video
-    if ($action === 'delete_item') {
-        $id = $_POST['id'] ?? '';
-        $table = $_POST['table'] ?? '';
-        $image_name = $_POST['image_name'] ?? '';
+    // Cập nhật thông tin tour
+    if (isset($_POST['action']) && $_POST['action'] === 'update_tour_detail') {
+        $id_dichvu = (int)$_POST['id_dichvu'];
+        $title_vi = trim($_POST['title_vi']);
+        $title_en = trim($_POST['title_en']);
+        $price = trim($_POST['price']);
 
-        if (empty($id) || empty($table) || empty($image_name)) {
-            echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
-            exit;
-        }
-
-        $result = deleteItem($conn, $id, $table, $image_name);
-        echo json_encode([
-            'success' => $result['status'] === 'success',
-            'message' => $result['message']
-        ]);
-        exit;
-    }
-
-    // Chuyển đổi trạng thái
-    if ($action === 'toggle_status') {
-        $id = $_POST['id'] ?? '';
-        $table = $_POST['table'] ?? '';
-        $field = $_POST['field'] ?? '';
-        $current_status = $_POST['current_status'] ?? '';
-
-        if (empty($id) || empty($table) || empty($field) || $current_status === '') {
-            echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
-            exit;
-        }
-
-        $result = toggleStatus($conn, $id, $table, $field, $current_status);
-        echo json_encode([
-            'success' => $result['status'] === 'success',
-            'new_status' => $result['new_status'] ?? null,
-            'message' => $result['message'] ?? 'Cập nhật thành công!'
-        ]);
+        $result = updateTour1($id_dichvu, $title_vi, $title_en, $price);
+        echo json_encode($result);
         exit;
     }
 }

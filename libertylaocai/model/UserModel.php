@@ -118,89 +118,89 @@ function getHeaderCategories($languageId = null)
     return $categories;
 }
 
-function getGreetingByLanguage($languageId = null, $page = null)
-{
-    global $conn;
-    $greetings = null;
+// function getGreetingByLanguage($languageId = null, $page = null)
+// {
+//     global $conn;
+//     $greetings = null;
 
-    $sql = "SELECT 
-                chnn.id,
-                -- nccn.id_nhungcauchaohoi,
-                -- nccn.id_ngonngu,
-                chnn.content
-            FROM nhungcauchaohoi_ngonngu chnn
-            JOIN loichaoduocchon lcdc ON chnn.id = lcdc.id_nhungcauchaohoi_ngonngu
-            WHERE lcdc.page = ? AND lcdc.id_ngonngu = ?
-            ORDER BY chnn.id ASC";
+//     $sql = "SELECT 
+//                 chnn.id,
+//                 -- nccn.id_nhungcauchaohoi,
+//                 -- nccn.id_ngonngu,
+//                 chnn.content
+//             FROM nhungcauchaohoi_ngonngu chnn
+//             JOIN loichaoduocchon lcdc ON chnn.id = lcdc.id_nhungcauchaohoi_ngonngu
+//             WHERE lcdc.page = ? AND lcdc.id_ngonngu = ?
+//             ORDER BY chnn.id ASC";
 
-    // if ($languageId !== null) {
-    //     $sql .= " AND nccn.id_ngonngu = ?";
-    // }
+//     // if ($languageId !== null) {
+//     //     $sql .= " AND nccn.id_ngonngu = ?";
+//     // }
 
-    // $sql .= " ORDER BY nccn.id ASC";
+//     // $sql .= " ORDER BY nccn.id ASC";
 
-    $stmt = mysqli_prepare($conn, $sql);
+//     $stmt = mysqli_prepare($conn, $sql);
 
-    if ($stmt) {
+//     if ($stmt) {
 
-        if ($languageId !== null) {
-            mysqli_stmt_bind_param($stmt, "si", $page, $languageId);
-        }
+//         if ($languageId !== null) {
+//             mysqli_stmt_bind_param($stmt, "si", $page, $languageId);
+//         }
 
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+//         mysqli_stmt_execute($stmt);
+//         $result = mysqli_stmt_get_result($stmt);
 
-        while ($row = mysqli_fetch_assoc($result)) {
-            $greetings[] = [
-                'id' => $row['id'],
-                // 'id_nhungcauchaohoi' => $row['id_nhungcauchaohoi'],
-                // 'id_ngonngu' => $row['id_ngonngu'],
-                'content' => $row['content']
-            ];
-        }
+//         while ($row = mysqli_fetch_assoc($result)) {
+//             $greetings[] = [
+//                 'id' => $row['id'],
+//                 // 'id_nhungcauchaohoi' => $row['id_nhungcauchaohoi'],
+//                 // 'id_ngonngu' => $row['id_ngonngu'],
+//                 'content' => $row['content']
+//             ];
+//         }
 
-        mysqli_stmt_close($stmt);
-    } else {
-        error_log("Lỗi chuẩn bị truy vấn getGreetingByLanguage: " . mysqli_error($conn));
-    }
+//         mysqli_stmt_close($stmt);
+//     } else {
+//         error_log("Lỗi chuẩn bị truy vấn getGreetingByLanguage: " . mysqli_error($conn));
+//     }
 
-    return $greetings;
-}
+//     return $greetings;
+// }
 
-function getGreeting($language_id, $page = 'dichvu')
-{
-    global $conn;
-    $sql = "
-        SELECT nn.content
-        FROM loichaoduocchon l
-        JOIN nhungcauchaohoi_ngonngu nn ON l.id_nhungcauchaohoi_ngonngu = nn.id
-        WHERE l.id_ngonngu = ? AND l.page = ?
-        LIMIT 1
-    ";
+// function getGreeting($language_id, $page = 'dichvu')
+// {
+//     global $conn;
+//     $sql = "
+//         SELECT nn.content
+//         FROM loichaoduocchon l
+//         JOIN nhungcauchaohoi_ngonngu nn ON l.id_nhungcauchaohoi_ngonngu = nn.id
+//         WHERE l.id_ngonngu = ? AND l.page = ?
+//         LIMIT 1
+//     ";
 
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        throw new RuntimeException('Prepare failed: ' . $conn->error);
-    }
+//     $stmt = $conn->prepare($sql);
+//     if (!$stmt) {
+//         throw new RuntimeException('Prepare failed: ' . $conn->error);
+//     }
 
-    $stmt->bind_param('is', $language_id, $page);
-    $stmt->execute();
-    $result = $stmt->get_result();
+//     $stmt->bind_param('is', $language_id, $page);
+//     $stmt->execute();
+//     $result = $stmt->get_result();
 
-    // Fallback khi không có dữ liệu
-    if ($result->num_rows === 0) {
-        $default = [
-            1 => 'Đồng hành cùng bạn khám phá vẻ đẹp Tây Bắc',
-            2 => 'Accompanying you to explore the beauty of the Northwest',
-        ];
-        $stmt->close();
-        return $default[$language_id] ?? $default[2];
-    }
+//     // Fallback khi không có dữ liệu
+//     if ($result->num_rows === 0) {
+//         $default = [
+//             1 => 'Đồng hành cùng bạn khám phá vẻ đẹp Tây Bắc',
+//             2 => 'Accompanying you to explore the beauty of the Northwest',
+//         ];
+//         $stmt->close();
+//         return $default[$language_id] ?? $default[2];
+//     }
 
-    $greeting = $result->fetch_assoc()['content'];
-    $stmt->close();
-    return $greeting;
-}
+//     $greeting = $result->fetch_assoc()['content'];
+//     $stmt->close();
+//     return $greeting;
+// }
 
 function getSelectedDescription($languageId, $area)
 {
@@ -616,6 +616,19 @@ function getServicesForCarousel($languageId)
 
     $stmt->close();
     return $services;
+}
+
+function getFirstDichVuId()
+{
+    global $conn;
+    $sql = "SELECT id FROM dichvu ORDER BY id ASC LIMIT 1";
+    $result = $conn->query($sql);
+
+    if ($result && $row = $result->fetch_assoc()) {
+        return $row['id'];
+    }
+
+    return null; // Không tìm thấy
 }
 
 function getServiceById($languageId, $id_dichvu)
@@ -1709,24 +1722,24 @@ function getAmThucNgonNgu($id_ngonngu, $id_amthuc)
     return $data;
 }
 
-function insertCommentRestaurant($name, $email, $content, $rating)
+function insertCommentRestaurant($id_khachhang, $name, $email, $content, $rating)
 {
     global $conn;
 
-    // Chèn vào bảng khachhang
-    $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
-            ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ss", $name, $email);
-        $result = $stmt->execute();
-        $id_khachhang = $conn->insert_id;
-        $stmt->close();
-        if (!$result) {
-            return false;
-        }
-    } else {
-        return false;
-    }
+    // // Chèn vào bảng khachhang
+    // $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
+    //         ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
+    // if ($stmt = $conn->prepare($sql)) {
+    //     $stmt->bind_param("ss", $name, $email);
+    //     $result = $stmt->execute();
+    //     $id_khachhang = $conn->insert_id;
+    //     $stmt->close();
+    //     if (!$result) {
+    //         return false;
+    //     }
+    // } else {
+    //     return false;
+    // }
 
     // Chèn vào bảng binhluan
     $create_at = date('Y-m-d H:i:s');
@@ -1965,26 +1978,26 @@ function calculateBarRatingBreakdown()
 }
 
 // Hàm chèn bình luận mới cho Sky Bar
-function insertCommentBar($name, $email, $content, $rating)
+function insertCommentBar($id_khachhang, $name, $email, $content, $rating)
 {
     global $conn;
 
-    // Chèn hoặc lấy id_khachhang từ bảng khachhang
-    $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
-            ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ss", $name, $email);
-        $result = $stmt->execute();
-        $id_khachhang = $conn->insert_id;
-        $stmt->close();
-        if (!$result) {
-            error_log("Error inserting customer in insertCommentBar: " . $conn->error);
-            return false;
-        }
-    } else {
-        error_log("Error preparing statement in insertCommentBar (khachhang): " . $conn->error);
-        return false;
-    }
+    // // Chèn hoặc lấy id_khachhang từ bảng khachhang
+    // $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
+    //         ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
+    // if ($stmt = $conn->prepare($sql)) {
+    //     $stmt->bind_param("ss", $name, $email);
+    //     $result = $stmt->execute();
+    //     $id_khachhang = $conn->insert_id;
+    //     $stmt->close();
+    //     if (!$result) {
+    //         error_log("Error inserting customer in insertCommentBar: " . $conn->error);
+    //         return false;
+    //     }
+    // } else {
+    //     error_log("Error preparing statement in insertCommentBar (khachhang): " . $conn->error);
+    //     return false;
+    // }
 
     // Chèn bình luận vào bảng binhluan
     $create_at = date('Y-m-d H:i:s');
@@ -2072,7 +2085,7 @@ function getPromotions($language, $active = 1)
 {
     global $conn;
     $posts = [];
-    $sql = "SELECT u.id, u.created_at AS date, a.image, un.title, un.content
+    $sql = "SELECT u.id, u.create_at AS date, a.image, un.title, un.content
             FROM uudai u
             JOIN anhuudai a ON u.id = a.id_uudai
             JOIN uudai_ngonngu un ON u.id = un.id_uudai
@@ -2119,7 +2132,7 @@ function getPromotionById($language, $id_uudai)
 {
     global $conn;
 
-    $sql = "SELECT u.id, u.created_at, a.image, un.title, un.content
+    $sql = "SELECT u.id, u.create_at, a.image, un.title, un.content
             FROM uudai u
             LEFT JOIN anhuudai a ON u.id = a.id_uudai 
             JOIN uudai_ngonngu un ON u.id = un.id_uudai
@@ -2138,7 +2151,7 @@ function getRelatedPromotions($language, $id_uudai, $limit)
 {
     global $conn;
 
-    $sql = "SELECT u.id, u.created_at, a.image, un.title, un.content
+    $sql = "SELECT u.id, u.create_at, a.image, un.title, un.content
             FROM uudai u
             LEFT JOIN anhuudai a ON u.id = a.id_uudai 
             JOIN uudai_ngonngu un ON u.id = un.id_uudai
@@ -2578,26 +2591,26 @@ function calculateRoomRatingBreakdown($id_loaiphong)
 }
 
 // Hàm chèn bình luận mới cho phòng
-function insertRoomComment($id_loaiphong, $name, $email, $content, $rating)
+function insertRoomComment($id_khachhang, $id_loaiphong, $name, $email, $content, $rating)
 {
     global $conn;
 
-    // Chèn hoặc lấy id_khachhang từ bảng khachhang
-    $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
-            ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ss", $name, $email);
-        $result = $stmt->execute();
-        $id_khachhang = $conn->insert_id;
-        $stmt->close();
-        if (!$result) {
-            error_log("Error inserting customer in insertRoomComment: " . $conn->error);
-            return false;
-        }
-    } else {
-        error_log("Error preparing statement in insertRoomComment (khachhang): " . $conn->error);
-        return false;
-    }
+    // // Chèn hoặc lấy id_khachhang từ bảng khachhang
+    // $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
+    //         ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
+    // if ($stmt = $conn->prepare($sql)) {
+    //     $stmt->bind_param("ss", $name, $email);
+    //     $result = $stmt->execute();
+    //     $id_khachhang = $conn->insert_id;
+    //     $stmt->close();
+    //     if (!$result) {
+    //         error_log("Error inserting customer in insertRoomComment: " . $conn->error);
+    //         return false;
+    //     }
+    // } else {
+    //     error_log("Error preparing statement in insertRoomComment (khachhang): " . $conn->error);
+    //     return false;
+    // }
 
     // Chèn bình luận vào bảng binhluan
     $create_at = date('Y-m-d H:i:s');
@@ -2808,6 +2821,59 @@ function getRooms($conn)
     return $rooms;
 }
 
+// function getRoomTypes1($conn)
+// {
+//     $room_types_sql = "
+//         SELECT 
+//             lpn.id, 
+//             lpn.price, 
+//             lpn.quantity, 
+//             lpn.area,
+//             (SELECT COUNT(*) FROM anhkhachsan WHERE id_loaiphongnghi = lpn.id) as image_count
+//         FROM loaiphongnghi lpn
+//         ORDER BY lpn.id
+//     ";
+//     $room_types_result = $conn->query($room_types_sql);
+//     $room_types = [];
+
+//     while ($row = $room_types_result->fetch_assoc()) {
+//         $lang_sql = "
+//             SELECT id_ngonngu, name, description 
+//             FROM loaiphongnghi_ngonngu 
+//             WHERE id_loaiphongnghi = ? AND id_ngonngu IN (1, 2)
+//         ";
+//         $lang_stmt = $conn->prepare($lang_sql);
+//         $lang_stmt->bind_param("i", $row['id']);
+//         $lang_stmt->execute();
+//         $lang_result = $lang_stmt->get_result();
+
+//         $row['languages'] = [
+//             1 => ['name' => '', 'description' => ''],
+//             2 => ['name' => '', 'description' => ''],
+//         ];
+
+//         while ($lang_row = $lang_result->fetch_assoc()) {
+//             $row['languages'][$lang_row['id_ngonngu']] = [
+//                 'name' => $lang_row['name'],
+//                 'description' => $lang_row['description']
+//             ];
+//         }
+
+//         $row['images'] = [];
+//         $images_sql = "SELECT id, image FROM anhkhachsan WHERE id_loaiphongnghi = ?";
+//         $images_stmt = $conn->prepare($images_sql);
+//         $images_stmt->bind_param("i", $row['id']);
+//         $images_stmt->execute();
+//         $images_result = $images_stmt->get_result();
+//         while ($img_row = $images_result->fetch_assoc()) {
+//             $row['images'][] = $img_row;
+//         }
+
+//         $room_types[] = $row;
+//     }
+
+//     return $room_types;
+// }
 function getRoomTypes1($conn)
 {
     $room_types_sql = "
@@ -2854,6 +2920,42 @@ function getRoomTypes1($conn)
         $images_result = $images_stmt->get_result();
         while ($img_row = $images_result->fetch_assoc()) {
             $row['images'][] = $img_row;
+        }
+
+        // Lấy loại giường
+        $row['bed_types'] = [];
+        $bed_sql = "SELECT lgnn.name, lglp.quantity FROM loaigiuong_loaiphong lglp
+                   JOIN loaigiuong_ngonngu lgnn ON lglp.id_loaigiuong = lgnn.id_loaigiuong
+                   WHERE lglp.id_loaiphongnghi = ? AND lgnn.id_ngonngu = 1";
+        $bed_stmt = $conn->prepare($bed_sql);
+        $bed_stmt->bind_param("i", $row['id']);
+        $bed_stmt->execute();
+        $bed_result = $bed_stmt->get_result();
+        while ($bed_row = $bed_result->fetch_assoc()) {
+            $row['bed_types'][] = [
+                'name' => $bed_row['name'],
+                'quantity' => $bed_row['quantity']
+            ];
+        }
+
+        // Lấy tiện ích
+        $row['amenities'] = [];
+        $amenities_sql = "
+            SELECT tn.content AS name_vi, tnen.content AS name_en
+            FROM tienich_loaiphong tlp
+            JOIN tienich_ngonngu tn ON tlp.id_tienich = tn.id_tienich AND tn.id_ngonngu = 1
+            LEFT JOIN tienich_ngonngu tnen ON tlp.id_tienich = tnen.id_tienich AND tnen.id_ngonngu = 2
+            WHERE tlp.id_loaiphong = ?
+        ";
+        $amenities_stmt = $conn->prepare($amenities_sql);
+        $amenities_stmt->bind_param("i", $row['id']);
+        $amenities_stmt->execute();
+        $amenities_result = $amenities_stmt->get_result();
+        while ($amenity_row = $amenities_result->fetch_assoc()) {
+            $row['amenities'][] = [
+                'name_vi' => $amenity_row['name_vi'],
+                'name_en' => $amenity_row['name_en'] ?? ''
+            ];
         }
 
         $room_types[] = $row;
@@ -3003,6 +3105,59 @@ function addRoomType($conn, $name_vi, $name_en, $description_vi, $description_en
     }
 }
 
+// function updateRoomType($conn, $id, $name_vi, $name_en, $description_vi, $description_en, $quantity, $area, $price, $delete_images, $new_images)
+// {
+//     $conn->begin_transaction();
+//     try {
+//         $sql = "UPDATE loaiphongnghi SET quantity = ?, area = ?, price = ? WHERE id = ?";
+//         $stmt = $conn->prepare($sql);
+//         $stmt->bind_param("iisi", $quantity, $area, $price, $id);
+//         $stmt->execute();
+
+//         $lang_sql = "UPDATE loaiphongnghi_ngonngu SET name = ?, description = ? WHERE id_loaiphongnghi = ? AND id_ngonngu = 1";
+//         $lang_stmt = $conn->prepare($lang_sql);
+//         $lang_stmt->bind_param("ssi", $name_vi, $description_vi, $id);
+//         $lang_stmt->execute();
+
+//         $lang_sql = "UPDATE loaiphongnghi_ngonngu SET name = ?, description = ? WHERE id_loaiphongnghi = ? AND id_ngonngu = 2";
+//         $lang_stmt = $conn->prepare($lang_sql);
+//         $lang_stmt->bind_param("ssi", $name_en, $description_en, $id);
+//         $lang_stmt->execute();
+
+//         if (!empty($delete_images)) {
+//             $placeholders = implode(',', array_fill(0, count($delete_images), '?'));
+//             $types = str_repeat('i', count($delete_images));
+
+//             $delete_sql = "DELETE FROM anhkhachsan WHERE id IN ($placeholders)";
+//             $delete_stmt = $conn->prepare($delete_sql);
+//             $delete_stmt->bind_param($types, ...$delete_images);
+//             $delete_stmt->execute();
+//         }
+
+//         if (!empty($new_images['name'][0])) {
+//             $upload_dir = "../view/img/";
+//             for ($i = 0; $i < min(4, count($new_images['name'])); $i++) {
+//                 if ($new_images['size'][$i] > 0) {
+//                     $file_name = uniqid() . '_' . basename($new_images['name'][$i]);
+//                     $target_path = $upload_dir . $file_name;
+
+//                     if (move_uploaded_file($new_images['tmp_name'][$i], $target_path)) {
+//                         $img_sql = "INSERT INTO anhkhachsan (image, active, created_at, id_topic, id_loaiphongnghi) VALUES (?, 1, NOW(), 2, ?)";
+//                         $img_stmt = $conn->prepare($img_sql);
+//                         $img_stmt->bind_param("si", $file_name, $id);
+//                         $img_stmt->execute();
+//                     }
+//                 }
+//             }
+//         }
+
+//         $conn->commit();
+//         return ['status' => 'success', 'message' => 'Cập nhật loại phòng thành công'];
+//     } catch (Exception $e) {
+//         $conn->rollback();
+//         return ['status' => 'error', 'message' => $e->getMessage()];
+//     }
+// }
 function updateRoomType($conn, $id, $name_vi, $name_en, $description_vi, $description_en, $quantity, $area, $price, $delete_images, $new_images)
 {
     $conn->begin_transaction();
@@ -3022,6 +3177,66 @@ function updateRoomType($conn, $id, $name_vi, $name_en, $description_vi, $descri
         $lang_stmt->bind_param("ssi", $name_en, $description_en, $id);
         $lang_stmt->execute();
 
+        // Xóa loại giường cũ
+        $delete_bed_sql = "DELETE FROM loaigiuong_loaiphong WHERE id_loaiphongnghi = ?";
+        $stmt = $conn->prepare($delete_bed_sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        // Thêm loại giường mới
+        $bed_names = $_POST['bed_names'] ?? [];
+        $bed_quantities = $_POST['bed_quantities'] ?? [];
+        for ($i = 0; $i < count($bed_names); $i++) {
+            $name = $bed_names[$i];
+            $quantity = $bed_quantities[$i];
+            $insert_bed_sql = "INSERT INTO loaigiuong (id) VALUES (NULL)";
+            $conn->query($insert_bed_sql);
+            $bed_id = $conn->insert_id;
+
+            $insert_bed_lang_sql = "INSERT INTO loaigiuong_ngonngu (id_loaigiuong, id_ngonngu, name) VALUES (?, 1, ?)";
+            $stmt = $conn->prepare($insert_bed_lang_sql);
+            $stmt->bind_param("is", $bed_id, $name);
+            $stmt->execute();
+
+            $insert_bed_room_sql = "INSERT INTO loaigiuong_loaiphong (id_loaiphongnghi, id_loaigiuong, quantity) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($insert_bed_room_sql);
+            $stmt->bind_param("iii", $id, $bed_id, $quantity);
+            $stmt->execute();
+        }
+
+        // Xóa tiện ích cũ
+        $delete_amenities_sql = "DELETE FROM tienich_loaiphong WHERE id_loaiphong = ?";
+        $stmt = $conn->prepare($delete_amenities_sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        // Thêm tiện ích mới
+        $amenity_names_vi = $_POST['amenity_names_vi'] ?? [];
+        $amenity_names_en = $_POST['amenity_names_en'] ?? [];
+        for ($i = 0; $i < count($amenity_names_vi); $i++) {
+            $name_vi = $amenity_names_vi[$i];
+            $name_en = $amenity_names_en[$i] ?? '';
+            $insert_amenity_sql = "INSERT INTO tienich (id) VALUES (NULL)";
+            $conn->query($insert_amenity_sql);
+            $amenity_id = $conn->insert_id;
+
+            $insert_amenity_vi_sql = "INSERT INTO tienich_ngonngu (id_tienich, id_ngonngu, content) VALUES (?, 1, ?)";
+            $stmt = $conn->prepare($insert_amenity_vi_sql);
+            $stmt->bind_param("is", $amenity_id, $name_vi);
+            $stmt->execute();
+
+            $insert_amenity_en_sql = "INSERT INTO tienich_ngonngu (id_tienich, id_ngonngu, content) VALUES (?, 2, ?)";
+            $stmt = $conn->prepare($insert_amenity_en_sql);
+            $stmt->bind_param("is", $amenity_id, $name_en);
+            $stmt->execute();
+
+            $insert_room_amenity_sql = "INSERT INTO tienich_loaiphong (id_tienich, id_loaiphong) VALUES (?, ?)";
+            $stmt = $conn->prepare($insert_room_amenity_sql);
+            $stmt->bind_param("ii", $amenity_id, $id);
+            $stmt->execute();
+        }
+
+        // Xử lý xóa ảnh
         if (!empty($delete_images)) {
             $placeholders = implode(',', array_fill(0, count($delete_images), '?'));
             $types = str_repeat('i', count($delete_images));
@@ -3032,6 +3247,7 @@ function updateRoomType($conn, $id, $name_vi, $name_en, $description_vi, $descri
             $delete_stmt->execute();
         }
 
+        // Xử lý ảnh mới
         if (!empty($new_images['name'][0])) {
             $upload_dir = "../view/img/";
             for ($i = 0; $i < min(4, count($new_images['name'])); $i++) {
@@ -3195,61 +3411,62 @@ function bulkUpdateRoomStatus($conn, $status, $room_ids)
 }
 // quanlytour (liem)
 
-// function updateTour($conn, $id_dichvu, $title_vi, $title_en, $price)
-// {
-//     // Kiểm tra và xử lý giá
-//     if (preg_match('/^\d+[.,]?\d*$/', $price)) {
-//         // Nếu giá trị là số (có thể chứa dấu phẩy hoặc chấm)
-//         $price_value = (float)str_replace([',', '.'], '', $price);
-//         $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->bind_param("di", $price_value, $id_dichvu);
-//     } else {
-//         // Nếu giá trị là chuỗi bất kỳ (bao gồm "Liên hệ", "Miễn phí", v.v.)
-//         $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->bind_param("si", $price, $id_dichvu);
-//     }
-//     $stmt->execute();
+function updateTour1($id_dichvu, $title_vi, $title_en, $price)
+{
+    global $conn;
+    // Kiểm tra và xử lý giá
+    if (preg_match('/^\d+[.,]?\d*$/', $price)) {
+        // Nếu giá trị là số (có thể chứa dấu phẩy hoặc chấm)
+        $price_value = (float)str_replace([',', '.'], '', $price);
+        $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("di", $price_value, $id_dichvu);
+    } else {
+        // Nếu giá trị là chuỗi bất kỳ (bao gồm "Liên hệ", "Miễn phí", v.v.)
+        $sql = "UPDATE dichvu SET price = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $price, $id_dichvu);
+    }
+    $stmt->execute();
 
-//     // Cập nhật tiêu đề tiếng Việt
-//     $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 1";
-//     $stmt = $conn->prepare($sql);
-//     $stmt->bind_param("i", $id_dichvu);
-//     $stmt->execute();
-//     $check_row = $stmt->get_result()->fetch_assoc();
+    // Cập nhật tiêu đề tiếng Việt
+    $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_dichvu);
+    $stmt->execute();
+    $check_row = $stmt->get_result()->fetch_assoc();
 
-//     if ($check_row['count'] > 0) {
-//         $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 1";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->bind_param("si", $title_vi, $id_dichvu);
-//     } else {
-//         $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 1, ?)";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->bind_param("is", $id_dichvu, $title_vi);
-//     }
-//     $stmt->execute();
+    if ($check_row['count'] > 0) {
+        $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $title_vi, $id_dichvu);
+    } else {
+        $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 1, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $id_dichvu, $title_vi);
+    }
+    $stmt->execute();
 
-//     // Cập nhật tiêu đề tiếng Anh
-//     $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
-//     $stmt = $conn->prepare($sql);
-//     $stmt->bind_param("i", $id_dichvu);
-//     $stmt->execute();
-//     $check_row = $stmt->get_result()->fetch_assoc();
+    // Cập nhật tiêu đề tiếng Anh
+    $sql = "SELECT COUNT(*) as count FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_dichvu);
+    $stmt->execute();
+    $check_row = $stmt->get_result()->fetch_assoc();
 
-//     if ($check_row['count'] > 0) {
-//         $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 2";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->bind_param("si", $title_en, $id_dichvu);
-//     } else {
-//         $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 2, ?)";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->bind_param("is", $id_dichvu, $title_en);
-//     }
-//     $stmt->execute();
+    if ($check_row['count'] > 0) {
+        $sql = "UPDATE dichvu_ngonngu SET title = ? WHERE id_dichvu = ? AND id_ngonngu = 2";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $title_en, $id_dichvu);
+    } else {
+        $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, title) VALUES (?, 2, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $id_dichvu, $title_en);
+    }
+    $stmt->execute();
 
-//     return ['success' => true, 'message' => 'Cập nhật thông tin tour thành công!'];
-// }
+    return ['success' => true, 'message' => 'Cập nhật thông tin tour thành công!'];
+}
 
 function addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images)
 {
@@ -3294,6 +3511,7 @@ function addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images)
 
                 $imageName = uploadImage($file);
                 if ($imageName) {
+                    $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $imageName;
                     // Nếu ảnh được chọn là ảnh chính, đặt các ảnh khác thành không chính
                     if ($is_primary && $success_count === 0) {
                         $reset_primary = $conn->prepare("UPDATE anhdichvu SET is_primary = 0 WHERE id_dichvu = ?");
@@ -3303,7 +3521,7 @@ function addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images)
 
                     $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, ?, ?, ?)");
                     $current_is_primary = ($is_primary && $success_count === 0) ? 1 : 0;
-                    $stmt->bind_param("siii", $imageName, $current_is_primary, $id_dichvu, $id_topic);
+                    $stmt->bind_param("siii", $image_url, $current_is_primary, $id_dichvu, $id_topic);
                     if ($stmt->execute()) {
                         $success_count++;
                     } else {
@@ -3345,21 +3563,22 @@ function deleteTourImage($conn, $id_image, $image_name)
     }
 }
 
-function updateTourDescription($conn, $id_dichvu, $content_vi, $content_en)
+function updateTourDescription($id_dichvu, $content_vi, $content_en)
 {
+    global $conn;
     // Cập nhật hoặc thêm tiếng Việt
-    $sql = "SELECT id FROM motatour WHERE id_dichvu = ? AND id_ngonngu = 1";
+    $sql = "SELECT id FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 1";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_dichvu);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $sql = "UPDATE motatour SET content = ? WHERE id_dichvu = ? AND id_ngonngu = 1";
+        $sql = "UPDATE dichvu_ngonngu SET content = ? WHERE id_dichvu = ? AND id_ngonngu = 1";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("si", $content_vi, $id_dichvu);
     } else {
-        $sql = "INSERT INTO motatour (id_dichvu, id_ngonngu, content) VALUES (?, 1, ?)";
+        $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, content) VALUES (?, 1, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("is", $id_dichvu, $content_vi);
     }
@@ -3368,18 +3587,18 @@ function updateTourDescription($conn, $id_dichvu, $content_vi, $content_en)
     }
 
     // Cập nhật hoặc thêm tiếng Anh
-    $sql = "SELECT id FROM motatour WHERE id_dichvu = ? AND id_ngonngu = 2";
+    $sql = "SELECT id FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = 2";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_dichvu);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $sql = "UPDATE motatour SET content = ? WHERE id_dichvu = ? AND id_ngonngu = 2";
+        $sql = "UPDATE dichvu_ngonngu SET content = ? WHERE id_dichvu = ? AND id_ngonngu = 2";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("si", $content_en, $id_dichvu);
     } else {
-        $sql = "INSERT INTO motatour (id_dichvu, id_ngonngu, content) VALUES (?, 2, ?)";
+        $sql = "INSERT INTO dichvu_ngonngu (id_dichvu, id_ngonngu, content) VALUES (?, 2, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("is", $id_dichvu, $content_en);
     }
@@ -3538,7 +3757,7 @@ function getTourData($id_dichvu, $id_ngonngu)
 
         // Lấy mô tả dịch vụ
         $sql = "SELECT content 
-                FROM motatour 
+                FROM dichvu_ngonngu 
                 WHERE id_dichvu = ? AND id_ngonngu = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ii", $id_dichvu, $id_ngonngu);
@@ -3916,26 +4135,26 @@ function calculateServiceRatingBreakdown($id_type)
 }
 
 // Hàm chèn bình luận mới cho phòng
-function insertServiceComment($id_type, $name, $email, $content, $rating)
+function insertServiceComment($id_khachhang, $id_type, $name, $email, $content, $rating)
 {
     global $conn;
 
-    // Chèn hoặc lấy id_khachhang từ bảng khachhang
-    $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
-            ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ss", $name, $email);
-        $result = $stmt->execute();
-        $id_khachhang = $conn->insert_id;
-        $stmt->close();
-        if (!$result) {
-            error_log("Error inserting customer in insertRoomComment: " . $conn->error);
-            return false;
-        }
-    } else {
-        error_log("Error preparing statement in insertRoomComment (khachhang): " . $conn->error);
-        return false;
-    }
+    // // Chèn hoặc lấy id_khachhang từ bảng khachhang
+    // $sql = "INSERT INTO khachhang (name, email) VALUES (?, ?)
+    //         ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)";
+    // if ($stmt = $conn->prepare($sql)) {
+    //     $stmt->bind_param("ss", $name, $email);
+    //     $result = $stmt->execute();
+    //     $id_khachhang = $conn->insert_id;
+    //     $stmt->close();
+    //     if (!$result) {
+    //         error_log("Error inserting customer in insertRoomComment: " . $conn->error);
+    //         return false;
+    //     }
+    // } else {
+    //     error_log("Error preparing statement in insertRoomComment (khachhang): " . $conn->error);
+    //     return false;
+    // }
 
     // Chèn bình luận vào bảng binhluan
     $create_at = date('Y-m-d H:i:s');
@@ -4111,9 +4330,10 @@ function insertService($image, $id_dichvu)
 {
     global $conn;
     try {
+        $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $image;
         $sql = "INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $image, $id_dichvu);
+        $stmt->bind_param("si", $image_url, $id_dichvu);
         $stmt->execute();
         return true;
     } catch (Exception $e) {
@@ -4681,6 +4901,7 @@ function updateTour($id_dichvu, $title_vi, $content_vi, $title_en, $content_en, 
         if ($image_file && isset($image_file['error']) && $image_file['error'] === 0) {
             $imageName = uploadImage($image_file);
             if ($imageName) {
+                $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $imageName;
                 // Xóa ảnh cũ
                 $old_image_query = "SELECT image FROM anhdichvu WHERE id_dichvu=? AND is_primary=1";
                 $stmt = $conn->prepare($old_image_query);
@@ -4702,7 +4923,7 @@ function updateTour($id_dichvu, $title_vi, $content_vi, $title_en, $content_en, 
 
                 // Chèn ảnh mới
                 $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
-                $stmt->bind_param("si", $imageName, $id_dichvu);
+                $stmt->bind_param("si", $image_url, $id_dichvu);
                 if (!$stmt->execute()) {
                     return false;
                 }
@@ -4810,8 +5031,9 @@ function addService($title_vi, $content_vi, $title_en, $content_en, $price_vi, $
         if ($image_file && isset($image_file['error']) && $image_file['error'] === 0) {
             $imageName = uploadImage($image_file);
             if ($imageName) {
+                $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $imageName;
                 $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
-                $stmt->bind_param("si", $imageName, $id_dichvu);
+                $stmt->bind_param("si", $image_url, $id_dichvu);
                 if (!$stmt->execute()) {
                     return false;
                 }
@@ -4906,6 +5128,7 @@ function updateService($id_dichvu, $title_vi, $content_vi, $title_en, $content_e
             $imageName = uploadImage($image_file);
             if ($imageName) {
                 // Xóa ảnh cũ
+                $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $imageName;
                 $old_image_query = "SELECT image FROM anhdichvu WHERE id_dichvu = ? AND is_primary = 1";
                 $stmt = $conn->prepare($old_image_query);
                 $stmt->bind_param("i", $id_dichvu);
@@ -4928,7 +5151,7 @@ function updateService($id_dichvu, $title_vi, $content_vi, $title_en, $content_e
 
                 // Chèn ảnh mới
                 $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
-                $stmt->bind_param("si", $imageName, $id_dichvu);
+                $stmt->bind_param("si", $image_url, $id_dichvu);
                 if (!$stmt->execute()) {
                     return false;
                 }
@@ -5000,10 +5223,982 @@ function deleteService($id_dichvu)
         return false;
     }
 }
-//quanlyanh (liem)
+
+// Hàm lấy danh sách đặt phòng với phân trang
+function getBookings($conn, $search_term = '', $status = '', $page = 1, $per_page = 10)
+{
+    $offset = ($page - 1) * $per_page;
+    $bookings_sql = "
+        SELECT 
+            dp.id,
+            dp.time_come,
+            dp.time_leave,
+            dp.number_adult,
+            dp.number_children,
+            dp.note,
+            dp.status,
+            dp.created_at,
+            dp.is_read, 
+            lpn.price,
+            lpn.area,
+            lpnnn.name as room_type_name,
+            kh.name as customer_name,
+            kh.phone as customer_phone,
+            kh.email as customer_email,
+            kh.img as customer_img
+        FROM datphongkhachsan dp
+        LEFT JOIN phongkhachsan p ON dp.id_phong = p.id
+        LEFT JOIN loaiphongnghi lpn ON p.id_loaiphong = lpn.id
+        LEFT JOIN loaiphongnghi_ngonngu lpnnn ON lpn.id = lpnnn.id_loaiphongnghi AND lpnnn.id_ngonngu = 1
+        LEFT JOIN khachhang kh ON dp.id_khachhang = kh.id
+        WHERE 1=1
+    ";
+    $params = [];
+    $types = '';
+
+    if ($search_term) {
+        $bookings_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $search_param = "%{$search_term}%";
+        $params[] = $search_param;
+        $params[] = $search_param;
+        $types .= 'ss';
+    }
+
+    if ($status) {
+        $bookings_sql .= " AND dp.status = ?";
+        $params[] = $status;
+        $types .= 's';
+    }
+
+    $bookings_sql .= " ORDER BY dp.created_at DESC LIMIT ? OFFSET ?";
+    $params[] = $per_page;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = $conn->prepare($bookings_sql);
+    if ($params) {
+        $stmt->bind_param($types, ...$params);
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $bookings = [];
+    while ($row = $result->fetch_assoc()) {
+        $bookings[] = $row;
+    }
+
+    // Đếm tổng số bản ghi để phân trang
+    $count_sql = "SELECT COUNT(*) as total FROM datphongkhachsan dp
+        LEFT JOIN khachhang kh ON dp.id_khachhang = kh.id
+        WHERE 1=1";
+    $count_params = [];
+    $count_types = '';
+
+    if ($search_term) {
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_params[] = $search_param;
+        $count_params[] = $search_param;
+        $count_types .= 'ss';
+    }
+
+    if ($status) {
+        $count_sql .= " AND dp.status = ?";
+        $count_params[] = $status;
+        $count_types .= 's';
+    }
+
+    $count_stmt = $conn->prepare($count_sql);
+    if ($count_params) {
+        $count_stmt->bind_param($count_types, ...$count_params);
+    }
+    $count_stmt->execute();
+    $total = $count_stmt->get_result()->fetch_assoc()['total'];
+
+    return [
+        'bookings' => $bookings,
+        'total' => $total,
+        'per_page' => $per_page,
+        'current_page' => $page
+    ];
+}
+
+// Hàm lấy thống kê đặt phòng
+function getBookingStats($conn)
+{
+    $stats_sql = "
+        SELECT 
+            COUNT(*) as total_bookings,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_bookings,
+            SUM(CASE WHEN status = 'confirmed' THEN 1 ELSE 0 END) as confirmed_bookings,
+            SUM(CASE WHEN status = 'checked_in' THEN 1 ELSE 0 END) as checked_in_bookings,
+            SUM(CASE WHEN status = 'checked_out' THEN 1 ELSE 0 END) as checked_out_bookings,
+            SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_bookings
+        FROM datphongkhachsan
+    ";
+    $stats_result = $conn->query($stats_sql);
+    return $stats_result->fetch_assoc();
+}
+
+// Hàm cập nhật trạng thái đặt phòng
+function updateBooking($conn, $id, $status)
+{
+    if (!in_array($status, ['pending', 'confirmed', 'checked_in', 'checked_out', 'cancelled'])) {
+        return ['status' => 'error', 'message' => 'Trạng thái không hợp lệ!'];
+    }
+
+    $conn->begin_transaction();
+
+    try {
+        $sql = "UPDATE datphongkhachsan SET status = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $status, $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi cập nhật trạng thái đặt phòng: " . $conn->error);
+        }
+
+        if ($status === 'checked_out') {
+            $room_sql = "UPDATE phongkhachsan SET status = 'available' WHERE id = (SELECT id_phong FROM datphongkhachsan WHERE id = ?)";
+            $room_stmt = $conn->prepare($room_sql);
+            $room_stmt->bind_param("i", $id);
+            if (!$room_stmt->execute()) {
+                throw new Exception("Lỗi khi cập nhật trạng thái phòng: " . $conn->error);
+            }
+        }
+
+        $conn->commit();
+        return [
+            'status' => 'success',
+            'message' => 'Cập nhật trạng thái đặt phòng thành công!',
+            'data' => getBookings($conn),
+            'stats' => getBookingStats($conn)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+
+// Hàm xóa đặt phòng
+function deleteBooking($conn, $id)
+{
+    $check_sql = "SELECT status FROM datphongkhachsan WHERE id = ?";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("i", $id);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['status'] === 'checked_in') {
+        return ['status' => 'error', 'message' => 'Không thể xóa đặt phòng đang ở trạng thái checked_in!'];
+    }
+
+    $conn->begin_transaction();
+
+    try {
+        $sql = "DELETE FROM datphongkhachsan WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi xóa đặt phòng: " . $conn->error);
+        }
+
+        $conn->commit();
+        return [
+            'status' => 'success',
+            'message' => 'Xóa đặt phòng thành công!',
+            'data' => getBookings($conn),
+            'stats' => getBookingStats($conn)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+
+// Hàm lấy danh sách đặt hội trường với phân trang
+function getEventBookings($conn, $search_term = '', $status = '', $page = 1, $per_page = 10)
+{
+    $offset = ($page - 1) * $per_page;
+    $events_sql = "
+        SELECT 
+            dht.id,
+            dht.type_event,
+            dht.start_at,
+            dht.end_at,
+            dht.number_people,
+            dht.note,
+            dht.budget,
+            dht.status,
+            dht.is_read,
+            dht.created_at,
+            ht.room_number as hall_number,
+            htnn.name as hall_name,
+            kh.name as customer_name,
+            kh.phone as customer_phone,
+            kh.email as customer_email,
+            dht.images
+        FROM dathoitruong dht
+        LEFT JOIN hoitruong ht ON dht.id_hoitruong = ht.id
+        LEFT JOIN hoitruong_ngonngu htnn ON ht.id = htnn.id_hoitruong AND htnn.id_ngonngu = 1
+        LEFT JOIN khachhang kh ON dht.id_khachhang = kh.id
+        WHERE 1=1
+    ";
+    $params = [];
+    $types = '';
+
+    if ($search_term) {
+        $events_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $search_param = "%{$search_term}%";
+        $params[] = $search_param;
+        $params[] = $search_param;
+        $types .= 'ss';
+    }
+
+    if ($status) {
+        $events_sql .= " AND dht.status = ?";
+        $params[] = $status;
+        $types .= 's';
+    }
+
+    $events_sql .= " ORDER BY dht.created_at DESC LIMIT ? OFFSET ?";
+    $params[] = $per_page;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = $conn->prepare($events_sql);
+    if ($params) {
+        $stmt->bind_param($types, ...$params);
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $events = [];
+    while ($row = $result->fetch_assoc()) {
+        $events[] = $row;
+    }
+
+    // Đếm tổng số bản ghi để phân trang
+    $count_sql = "SELECT COUNT(*) as total FROM dathoitruong dht
+        LEFT JOIN khachhang kh ON dht.id_khachhang = kh.id
+        WHERE 1=1";
+    $count_params = [];
+    $count_types = '';
+
+    if ($search_term) {
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_params[] = $search_param;
+        $count_params[] = $search_param;
+        $count_types .= 'ss';
+    }
+
+    if ($status) {
+        $count_sql .= " AND dht.status = ?";
+        $count_params[] = $status;
+        $count_types .= 's';
+    }
+
+    $count_stmt = $conn->prepare($count_sql);
+    if ($count_params) {
+        $count_stmt->bind_param($count_types, ...$count_params);
+    }
+    $count_stmt->execute();
+    $total = $count_stmt->get_result()->fetch_assoc()['total'];
+
+    return [
+        'events' => $events,
+        'total' => $total,
+        'per_page' => $per_page,
+        'current_page' => $page
+    ];
+}
+
+// Hàm lấy thống kê đặt hội trường
+function getEventBookingStats($conn)
+{
+    $stats_sql = "
+        SELECT 
+            COUNT(*) as total_events,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_events,
+            SUM(CASE WHEN status = 'confirmed' THEN 1 ELSE 0 END) as confirmed_events,
+            SUM(CASE WHEN status = 'checked_in' THEN 1 ELSE 0 END) as checked_in_events,
+            SUM(CASE WHEN status = 'checked_out' THEN 1 ELSE 0 END) as checked_out_events,
+            SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_events
+        FROM dathoitruong
+    ";
+    $stats_result = $conn->query($stats_sql);
+    return $stats_result->fetch_assoc();
+}
+
+// Hàm cập nhật trạng thái đặt hội trường
+function updateEventBooking($conn, $id, $status)
+{
+    if (!in_array($status, ['pending', 'confirmed', 'checked_in', 'checked_out', 'cancelled'])) {
+        return ['status' => 'error', 'message' => 'Trạng thái không hợp lệ!'];
+    }
+
+    $conn->begin_transaction();
+    try {
+        $sql = "UPDATE dathoitruong SET status = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $status, $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi cập nhật trạng thái đặt hội trường: " . $conn->error);
+        }
+
+        if ($status === 'checked_out') {
+            $hall_sql = "UPDATE hoitruong SET status = '' WHERE id = (SELECT id_hoitruong FROM dathoitruong WHERE id = ?)";
+            $hall_stmt = $conn->prepare($hall_sql);
+            $hall_stmt->bind_param("i", $id);
+            if (!$hall_stmt->execute()) {
+                throw new Exception("Lỗi khi cập nhật trạng thái hội trường: " . $conn->error);
+            }
+        }
+
+        $conn->commit();
+        return [
+            'status' => 'success',
+            'message' => 'Cập nhật trạng thái đặt hội trường thành công!',
+            'data' => getEventBookings($conn),
+            'stats' => getEventBookingStats($conn)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+
+// Hàm xóa đặt hội trường
+function deleteEventBooking($conn, $id)
+{
+    $check_sql = "SELECT status FROM dathoitruong WHERE id = ?";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("i", $id);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['status'] === 'checked_in') {
+        return ['status' => 'error', 'message' => 'Không thể xóa đặt hội trường đang ở trạng thái checked_in!'];
+    }
+
+    $conn->begin_transaction();
+    try {
+        $sql = "DELETE FROM dathoitruong WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi xóa đặt hội trường: " . $conn->error);
+        }
+
+        $conn->commit();
+        return [
+            'status' => 'success',
+            'message' => 'Xóa đặt hội trường thành công!',
+            'data' => getEventBookings($conn),
+            'stats' => getEventBookingStats($conn)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+
+// Hàm lấy danh sách đặt nhà hàng với phân trang
+function getRestaurantBookings($conn, $search_term = '', $status = '', $page = 1, $per_page = 10)
+{
+    $offset = ($page - 1) * $per_page;
+    $restaurants_sql = "
+        SELECT 
+            db.id,
+            db.location,
+            db.start_at,
+            db.number_people,
+            db.note,
+            db.occasion,
+            db.status,
+            db.created_at,
+            db.is_read, 
+            kh.name as customer_name,
+            kh.phone as customer_phone,
+            kh.email as customer_email
+        FROM datbannhahang db
+        LEFT JOIN khachhang kh ON db.id_khachhang = kh.id
+        WHERE 1=1
+    ";
+    $params = [];
+    $types = '';
+
+    if ($search_term) {
+        $restaurants_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $search_param = "%{$search_term}%";
+        $params[] = $search_param;
+        $params[] = $search_param;
+        $types .= 'ss';
+    }
+
+    if ($status) {
+        $restaurants_sql .= " AND db.status = ?";
+        $params[] = $status;
+        $types .= 's';
+    }
+
+    $restaurants_sql .= " ORDER BY db.created_at DESC LIMIT ? OFFSET ?";
+    $params[] = $per_page;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = $conn->prepare($restaurants_sql);
+    if ($params) {
+        $stmt->bind_param($types, ...$params);
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $restaurants = [];
+    while ($row = $result->fetch_assoc()) {
+        $restaurants[] = $row;
+    }
+
+    // Đếm tổng số bản ghi để phân trang
+    $count_sql = "SELECT COUNT(*) as total FROM datbannhahang db
+        LEFT JOIN khachhang kh ON db.id_khachhang = kh.id
+        WHERE 1=1";
+    $count_params = [];
+    $count_types = '';
+
+    if ($search_term) {
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_params[] = $search_param;
+        $count_params[] = $search_param;
+        $count_types .= 'ss';
+    }
+
+    if ($status) {
+        $count_sql .= " AND db.status = ?";
+        $count_params[] = $status;
+        $count_types .= 's';
+    }
+
+    $count_stmt = $conn->prepare($count_sql);
+    if ($count_params) {
+        $count_stmt->bind_param($count_types, ...$count_params);
+    }
+    $count_stmt->execute();
+    $total = $count_stmt->get_result()->fetch_assoc()['total'];
+
+    return [
+        'restaurants' => $restaurants,
+        'total' => $total,
+        'per_page' => $per_page,
+        'current_page' => $page
+    ];
+}
+
+// Hàm lấy thống kê đặt nhà hàng
+function getRestaurantBookingStats($conn)
+{
+    $stats_sql = "
+        SELECT 
+            COUNT(*) as total_restaurants,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_restaurants,
+            SUM(CASE WHEN status = 'confirmed' THEN 1 ELSE 0 END) as confirmed_restaurants,
+            SUM(CASE WHEN status = 'checked_in' THEN 1 ELSE 0 END) as checked_in_restaurants,
+            SUM(CASE WHEN status = 'checked_out' THEN 1 ELSE 0 END) as checked_out_restaurants,
+            SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_restaurants
+        FROM datbannhahang
+    ";
+    $stats_result = $conn->query($stats_sql);
+    return $stats_result->fetch_assoc();
+}
+
+// Hàm cập nhật trạng thái đặt nhà hàng
+function updateRestaurantBooking($conn, $id, $status)
+{
+    if (!in_array($status, ['pending', 'confirmed', 'checked_in', 'checked_out', 'cancelled'])) {
+        return ['status' => 'error', 'message' => 'Trạng thái không hợp lệ!'];
+    }
+
+    $conn->begin_transaction();
+
+    try {
+        $sql = "UPDATE datbannhahang SET status = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $status, $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi cập nhật trạng thái đặt nhà hàng: " . $conn->error);
+        }
+
+        $conn->commit();
+        return [
+            'status' => 'success',
+            'message' => 'Cập nhật trạng thái đặt nhà hàng thành công!',
+            'data' => getRestaurantBookings($conn),
+            'stats' => getRestaurantBookingStats($conn)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+
+// Hàm xóa đặt nhà hàng
+function deleteRestaurantBooking($conn, $id)
+{
+    $check_sql = "SELECT status FROM datbannhahang WHERE id = ?";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("i", $id);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['status'] === 'checked_in') {
+        return ['status' => 'error', 'message' => 'Không thể xóa đặt nhà hàng đang ở trạng thái checked_in!'];
+    }
+
+    $conn->begin_transaction();
+
+    try {
+        $sql = "DELETE FROM datbannhahang WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi xóa đặt nhà hàng: " . $conn->error);
+        }
+
+        $conn->commit();
+        return [
+            'status' => 'success',
+            'message' => 'Xóa đặt nhà hàng thành công!',
+            'data' => getRestaurantBookings($conn),
+            'stats' => getRestaurantBookingStats($conn)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+
+// Hàm lấy danh sách đặt bàn bar với phân trang
+function getBarBookings($conn, $search_term = '', $status = '', $page = 1, $per_page = 10)
+{
+    $offset = ($page - 1) * $per_page;
+    $bars_sql = "
+        SELECT 
+            db.id,
+            db.start_at,
+            db.number_people,
+            db.note,
+            db.status,
+            db.created_at,
+            db.is_read,
+            kh.name as customer_name,
+            kh.phone as customer_phone,
+            kh.email as customer_email
+        FROM datbanbar db
+        LEFT JOIN khachhang kh ON db.id_khachhang = kh.id
+        WHERE 1=1
+    ";
+    $params = [];
+    $types = '';
+
+    if ($search_term) {
+        $bars_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $search_param = "%{$search_term}%";
+        $params[] = $search_param;
+        $params[] = $search_param;
+        $types .= 'ss';
+    }
+
+    if ($status) {
+        $bars_sql .= " AND db.status = ?";
+        $params[] = $status;
+        $types .= 's';
+    }
+
+    $bars_sql .= " ORDER BY db.created_at DESC LIMIT ? OFFSET ?";
+    $params[] = $per_page;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = $conn->prepare($bars_sql);
+    if ($params) {
+        $stmt->bind_param($types, ...$params);
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $bars = [];
+    while ($row = $result->fetch_assoc()) {
+        $bars[] = $row;
+    }
+
+    // Đếm tổng số bản ghi để phân trang
+    $count_sql = "SELECT COUNT(*) as total FROM datbanbar db
+        LEFT JOIN khachhang kh ON db.id_khachhang = kh.id
+        WHERE 1=1";
+    $count_params = [];
+    $count_types = '';
+
+    if ($search_term) {
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_params[] = $search_param;
+        $count_params[] = $search_param;
+        $count_types .= 'ss';
+    }
+
+    if ($status) {
+        $count_sql .= " AND db.status = ?";
+        $count_params[] = $status;
+        $count_types .= 's';
+    }
+
+    $count_stmt = $conn->prepare($count_sql);
+    if ($count_params) {
+        $count_stmt->bind_param($count_types, ...$count_params);
+    }
+    $count_stmt->execute();
+    $total = $count_stmt->get_result()->fetch_assoc()['total'];
+
+    return [
+        'bars' => $bars,
+        'total' => $total,
+        'per_page' => $per_page,
+        'current_page' => $page
+    ];
+}
+
+// Hàm lấy thống kê đặt bàn bar
+function getBarBookingStats($conn)
+{
+    $stats_sql = "
+        SELECT 
+            COUNT(*) as total_bars,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_bars,
+            SUM(CASE WHEN status = 'confirmed' THEN 1 ELSE 0 END) as confirmed_bars,
+            SUM(CASE WHEN status = 'checked_in' THEN 1 ELSE 0 END) as checked_in_bars,
+            SUM(CASE WHEN status = 'checked_out' THEN 1 ELSE 0 END) as checked_out_bars,
+            SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_bars
+        FROM datbanbar
+    ";
+    $stats_result = $conn->query($stats_sql);
+    return $stats_result->fetch_assoc();
+}
+
+// Hàm cập nhật trạng thái đặt bàn bar
+function updateBarBooking($conn, $id, $status)
+{
+    if (!in_array($status, ['pending', 'confirmed', 'checked_in', 'checked_out', 'cancelled'])) {
+        return ['status' => 'error', 'message' => 'Trạng thái không hợp lệ!'];
+    }
+
+    $conn->begin_transaction();
+
+    try {
+        $sql = "UPDATE datbanbar SET status = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $status, $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi cập nhật trạng thái đặt bàn bar: " . $conn->error);
+        }
+
+        $conn->commit();
+        return [
+            'status' => 'success',
+            'message' => 'Cập nhật trạng thái đặt bàn bar thành công!',
+            'data' => getBarBookings($conn),
+            'stats' => getBarBookingStats($conn)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+
+// Hàm xóa đặt bàn bar
+function deleteBarBooking($conn, $id)
+{
+    $check_sql = "SELECT status FROM datbanbar WHERE id = ?";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("i", $id);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['status'] === 'checked_in') {
+        return ['status' => 'error', 'message' => 'Không thể xóa đặt bàn bar đang ở trạng thái checked_in!'];
+    }
+
+    $conn->begin_transaction();
+
+    try {
+        $sql = "DELETE FROM datbanbar WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi xóa đặt bàn bar: " . $conn->error);
+        }
+
+        $conn->commit();
+        return [
+            'status' => 'success',
+            'message' => 'Xóa đặt bàn bar thành công!',
+            'data' => getBarBookings($conn),
+            'stats' => getBarBookingStats($conn)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+
+// Hàm lấy danh sách yêu cầu liên hệ/dịch vụ với phân trang
+function getContactRequests($conn, $search_term = '', $status = '', $page = 1, $type = '', $per_page = 10)
+{
+    $offset = ($page - 1) * $per_page;
+    $contacts_sql = "
+        SELECT 
+            cr.id,
+            cr.service,
+            cr.message,
+            cr.created_at,
+            cr.status,
+            cr.type,
+            cr.is_read,
+            kh.name as customer_name,
+            kh.phone as customer_phone,
+            kh.email as customer_email
+        FROM contact_requests cr
+        LEFT JOIN khachhang kh ON cr.id_khachhang = kh.id
+        WHERE 1=1
+    ";
+    $params = [];
+    $types = '';
+
+    if ($type) {
+        $contacts_sql .= " AND cr.type = ?";
+        $params[] = $type;
+        $types .= 's';
+    }
+
+    if ($search_term) {
+        $contacts_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $search_param = "%{$search_term}%";
+        $params[] = $search_param;
+        $params[] = $search_param;
+        $types .= 'ss';
+    }
+
+    if ($status) {
+        $contacts_sql .= " AND cr.status = ?";
+        $params[] = $status;
+        $types .= 's';
+    }
+
+    $contacts_sql .= " ORDER BY cr.created_at DESC LIMIT ? OFFSET ?";
+    $params[] = $per_page;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = $conn->prepare($contacts_sql);
+    if ($params) {
+        $stmt->bind_param($types, ...$params);
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $contacts = [];
+    while ($row = $result->fetch_assoc()) {
+        $contacts[] = $row;
+    }
+
+    // Đếm tổng số bản ghi để phân trang
+    $count_sql = "SELECT COUNT(*) as total FROM contact_requests cr
+        LEFT JOIN khachhang kh ON cr.id_khachhang = kh.id
+        WHERE 1=1";
+    $count_params = [];
+    $count_types = '';
+
+    if ($type) {
+        $count_sql .= " AND cr.type = ?";
+        $count_params[] = $type;
+        $count_types .= 's';
+    }
+
+    if ($search_term) {
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_params[] = $search_param;
+        $count_params[] = $search_param;
+        $count_types .= 'ss';
+    }
+
+    if ($status) {
+        $count_sql .= " AND cr.status = ?";
+        $count_params[] = $status;
+        $count_types .= 's';
+    }
+
+    $count_stmt = $conn->prepare($count_sql);
+    if ($count_params) {
+        $count_stmt->bind_param($count_types, ...$count_params);
+    }
+    $count_stmt->execute();
+    $total = $count_stmt->get_result()->fetch_assoc()['total'];
+
+    return [
+        ($type === 'lienhe' ? 'contacts' : 'services') => $contacts,
+        'total' => $total,
+        'per_page' => $per_page,
+        'current_page' => $page
+    ];
+}
+
+// Hàm lấy thống kê yêu cầu liên hệ/dịch vụ
+function getContactRequestStats($conn, $type)
+{
+    $stats_sql = "
+        SELECT 
+            COUNT(*) as total_requests,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_requests,
+            SUM(CASE WHEN status = 'confirmed' THEN 1 ELSE 0 END) as confirmed_requests,
+            SUM(CASE WHEN status = 'checked_in' THEN 1 ELSE 0 END) as checked_in_requests,
+            SUM(CASE WHEN status = 'checked_out' THEN 1 ELSE 0 END) as checked_out_requests,
+            SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_requests
+        FROM contact_requests
+        WHERE type = ?
+    ";
+    $stmt = $conn->prepare($stats_sql);
+    $stmt->bind_param("s", $type);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+// Hàm cập nhật trạng thái yêu cầu liên hệ/dịch vụ
+function updateContactRequest($conn, $id, $status)
+{
+    if (!in_array($status, ['pending', 'confirmed', 'checked_in', 'checked_out', 'cancelled'])) {
+        return ['status' => 'error', 'message' => 'Trạng thái không hợp lệ!'];
+    }
+
+    $conn->begin_transaction();
+
+    try {
+        $sql = "UPDATE contact_requests SET status = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $status, $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi cập nhật trạng thái yêu cầu: " . $conn->error);
+        }
+
+        $conn->commit();
+        $type_sql = "SELECT type FROM contact_requests WHERE id = ?";
+        $type_stmt = $conn->prepare($type_sql);
+        $type_stmt->bind_param("i", $id);
+        $type_stmt->execute();
+        $type = $type_stmt->get_result()->fetch_assoc()['type'];
+
+        return [
+            'status' => 'success',
+            'message' => 'Cập nhật trạng thái yêu cầu thành công!',
+            'data' => getContactRequests($conn, '', '', 1, $type),
+            'stats' => getContactRequestStats($conn, $type)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+
+// Hàm xóa yêu cầu liên hệ/dịch vụ
+function deleteContactRequest($conn, $id)
+{
+    $check_sql = "SELECT status, type FROM contact_requests WHERE id = ?";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("i", $id);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['status'] === 'checked_in') {
+        return ['status' => 'error', 'message' => 'Không thể xóa yêu cầu đang ở trạng thái checked_in!'];
+    }
+
+    $conn->begin_transaction();
+
+    try {
+        $sql = "DELETE FROM contact_requests WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Lỗi khi xóa yêu cầu: " . $conn->error);
+        }
+
+        $conn->commit();
+        $type = $row['type'];
+        return [
+            'status' => 'success',
+            'message' => 'Xóa yêu cầu thành công!',
+            'data' => getContactRequests($conn, '', '', 1, $type),
+            'stats' => getContactRequestStats($conn, $type)
+        ];
+    } catch (Exception $e) {
+        $conn->rollback();
+        return ['status' => 'error', 'message' => $e->getMessage()];
+    }
+}
+// Hàm cập nhật trạng thái đã đọc
+function markBookingAsRead($conn, $id)
+{
+    $sql = "UPDATE datphongkhachsan SET is_read = 1 WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+function markRestaurantBookingAsRead($conn, $id)
+{
+    $sql = "UPDATE datbannhahang SET is_read = 1 WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+// Thêm vào cuối file booking_model.php
+
+function markEventBookingAsRead($conn, $id)
+{
+    $sql = "UPDATE dathoitruong SET is_read = 1 WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+
+function markBarBookingAsRead($conn, $id)
+{
+    $sql = "UPDATE datbanbar SET is_read = 1 WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+
+function markContactRequestAsRead($conn, $id)
+{
+    $sql = "UPDATE contact_requests SET is_read = 1 WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
 
 // Lấy danh sách chủ đề
-function getTopics($conn) {
+function getTopics($conn)
+{
     try {
         $sql = "SELECT * FROM thuvien WHERE id IN (1, 4, 9, 12, 13, 16) ORDER BY id";
         $result = $conn->query($sql);
@@ -5018,7 +6213,8 @@ function getTopics($conn) {
 }
 
 // Lấy danh sách các trang
-function getPages($conn) {
+function getPages($conn)
+{
     try {
         $sql = "SELECT DISTINCT page FROM head_banner WHERE id_topic = 4 AND page != '' ORDER BY page";
         $result = $conn->query($sql);
@@ -5033,7 +6229,8 @@ function getPages($conn) {
 }
 
 // Lấy danh sách sự kiện
-function getSukien($conn) {
+function getSukien($conn)
+{
     try {
         $sql = "SELECT s.*, sn.title AS title 
                 FROM sukien s 
@@ -5057,7 +6254,8 @@ function getSukien($conn) {
 }
 
 // Lấy danh sách ảnh/video theo chủ đề
-function getImages($conn, $topic_id, $page = '', $id_sukien = '') {
+function getImages($conn, $topic_id, $page = '', $id_sukien = '')
+{
     try {
         $images = [];
         switch ($topic_id) {
@@ -5209,13 +6407,14 @@ function getImages($conn, $topic_id, $page = '', $id_sukien = '') {
 }
 
 // Tải lên ảnh/video
-function uploadImages($conn, $topic_id, $files, $event_id = null, $service = null) {
+function uploadImages($conn, $topic_id, $files, $event_id = null, $service = null)
+{
     try {
         $uploaded_count = 0;
         $upload_errors = [];
         $upload_dir = ($topic_id == '16') ? '../view/video/' : '../view/img/';
-        $allowed_types = ($topic_id == '16') 
-            ? ['mp4', 'avi', 'mov', 'wmv', 'flv'] 
+        $allowed_types = ($topic_id == '16')
+            ? ['mp4', 'avi', 'mov', 'wmv', 'flv']
             : ['jpg', 'jpeg', 'png', 'gif'];
         $max_size = ($topic_id == '16') ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
 
@@ -5326,7 +6525,8 @@ function uploadImages($conn, $topic_id, $files, $event_id = null, $service = nul
 }
 
 // Chỉnh sửa ảnh (cho head_banner)
-function editImage($conn, $topic_id, $id, $file) {
+function editImage($conn, $topic_id, $id, $file)
+{
     try {
         if (!in_array($topic_id, ['1', '4'])) {
             return ['status' => 'error', 'message' => 'Chủ đề không hỗ trợ chỉnh sửa ảnh!'];
@@ -5391,7 +6591,8 @@ function editImage($conn, $topic_id, $id, $file) {
 }
 
 // Xóa ảnh/video
-function deleteItem($conn, $id, $table, $file_name) {
+function deleteItem($conn, $id, $table, $file_name)
+{
     try {
         $sql = "DELETE FROM $table WHERE id = ?";
         $stmt = $conn->prepare($sql);
@@ -5411,7 +6612,8 @@ function deleteItem($conn, $id, $table, $file_name) {
 }
 
 // Chuyển đổi trạng thái (active/is_primary)
-function toggleStatus($conn, $id, $table, $field, $current_status) {
+function toggleStatus($conn, $id, $table, $field, $current_status)
+{
     try {
         $new_status = $current_status == 1 ? 0 : 1;
 
@@ -5446,4 +6648,86 @@ function toggleStatus($conn, $id, $table, $field, $current_status) {
     } catch (Exception $e) {
         return ['status' => 'error', 'message' => 'Lỗi khi cập nhật trạng thái: ' . $e->getMessage()];
     }
+}
+
+function getActiveTerms($languageId)
+{
+    global $conn;
+    $sql_terms = "SELECT dk.id, dknn.title, dknn.content 
+                  FROM dieukhoan dk 
+                  LEFT JOIN dieukhoan_ngonngu dknn ON dk.id = dknn.id_dieukhoan 
+                  WHERE dk.active = 1 AND dknn.id_ngonngu = ?
+                  ORDER BY dk.id";
+
+    $stmt_terms = $conn->prepare($sql_terms);
+    $stmt_terms->bind_param("i", $languageId);
+    $stmt_terms->execute();
+    $terms_result = $stmt_terms->get_result();
+
+    return $terms_result;
+}
+
+function getTermsNgonNgu($languageId, $id)
+{
+    global $conn;
+    $sql = "SELECT d.id, dn.title AS title_vi, dn.content AS content_vi,
+                   (SELECT title FROM dieukhoan_ngonngu WHERE id_dieukhoan = d.id AND id_ngonngu = 2) AS title_en,
+                   (SELECT content FROM dieukhoan_ngonngu WHERE id_dieukhoan = d.id AND id_ngonngu = 2) AS content_en
+            FROM dieukhoan d
+            LEFT JOIN dieukhoan_ngonngu dn ON d.id = dn.id_dieukhoan AND dn.id_ngonngu = ?
+            WHERE d.id = ? AND d.active = 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $languageId, $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+function updateTermsNgonNgu($id, $data)
+{
+    global $conn;
+    // Lưu cho tiếng Việt (id_ngonngu = 1)
+    $sql = "UPDATE dieukhoan_ngonngu SET title = ? , content = ?
+            WHERE id_dieukhoan = ? AND id_ngonngu = 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssi", $data['title_vi'], $data['description_vi'], $id);
+    $stmt->execute();
+
+    $sql = "UPDATE dieukhoan_ngonngu SET title = ? , content = ?
+            WHERE id_dieukhoan = ? AND id_ngonngu = 2";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssi", $data['title_en'], $data['description_en'], $id);
+    $stmt->execute();
+
+    return true;
+}
+
+function getServicesWithLanguage($languageId)
+{
+    global $conn;
+
+    // Truy vấn lấy danh sách dịch vụ theo ngôn ngữ
+    $sql = "SELECT g.id, gn.title, gn.content AS description
+            FROM gioithieu g
+            JOIN gioithieu_ngonngu gn ON g.id = gn.id_gioithieu
+            WHERE gn.id_ngonngu = ? AND g.active = 1
+            ORDER BY g.id";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $languageId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $services = [];
+    while ($row = $result->fetch_assoc()) {
+
+        $services[] = [
+            'id' => $row['id'],
+            'title' => $row['title'],
+            'description' => $row['description'],
+        ];
+    }
+
+    $stmt->close();
+    return $services;
 }

@@ -23,7 +23,7 @@ function sendMail($toEmail, $subject, $body)
 
         $mail->setFrom('nhatnam161005@gmail.com', 'NHL Sports');
         $mail->addAddress($toEmail);
-        // $mail->addCC('nhatnam161005@gmail.com');
+        $mail->addCC('nhatnam161005@gmail.com');
 
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';

@@ -29,7 +29,7 @@ async function loadTopics() {
     const formData = new FormData();
     formData.append("action", "get_topics");
     const response = await fetch(
-      "/libertylaocai/controller/UserController.php",
+      "/libertylaocai/user/submit",
       {
         method: "POST",
         body: formData,
@@ -48,7 +48,7 @@ async function loadSukien() {
     const formData = new FormData();
     formData.append("action", "get_sukien");
     const response = await fetch(
-      "/libertylaocai/controller/UserController.php",
+      "/libertylaocai/user/submit",
       {
         method: "POST",
         body: formData,
@@ -128,7 +128,7 @@ async function loadPages() {
     const formData = new FormData();
     formData.append("action", "get_pages");
     const response = await fetch(
-      "/libertylaocai/controller/UserController.php",
+      "/libertylaocai/user/submit",
       {
         method: "POST",
         body: formData,
@@ -218,7 +218,7 @@ async function loadImages(topicId, filterValue = "") {
       }
     }
     const response = await fetch(
-      "/libertylaocai/controller/UserController.php",
+      "/libertylaocai/user/submit",
       {
         method: "POST",
         body: formData,
@@ -261,7 +261,7 @@ function displayImages(items, topicId) {
 
     if (item.video) {
       mediaHtml = `<video class="item-video" controls>
-                    <source src="../../view/video/${item.video}" type="video/mp4">
+                    <source src="/libertylaocai/view/video/${item.video}" type="video/mp4">
                     Video không được hỗ trợ
                 </video>`;
       infoHtml = `<div class="item-info">
@@ -274,10 +274,10 @@ function displayImages(items, topicId) {
                 `;
     } else {
       // Thêm loading="lazy" vào thẻ img
-      mediaHtml = `<img class="item-image" src="../../view/img/${item.image}" alt="Image" loading="lazy" onclick="openImageViewer(${currentImages.length})" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkFuaCBrb25nIHRvbiB0YWk8L3RleHQ+PC9zdmc+'">`;
+      mediaHtml = `<img class="item-image" src="/libertylaocai/view/img/${item.image}" alt="Image" loading="lazy">`;
 
       currentImages.push({
-        url: `../../view/img/${item.image}`,
+        url: `/libertylaocai/view/img/${item.image}`,
         name: item.image,
         info: item,
       });
@@ -421,7 +421,7 @@ async function deleteItem(id, table, fileName) {
     formData.append("image_name", fileName);
 
     const response = await fetch(
-      "/libertylaocai/controller/UserController.php",
+      "/libertylaocai/user/submit",
       {
         method: "POST",
         body: formData,
@@ -451,7 +451,7 @@ async function toggleStatus(id, table, field, currentStatus) {
     formData.append("current_status", currentStatus);
 
     const response = await fetch(
-      "/libertylaocai/controller/UserController.php",
+      "/libertylaocai/user/submit",
       {
         method: "POST",
         body: formData,
@@ -1035,7 +1035,7 @@ async function uploadImages() {
     formData.append("topic_id", currentTopicId);
 
     const response = await fetch(
-      "/libertylaocai/controller/UserController.php",
+      "/libertylaocai/user/submit",
       {
         method: "POST",
         body: formData,

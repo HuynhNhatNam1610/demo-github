@@ -60,12 +60,16 @@ $getRelatedNews = getRelatedNews($languageId, $id_tintuc, 6);
                             foreach ($getRelatedNews as $promo) {
                                 echo '<div class="promotion-card" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
                                 echo '<div class="promotion-image">';
-                                echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promo['image']) . '" alt="' . htmlspecialchars($promo['title']) . '">';
+                                echo '<img src="' . htmlspecialchars($promo['image']) . '" alt="' . htmlspecialchars($promo['title']) . '">';
                                 echo '<span class="corner-text">' . date('Y-m-d', strtotime($promo['create_at'])) . '</span>';
                                 echo '</div>';
                                 echo '<div class="promotion-item-content">';
                                 echo '<h3>' . htmlspecialchars($promo['title']) . '</h3>';
-                                echo '<p>' . htmlspecialchars(mb_substr($promo['content'], 0, 100, 'UTF-8')) . '...</p>';
+                                echo '<p>' . htmlspecialchars(mb_substr(strip_tags($promo['content']), 0, 100, 'UTF-8'));
+                                if (mb_strlen($promo['content'], 'UTF-8') > 100) {
+                                    echo '...';
+                                }
+                                echo '</p>';
                                 echo '<form action="/libertylaocai/user/submit" method="POST" style="display: inline;">';
                                 echo '<input type="hidden" name="id_tintuc" value="' . htmlspecialchars($promo['id']) . '">';
                                 echo '<button type="submit" class="promotion-button">CHI TIẾT</button>';

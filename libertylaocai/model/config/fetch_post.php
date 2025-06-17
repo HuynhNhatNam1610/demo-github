@@ -1,6 +1,9 @@
 <?php
 require_once 'connect.php';
-
+ini_set('display_errors', 0); // Tắt hiển thị lỗi trên màn hình
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('error_log', 'php_errors.log');
 header('Content-Type: application/json');
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;

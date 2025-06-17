@@ -56,24 +56,28 @@ $relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
                     </button>
                     <div class="promotions-grid-wrapper">
                         <div class="promotions-grid" id="promotionsGrid">
-                        <?php
-foreach ($relatedPromotions as $promo) {
-    echo '<div class="promotion-item" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
-    echo '<div class="promotion-image">';
-    echo '<img src="/libertylaocai/view/img/' . htmlspecialchars($promo['image']) . '" alt="Khuyến mãi">';
-    echo '<span class="corner-text">' . date('Y-m-d', strtotime($promo['created_at'])) . '</span>';
-    echo '</div>';
-    echo '<div class="promotion-item-content">';
-    echo '<h3>' . htmlspecialchars($promo['title']) . '</h3>';
-    echo '<p>' . mb_substr($promo['content'], 0, 100, 'UTF-8') . '...</p>';
-    echo '<form action="/libertylaocai/user/submit" method="POST" style="display: inline;">';
-    echo '<input type="hidden" name="id_uudai" value="' . htmlspecialchars($promo['id']) . '">';
-    echo '<button type="submit" class="promotion-button">CHI TIẾT</button>';
-    echo '</form>';
-    echo '</div>';
-    echo '</div>';
-}
-?>
+                            <?php
+                            foreach ($relatedPromotions as $promo) {
+                                echo '<div class="promotion-item" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
+                                echo '<div class="promotion-image">';
+                                echo '<img src="' . htmlspecialchars($promo['image']) . '" alt="Khuyến mãi">';
+                                echo '<span class="corner-text">' . date('Y-m-d', strtotime($promo['created_at'])) . '</span>';
+                                echo '</div>';
+                                echo '<div class="promotion-item-content">';
+                                echo '<h3>' . htmlspecialchars($promo['title']) . '</h3>';
+                                echo '<p>' . htmlspecialchars(mb_substr(strip_tags($promo['content']), 0, 100, 'UTF-8'));
+                                if (mb_strlen($promo['content'], 'UTF-8') > 100) {
+                                    echo '...';
+                                }
+                                echo '</p>';
+                                echo '<form action="/libertylaocai/user/submit" method="POST" style="display: inline;">';
+                                echo '<input type="hidden" name="id_uudai" value="' . htmlspecialchars($promo['id']) . '">';
+                                echo '<button type="submit" class="promotion-button">CHI TIẾT</button>';
+                                echo '</form>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                            ?>
                         </div>
                     </div>
                     <button class="promotion-nav-btn promotion-nav-next">

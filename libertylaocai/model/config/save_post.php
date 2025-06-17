@@ -18,23 +18,26 @@ if (empty($type) || empty($title_vi) || empty($title_en)) {
     exit;
 }
 
-// Xác định bảng dựa trên loại bài viết
-$main_table = $image_table = $content_table = '';
+// Xác định bảng và id_topic dựa trên loại bài viết
+$main_table = $image_table = $content_table = $id_topic = '';
 switch ($type) {
     case 'news':
         $main_table = 'tintuc';
         $image_table = 'anhtintuc';
         $content_table = 'tintuc_ngonngu';
+        $id_topic = 17;
         break;
     case 'offer':
         $main_table = 'uudai';
         $image_table = 'anhuudai';
         $content_table = 'uudai_ngonngu';
+        $id_topic = 15;
         break;
     case 'event':
         $main_table = 'sukiendatochuc';
         $image_table = 'anhsukiendatochuc';
         $content_table = 'sukiendatochuc_ngonngu';
+        $id_topic = 10;
         break;
     default:
         echo json_encode(['success' => false, 'message' => 'Loại bài viết không hợp lệ']);
@@ -59,7 +62,7 @@ try {
         if (mysqli_num_rows($result) > 0) {
             // Bài viết tồn tại, thực hiện cập nhật
             $is_edit = true;
-            $sql = "UPDATE `$main_table` SET `author` = 'Admin', `create_at` = NOW(), `active` = 1 WHERE `id` = ?";
+            $sql = "UPDATE `$main_table` SET `create_at` = NOW(), `active` = 1 WHERE `id` = ?";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, 'i', $post_id);
             if (!mysqli_stmt_execute($stmt)) {
@@ -73,7 +76,7 @@ try {
 
     // Nếu không phải chỉnh sửa, tạo mới
     if (!$is_edit) {
-        $sql = "INSERT INTO `$main_table` (`author`, `create_at`, `active`) VALUES ('Admin', NOW(), 1)";
+        $sql = "INSERT INTO `$main_table` (`create_at`, `active`) VALUES (NOW(), 1)";
         if (!mysqli_query($conn, $sql)) {
             throw new Exception('Lỗi khi thêm bài viết: ' . mysqli_error($conn));
         }
@@ -109,10 +112,10 @@ try {
         }
         mysqli_stmt_close($stmt);
 
-        // Thêm ảnh mới
-        $sql = "INSERT INTO `$image_table` (`image`, `is_primary`, `id_topic`, `id_$main_table`) VALUES (?, 1, 1, ?)";
+        // Thêm ảnh mới với id_topic tương ứng
+        $sql = "INSERT INTO `$image_table` (`image`, `is_primary`, `id_topic`, `id_$main_table`) VALUES (?, 1, ?, ?)";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'si', $image_relative_path, $post_id);
+        mysqli_stmt_bind_param($stmt, 'sii', $image_relative_path, $id_topic, $post_id);
         if (!mysqli_stmt_execute($stmt)) {
             throw new Exception('Lỗi khi thêm ảnh mới: ' . mysqli_error($conn));
         }

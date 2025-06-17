@@ -1,16 +1,19 @@
-let currentSlideIndex = 0;
+// let currentSlideIndex = 0;
 let currentModalIndex = 0;
 let zoomLevel = 1;
 const maxZoom = 2;
 const minZoom = 0.5;
 const slides = document.querySelectorAll(".slide");
 const dots = document.querySelectorAll(".dot");
+let currentPage = 1;
+let currentLimit = 5;
+let totalPages = 1;
 
 document.addEventListener("DOMContentLoaded", function () {
   initializeSlider();
   initializeTabSwitching();
   initializeReviewForm();
-  loadMoreReviews();
+  fetchReviews(1, 5); // Tải đánh giá ngay khi trang được tải
   // Gắn sự kiện click cho ảnh trong hero slider
   const heroImages = document.querySelectorAll(".hero-slider .slide img");
   heroImages.forEach((img) => {
@@ -166,14 +169,19 @@ document.addEventListener("keydown", function (e) {
 function toggleReviewForm() {
   const form = document.getElementById("reviewForm");
   const btn = document.querySelector(".write-review-btn");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
   if (!form || !btn) return;
   if (form.style.display === "none" || form.style.display === "") {
     form.style.display = "block";
-    btn.innerHTML = '<i class="fas fa-times"></i> Hủy viết đánh giá';
+    btn.innerHTML = `<i class="fas fa-times"></i> ${
+      languageId == 1 ? "Hủy viết đánh giá" : "Cancel Review"
+    }`;
     btn.style.background = "linear-gradient(135deg, #e74c3c, #c0392b)";
   } else {
     form.style.display = "none";
-    btn.innerHTML = '<i class="fas fa-pen"></i> Viết đánh giá của bạn';
+    btn.innerHTML = `<i class="fas fa-pen"></i> ${
+      languageId == 1 ? "Viết đánh giá của bạn" : "Write Your Review"
+    }`;
     btn.style.background = "linear-gradient(135deg, #3498db, #2980b9)";
     resetReviewForm();
   }
@@ -184,8 +192,10 @@ function resetReviewForm() {
   if (form) {
     form.reset();
     const ratingText = document.querySelector(".rating-text");
+    const languageId = document.documentElement.lang === "vi" ? 1 : 2;
     if (ratingText) {
-      ratingText.textContent = "Chọn số sao";
+      ratingText.textContent =
+        languageId == 1 ? "Chọn số sao" : "Select rating";
       ratingText.style.color = "#7f8c8d";
     }
     const stars = document.querySelectorAll(".star-rating .star");
@@ -196,59 +206,298 @@ function resetReviewForm() {
   }
 }
 
+function fetchReviews(page = 1, limit = 5) {
+  const id_dichvu = document.querySelector('input[name="id_dichvu"]').value;
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+  fetch(
+    `/libertylaocai/api/tour_review.php?page=${page}&limit=${limit}&id_service=${id_dichvu}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      updateReviews(data);
+      currentPage = data.currentPage;
+      totalPages = data.totalPages;
+      currentLimit = limit;
+      updatePaginationControls();
+    })
+    .catch((error) => {
+      console.error("Lỗi tải đánh giá:", error);
+      alert(
+        languageId == 1
+          ? "Lỗi khi tải đánh giá. Vui lòng thử lại."
+          : "Error loading reviews. Please try again."
+      );
+    });
+}
+
+function updateReviews(data) {
+  const reviewsList = document.querySelector(".reviews-list");
+  const ratingScore = document.querySelector(".rating-score");
+  const ratingCount = document.querySelector(".rating-count");
+  const ratingStars = document.querySelector(".rating-stars");
+  const ratingBreakdown = document.querySelector(".rating-breakdown");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+
+  reviewsList.innerHTML = "";
+  if (data.reviews && data.reviews.length > 0) {
+    data.reviews.forEach((review) => {
+      const reviewDiv = document.createElement("div");
+      reviewDiv.className = "review-item";
+      let starsHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        starsHTML +=
+          i <= review.rate
+            ? '<i class="fas fa-star"></i>'
+            : '<i class="far fa-star"></i>';
+      }
+      const reviewDate = new Date(review.create_at).toLocaleDateString(
+        languageId == 1 ? "vi-VN" : "en-US"
+      );
+      reviewDiv.innerHTML = `
+        <div class="review-header">
+            <div class="reviewer-info">
+                <div class="reviewer-avatar">${review.name
+                  .charAt(0)
+                  .toUpperCase()}</div>
+                <div class="reviewer-details">
+                    <div class="reviewer-name">${review.name}</div>
+                    <div class="review-date">${reviewDate}</div>
+                </div>
+            </div>
+            <div class="review-rating">${starsHTML}</div>
+        </div>
+        <div class="review-content"><p>${review.content}</p></div>
+      `;
+      reviewsList.appendChild(reviewDiv);
+    });
+  } else {
+    reviewsList.innerHTML = `<p>${
+      languageId == 1
+        ? "Chưa có đánh giá nào cho tour này."
+        : "No reviews available for this tour."
+    }</p>`;
+  }
+
+  ratingScore.textContent = data.totalRating || "0.0";
+  ratingCount.textContent = `(${data.totalReviews || 0} ${
+    languageId == 1 ? "đánh giá" : "reviews"
+  })`;
+  ratingStars.innerHTML = "";
+  for (let i = 1; i <= 5; i++) {
+    if (i <= Math.floor(data.totalRating)) {
+      ratingStars.innerHTML += '<i class="fas fa-star"></i>';
+    } else if (i == Math.ceil(data.totalRating) && data.totalRating % 1 !== 0) {
+      ratingStars.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+    } else {
+      ratingStars.innerHTML += '<i class="far fa-star"></i>';
+    }
+  }
+
+  ratingBreakdown.innerHTML = "";
+  for (let i = 5; i >= 1; i--) {
+    const bar = document.createElement("div");
+    bar.className = "rating-bar";
+    bar.innerHTML = `
+      <span class="rating-label">${i} ${
+      languageId == 1 ? "sao" : "stars"
+    }</span>
+      <div class="bar-container">
+          <div class="bar-fill" style="width: ${
+            data.ratingBreakdown?.[i]?.percentage || 0
+          }%"></div>
+      </div>
+      <span class="rating-percent">${
+        data.ratingBreakdown?.[i]?.percentage || 0
+      }%</span>
+    `;
+    ratingBreakdown.appendChild(bar);
+  }
+}
+
+function updatePaginationControls() {
+  const paginationControls = document.querySelector(".pagination-controls");
+  const showMoreBtn = document.querySelector(".show-more-reviews");
+  const paginationButtons = document.querySelector(".pagination-buttons");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+
+  if (totalPages <= 1 && currentLimit >= 10) {
+    paginationControls.style.display = "none";
+    return;
+  }
+
+  paginationControls.style.display = "block";
+  if (currentLimit < 10) {
+    showMoreBtn.style.display = "block";
+    paginationButtons.style.display = "none";
+  } else {
+    showMoreBtn.style.display = "none";
+    paginationButtons.style.display = "flex";
+    paginationButtons.innerHTML = "";
+    const maxButtons = 5;
+    let startPage = Math.max(1, currentPage - Math.floor((maxButtons - 1) / 2));
+    let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+    if (endPage - startPage + 1 > maxButtons) {
+      endPage = startPage + maxButtons - 1;
+    }
+
+    if (startPage > 1) {
+      const firstPageBtn = document.createElement("button");
+      firstPageBtn.className = "pagination-btn";
+      firstPageBtn.textContent = "1";
+      firstPageBtn.addEventListener("click", () =>
+        fetchReviews(1, currentLimit)
+      );
+      paginationButtons.appendChild(firstPageBtn);
+      if (startPage > 2) {
+        const ellipsis = document.createElement("span");
+        ellipsis.className = "pagination-ellipsis";
+        ellipsis.textContent = "...";
+        paginationButtons.appendChild(ellipsis);
+      }
+      startPage++;
+      endPage = Math.min(endPage, startPage + maxButtons - 2);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      const pageBtn = document.createElement("button");
+      pageBtn.className = `pagination-btn ${i === currentPage ? "active" : ""}`;
+      pageBtn.textContent = i;
+      pageBtn.addEventListener("click", () => fetchReviews(i, currentLimit));
+      paginationButtons.appendChild(pageBtn);
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        const ellipsis = document.createElement("span");
+        ellipsis.className = "pagination-ellipsis";
+        ellipsis.textContent = "...";
+        paginationButtons.appendChild(ellipsis);
+      }
+      const lastPageBtn = document.createElement("button");
+      lastPageBtn.className = "pagination-btn";
+      lastPageBtn.textContent = totalPages;
+      lastPageBtn.addEventListener("click", () =>
+        fetchReviews(totalPages, currentLimit)
+      );
+      paginationButtons.appendChild(lastPageBtn);
+    }
+  }
+
+  showMoreBtn.removeEventListener("click", handleShowMore);
+  showMoreBtn.addEventListener("click", handleShowMore);
+}
+
+function handleShowMore() {
+  if (currentLimit < 10) {
+    currentLimit = 10;
+    fetchReviews(1, 10);
+  }
+}
+
 function submitReview(event) {
   event.preventDefault();
-  const form = event.target;
-  const formData = new FormData(form);
-  if (!formData.get("rating")) {
-    alert("Vui lòng chọn số sao đánh giá!");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+  const formData = new FormData(event.target);
+  formData.append("comment_service", "true");
+  formData.append(
+    "id_service",
+    document.querySelector('input[name="id_dichvu"]').value
+  );
+
+  const reviewData = {
+    rating: formData.get("rating"),
+    name: formData.get("reviewer-name"),
+    email: formData.get("reviewer-email"),
+    content: formData.get("review-content"),
+  };
+
+  if (!reviewData.rating) {
+    alert(
+      languageId == 1
+        ? "Vui lòng chọn số sao đánh giá!"
+        : "Please select a star rating!"
+    );
     return;
   }
-  if (!formData.get("reviewer-name").trim()) {
-    alert("Vui lòng nhập họ và tên!");
+
+  if (!reviewData.name.trim()) {
+    alert(
+      languageId == 1 ? "Vui lòng nhập họ và tên!" : "Please enter your name!"
+    );
     return;
   }
-  if (!formData.get("reviewer-phone").match(/^[0-9]{10,11}$/)) {
-    alert("Vui lòng nhập số điện thoại hợp lệ (10-11 số)!");
+
+  if (!reviewData.email.trim() || !isValidEmail(reviewData.email)) {
+    alert(
+      languageId == 1
+        ? "Vui lòng nhập email hợp lệ!"
+        : "Please enter a valid email!"
+    );
     return;
   }
-  if (!formData.get("review-content").trim()) {
-    alert("Vui lòng nhập nội dung đánh giá!");
+
+  if (!reviewData.content.trim()) {
+    alert(
+      languageId == 1
+        ? "Vui lòng nhập nội dung đánh giá!"
+        : "Please enter review content!"
+    );
     return;
   }
-  if (!formData.get("id_dichvu")) {
-    alert("Dịch vụ không hợp lệ!");
-    return;
-  }
+
   const submitBtn = document.querySelector(".submit-review-btn");
   const originalText = submitBtn.innerHTML;
-  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
+  submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
+    languageId == 1 ? "Đang gửi..." : "Submitting..."
+  }`;
   submitBtn.disabled = true;
-  fetch("/libertylaocai/view/php/chitiettour.php", {
+
+  fetch("/libertylaocai/user/submit", {
     method: "POST",
     body: formData,
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
-      if (data.success) {
-        const newReview = createReviewElement(data.review);
+      if (data.status === "success") {
+        const newReview = createReviewElement(reviewData);
         const reviewsList = document.querySelector(".reviews-list");
         reviewsList.insertBefore(newReview, reviewsList.firstChild);
-        updateReviewStats(data.review.rating);
-        alert("Cảm ơn bạn đã chia sẻ đánh giá!");
+        fetchReviews(currentPage, currentLimit);
+        alert(
+          languageId == 1
+            ? "Cảm ơn bạn đã chia sẻ đánh giá! Đánh giá của bạn đã được thêm thành công."
+            : "Thank you for sharing your review! Your review has been added successfully."
+        );
         toggleReviewForm();
         newReview.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
-        alert(data.message);
+        alert(
+          languageId == 1 ? "Lỗi: " + data.message : "Error: " + data.message
+        );
       }
     })
     .catch((error) => {
-      console.error("Lỗi:", error);
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
-      alert("Có lỗi xảy ra, vui lòng thử lại!");
+      console.error("Lỗi gửi đánh giá:", error);
+      alert(
+        languageId == 1
+          ? "Lỗi gửi đánh giá: " + error.message
+          : "Error submitting review: " + error.message
+      );
     });
 }
 
@@ -262,24 +511,24 @@ function createReviewElement(reviewData) {
         ? '<i class="fas fa-star"></i>'
         : '<i class="far fa-star"></i>';
   }
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+  const currentDate = new Date().toLocaleDateString(
+    languageId == 1 ? "vi-VN" : "en-US"
+  );
   reviewDiv.innerHTML = `
     <div class="review-header">
-      <div class="reviewer-info">
-        <div class="reviewer-avatar">
-          <i class="fas fa-user"></i>
+        <div class="reviewer-info">
+            <div class="reviewer-avatar">${reviewData.name
+              .charAt(0)
+              .toUpperCase()}</div>
+            <div class="reviewer-details">
+                <div class="reviewer-name">${reviewData.name}</div>
+                <div class="review-date">${currentDate}</div>
+            </div>
         </div>
-        <div class="reviewer-details">
-          <div class="reviewer-name">${reviewData.name}</div>
-          <div class="review-date">${reviewData.date}</div>
-        </div>
-      </div>
-      <div class="review-rating">
-        ${starsHTML}
-      </div>
+        <div class="review-rating">${starsHTML}</div>
     </div>
-    <div class="review-content">
-      <p>${reviewData.content}</p>
-    </div>
+    <div class="review-content"><p>${reviewData.content}</p></div>
   `;
   reviewDiv.style.background = "linear-gradient(135deg, #e3f2fd, #f8f9fa)";
   reviewDiv.style.border = "2px solid #3498db";
@@ -297,120 +546,6 @@ function createReviewElement(reviewData) {
   return reviewDiv;
 }
 
-function updateReviewStats(newRating) {
-  const ratingCount = document.querySelector(".rating-count");
-  const ratingScore = document.querySelector(".rating-score");
-  const ratingBars = document.querySelectorAll(".rating-bar");
-  let currentCount = parseInt(ratingCount.textContent.match(/\d+/)[0]);
-  currentCount++;
-  ratingCount.textContent = `(${currentCount} đánh giá)`;
-  let currentAvg = parseFloat(ratingScore.textContent);
-  let newAvg =
-    (currentAvg * (currentCount - 1) + parseInt(newRating)) / currentCount;
-  ratingScore.textContent = newAvg.toFixed(1);
-  const ratingStars = document.querySelector(".rating-stars");
-  ratingStars.innerHTML = "";
-  for (let i = 1; i <= 5; i++) {
-    if (i <= Math.floor(newAvg)) {
-      ratingStars.innerHTML += '<i class="fas fa-star"></i>';
-    } else if (i == Math.ceil(newAvg) && newAvg - Math.floor(newAvg) >= 0.5) {
-      ratingStars.innerHTML += '<i class="fas fa-star-half-alt"></i>';
-    } else {
-      ratingStars.innerHTML += '<i class="far fa-star"></i>';
-    }
-  }
-  ratingBars.forEach((bar) => {
-    const star = parseInt(bar.querySelector(".rating-label").textContent);
-    const percentSpan = bar.querySelector(".rating-percent");
-    let currentPercent = parseInt(percentSpan.textContent);
-    if (star == newRating) {
-      let count = (currentPercent * (currentCount - 1)) / 100 + 1;
-      let newPercent = (count / currentCount) * 100;
-      percentSpan.textContent = Math.round(newPercent) + "%";
-      bar.querySelector(".bar-fill").style.width = Math.round(newPercent) + "%";
-    } else {
-      let count = (currentPercent * (currentCount - 1)) / 100;
-      let newPercent = (count / currentCount) * 100;
-      percentSpan.textContent = Math.round(newPercent) + "%";
-      bar.querySelector(".bar-fill").style.width = Math.round(newPercent) + "%";
-    }
-  });
-}
-
-function loadMoreReviews() {
-  const showMoreBtn = document.querySelector(".show-more-reviews");
-  const hideReviewsBtn = document.querySelector(".hide-reviews");
-  if (!showMoreBtn) return;
-  showMoreBtn.addEventListener("click", function () {
-    const id_dichvuInput = document.querySelector('input[name="id_dichvu"]');
-    if (!id_dichvuInput) {
-      console.error("Input id_dichvu not found.");
-      return;
-    }
-    const id_dichvu = id_dichvuInput.value;
-    const reviewsList = document.querySelector(".reviews-list");
-    const currentReviews = reviewsList.querySelectorAll(".review-item").length;
-    showMoreBtn.innerHTML =
-      '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
-    showMoreBtn.disabled = true;
-    fetch("/libertylaocai/view/php/chitiettour.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `action=load_more_reviews&id_dichvu=${id_dichvu}&offset=${currentReviews}`,
-    })
-      .then((response) => {
-        console.log("Response status:", response.status);
-        return response.json();
-      })
-      .then((data) => {
-        showMoreBtn.innerHTML =
-          '<i class="fas fa-chevron-down"></i> Xem thêm đánh giá';
-        showMoreBtn.disabled = false;
-        if (data.success && data.reviews.length > 0) {
-          const marker = document.createElement("div");
-          marker.className = "new-reviews-marker";
-          marker.dataset.startIndex = currentReviews;
-          reviewsList.appendChild(marker);
-          data.reviews.forEach((review) => {
-            const newReview = createReviewElement(review);
-            newReview.classList.add("new-review");
-            reviewsList.appendChild(newReview);
-          });
-          if (hideReviewsBtn) {
-            hideReviewsBtn.style.display = "block";
-          }
-          if (data.has_more === false) {
-            showMoreBtn.style.display = "none";
-          }
-        } else if (!data.success) {
-          alert(data.message || "Không thể tải thêm đánh giá.");
-        } else if (data.reviews.length === 0) {
-          showMoreBtn.style.display = "none";
-        }
-      })
-      .catch((error) => {
-        console.error("Fetch error:", error);
-        showMoreBtn.innerHTML =
-          '<i class="fas fa-chevron-down"></i> Xem thêm đánh giá';
-        showMoreBtn.disabled = false;
-        alert("Có lỗi xảy ra khi tải đánh giá: " + error.message);
-      });
-  });
-  if (hideReviewsBtn) {
-    hideReviewsBtn.addEventListener("click", function () {
-      const reviewsList = document.querySelector(".reviews-list");
-      const markers = reviewsList.querySelectorAll(".new-reviews-marker");
-      const newReviews = reviewsList.querySelectorAll(".new-review");
-      newReviews.forEach((review) => review.remove());
-      markers.forEach((marker) => marker.remove());
-      hideReviewsBtn.style.display = "none";
-      showMoreBtn.style.display = "block";
-    });
-  }
-}
-
 function initializeReviewForm() {
   const writeReviewBtn = document.querySelector(".write-review-btn");
   if (writeReviewBtn) {
@@ -426,21 +561,23 @@ function initializeReviewForm() {
   }
   const starInputs = document.querySelectorAll(".star-rating input");
   const ratingText = document.querySelector(".rating-text");
+  const languageId = document.documentElement.lang === "vi" ? 1 : 2;
+  const ratingTexts =
+    languageId == 1
+      ? { 1: "Rất tệ", 2: "Tệ", 3: "Bình thường", 4: "Tốt", 5: "Xuất sắc" }
+      : { 1: "Very bad", 2: "Bad", 3: "Average", 4: "Good", 5: "Excellent" };
+
   starInputs.forEach((input) => {
     input.addEventListener("change", function () {
       const rating = this.value;
-      const ratingTexts = {
-        1: "Rất tệ",
-        2: "Tệ",
-        3: "Bình thường",
-        4: "Tốt",
-        5: "Xuất sắc",
-      };
-      ratingText.textContent = `${rating} sao - ${ratingTexts[rating]}`;
+      ratingText.textContent = `${rating} ${
+        languageId == 1 ? "sao" : "stars"
+      } - ${ratingTexts[rating]}`;
       ratingText.style.color = "#3498db";
       ratingText.style.fontWeight = "500";
     });
   });
+
   const stars = document.querySelectorAll(".star-rating .star");
   stars.forEach((star, index) => {
     star.addEventListener("mouseenter", function () {
@@ -470,4 +607,9 @@ function initializeReviewForm() {
       }
     });
   });
+}
+
+function isValidEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
 }

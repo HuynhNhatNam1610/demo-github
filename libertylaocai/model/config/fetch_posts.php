@@ -26,7 +26,6 @@ switch ($type) {
         $table = 'uudai';
         $image_table = 'anhuudai';
         $content_table = 'uudai_ngonngu';
-        $date_field = 'created_at';
         break;
     case 'event':
         $table = 'sukiendatochuc';

@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
   min-height: 100vh;
   color: #333;
 }
@@ -376,7 +376,7 @@ table tbody tr:hover {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1000;
+  z-index: 500;
   left: 0;
   top: 0;
   width: 100%;

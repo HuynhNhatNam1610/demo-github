@@ -4,8 +4,6 @@ require_once "../../model/UserModel.php";
 // Kiểm tra ngôn ngữ từ session, mặc định là 1 (tiếng Việt)
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
 
-// Lấy nội dung chào hỏi và mô tả theo ngôn ngữ
-$getGreeding = getGreetingByLanguage($languageId, 'trangchu');
 $getImageGeneral = getImageGeneral();
 
 //Lấy ảnh cho feature-image-right
@@ -24,9 +22,6 @@ $descriptionLeftPanel = getSelectedDescription($languageId, 'left-panel');
 $descriptionFeatureText = getSelectedDescription($languageId, 'feature-text');
 $descriptionFeatureText1 = getSelectedDescription($languageId, 'feature-text1');
 
-// Lấy mô tả cho highlight-title
-$descriptionHightlightTitle = getSelectedDescription($languageId, 'highlight-title');
-
 // Lấy mô tả cho banner-overlay
 $descriptionBannerOverlay = getSelectedDescription($languageId, 'banner-overlay');
 
@@ -35,21 +30,6 @@ $descriptionServiceText = getSelectedDescription($languageId, 'service-text');
 
 // Lấy mô tả cho news-subtitle
 $descriptionNewsSubtitle = getSelectedDescription($languageId, 'news-subtitle');
-
-// Lấy mô tả cho quality-card1
-$descriptionQualityCard1 = getSelectedDescription($languageId, 'quality-card1');
-
-// Lấy mô tả cho quality-card2
-$descriptionQualityCard2 = getSelectedDescription($languageId, 'quality-card2');
-
-// Lấy mô tả cho quality-card3
-$descriptionQualityCard3 = getSelectedDescription($languageId, 'quality-card3');
-
-// Lấy mô tả cho quality-card4
-$descriptionQualityCard4 = getSelectedDescription($languageId, 'quality-card4');
-
-// Lấy mô tả cho quality-card5
-$descriptionQualityCard5 = getSelectedDescription($languageId, 'quality-card5');
 
 
 // Lấy danh sách các loại phòng
@@ -93,18 +73,10 @@ foreach ($roomTypes as $room) {
   <div class="container">
     <div class="homepage">
       <div class="left-panel">
-        <?php if (!empty($getGreeding)): ?>
-          <?php foreach ($getGreeding as $greeding): ?>
-            <h1><?php echo $greeding['content']; ?></h1>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <h1><?php echo $languageId == 1 ? 'Chào mừng bạn đến với Liberty Hotel Lào Cai' : 'Welcome to Liberty Hotel Lao Cai'; ?></h1>
-        <?php endif; ?>
         <?php if (!empty($descriptionLeftPanel)): ?>
-          <p><?php echo htmlspecialchars($descriptionLeftPanel['content']); ?></p>
-        <?php else: ?>
-          <p><?php echo $languageId == 1 ? 'Tận hưởng không gian sang trọng và khám phá nét ẩm thực độc đáo.' : 'Enjoy luxurious space and discover unique cuisine.'; ?></p>
+          <h1><?php echo $descriptionLeftPanel['content']; ?></h1>
         <?php endif; ?>
+        <p><?php echo $languageId == 1 ? 'Tận hưởng không gian sang trọng và khám phá nét ẩm thực độc đáo.' : 'Enjoy luxurious space and discover unique cuisine.'; ?></p>
       </div>
       <div class="right-panel">
         <div class="slideshow-container">
@@ -114,10 +86,6 @@ foreach ($roomTypes as $room) {
                 <img src='/libertylaocai/view/img/<?php echo htmlspecialchars($slide['image']); ?>' alt='Slide <?php echo $index + 1; ?>'>
               </div>
             <?php endforeach; ?>
-          <?php else: ?>
-            <div class='slideshow-slide active'>
-              <img src='/libertylaocai/view/img/492527411_1219549180175551_8482228742596186123_n.jpg' alt='Default Slide'>
-            </div>
           <?php endif; ?>
         </div>
       </div>
@@ -175,18 +143,13 @@ foreach ($roomTypes as $room) {
         <div class="feature-image">
           <?php if (!empty($getSelectedImageRight)): ?>
             <img src="/libertylaocai/view/img/<?= $getSelectedImageRight['image'] ?>" alt="Hình ảnh khách sạn">
-          <?php else: ?>
-            <img src="https://thewesternhill.com/storage/sliders/sanh-the-western-hill-942x530.jpg" alt="Hình ảnh khách sạn">
           <?php endif; ?>
         </div>
         <div class="feature-text">
           <div class="subheading"><?php echo $languageId == 1 ? 'The Liberty Lào Cai Hotel' : 'The Liberty Lao Cai Hotel'; ?></div>
           <?php if (!empty($descriptionFeatureText)): ?>
-            <h2><?php echo htmlspecialchars($descriptionFeatureText['title']); ?></h2>
-            <p><?php echo htmlspecialchars($descriptionFeatureText['content']); ?></p>
-          <?php else: ?>
-            <h2><?php echo $languageId == 1 ? 'Trải nghiệm đẳng cấp' : 'Experience class'; ?></h2>
-            <p>Khách sạn The Liberty Lào Cai là một khách sạn được xây dựng theo lối kiến trúc Châu Âu, hiện đại, nằm trên con đường trung tâm Đà Lạt – Phan Đình Phùng gồm 104 phòng, được trang bị đầy đủ các tiện nghi như truyền hình cáp, minibar và phòng tắm riêng với bồn tắm và máy sấy tóc.</p>
+            <h2><?php echo $descriptionFeatureText['title']; ?></h2>
+            <p><?php echo $descriptionFeatureText['content']; ?></p>
           <?php endif; ?>
           <a href="/libertylaocai/gioi-thieu" class="btn-more"><?php echo $languageId == 1 ? 'Tìm hiểu thêm' : 'Learn more'; ?></a>
         </div>
@@ -196,29 +159,20 @@ foreach ($roomTypes as $room) {
         <div class="feature-image">
           <?php if (!empty($getSelectedImageLeft)): ?>
             <img src="/libertylaocai/view/img/<?= $getSelectedImageLeft['image'] ?>" alt="Hình ảnh khách sạn">
-          <?php else: ?>
-            <img src="https://thewesternhill.com/storage/anh-moi-t6/lavender/lanvender-sanh-tiec-3-942x530.jpg" alt="Dịch vụ đưa đón">
           <?php endif; ?>
         </div>
         <div class="feature-text"> <!--feature-text1 -->
           <div class="subheading"><?php echo $languageId == 1 ? 'The Liberty Lào Cai Hotel' : 'The Liberty Lao Cai Hotel'; ?></div>
           <?php if (!empty($descriptionFeatureText1)): ?>
-            <h2><?php echo htmlspecialchars($descriptionFeatureText1['title']); ?></h2>
-            <p><?php echo htmlspecialchars($descriptionFeatureText1['content']); ?></p>
-          <?php else: ?>
-            <h2><?php echo $languageId == 1 ? 'Đưa đón sân bay nội bài - Liberty Hotel' : 'Noi Bai airport transfer - Liberty Hotel'; ?></h2>
-            <p>Chuyến đi của quý vị sẽ thuận tiện và thoải mái hơn với dịch vụ đưa đón sân bay chuyên nghiệp. Hãy để đội ngũ tài xế giàu kinh nghiệm cùng phương tiện hiện đại của chúng tôi đồng hành cùng quý vị ngay từ những phút đầu tiên đặt chân đến Lào Cai!</p>
+            <h2><?php echo $descriptionFeatureText1['title']; ?></h2>
+            <p><?php echo $descriptionFeatureText1['content']; ?></p>
           <?php endif; ?>
           <a href="/libertylaocai/dua-don" class="btn-more"><?php echo $languageId == 1 ? 'Khám phá' : 'Discover'; ?></a>
         </div>
       </div>
     </div>
     <div class="room-highlight-section">
-      <?php if (!empty($descriptionHightlightTitle)): ?>
-        <h2 class="highlight-title"><?php echo htmlspecialchars($descriptionHightlightTitle['content']); ?></h2>
-      <?php else: ?>
-        <h2 class="highlight-title"><?php echo $languageId == 1 ? 'THIẾT KẾ ẤN TƯỢNG VÀ ĐẲNG CẤP' : 'IMPRESSIVE AND CLASSY DESIGN'; ?></h2>
-      <?php endif; ?>
+      <h2 class="highlight-title"><?php echo $languageId == 1 ? 'THIẾT KẾ ẤN TƯỢNG VÀ SANG TRỌNG' : 'IMPRESSIVE AND LUXURIOUS DESIGN'; ?></h2>
       <?php foreach ($roomTypes as $index => $room): ?>
         <?php
         // Lấy thông tin bổ sung
@@ -280,10 +234,6 @@ foreach ($roomTypes as $room) {
                       <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($image); ?>" alt="<?php echo htmlspecialchars($room['name']); ?>" loading="lazy">
                     </div>
                   <?php endforeach; ?>
-                <?php else: ?>
-                  <div class="carousel-slide">
-                    <img src="https://via.placeholder.com/1080x720?text=No+Image" alt="No Image">
-                  </div>
                 <?php endif; ?>
               </div>
               <div class="carousel-controls">
@@ -309,11 +259,8 @@ foreach ($roomTypes as $room) {
     <div class="custom-banner" data-aos="fade-out">
       <div class="banner-overlay">
         <?php if (!empty($descriptionBannerOverlay)): ?>
-          <h2><?php echo htmlspecialchars($descriptionBannerOverlay['title']); ?></h2>
-          <p><?php echo htmlspecialchars($descriptionBannerOverlay['content']); ?></p>
-        <?php else: ?>
-          <h2><?php echo $languageId == 1 ? 'Không gian hoàn hảo cho sự kiện của bạn' : 'The perfect space for your event'; ?></h2>
-          <p><?php echo $languageId == 1 ? 'Liên hệ với chúng tôi ngay hôm nay để được tư vấn và đặt lịch.' : 'Contact us today for a consultation and appointment.'; ?></p>
+          <h2><?php echo $descriptionBannerOverlay['title']; ?></h2>
+          <p><?php echo $descriptionBannerOverlay['content']; ?></p>
         <?php endif; ?>
         <form action="/libertylaocai/user/submit" method="POST" style="display: inline;">
           <button name="datlichngay" class="banner-button"><?php echo $languageId == 1 ? 'Đặt lịch ngay' : 'Schedule now'; ?></button>
@@ -321,8 +268,6 @@ foreach ($roomTypes as $room) {
       </div>
       <?php if (!empty($getSelectedBannerOverlay)): ?>
         <img src="/libertylaocai/view/img/<?= $getSelectedBannerOverlay['image'] ?>" alt="Hình ảnh khách sạn">
-      <?php else: ?>
-        <img src="https://libertylaocai.vn/_next/image?url=%2Fgallery-hoi_truong%2Fcong_hoi_truong3.jpg&w=1920&q=75" alt="Event Banner">
       <?php endif; ?>
     </div>
     <section class="other-services-section">
@@ -332,11 +277,8 @@ foreach ($roomTypes as $room) {
           <!-- Nội dung văn bản bên trái -->
           <div class="service-text">
             <?php if (!empty($descriptionServiceText)): ?>
-              <h3><?php echo htmlspecialchars($descriptionServiceText['title']); ?></h3>
-              <p><?php echo htmlspecialchars($descriptionServiceText['content']); ?></p>
-            <?php else: ?>
-              <h3><?php echo $languageId == 1 ? 'Dịch vụ khác' : 'Other services'; ?></h3>
-              <p><?php echo $languageId == 1 ? 'Quý khách sẽ được hưởng thụ nhiều dịch vụ tại Phước Thịnh Home khi đặt phòng.' : 'You will enjoy many services at Phuoc Thinh Home when booking a room.'; ?></p>
+              <h3><?php echo $descriptionServiceText['title']; ?></h3>
+              <p><?php echo $descriptionServiceText['content']; ?></p>
             <?php endif; ?>
             <a href="/libertylaocai/dich-vu" class="btn-more"><?php echo $languageId == 1 ? 'XEM THÊM' : 'VIEW MORE'; ?></a>
           </div>
@@ -349,7 +291,7 @@ foreach ($roomTypes as $room) {
               foreach ($carouselServices as $service):
               ?>
                 <div class="service-slide">
-                  <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($service['image']); ?>" alt="<?php echo htmlspecialchars($service['title']); ?>" loading="lazy">
+                  <img src="<?php echo htmlspecialchars($service['image']); ?>" alt="<?php echo htmlspecialchars($service['title']); ?>" loading="lazy">
                   <p><?php echo htmlspecialchars($service['title']); ?></p>
                 </div>
               <?php endforeach; ?>
@@ -364,9 +306,7 @@ foreach ($roomTypes as $room) {
       <div class="news-container container">
         <h2 class="news-title"><?php echo $languageId == 1 ? 'Tin tức' : 'News'; ?></h2>
         <?php if (!empty($descriptionNewsSubtitle)): ?>
-          <p class="news-subtitle"><?php echo htmlspecialchars($descriptionNewsSubtitle['content']); ?></p>
-        <?php else: ?>
-          <p class="news-subtitle"><?php echo $languageId == 1 ? 'Cập nhật những thông tin mới nhất từ khách sạn The Liberty Lào Cai' : 'Update the latest information from The Liberty Lao Cai Hotel'; ?></p>
+          <p class="news-subtitle"><?php echo $descriptionNewsSubtitle['content']; ?></p>
         <?php endif; ?>
 
         <!-- Desktop Grid -->
@@ -377,7 +317,7 @@ foreach ($roomTypes as $room) {
           ?>
             <article class="news-item" data-aos="fade-up" data-aos-delay="<?php echo $index * 100; ?>">
               <div class="news-image">
-                <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($news['image']); ?>" alt="<?php echo htmlspecialchars($news['title']); ?>" loading="lazy">
+                <img src="<?php echo htmlspecialchars($news['image']); ?>" alt="<?php echo htmlspecialchars($news['title']); ?>" loading="lazy">
                 <div class="news-date">
                   <span class="day"><?php echo htmlspecialchars($news['day']); ?></span>
                   <span class="month"><?php echo htmlspecialchars($news['month']); ?></span>
@@ -386,7 +326,10 @@ foreach ($roomTypes as $room) {
               <div class="news-content">
 
                 <h3><?php echo htmlspecialchars($news['title']); ?></h3>
-                <p><?php echo htmlspecialchars(mb_substr($news['content'], 0, 100, 'UTF-8')) . '...'; ?></p>
+                <p><?php echo (mb_substr(strip_tags($news['content']), 0, 100, 'UTF-8'));
+                    if (mb_strlen($news['content'], 'UTF-8') > 100) {
+                      echo '...';
+                    } ?></p>
                 <form action="/libertylaocai/user/submit" method="POST" style="display: inline; ">
                   <button class="promotion-button" type="submit" class="news-link" name="id_tintuc" value="<?php echo htmlspecialchars($news['id']); ?>">
                     <?php echo $languageId == 1 ? 'Đọc thêm' : 'Read More'; ?> <i class="bi bi-arrow-right"></i>
@@ -410,7 +353,7 @@ foreach ($roomTypes as $room) {
               <div class="news-content">
                 <span class="news-category"><?php echo $languageId == 1 ? 'Sự kiện' : 'Event'; ?></span>
                 <h3><?php echo htmlspecialchars($news['title']); ?></h3>
-                <p><?php echo htmlspecialchars(mb_substr($news['content'], 0, 100, 'UTF-8')) . '...'; ?></p>
+                <p><?php echo mb_substr($news['content'], 0, 100, 'UTF-8') . '...'; ?></p>
                 <form action="/libertylaocai/user/submit" method="POST" style="display: inline; ">
                   <button class="promotion-button" type="submit" class="news-link" name="id_tintuc" value="<?php echo htmlspecialchars($news['id']); ?>">
                     <?php echo $languageId == 1 ? 'Đọc thêm' : 'Read More'; ?> <i class="bi bi-arrow-right"></i>
@@ -457,187 +400,6 @@ foreach ($roomTypes as $room) {
       </div>
       <div class="reviews-dots">
         <!-- Dots will be generated dynamically via JS -->
-      </div>
-    </section>
-    <section class="quality-recognition-section">
-      <div class="container">
-        <h2 class="quality-title"><?php echo $languageId == 1 ? 'CHẤT LƯỢNG ĐƯỢC CÔNG NHẬN' : 'RECOGNIZED QUALITY'; ?></h2>
-        <p class="quality-subtitle"><?php echo $languageId == 1 ? 'CAM KẾT MANG ĐẾN DỊCH VỤ VÀ TIỆN NGHI' : 'COMMITMENT TO PROVIDING SERVICE AND CONVENIENCE'; ?></p>
-        <!-- Mobile Carousel -->
-        <div class="quality-carousel">
-          <div class="carousel-track">
-            <!-- Original set -->
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon">
-                  <img src="/libertylaocai/view/img/186e5556-1d75-467a-b475-3373c7ad4c2d.png" alt="3 Star Certificate">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard1)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard1['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard1['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon booking-icon">
-                  <img src="https://logos-world.net/wp-content/uploads/2021/08/Booking-Logo.png" alt="Booking.com">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard2)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard2['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard2['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-
-                </div>
-              </div>
-            </div>
-
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon">
-                  <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Business License">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard3)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard3['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard3['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-
-                </div>
-              </div>
-            </div>
-
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon">
-                  <img src="/libertylaocai/view/img/istockphoto-1137962021-612x612.jpg" alt="Fire Safety Certificate">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard4)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard4['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard4['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-
-                </div>
-              </div>
-            </div>
-
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon">
-                  <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="Food Safety Certificate">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard5)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard5['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard5['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-
-                </div>
-              </div>
-            </div>
-
-            <!-- Duplicate set for seamless loop -->
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon">
-                  <img src="/libertylaocai/view/img/186e5556-1d75-467a-b475-3373c7ad4c2d.png" alt="3 Star Certificate">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard1)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard1['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard1['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-
-                </div>
-              </div>
-            </div>
-
-
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon booking-icon">
-                  <img src="https://logos-world.net/wp-content/uploads/2021/08/Booking-Logo.png" alt="Booking.com">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard2)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard2['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard2['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-
-                </div>
-              </div>
-            </div>
-
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon">
-                  <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Business License">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard3)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard3['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard3['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-
-                </div>
-              </div>
-            </div>
-
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon">
-                  <img src="/libertylaocai/view/img/istockphoto-1137962021-612x612.jpg" alt="Fire Safety Certificate">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard4)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard4['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard4['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="quality-item">
-              <div class="quality-card">
-                <div class="quality-icon">
-                  <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="Food Safety Certificate">
-                </div>
-                <div class="quality-badge"><?php echo $languageId == 1 ? 'Chứng nhận' : 'Certified'; ?></div>
-                <?php if (!empty($descriptionQualityCard5)): ?>
-                  <h3><?php echo htmlspecialchars($descriptionQualityCard5['title']); ?></h3>
-                  <p><?php echo htmlspecialchars($descriptionQualityCard5['content']); ?></p>
-                <?php endif; ?>
-                <div class="quality-footer">
-                  <span class="hotel-name">Liberty Hotel - Lào Cai</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   </div>

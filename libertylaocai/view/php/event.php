@@ -17,11 +17,6 @@ $organizedEvents = getOrganizedEvents($languageId, 4);
 // Lấy mô tả cho hero-content
 $descriptionHeroContent = getSelectedDescription($languageId, 'hero-content');
 
-// // Lấy mô tả cho hero-features
-// $descriptionHeroFeatures1 = getSelectedDescription($languageId, 'hero-features1');
-// $descriptionHeroFeatures2 = getSelectedDescription($languageId, 'hero-features2');
-// $descriptionHeroFeatures3 = getSelectedDescription($languageId, 'hero-features3');
-
 //Lấy ảnh cho phần hero-images
 $getImageGeneral = getImageGeneral(3);
 
@@ -52,9 +47,7 @@ $halls = getConferenceHalls($languageId);
         <div class="event-banner">
             <img src="/libertylaocai/view/img/<?= $getSelectedBanner['image']; ?>" alt="Banner Image" class="banner-image">
             <h1><?php echo $languageId == 1 ? 'HỘI NGHỊ & SỰ KIỆN' : 'CONFERENCES & EVENTS'; ?></h1>
-            <!-- <div class="event-breadcumb">
-                <?php $languageId == 1 ? 'Trang Chủ > Hội Nghị & Sự Kiện' : 'Home > Conferences & Events'; ?>
-            </div> -->
+
         </div>
         <div class="list-event">
             <h1><?php echo $languageId == 1 ? 'Loại hình sự kiện' : 'Event type'; ?></h1>
@@ -91,7 +84,7 @@ $halls = getConferenceHalls($languageId);
                 ?>
                         <div class="event-organized-detail" data-date="📅 <?php echo htmlspecialchars($event['create_at']); ?>">
                             <div class="organized-img">
-                                <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($event['image']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>">
+                                <img src="<?php echo htmlspecialchars($event['image']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>">
                             </div>
                             <div class="organized-content">
                                 <div class="organized-title">
@@ -173,6 +166,13 @@ $halls = getConferenceHalls($languageId);
     <button class="quick-booking-btn" onclick="openModal()">
         <i class="bi bi-plus"></i><?php echo $languageId == 1 ? 'Đặt Lịch Nhanh' : 'Book Now'; ?>
     </button>
+    <!-- Overlay loading toàn màn hình -->
+    <div id="fullScreenLoader" class="full-screen-loader" style="display: none;">
+        <div class="loader-content">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p><?php echo $languageId == 1 ? 'Đang xử lý yêu cầu...' : 'Processing request...'; ?></p>
+        </div>
+    </div>
     <?php include "footer.php" ?>
     <div id="bookingModal" class="modal">
         <div class="modal-content">

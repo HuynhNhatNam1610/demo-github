@@ -434,6 +434,14 @@ $amenities = getRoomAmenities($room_id, $languageId);   /// lấy tiện tích c
         </div>
     </div>
 
+    <!-- Overlay loading toàn màn hình -->
+    <div id="fullScreenLoader" class="full-screen-loader" style="display: none;">
+        <div class="loader-content">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p><?php echo $languageId == 1 ? 'Đang xử lý yêu cầu...' : 'Processing request...'; ?></p>
+        </div>
+    </div>
+
     <?php include "footer.php"; ?>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="/libertylaocai/view/js/chitietphong.js"></script>

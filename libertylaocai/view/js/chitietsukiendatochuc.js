@@ -13,11 +13,10 @@ function updatePromotionsPerSlide() {
     promotionsPerSlide = 3;
   }
 
-  const promotionCards = document.querySelectorAll(".promotion-item");
+  const promotionCards = document.querySelectorAll(".promotion-card");
   totalPromotionCards = promotionCards.length;
   maxPromotionSlides = Math.max(0, totalPromotionCards - promotionsPerSlide);
 
-  // Reset slide if current position is invalid
   if (currentPromotionSlide > maxPromotionSlides) {
     currentPromotionSlide = maxPromotionSlides;
   }
@@ -28,7 +27,7 @@ function updatePromotionsPerSlide() {
 
 function updatePromotionSlider() {
   const promotionsGrid = document.querySelector(".promotions-grid");
-  const promotionCards = document.querySelectorAll(".promotion-item");
+  const promotionCards = document.querySelectorAll(".promotion-card");
 
   if (!promotionsGrid || promotionCards.length === 0) return;
 
@@ -166,15 +165,16 @@ function handlePromotionSwipe() {
 document.addEventListener("DOMContentLoaded", function () {
   initPromotionSlider();
   // Handle promotion item clicks
-  $(document).on("click", ".promotion-item", function (e) {
-    e.preventDefault();
-    const promotionId = $(this).data("promotion-id");
+ // Thay đổi từ .promotion-item thành .promotion-card
+$(document).on("click", ".promotion-card", function (e) {
+  e.preventDefault();
+  const promotionId = $(this).data("promotion-id");
 
-    if (promotionId) {
-      $("#promotionIdInput").val(promotionId);
-      $("#promotionForm").submit();
-    }
-  });
+  if (promotionId) {
+    $("#promotionIdInput").val(promotionId);
+    $("#promotionForm").submit();
+  }
+});
 });
 
 // Window resize handler

@@ -42,6 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
     bookingForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
+      // Hiển thị overlay loading toàn màn hình
+      const fullScreenLoader = document.getElementById("fullScreenLoader");
+      fullScreenLoader.style.display = "flex";
+
       // Clear previous error messages
       document.querySelectorAll(".error-message").forEach((span) => {
         span.style.display = "none";
@@ -149,6 +153,38 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = false;
       }
 
+      // if (isValid) {
+      //   const formData = new FormData(bookingForm);
+      //   formData.append("submit_booking_restaurant", "true");
+
+      //   fetch("/libertylaocai/user/submit", {
+      //     method: "POST",
+      //     body: formData,
+      //   })
+      //     .then((response) => {
+      //       if (!response.ok) {
+      //         throw new Error(`HTTP error! Status: ${response.status}`);
+      //       }
+      //       return response.json();
+      //     })
+      //     .then((data) => {
+      //       if (data.status === "success") {
+      //         alert(data.message);
+      //         bookingForm.reset();
+      //         closeModal();
+      //       } else {
+      //         alert(data.message);
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       console.error("Error:", error);
+      //       alert(
+      //         languageId == 1
+      //           ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
+      //           : "An error occurred while sending the request. Please try again."
+      //       );
+      //     });
+      // }
       if (isValid) {
         const formData = new FormData(bookingForm);
         formData.append("submit_booking_restaurant", "true");
@@ -171,6 +207,8 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
               alert(data.message);
             }
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -179,7 +217,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
                 : "An error occurred while sending the request. Please try again."
             );
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
           });
+      } else {
+        // Ẩn overlay loading nếu form không hợp lệ
+        fullScreenLoader.style.display = "none";
       }
     });
   }

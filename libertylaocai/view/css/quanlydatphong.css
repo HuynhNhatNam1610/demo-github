@@ -1,0 +1,1128 @@
+/* ==== RESET & BASE STYLES ==== */
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+} */
+
+/* ==== LAYOUT ==== */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    
+}
+
+/* ==== TABS ==== */
+.tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: #6c757d;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    color: #007bff;
+    background-color: #f8f9fa;
+}
+
+.tab-btn.active {
+    color: #007bff;
+    border-bottom-color: #007bff;
+    background-color: #fff;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ==== SECTIONS ==== */
+.add-room-section,
+.rooms-section {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.section-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 20px 25px;
+    border-radius: 12px 12px 0 0;
+}
+
+.section-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.section-header i {
+    font-size: 18px;
+}
+
+/* ==== FORMS ==== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+.form-control:hover {
+    border-color: #ced4da;
+}
+
+#searchBooking {
+    background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236c757d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>') no-repeat right 12px center;
+    background-size: 18px;
+    padding-right: 45px;
+}
+
+/* ==== BUTTONS ==== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, #004494);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    color: white;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #1e7e34, #155724);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #e0a800, #d39e00);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130);
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+}
+
+.btn-small {
+    padding: 8px 12px;
+    font-size: 12px;
+}
+
+/* ==== TABLES ==== */
+.rooms-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 14px;
+}
+
+.rooms-table th,
+.rooms-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+
+.rooms-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.rooms-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.rooms-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.rooms-table tbody tr:nth-child(even) {
+    background-color: #fdfdfd;
+}
+
+.rooms-table tbody tr:nth-child(even):hover {
+    background-color: #f8f9fa;
+}
+
+/* ==== STATUS BADGES ==== */
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.status-confirmed {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-checked_in {
+    background-color: #cce5ff;
+    color: #004085;
+    border: 1px solid #99d6ff;
+}
+
+.status-checked_out {
+    background-color: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #d6d8db;
+}
+
+.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ==== MODALS ==== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 0;
+    border: 1px solid #e9ecef;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: modalSlideIn 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-body {
+    padding: 0;
+}
+
+.modal-scrollable {
+    max-height: calc(90vh - 100px);
+    overflow-y: auto;
+    padding: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: #007bff #e9ecef;
+}
+
+.modal-scrollable::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-scrollable::-webkit-scrollbar-track {
+    background: #e9ecef;
+    border-radius: 4px;
+}
+
+.modal-scrollable::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 4px;
+}
+
+.modal-scrollable::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}
+
+.modal-footer {
+    padding: 15px 25px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    text-align: right;
+    border-radius: 0 0 12px 12px;
+}
+
+.detail-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.detail-content p {
+    margin: 10px 0;
+}
+
+.detail-content strong {
+    display: inline-block;
+    width: 150px;
+}
+
+.detail-row {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    background: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.detail-row strong {
+    width: 150px;
+    font-weight: 500;
+    color: #333;
+    margin-right: 15px;
+}
+
+.detail-row span {
+    flex: 1;
+    color: #495057;
+    word-break: break-word;
+}
+
+.close {
+    color: white;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    opacity: 1;
+    text-decoration: none;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.7);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.lightbox-close:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* ==== PAGINATION ==== */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination a:hover {
+    background: #f0f0f0;
+}
+
+/* ==== SWIPER SLIDER ==== */
+.swiper-container {
+    width: 100%;
+    max-width: 700px;
+    height: 250px;
+    margin: 15px auto;
+    padding: 10px;
+    position: relative;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+
+.swiper-slide img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.swiper-slide img:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: #fff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+    font-size: 16px;
+}
+
+.swiper-pagination {
+    bottom: 5px;
+}
+
+.swiper-pagination-bullet {
+    background: #007bff;
+    opacity: 0.7;
+    width: 10px;
+    height: 10px;
+    margin: 0 4px;
+}
+
+.swiper-pagination-bullet-active {
+    background: #0056b3;
+    opacity: 1;
+}
+
+/* ==== CHECKBOXES ==== */
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #007bff;
+}
+
+/* ==== LOADING STATES ==== */
+.loading {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* ==== SCROLLBAR STYLING ==== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* ==== ANIMATIONS ==== */
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+.animate-slide-down {
+    animation: slideDown 0.3s ease;
+}
+
+/* ==== UTILITY CLASSES ==== */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.p-0 { padding: 0; }
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+.d-none { display: none; }
+.d-block { display: block; }
+.d-inline { display: inline; }
+.d-inline-block { display: inline-block; }
+.d-flex { display: flex; }
+.justify-content-center { justify-content: center; }
+.justify-content-between { justify-content: space-between; }
+.align-items-center { align-items: center; }
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+
+/* ==== RESPONSIVE DESIGN ==== */
+@media (max-width: 1200px) {
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        padding-bottom: 5px;
+    }
+    
+    .tab-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .section-header {
+        padding: 15px;
+    }
+    
+    .section-header h2 {
+        font-size: 16px;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+    }
+    
+    .rooms-table {
+        display: block;
+        overflow-x: hidden; /* Thay đổi từ auto thành hidden */
+        white-space: nowrap;
+        font-size: 12px;
+    }
+    
+    .rooms-table th,
+    .rooms-table td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid #e9ecef;
+        vertical-align: middle;
+        white-space: normal; /* Đảm bảo nội dung không bị ép thành một dòng dài */
+    }
+    
+    .btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .btn-small {
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 15% auto;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .detail-row strong {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .detail-content p {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .detail-content strong {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .modal-footer .btn {
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+    
+    .swiper-container {
+        height: 200px;
+        max-width: 95%;
+    }
+    
+    .swiper-slide img {
+        max-width: 160px;
+        max-height: 160px;
+    }
+    
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 10px;
+    }
+    
+    .tab-btn {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    
+    .add-room-section,
+    .rooms-section {
+        margin-bottom: 15px;
+    }
+    
+    .section-header {
+        padding: 12px 15px;
+    }
+    
+    .section-header h2 {
+        font-size: 15px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .rooms-table th,
+    .rooms-table td {
+        padding: 6px 8px;
+        font-size: 11px;
+    }
+    
+    .pagination a {
+        padding: 6px 10px;
+        margin: 0 3px;
+    }
+    
+    .modal-content {
+        width: 98%;
+        margin: 20% auto;
+    }
+    
+    .modal-body {
+        padding: 15px;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .detail-row strong {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .modal-footer {
+        text-align: center;
+    }
+    
+    .swiper-container {
+        height: 160px;
+        max-width: 100%;
+    }
+    
+    .swiper-slide img {
+        max-width: 120px;
+        max-height: 120px;
+    }
+    
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+        font-size: 12px;
+    }
+    
+    .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        margin: 0 3px;
+    }
+}
+
+/* ==== CUSTOM ELEMENTS ==== */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e9ecef, transparent);
+    margin: 1.5rem 0;
+}
+
+.swal2-popup {
+    font-family: Arial, sans-serif;
+}
+
+.swal2-success .swal2-icon {
+    border-color: #28a745 ;
+}
+
+.swal2-error .swal2-icon {
+    border-color: #dc3545 ;
+}
+
+/* ==== PRINT STYLES ==== */
+@media print {
+    .main-content {
+        margin-left: 0;
+        padding: 0;
+    }
+    
+    .btn,
+    .modal,
+    .tabs {
+        display: none ;
+    }
+    
+    .rooms-table {
+        font-size: 10px;
+    }
+    
+    .status-badge {
+        border: 1px solid #000;
+        color: #000 ;
+        background: transparent ;
+    }
+}
+/* Update the modal styles in quanlydatphong.css */
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh; /* Ensure modal doesn't exceed viewport height */
+}
+
+.modal-body {
+    flex: 1;
+    overflow: hidden; /* Prevent double scrollbars */
+}
+
+.modal-scrollable {
+    max-height: calc(90vh - 150px); /* Account for header and footer */
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.modal-footer {
+    flex-shrink: 0; /* Prevent footer from shrinking */
+    padding: 15px 25px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    text-align: right;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Specifically for the event detail modal */
+#detailEventModal .modal-content {
+    max-width: 700px; /* Slightly wider for event details */
+}
+
+#detailEventModal .modal-scrollable {
+    max-height: calc(90vh - 180px); /* More space for event details */
+}
+#detail_event_images {
+    height: 200px; /* Fixed height for consistency */
+    margin: 10px 0;
+}
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+    
+    .modal-scrollable {
+        max-height: calc(100vh - 200px);
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 98%;
+        margin: 15% auto;
+    }
+    
+    .modal-scrollable {
+        max-height: calc(100vh - 180px);
+        padding: 10px;
+    }
+    
+    .modal-footer {
+        padding: 10px 15px;
+        text-align: center;
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+    }
+}
+.rooms-table tbody tr.unread {
+    background-color: #e9ecef; /* Màu xám nhạt */
+    color: #6c757d; /* Màu chữ xám */
+}
+
+.rooms-table tbody tr.unread:hover {
+    background-color: #dfe3e6; /* Màu xám nhạt hơn khi hover */
+}
+
+/* 3. Ẩn thanh cuộn nhưng vẫn có thể scroll (webkit browsers) */
+.modal-scrollable {
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.modal-scrollable::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none; /* Chrome, Safari, Edge */
+}
+
+/* 4. Ẩn thanh cuộn cho bảng nhưng vẫn có thể scroll */
+.rooms-table-container {
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.rooms-table-container::-webkit-scrollbar {
+    display: none;
+}
+
+.rooms-table tbody tr.unread {
+    background-color: #e9ecef; /* Màu xám nhạt */
+    color: #6c757d; /* Màu chữ xám */
+    font-weight: bold; /* Chữ in đậm */
+}
+
+.rooms-table tbody tr.unread:hover {
+    background-color: #dfe3e6; /* Màu xám nhạt hơn khi hover */
+}
+.unread {
+    background-color: #e6f3ff !important; /* Màu xanh nhạt nổi bật hơn, thêm !important để tránh bị ghi đè */
+    font-weight: 600; /* Chữ đậm vừa phải */
+    border-left: 4px solid #007bff; /* Đường viền trái để thu hút sự chú ý */
+}
+/* Ensure the table container handles overflow properly */
+.rooms-table-container {
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    max-height: 70vh; /* Adjust this value based on your layout */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
+}
+
+.rooms-table-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Webkit browsers */
+}
+
+/* Adjust the pagination container */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+    padding-bottom: 10px; /* Add padding to prevent cutting off */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Allow wrapping if buttons are cut off */
+}
+
+/* Ensure pagination links have enough spacing */
+.pagination a {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    white-space: nowrap; /* Prevent text wrapping */
+    min-width: 30px; /* Minimum width to avoid cutting */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure active pagination link is fully visible */
+.pagination a.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Responsive adjustments for pagination */
+@media (max-width: 768px) {
+    .pagination {
+        padding: 10px 0;
+        flex-direction: column; /* Stack buttons vertically on small screens */
+    }
+
+    .pagination a {
+        margin: 5px 0;
+        width: 100%; /* Full width on small screens */
+        max-width: 100px; /* Limit max width for better layout */
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 480px) {
+    .pagination a {
+        padding: 6px 10px;
+        font-size: 12px;
+        margin: 3px 0;
+    }
+}
+
+/* Ensure the table and pagination are within a proper wrapper */
+.tab-content {
+    position: relative;
+    min-height: 400px; /* Minimum height to avoid collapse */
+    padding-bottom: 0px; /* Extra space for pagination */
+}

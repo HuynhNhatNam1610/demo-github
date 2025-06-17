@@ -1,42 +1,24 @@
 <?php
 // Include file kết nối database và session
-require_once '../../model/config/connect.php';
-require_once 'session.php';
-
+require_once "session.php";
+require_once "../../model/UserModel.php";
 // Lấy ngôn ngữ hiện tại từ session (mặc định là tiếng Việt - id = 1)
 $languageId = isset($_SESSION['language_id']) ? (int)$_SESSION['language_id'] : 1;
 
-// Lấy thông tin khách sạn
-$sql_hotel = "SELECT ks.*, ksnn.address, ksnn.description 
-              FROM thongtinkhachsan ks 
-              LEFT JOIN thongtinkhachsan_ngonngu ksnn ON ks.id = ksnn.id_thongtinkhachsan 
-              WHERE ksnn.id_ngonngu = ? 
-              LIMIT 1";
-$stmt_hotel = $conn->prepare($sql_hotel);
-$stmt_hotel->bind_param("i", $languageId);
-$stmt_hotel->execute();
-$hotel_info = $stmt_hotel->get_result()->fetch_assoc();
-
-// Lấy các điều khoản hoạt động
-$sql_terms = "SELECT dk.id, dknn.title, dknn.content 
-              FROM dieukhoan dk 
-              LEFT JOIN dieukhoan_ngonngu dknn ON dk.id = dknn.id_dieukhoan 
-              WHERE dk.active = 1 AND dknn.id_ngonngu = ?
-              ORDER BY dk.id";
-$stmt_terms = $conn->prepare($sql_terms);
-$stmt_terms->bind_param("i", $languageId);
-$stmt_terms->execute();
-$terms_result = $stmt_terms->get_result();
+$hotel_info =  getHotelInfoWithLanguage($languageId);;
+$terms_result = getActiveTerms($languageId);
 ?>
 
 <!DOCTYPE html>
 <html lang="<?php echo $languageId == 1 ? 'vi' : 'en'; ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Điều khoản và Chính sách - <?php echo htmlspecialchars($hotel_info['name'] ?? 'Liberty Hotel Lào Cai'); ?></title>
     <link rel="stylesheet" href="/libertylaocai/view/css/dieukhoan.css">
 </head>
+
 <body>
     <?php include "header.php"; ?>
 
@@ -57,7 +39,7 @@ $terms_result = $stmt_terms->get_result();
                         </h2>
                         <div class="policy-content">
                             <div class="policy-item">
-                                <?php echo nl2br(htmlspecialchars($term['content'])); ?>
+                                <?php echo $term['content']; ?>
                             </div>
                         </div>
                     </section>
@@ -84,34 +66,36 @@ $terms_result = $stmt_terms->get_result();
                 </h2>
                 <div class="contact-info">
                     <?php if ($hotel_info): ?>
-                        <div class="contact-item">
-                            <strong><?php echo $languageId == 1 ? 'Địa chỉ:' : 'Address:'; ?></strong> 
-                            <?php echo htmlspecialchars($hotel_info['address']); ?>
-                        </div>
-                        <div class="contact-item">
-                            <strong><?php echo $languageId == 1 ? 'Điện thoại:' : 'Phone:'; ?></strong> 
-                            <?php echo htmlspecialchars($hotel_info['phone']); ?>
-                        </div>
-                        <div class="contact-item">
-                            <strong>Email:</strong> 
-                            <a href="mailto:<?php echo htmlspecialchars($hotel_info['email']); ?>">
-                                <?php echo htmlspecialchars($hotel_info['email']); ?>
-                            </a>
-                        </div>
-                        <div class="contact-item">
-                            <strong>Facebook:</strong> 
-                            <a href="<?php echo htmlspecialchars($hotel_info['link_facebook']); ?>" target="_blank">
-                                <?php echo htmlspecialchars($hotel_info['facebook']); ?>
-                            </a>
-                        </div>
-                        <?php if (!empty($hotel_info['website'])): ?>
+                        <?php foreach ($hotel_info as $info): ?>
                             <div class="contact-item">
-                                <strong>Website:</strong> 
-                                <a href="<?php echo htmlspecialchars($hotel_info['link_website']); ?>" target="_blank">
-                                    <?php echo htmlspecialchars($hotel_info['website']); ?>
+                                <strong><?php echo $languageId == 1 ? 'Địa chỉ:' : 'Address:'; ?></strong>
+                                <?php echo htmlspecialchars($info['address']); ?>
+                            </div>
+                            <div class="contact-item">
+                                <strong><?php echo $languageId == 1 ? 'Điện thoại:' : 'Phone:'; ?></strong>
+                                <?php echo htmlspecialchars($info['phone']); ?>
+                            </div>
+                            <div class="contact-item">
+                                <strong>Email:</strong>
+                                <a href="mailto:<?php echo htmlspecialchars($info['email']); ?>">
+                                    <?php echo htmlspecialchars($info['email']); ?>
                                 </a>
                             </div>
-                        <?php endif; ?>
+                            <div class="contact-item">
+                                <strong>Facebook:</strong>
+                                <a href="<?php echo htmlspecialchars($info['link_facebook']); ?>" target="_blank">
+                                    <?php echo htmlspecialchars($info['facebook']); ?>
+                                </a>
+                            </div>
+                            <?php if (!empty($info['website'])): ?>
+                                <div class="contact-item">
+                                    <strong>Website:</strong>
+                                    <a href="<?php echo htmlspecialchars($info['link_website']); ?>" target="_blank">
+                                        <?php echo htmlspecialchars($info['website']); ?>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     <?php else: ?>
                         <div class="contact-item">
                             <p><?php echo $languageId == 1 ? 'Thông tin liên hệ đang được cập nhật.' : 'Contact information is being updated.'; ?></p>
@@ -125,11 +109,5 @@ $terms_result = $stmt_terms->get_result();
     <script src="/libertylaocai/view/js/dieukhoan.js"></script>
     <?php include "footer.php"; ?>
 </body>
-</html>
 
-<?php
-// Đóng kết nối
-$stmt_hotel->close();
-$stmt_terms->close();
-$conn->close();
-?>
+</html>

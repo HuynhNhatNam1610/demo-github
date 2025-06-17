@@ -20,6 +20,7 @@ $form_title = $form_info['title'] ?? ($languageId == 1 ? 'GỬI THÔNG TIN LIÊN
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo ($languageId == 1 ? 'Liên Hệ' : 'Contact'); ?> - <?php echo htmlspecialchars($hotel_short_name); ?></title>
     <link rel="stylesheet" href="/libertylaocai/view/css/lienhe.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -121,6 +122,13 @@ $form_title = $form_info['title'] ?? ($languageId == 1 ? 'GỬI THÔNG TIN LIÊN
                     <button type="submit" class="submit-btn"><?php echo $languageId == 1 ? 'GỬI THÔNG TIN' : 'SEND MESSAGE'; ?></button>
                 </form>
             </div>
+        </div>
+    </div>
+    <!-- Overlay loading toàn màn hình -->
+    <div id="fullScreenLoader" class="full-screen-loader" style="display: none;">
+        <div class="loader-content">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p><?php echo $languageId == 1 ? 'Đang xử lý yêu cầu...' : 'Processing request...'; ?></p>
         </div>
     </div>
     <?php include "footer.php"; ?>

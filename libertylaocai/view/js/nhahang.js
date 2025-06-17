@@ -282,6 +282,10 @@ document.addEventListener("DOMContentLoaded", function () {
     bookingForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
+      // Hiển thị overlay loading toàn màn hình
+      const fullScreenLoader = document.getElementById("fullScreenLoader");
+      fullScreenLoader.style.display = "flex";
+
       // Xóa thông báo lỗi trước đó
       document.querySelectorAll(".error-message").forEach((span) => {
         span.style.display = "none";
@@ -389,13 +393,49 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = false;
       }
 
-      if (isValid) {
-        const submitBtn = document.querySelector(".submit-booking-btn");
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML =
-          '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-        submitBtn.disabled = true;
+      // if (isValid) {
+      //   const submitBtn = document.querySelector(".submit-booking-btn");
+      //   const originalText = submitBtn.innerHTML;
+      //   submitBtn.innerHTML =
+      //     '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+      //   submitBtn.disabled = true;
 
+      //   const formData = new FormData(bookingForm);
+      //   formData.append("submit_booking_restaurant", "true");
+
+      //   fetch("/libertylaocai/user/submit", {
+      //     method: "POST",
+      //     body: formData,
+      //   })
+      //     .then((response) => {
+      //       if (!response.ok) {
+      //         throw new Error(`HTTP error! Status: ${response.status}`);
+      //       }
+      //       return response.json();
+      //     })
+      //     .then((data) => {
+      //       submitBtn.innerHTML = originalText;
+      //       submitBtn.disabled = false;
+      //       if (data.status === "success") {
+      //         alert(data.message);
+      //         bookingForm.reset();
+      //         switchTab("description");
+      //       } else {
+      //         alert(data.message);
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       submitBtn.innerHTML = originalText;
+      //       submitBtn.disabled = false;
+      //       console.error("Error:", error);
+      //       alert(
+      //         languageId == 1
+      //           ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
+      //           : "An error occurred while sending the request. Please try again."
+      //       );
+      //     });
+      // }
+      if (isValid) {
         const formData = new FormData(bookingForm);
         formData.append("submit_booking_restaurant", "true");
 
@@ -410,8 +450,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
           })
           .then((data) => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
             if (data.status === "success") {
               alert(data.message);
               bookingForm.reset();
@@ -421,8 +461,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           })
           .catch((error) => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
             console.error("Error:", error);
             alert(
               languageId == 1
@@ -430,6 +470,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 : "An error occurred while sending the request. Please try again."
             );
           });
+      } else {
+        // Ẩn overlay loading nếu form không hợp lệ
+        fullScreenLoader.style.display = "none";
       }
     });
   }

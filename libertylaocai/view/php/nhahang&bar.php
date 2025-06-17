@@ -38,9 +38,6 @@ $heroImages = getRandomHeroImages();
         <div class="service-banner">
             <img src="/libertylaocai/view/img/<?= $getSelectedBanner['image']; ?>" alt="Banner Image" class="banner-image">
             <h1><?php echo $languageId == 1 ? 'NHÀ HÀNG & BAR' : 'RESTAURANTS & BAR'; ?></h1>
-            <!-- <div class="service-breadcrumb">
-                Trang Chủ > Nhà Hàng & Bar
-            </div> -->
         </div>
 
         <div class="list-service">
@@ -59,7 +56,7 @@ $heroImages = getRandomHeroImages();
                             <?= htmlspecialchars($service['title']); ?>
                         </div>
                         <div class="service-description">
-                            <?= htmlspecialchars($service['content']); ?>
+                            <?= $service['content']; ?>
                         </div>
                         <div class="service-more" data-form-id="form-<?php echo $service['code']; ?>">
                             <?php echo $languageId == 1 ? 'Chi tiết' : 'More'; ?>
@@ -72,75 +69,6 @@ $heroImages = getRandomHeroImages();
             </div>
         </div>
 
-        <!-- Chi tiết dịch vụ section -->
-        <!-- <div class="service-details-section">
-            <div class="container">
-                <h2><?php $languageId == 1 ? 'Chi Tiết Dịch Vụ' : 'Service Details'; ?></h2>
-
-                <div class="service-details-grid">
-                    <div class="service-detail-card">
-                        <div class="service-icon">🍽️</div>
-                        <h3>Nhà Hàng Liberty</h3>
-                        <div class="service-detail-content">
-                            <h4>Thời gian phục vụ:</h4>
-                            <p>• Bữa sáng: 6:00 - 10:00<br>
-                                • Bữa trưa: 11:00 - 14:30<br>
-                                • Bữa tối: 17:00 - 22:00</p>
-
-                            <h4>Đặc sắc:</h4>
-                            <p>• Menu Âu - Á fusion độc đáo<br>
-                                • Nguyên liệu tươi sống hàng ngày<br>
-                                • Không gian sang trọng 150 chỗ ngồi<br>
-                                • Phòng riêng VIP cho 8-20 khách</p>
-
-                            <h4>Giá tham khảo:</h4>
-                            <p>• Set menu trưa: 280.000đ - 450.000đ<br>
-                                • Set menu tối: 580.000đ - 950.000đ</p>
-                        </div>
-                    </div>
-
-                    <div class="service-detail-card">
-                        <div class="service-icon">🍸</div>
-                        <h3>Sky Bar</h3>
-                        <div class="service-detail-content">
-                            <h4>Thời gian phục vụ:</h4>
-                            <p>• Thứ 2 - Chủ nhật: 17:00 - 02:00<br>
-                                • Happy Hour: 17:00 - 19:00 (giảm 30%)</p>
-
-                            <h4>Đặc sắc:</h4>
-                            <p>• View toàn cảnh thành phố từ tầng 25<br>
-                                • Hơn 200 loại cocktail signature<br>
-                                • Live music cuối tuần<br>
-                                • DJ set thứ 6 & thứ 7</p>
-
-                            <h4>Giá tham khảo:</h4>
-                            <p>• Cocktail classic: 180.000đ - 250.000đ<br>
-                                • Cocktail signature: 280.000đ - 450.000đ</p>
-                        </div>
-                    </div> -->
-
-        <!-- <div class="service-detail-card">
-                    <div class="service-icon">☕</div>
-                    <h3>Café & Lounge</h3>
-                    <div class="service-detail-content">
-                        <h4>Thời gian phục vụ:</h4>
-                        <p>• Hàng ngày: 6:00 - 23:00<br>
-                            • Brunch cuối tuần: 9:00 - 15:00</p>
-
-                        <h4>Đặc sắc:</h4>
-                        <p>• Cà phê specialty beans nhập khẩu<br>
-                            • Bánh ngọt handmade hàng ngày<br>
-                            • Không gian thư giãn, Wi-Fi miễn phí<br>
-                            • Khu vực làm việc riêng</p>
-
-                        <h4>Giá tham khảo:</h4>
-                        <p>• Cà phê: 45.000đ - 85.000đ<br>
-                            • Bánh ngọt: 65.000đ - 120.000đ</p>
-                    </div>
-                </div> -->
-        <!-- </div>
-            </div>
-        </div> -->
 
         <div class="service-featured">
             <h1><?php echo $languageId == 1 ? 'Thực đơn nổi bật' : 'Featured Menu'; ?></h1>
@@ -158,7 +86,7 @@ $heroImages = getRandomHeroImages();
                                 <?= htmlspecialchars($dish['title']); ?>
                             </div>
                             <div class="featured-description">
-                                <?= htmlspecialchars($dish['description'] ?? ''); ?>
+                                <?= $dish['description'] ?? ''; ?>
                             </div>
                             <div class="price-container">
                                 <div class="price">
@@ -198,26 +126,6 @@ $heroImages = getRandomHeroImages();
             </div>
         </div>
 
-        <!-- <div class="stats-section">
-            <div class="stats-container">
-                <div class="stat-item">
-                    <span class="stat-number">500+</span>
-                    <span class="stat-label">Món ăn đa dạng</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">50+</span>
-                    <span class="stat-label">Loại cocktail</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">15+</span>
-                    <span class="stat-label">Đầu bếp chuyên nghiệp</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label">Phục vụ liên tục</span>
-                </div>
-            </div>
-        </div> -->
     </div>
 
     <button class="quick-booking-btn" onclick="openModal()">
@@ -317,6 +225,13 @@ $heroImages = getRandomHeroImages();
                 <button type="button" class="btn btn-cancel" onclick="closeModal()"><?php echo $languageId == 1 ? 'Hủy' : 'Cancel'; ?></button>
                 <button type="submit" class="btn btn-submit" form="bookingForm"><?php echo $languageId == 1 ? 'Xác Nhận Đặt Bàn' : 'Confirm Booking'; ?></button>
             </div>
+        </div>
+    </div>
+     <!-- Overlay loading toàn màn hình -->
+    <div id="fullScreenLoader" class="full-screen-loader" style="display: none;">
+        <div class="loader-content">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p><?php echo $languageId == 1 ? 'Đang xử lý yêu cầu...' : 'Processing request...'; ?></p>
         </div>
     </div>
 

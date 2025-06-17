@@ -1,10 +1,14 @@
 <?php
 require_once '../../model/UserModel.php';
 require_once 'session.php';
+$roomTypes = getRoomTypes(1);
+$customers = getCustomers();
+$services = getServices1(1);
 ?>
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +16,7 @@ require_once 'session.php';
     <link rel="stylesheet" href="/libertylaocai/view/css/quanlybinhluan.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
     <?php include "sidebar.php"; ?>
     <div class="admin-container" id="mainContent">
@@ -171,16 +176,11 @@ require_once 'session.php';
             </div>
             <div class="sub-tabs">
                 <?php
-                $result = $conn->query("SELECT lp.id, lpn.name 
-                                        FROM loaiphongnghi lp 
-                                        JOIN loaiphongnghi_ngonngu lpn ON lp.id = lpn.id_loaiphongnghi 
-                                        WHERE lpn.id_ngonngu = 1 
-                                        ORDER BY lp.id");
                 $first = true;
-                while ($row = $result->fetch_assoc()) {
-                    $subtab = 'phong' . strtolower(str_replace(' ', '', $row['name']));
+                foreach ($roomTypes as $room) {
+                    $subtab = 'phong' . strtolower(str_replace(' ', '', $room['name']));
                     $activeClass = $first ? 'active' : '';
-                    echo "<button class='sub-tab-link $activeClass' data-subtab='$subtab'>{$row['name']}</button>";
+                    echo "<button class='sub-tab-link $activeClass' data-subtab='$subtab'>{$room['name']}</button>";
                     $first = false;
                 }
                 ?>
@@ -235,9 +235,8 @@ require_once 'session.php';
                     <select name="id_khachhang" id="customerSelect">
                         <option value="">Nhập thủ công</option>
                         <?php
-                        $result = $conn->query("SELECT DISTINCT id, name, email FROM khachhang GROUP BY name, email ORDER BY name");
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='{$row['id']}' data-name='{$row['name']}' data-email='{$row['email']}'>{$row['name']} ({$row['email']})</option>";
+                        foreach ($customers as $customer) {
+                            echo "<option value='{$customer['id']}' data-name='{$customer['name']}' data-email='{$customer['email']}'>{$customer['name']} ({$customer['email']})</option>";
                         }
                         ?>
                     </select>
@@ -263,11 +262,8 @@ require_once 'session.php';
                     <select name="id_dichvu">
                         <option value="">Chọn dịch vụ</option>
                         <?php
-                        $result = $conn->query("SELECT d.id, dn.title, d.type FROM dichvu d 
-                                                JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
-                                                WHERE dn.id_ngonngu = 1 ORDER BY d.type, dn.title");
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='{$row['id']}'>{$row['title']} ({$row['type']})</option>";
+                        foreach ($services as $service) {
+                            echo "<option value='{$service['id']}'>{$service['title']} ({$service['type']})</option>";
                         }
                         ?>
                     </select>
@@ -277,11 +273,8 @@ require_once 'session.php';
                     <select name="id_loaiphong">
                         <option value="">Chọn loại phòng</option>
                         <?php
-                        $result = $conn->query("SELECT lp.id, lpn.name FROM loaiphongnghi lp 
-                                                JOIN loaiphongnghi_ngonngu lpn ON lp.id = lpn.id_loaiphongnghi 
-                                                WHERE lpn.id_ngonngu = 1 ORDER BY lpn.name");
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='{$row['id']}'>{$row['name']}</option>";
+                        foreach ($roomTypes as $room) {
+                            echo "<option value='{$room['id']}'>{$room['name']}</option>";
                         }
                         ?>
                     </select>
@@ -337,4 +330,5 @@ require_once 'session.php';
 
     <script src="/libertylaocai/view/js/quanlybinhluan.js"></script>
 </body>
+
 </html>

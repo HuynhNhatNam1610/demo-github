@@ -65,49 +65,6 @@ function initScrollAnimations() {
   });
 }
 
-// // Video controls
-// function initVideoControls() {
-//   const video = document.getElementById("heroVideo");
-//   const heroSection = document.querySelector(".hero-video");
-
-//   if (video && heroSection) {
-//     // Pause video when not in viewport (performance optimization)
-//     const videoObserver = new IntersectionObserver(
-//       function (entries) {
-//         entries.forEach((entry) => {
-//           if (entry.isIntersecting) {
-//             video.play().catch((e) => console.log("Video play failed:", e));
-//           } else {
-//             video.pause();
-//           }
-//         });
-//       },
-//       { threshold: 0.1 }
-//     );
-
-//     videoObserver.observe(heroSection);
-
-//     // Add click to play/pause functionality
-//     video.addEventListener("click", function () {
-//       if (video.paused) {
-//         video.play();
-//       } else {
-//         video.pause();
-//       }
-//     });
-
-//     // Add loading state
-//     video.addEventListener("loadstart", function () {
-//       heroSection.style.background =
-//         "linear-gradient(135deg, #2c3e50 0%, #34495e 100%)";
-//     });
-
-//     video.addEventListener("canplay", function () {
-//       heroSection.style.background = "transparent";
-//     });
-//   }
-// }
-
 // Animated counters for statistics
 function initStatCounters() {
   let countersAnimated = false;

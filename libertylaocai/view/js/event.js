@@ -247,6 +247,11 @@ document.addEventListener("DOMContentLoaded", function () {
       // Kiểm tra các trường bắt buộc bằng HTML5 validation
       let isValid = bookingForm.checkValidity();
 
+      // Làm sạch giá trị budget
+      const budgetInput = document.getElementById("budget");
+      let budgetValue = budgetInput.value.replace(/[^0-9]/g, ""); // Loại bỏ tất cả ký tự không phải số
+      budgetInput.value = budgetValue || "";
+
       // Kiểm tra các điều kiện khác ngoài required
       const startDate = new Date(document.getElementById("eventDate")?.value);
       const endDate = new Date(document.getElementById("endDate")?.value);
@@ -302,6 +307,12 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = false;
       }
 
+      // Hiển thị overlay loading toàn màn hình
+      const fullScreenLoader = document.getElementById("fullScreenLoader");
+      fullScreenLoader.style.display = "flex";
+
+      // [Các kiểm tra và xử lý form hiện tại...]
+
       if (isValid) {
         const formData = new FormData(bookingForm);
         formData.append("submit_booking", "true");
@@ -348,6 +359,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   : "Error: " + (data.message || "Please try again.")
               );
             }
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
           })
           .catch((error) => {
             console.error("Fetch error:", error);
@@ -356,8 +369,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
                 : "An error occurred while sending the request. Please try again."
             );
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
           });
       } else {
+        // Ẩn overlay loading nếu form không hợp lệ
+        fullScreenLoader.style.display = "none";
         // Hiển thị thông báo lỗi HTML5 mặc định
         bookingForm.reportValidity();
       }

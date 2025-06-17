@@ -42,7 +42,7 @@
                 <i class="fas fa-concierge-bell"></i> Quản Lý Dịch Vụ Du Lịch
             </div>
             <div class="tab-link <?php echo $current_tab === 'tour-management' ? 'active' : ''; ?>" data-tab="tour-management">
-                <i class="fas fa-map-marked-alt"></i> Quản Lý chi tiết dịch vụ
+                <i class="fas fa-map-marked-alt"></i> Chi tiết dịch vụ
             </div>
         </div>
 
@@ -71,9 +71,9 @@
 
                     // Chuyển hướng đến trang tương ứng
                     if (tabId === 'tour-service') {
-                        window.location.href = 'quanlydichvu.php';
+                        window.location.href = '/libertylaocai/quan-ly-dich-vu';
                     } else if (tabId === 'tour-management') {
-                        window.location.href = 'quanlytour.php';
+                        window.location.href = '/libertylaocai/quan-ly-tour';
                     }
                 });
             });

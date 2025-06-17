@@ -272,6 +272,16 @@ $text = $texts[$languageId];
             </div>
         </div>
     </div>
+    <button class="quick-booking-btn" onclick="quickBookTable()">
+        <i class="fas fa-calendar-plus"></i> <?php echo $languageId == 1 ? 'Đặt Ngay' : 'Book Now'; ?>
+    </button>
+    <!-- Overlay loading toàn màn hình -->
+    <div id="fullScreenLoader" class="full-screen-loader" style="display: none;">
+        <div class="loader-content">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p><?php echo $languageId == 1 ? 'Đang xử lý yêu cầu...' : 'Processing request...'; ?></p>
+        </div>
+    </div>
     <?php include "footer.php"; ?>
     <script>
         const languageId = <?php echo json_encode($languageId); ?>;

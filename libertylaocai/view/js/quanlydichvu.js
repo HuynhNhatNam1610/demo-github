@@ -4,9 +4,30 @@ let currentEditingService = null;
 
 document.addEventListener("DOMContentLoaded", function () {
   initializeEventListeners();
-  initializeImagePreview();
   autoHideAlerts();
+
+  // Khởi tạo Select2 cho featureIconSelect
+  $("#featureIconSelect").select2({
+    templateResult: formatIcon,
+    templateSelection: formatIcon,
+    escapeMarkup: function (m) {
+      return m;
+    },
+    minimumResultsForSearch: -1, // Tắt thanh tìm kiếm
+  });
 });
+
+// Hàm định dạng option trong Select2 để hiển thị chỉ biểu tượng
+function formatIcon(option) {
+  if (!option.id) {
+    return '<i class="fas fa-list"></i>'; // Biểu tượng cho placeholder
+  }
+  const iconClass = $(option.element).data("icon");
+  if (option.id === "custom") {
+    return '<i class="' + iconClass + '"></i>';
+  }
+  return '<i class="' + iconClass + '"></i>';
+}
 
 // Hàm kiểm tra chuỗi có phải là số
 function isNumeric(str) {
@@ -59,14 +80,45 @@ function handleAjaxFormSubmit(form, successMessage) {
   const formData = new FormData(form);
   const submitBtn = form.querySelector('button[type="submit"]');
 
+  // Đồng bộ dữ liệu từ CKEditor
+  const editorIds = [
+    "featureContent_vi",
+    "featureContent_en",
+    "serviceTourContent_vi",
+    "serviceTourContent_en",
+    "editServiceContent_vi",
+    "editServiceContent_en",
+  ];
+  editorIds.forEach((id) => {
+    if (editors[id]) {
+      const textarea = document.getElementById(id);
+      if (textarea) {
+        const data = editors[id].getData();
+        textarea.value = data;
+        formData.set(textarea.name, data);
+        console.log(`Synced CKEditor data for ${id}:`, data);
+      } else {
+        console.warn(`Textarea with ID ${id} not found`);
+      }
+    } else {
+      console.warn(`CKEditor instance for ${id} not initialized`);
+    }
+  });
+
+  // Log FormData để kiểm tra
+  for (let [key, value] of formData.entries()) {
+    console.log(`FormData: ${key} = ${value}`);
+  }
+
   showLoadingState(submitBtn);
 
-  fetch("quanlydichvu.php", {
+  fetch("/libertylaocai/user/submit", {
     method: "POST",
     body: formData,
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log("Server response:", data);
       submitBtn.innerHTML =
         submitBtn.dataset.originalText || submitBtn.innerHTML;
       submitBtn.disabled = false;
@@ -84,6 +136,7 @@ function handleAjaxFormSubmit(form, successMessage) {
       }
     })
     .catch((error) => {
+      console.error("Fetch error:", error);
       submitBtn.innerHTML =
         submitBtn.dataset.originalText || submitBtn.innerHTML;
       submitBtn.disabled = false;
@@ -225,6 +278,98 @@ function handleFileInput(e) {
   }
 }
 
+// Biến lưu trữ các instance CKEditor
+let editors = {};
+
+// Hàm khởi tạo CKEditor cho textarea
+function initializeCKEditor(textareaId) {
+  return ClassicEditor.create(document.querySelector(`#${textareaId}`), {
+    ckfinder: {
+      uploadUrl:
+        "/libertylaocai/model/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json",
+    },
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "|",
+      "imageUpload",
+      "blockQuote",
+    ],
+  })
+    .then((editor) => {
+      editors[textareaId] = editor;
+      console.log(`CKEditor initialized for ${textareaId}`);
+      return editor;
+    })
+    .catch((error) => {
+      console.error(`Lỗi khởi tạo CKEditor cho ${textareaId}:`, error);
+      showAlert(
+        `Không thể khởi tạo trình chỉnh sửa cho ${textareaId}. Vui lòng thử lại!`,
+        "error"
+      );
+      return null;
+    });
+}
+
+// Hàm hủy CKEditor
+function destroyCKEditor(textareaId) {
+  if (editors[textareaId]) {
+    editors[textareaId]
+      .destroy()
+      .then(() => {
+        delete editors[textareaId];
+      })
+      .catch((error) => {
+        console.error(`Lỗi hủy CKEditor cho ${textareaId}:`, error);
+      });
+  }
+}
+
+// Hàm khởi tạo CKEditor cho modal
+function initializeModalEditors(modalId) {
+  const editorConfigs = {
+    featureModal: ["featureContent_vi", "featureContent_en"],
+    serviceTourModal: ["serviceTourContent_vi", "serviceTourContent_en"],
+    editServiceModal: ["editServiceContent_vi", "editServiceContent_en"],
+  };
+
+  const textareas = editorConfigs[modalId] || [];
+  const promises = textareas.map((textareaId) => {
+    if (!editors[textareaId]) {
+      return initializeCKEditor(textareaId).then((editor) => {
+        if (!editor) {
+          throw new Error(`Failed to initialize CKEditor for ${textareaId}`);
+        }
+      });
+    }
+    return Promise.resolve();
+  });
+
+  return Promise.all(promises).catch((error) => {
+    console.error(`Lỗi khởi tạo CKEditor cho modal ${modalId}:`, error);
+    showAlert("Lỗi khởi tạo trình chỉnh sửa. Vui lòng thử lại!", "error");
+  });
+}
+
+// Hàm hủy tất cả CKEditor trong modal
+function destroyModalEditors(modalId) {
+  const editorConfigs = {
+    featureModal: ["featureContent_vi", "featureContent_en"],
+    serviceTourModal: ["serviceTourContent_vi", "serviceTourContent_en"],
+    editServiceModal: ["editServiceContent_vi", "editServiceContent_en"],
+  };
+
+  const textareas = editorConfigs[modalId] || [];
+  textareas.forEach((textareaId) => {
+    destroyCKEditor(textareaId);
+  });
+}
+
 function openModal(modalId, data = null) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -233,26 +378,19 @@ function openModal(modalId, data = null) {
   if (form) {
     form.reset();
     clearImagePreviews(form);
+    destroyModalEditors(modalId);
   }
 
   const titleElement = modal.querySelector(".modal-title");
   if (titleElement) {
     if (data) {
-      if (modalId === "bannerModal") {
-        titleElement.textContent = "Chỉnh Sửa Banner";
-      } else if (modalId === "editServiceModal") {
+      if (modalId === "editServiceModal") {
         titleElement.textContent = "Chỉnh Sửa Dịch Vụ";
       } else if (modalId === "featureModal") {
         titleElement.textContent = "Chỉnh Sửa Tiện Ích";
-      } else if (modalId === "highlightModal") {
-        titleElement.textContent = "Chỉnh Sửa Highlight";
       }
     } else {
-      if (modalId === "bannerModal") {
-        titleElement.textContent = "Thêm Banner Mới";
-        const actionInput = document.getElementById("bannerAction");
-        if (actionInput) actionInput.value = "add_banner";
-      } else if (modalId === "serviceTourModal") {
+      if (modalId === "serviceTourModal") {
         titleElement.textContent = "Thêm Dịch Vụ/Tour Mới";
         const actionInput = document.getElementById("serviceTourAction");
         if (actionInput) actionInput.value = "add_service";
@@ -260,37 +398,46 @@ function openModal(modalId, data = null) {
         titleElement.textContent = "Thêm Tiện Ích Mới";
         const actionInput = document.getElementById("featureAction");
         if (actionInput) actionInput.value = "add_feature";
-      } else if (modalId === "highlightModal") {
-        titleElement.textContent = "Thêm Highlight Mới";
-        const actionInput = document.getElementById("highlightAction");
-        if (actionInput) actionInput.value = "add_highlight";
-      } else if (modalId === "greetingModal") {
-        titleElement.textContent = "Thêm Lời Chào Mới";
       }
     }
   }
 
   if (data && modalId !== "greetingModal") {
     populateModalForm(modalId, data);
-  } else if (modalId === "greetingModal") {
-    const greetingForm = document.getElementById("addGreetingForm");
-    if (greetingForm) greetingForm.reset();
-  } else {
-    if (modalId === "serviceTourModal") {
-      const actionInput = document.getElementById("serviceTourAction");
-      if (actionInput) actionInput.value = "add_service";
-      const titleElement = document.getElementById("serviceTourModalTitle");
-      if (titleElement) titleElement.textContent = "Thêm Dịch Vụ/Tour Mới";
-    }
+  } else if (modalId === "serviceTourModal") {
+    const actionInput = document.getElementById("serviceTourAction");
+    if (actionInput) actionInput.value = "add_service";
+    const titleElement = document.getElementById("serviceTourModalTitle");
+    if (titleElement) titleElement.textContent = "Thêm Dịch Vụ/Tour Mới";
   }
 
   modal.style.display = "grid";
   document.body.style.overflow = "hidden";
 
+  // Khởi tạo CKEditor với thời gian chờ dài hơn
+  setTimeout(() => {
+    initializeModalEditors(modalId).then(() => {
+      console.log(`CKEditor initialized for modal: ${modalId}`);
+      if (data) {
+        if (modalId === "serviceTourModal") {
+          if (editors["serviceTourContent_vi"])
+            editors["serviceTourContent_vi"].setData(data.content_vi || "");
+          if (editors["serviceTourContent_en"])
+            editors["serviceTourContent_en"].setData(data.content_en || "");
+        } else if (modalId === "editServiceModal") {
+          if (editors["editServiceContent_vi"])
+            editors["editServiceContent_vi"].setData(data.content_vi || "");
+          if (editors["editServiceContent_en"])
+            editors["editServiceContent_en"].setData(data.content_en || "");
+        }
+      }
+    });
+  }, 300); // Tăng từ 100ms lên 300ms
+
   setTimeout(() => {
     const firstInput = modal.querySelector("input, textarea, select");
     if (firstInput) firstInput.focus();
-  }, 100);
+  }, 400);
 }
 
 function closeModal(modalId) {
@@ -305,6 +452,8 @@ function closeModal(modalId) {
     form.reset();
     clearImagePreviews(form);
   }
+
+  destroyModalEditors(modalId);
 
   currentEditingBanner = null;
   currentEditingTour = null;
@@ -329,43 +478,11 @@ function populateModalForm(modalId, data) {
   const modal = document.getElementById(modalId);
   const form = modal.querySelector("form");
 
-  if (modalId === "bannerModal") {
-    populateBannerForm(form, data);
-  } else if (modalId === "editServiceModal") {
+  if (modalId === "editServiceModal") {
     populateEditServiceForm(form, data);
   } else if (modalId === "serviceTourModal") {
     populateServiceTourForm(form, data);
   }
-}
-
-function populateBannerForm(form, banner) {
-  const titleElement = document.getElementById("bannerModalTitle");
-  const actionInput = document.getElementById("bannerAction");
-  const idInput = document.getElementById("bannerId");
-
-  if (titleElement) titleElement.textContent = "Chỉnh Sửa Banner";
-  if (actionInput) actionInput.value = "update_banner";
-  if (idInput) idInput.value = banner.id;
-
-  const pageInput = document.getElementById("bannerPage");
-  const topicInput = document.getElementById("bannerTopic");
-
-  if (pageInput) pageInput.value = banner.page || "";
-  if (topicInput) topicInput.value = banner.id_topic || "1";
-
-  if (banner.image) {
-    const currentImageDiv = document.getElementById("currentBannerImage");
-    // if (currentImageDiv) {
-    //   currentImageDiv.innerHTML = `
-    //     <div class="current-image">
-    //         <p>Hình ảnh hiện tại:</p>
-    //         <img src="../../Uploads/${banner.image}" alt="Current Banner" class="current-image-preview">
-    //     </div>
-    // `;
-    // }
-  }
-
-  currentEditingBanner = banner;
 }
 
 function populateEditServiceForm(form, service) {
@@ -373,9 +490,7 @@ function populateEditServiceForm(form, service) {
   const actionInput = document.getElementById("editServiceAction");
   const idInput = document.getElementById("editServiceId");
   const titleInputVi = document.getElementById("editServiceTitle_vi");
-  const contentInputVi = document.getElementById("editServiceContent_vi");
   const titleInputEn = document.getElementById("editServiceTitle_en");
-  const contentInputEn = document.getElementById("editServiceContent_en");
   const priceInput = document.getElementById("editServicePrice_vi");
   const currentImageDiv = document.getElementById("currentEditServiceImage");
 
@@ -384,9 +499,7 @@ function populateEditServiceForm(form, service) {
   idInput.value = service.id_dichvu;
 
   titleInputVi.value = service.title_vi || "";
-  contentInputVi.value = service.content_vi || "";
   titleInputEn.value = service.title_en || "";
-  contentInputEn.value = service.content_en || "";
 
   if (service.price) {
     if (isNumeric(service.price)) {
@@ -405,7 +518,7 @@ function populateEditServiceForm(form, service) {
     currentImageDiv.innerHTML = `
             <div class="current-image">
                 <p>Hình ảnh hiện tại:</p>
-                <img src="../../view/img/${service.image}" alt="Current Service" class="current-image-preview">
+                <img src="/libertylaocai/view/img/uploads/dichvu/${service.image}" alt="Current Service" class="current-image-preview">
             </div>
         `;
   } else {
@@ -419,18 +532,14 @@ function populateServiceTourForm(form, tour) {
   const actionInput = document.getElementById("serviceTourAction");
   const idInput = document.getElementById("serviceTourId");
   const titleInputVi = document.getElementById("serviceTourTitle_vi");
-  const contentInputVi = document.getElementById("serviceTourContent_vi");
   const titleInputEn = document.getElementById("serviceTourTitle_en");
-  const contentInputEn = document.getElementById("serviceTourContent_en");
   const priceInput = document.getElementById("serviceTourPrice_vi");
   const currentImageDiv = document.getElementById("currentServiceTourImage");
 
   if (actionInput) actionInput.value = "update_tour";
   if (idInput) idInput.value = tour.id_dichvu || "";
   if (titleInputVi) titleInputVi.value = tour.title_vi || "";
-  if (contentInputVi) contentInputVi.value = tour.content_vi || "";
   if (titleInputEn) titleInputEn.value = tour.title_en || "";
-  if (contentInputEn) contentInputEn.value = tour.content_en || "";
 
   if (tour.price) {
     if (isNumeric(tour.price)) {
@@ -450,7 +559,7 @@ function populateServiceTourForm(form, tour) {
       currentImageDiv.innerHTML = `
                 <div class="current-image">
                     <p>Hình ảnh hiện tại:</p>
-                    <img src="../../view/img/${tour.image}" alt="Current Tour" class="current-image-preview">
+                    <img src="/libertylaocai/view/img/uploads/dichvu/${tour.image}" alt="Current Tour" class="current-image-preview">
                 </div>
             `;
     }
@@ -591,15 +700,15 @@ function showAlert(message, type = "info", duration = 5000) {
   const alert = document.createElement("div");
   alert.className = `alert alert-${type} ajax-alert`;
   alert.innerHTML = `
-    <i class="fas fa-${
-      type === "success"
-        ? "check-circle"
-        : type === "error"
-        ? "exclamation-circle"
-        : "info-circle"
-    }"></i>
-    ${message}
-  `;
+        <i class="fas fa-${
+          type === "success"
+            ? "check-circle"
+            : type === "error"
+            ? "exclamation-circle"
+            : "info-circle"
+        }"></i>
+        ${message}
+    `;
 
   document.body.appendChild(alert);
 
@@ -644,11 +753,52 @@ function validateForm(form) {
     }
   });
 
+  // Kiểm tra CKEditor fields
+  const editorFields = [
+    "featureContent_vi",
+    "serviceTourContent_vi",
+    "editServiceContent_vi",
+  ]; // Chỉ tiếng Việt là bắt buộc
+  editorFields.forEach((id) => {
+    if (editors[id] && !editors[id].getData().trim()) {
+      showAlert(
+        `Vui lòng điền nội dung cho ${id.replace("_vi", "")} (Tiếng Việt)`,
+        "error"
+      );
+      isValid = false;
+    }
+  });
+
   if (!isValid) {
     showAlert("Vui lòng điền đầy đủ thông tin bắt buộc!", "error");
   }
 
   return isValid;
+}
+
+function previewImage(input) {
+  const file = input.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      // Tìm thẻ <img> trong cùng modal để hiển thị ảnh xem trước
+      const modal = input.closest(".modal");
+      const previewId =
+        input.id === "serviceTourImage"
+          ? "currentServiceTourImage"
+          : "currentEditServiceImage";
+      const previewDiv = modal.querySelector(`#${previewId}`);
+      if (previewDiv) {
+        previewDiv.innerHTML = `
+                    <div class="current-image">
+                        <p>Ảnh xem trước:</p>
+                        <img src="${e.target.result}" alt="Image Preview" class="current-image-preview">
+                    </div>
+                `;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
 function editService(service) {
@@ -658,9 +808,7 @@ function editService(service) {
   const actionInput = document.getElementById("editServiceAction");
   const idInput = document.getElementById("editServiceId");
   const titleInputVi = document.getElementById("editServiceTitle_vi");
-  const contentInputVi = document.getElementById("editServiceContent_vi");
   const titleInputEn = document.getElementById("editServiceTitle_en");
-  const contentInputEn = document.getElementById("editServiceContent_en");
   const priceInput = document.getElementById("editServicePrice_vi");
   const currentImageDiv = document.getElementById("currentEditServiceImage");
 
@@ -669,14 +817,14 @@ function editService(service) {
     return;
   }
 
+  destroyModalEditors("editServiceModal");
+
   titleElement.textContent = "Chỉnh Sửa Dịch Vụ";
   actionInput.value = "update_service";
   idInput.value = service.id_dichvu;
 
   titleInputVi.value = service.title_vi || "";
-  contentInputVi.value = service.content_vi || "";
   titleInputEn.value = service.title_en || "";
-  contentInputEn.value = service.content_en || "";
 
   if (service.price) {
     if (isNumeric(service.price)) {
@@ -695,7 +843,7 @@ function editService(service) {
     currentImageDiv.innerHTML = `
             <div class="current-image">
                 <p>Hình ảnh hiện tại:</p>
-                <img src="../../view/img/${service.image}" alt="Current Service" class="current-image-preview">
+                <img src="/libertylaocai/view/img/uploads/dichvu/${service.image}" alt="Current Service" class="current-image-preview">
             </div>
         `;
   } else {
@@ -705,10 +853,17 @@ function editService(service) {
   modal.style.display = "grid";
   document.body.style.overflow = "hidden";
 
+  initializeModalEditors("editServiceModal").then(() => {
+    if (editors["editServiceContent_vi"])
+      editors["editServiceContent_vi"].setData(service.content_vi || "");
+    if (editors["editServiceContent_en"])
+      editors["editServiceContent_en"].setData(service.content_en || "");
+  });
+
   setTimeout(() => {
     const firstInput = modal.querySelector("input, textarea, select");
     if (firstInput) firstInput.focus();
-  }, 100);
+  }, 200);
 
   currentEditingService = service;
 }
@@ -737,6 +892,7 @@ function updateIcon() {
 }
 
 function openServiceTourModal(type) {
+  openModal("serviceTourModal");
   const modal = document.getElementById("serviceTourModal");
   const titleElement = document.getElementById("serviceTourModalTitle");
   const actionInput = document.getElementById("serviceTourAction");
@@ -758,20 +914,12 @@ function openServiceTourModal(type) {
   if (type === "tour") {
     titleElement.textContent = "Thêm Tour Mới";
     actionInput.value = "add_tour";
-    titleInputVi.value = "";
   } else {
     titleElement.textContent = "Thêm Dịch Vụ Mới";
     actionInput.value = "add_service";
-    titleInputVi.value = "";
   }
 
-  modal.style.display = "grid";
-  document.body.style.overflow = "hidden";
-
-  setTimeout(() => {
-    const firstInput = modal.querySelector("input, textarea, select");
-    if (firstInput) firstInput.focus();
-  }, 100);
+  titleInputVi.value = "";
 }
 
 function editFeature(feature) {
@@ -781,32 +929,41 @@ function editFeature(feature) {
   const actionInput = document.getElementById("featureAction");
   const idInput = document.getElementById("featureId");
   const titleInputVi = document.getElementById("featureTitle_vi");
-  const contentInputVi = document.getElementById("featureContent_vi");
   const titleInputEn = document.getElementById("featureTitle_en");
-  const contentInputEn = document.getElementById("featureContent_en");
   const iconSelect = document.getElementById("featureIconSelect");
   const iconCustomInput = document.getElementById("featureIconCustom");
   const iconHiddenInput = document.getElementById("featureIcon");
   const iconPreview = document.getElementById("iconPreview");
 
+  destroyModalEditors("featureModal");
+
   titleElement.textContent = "Chỉnh Sửa Tiện Ích";
   actionInput.value = "update_feature";
   idInput.value = feature.id_tienich;
   titleInputVi.value = feature.title || "";
-  contentInputVi.value = feature.content || "";
   titleInputEn.value = "";
-  contentInputEn.value = "";
 
-  fetch(
-    `quanlydichvu.php?action=get_feature_en&id_tienich=${feature.id_tienich}`
-  )
+  fetch("/libertylaocai/user/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `action=get_feature_en&id_tienich=${encodeURIComponent(
+      feature.id_tienich
+    )}`,
+  })
     .then((response) => response.json())
     .then((data) => {
       titleInputEn.value = data.title || "";
-      contentInputEn.value = data.content || "";
+      initializeModalEditors("featureModal").then(() => {
+        if (editors["featureContent_vi"])
+          editors["featureContent_vi"].setData(feature.content || "");
+        if (editors["featureContent_en"])
+          editors["featureContent_en"].setData(data.content || "");
+      });
     })
     .catch((error) =>
-      console.error("Error fetching English feature data:", error)
+      console.error("Lỗi khi lấy dữ liệu tiện ích tiếng Anh:", error)
     );
 
   const iconOption = Array.from(iconSelect.options).find(
@@ -814,9 +971,11 @@ function editFeature(feature) {
   );
   if (iconOption) {
     iconSelect.value = feature.icon;
+    $("#featureIconSelect").val(feature.icon).trigger("change"); // Cập nhật Select2
     iconCustomInput.style.display = "none";
   } else {
     iconSelect.value = "custom";
+    $("#featureIconSelect").val("custom").trigger("change"); // Cập nhật Select2
     iconCustomInput.style.display = "block";
     iconCustomInput.value = feature.icon || "";
   }
@@ -850,9 +1009,6 @@ window.AdminDichVu = {
   editHighlight,
   showAlert,
   confirmDelete,
-  copyToClipboard,
-  toggleTheme,
-  scrollToTop,
   loadGreeting,
   updateActiveGreetingInputs,
   editFeature,
