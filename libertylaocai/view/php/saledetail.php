@@ -58,9 +58,9 @@ $relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
                         <div class="promotions-grid" id="promotionsGrid">
                             <?php
                             foreach ($relatedPromotions as $promo) {
-                                echo '<div class="promotion-item" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
+                                echo '<div class="promotion-card" data-promotion-id="' . htmlspecialchars($promo['id']) . '">';
                                 echo '<div class="promotion-image">';
-                                echo '<img src="' . htmlspecialchars($promo['image']) . '" alt="Khuyến mãi">';
+                                echo '<img src="' . htmlspecialchars($promo['image']) . '" alt="' . htmlspecialchars($promo['title']) . '">';
                                 echo '<span class="corner-text">' . date('Y-m-d', strtotime($promo['created_at'])) . '</span>';
                                 echo '</div>';
                                 echo '<div class="promotion-item-content">';
@@ -84,7 +84,6 @@ $relatedPromotions = getRelatedPromotions($languageId, $id_uudai, 6);
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
-                <div class="promotion-slider-dots"></div>
             </div>
         </div>
     </div>

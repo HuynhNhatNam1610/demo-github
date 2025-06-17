@@ -52,6 +52,8 @@ ob_start();
                                 <div class="tour-item <?php echo $tour['id'] == $id_dichvu ? 'active' : ''; ?>">
                                     <div class="tour-info">
                                         <h3><?php echo htmlspecialchars($tour['title']); ?></h3>
+                                    </div>
+                                    <div class="tour-footer">
                                         <div class="tour-price">
                                             <?php
                                             if (preg_match('/^\d+[.,]?\d*$/', $tour['price'])) {
@@ -61,9 +63,9 @@ ob_start();
                                             }
                                             ?>
                                         </div>
-                                    </div>
-                                    <div class="tour-actions">
-                                        <i class="fas fa-chevron-right"></i>
+                                        <div class="tour-actions">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </form>

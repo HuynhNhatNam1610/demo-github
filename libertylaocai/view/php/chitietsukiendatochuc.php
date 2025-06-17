@@ -84,7 +84,6 @@ $getRelatedEventOrganized = getRelatedEventOrganized($languageId, $id_sukiendato
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
-                <div class="promotion-slider-dots"></div>
             </div>
         </div>
     </div>
