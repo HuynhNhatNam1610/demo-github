@@ -4274,6 +4274,26 @@ function getMenuBar($languageId, $type, $active = 1)
 
 //quanlybinhluan
 // Thêm bình luận
+function getServices2($id_ngonngu) {
+    global $conn;
+    try {
+        $sql = "SELECT d.id, dn.title, d.type 
+                FROM dichvu d 
+                JOIN dichvu_ngonngu dn ON d.id = dn.id_dichvu 
+                WHERE dn.id_ngonngu = ? AND d.active = 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id_ngonngu);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $services = [];
+        while ($row = $result->fetch_assoc()) {
+            $services[] = $row;
+        }
+        return $services;
+    } catch (Exception $e) {
+        return [];
+    }
+}
 function addComment($conn, $content, $rate, $type, $id_khachhang, $id_dichvu = null, $id_nhahang = null, $id_loaiphong = null)
 {
     try {
