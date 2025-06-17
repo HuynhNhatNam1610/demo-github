@@ -79,6 +79,24 @@ $(document).ready(function () {
   });
 
   // Xử lý thay đổi loại bình luận
+  $(
+    "#customerSelect, #commentType, #dichvuSelect select, #phongSelect select"
+  ).select2({
+    width: "100%", // Ensure dropdown matches container width
+    dropdownAutoWidth: true, // Allow dropdown to adjust width dynamically
+    minimumResultsForSearch: 10, // Show search for dropdowns with many options
+    placeholder: function () {
+      return $(this).attr("data-placeholder") || "Chọn một tùy chọn";
+    },
+  });
+
+  // Initialize Select2 for filter dropdowns
+  $("#sortFilter, #statusFilter, #rateFilter").select2({
+    width: "100%",
+    minimumResultsForSearch: -1, // Disable search for small dropdowns
+  });
+
+  // Update commentType change handler to reinitialize Select2
   $("#commentType").change(function () {
     const type = $(this).val();
     $(
@@ -92,14 +110,13 @@ $(document).ready(function () {
 
     if (type === "dichvu") {
       $("#dichvuSelect").show();
-      $('select[name="id_dichvu"]').attr("required", "required");
+      $('select[name="id_dichvu"]').attr("required", "required").select2();
     } else if (type === "phong") {
       $("#phongSelect").show();
-      $('select[name="id_loaiphong"]').attr("required", "required");
+      $('select[name="id_loaiphong"]').attr("required", "required").select2();
     }
   });
 
-  // Xử lý form thêm bình luận
   // Xử lý form thêm bình luận
   $("#addCommentForm").submit(function (e) {
     e.preventDefault();
@@ -129,6 +146,13 @@ $(document).ready(function () {
               // Thêm option mới vào dropdown
               const newOption = `<option value="${data.id_khachhang}" data-name="${name}" data-email="${email}">${name} (${email})</option>`;
               $("#customerSelect").append(newOption);
+              // Reinitialize Select2 for customerSelect
+              $("#customerSelect").select2({
+                width: "100%",
+                dropdownAutoWidth: true,
+                minimumResultsForSearch: 10,
+                placeholder: "Nhập thủ công",
+              });
             }
           }
         } else {
@@ -460,9 +484,16 @@ $(document).ready(function () {
       '.form-group select[name="id_dichvu"], .form-group select[name="id_loaiphong"]'
     ).removeAttr("required");
     $("#manualCustomer input").attr("required", "required");
-    // Reset star rating
     $("#addCommentForm .star-rating input[name='rate']").prop("checked", false);
     $("#addCommentForm .star-rating label").removeClass("selected");
+    // Reinitialize Select2
+    $(
+      "#customerSelect, #commentType, #dichvuSelect select, #phongSelect select"
+    ).select2({
+      width: "100%",
+      dropdownAutoWidth: true,
+      minimumResultsForSearch: 10,
+    });
   }
 
   // Hàm hiển thị loading
