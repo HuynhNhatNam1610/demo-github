@@ -1126,3 +1126,146 @@ hr {
     min-height: 400px; /* Minimum height to avoid collapse */
     padding-bottom: 0px; /* Extra space for pagination */
 }
+/* ==== TABS ==== */
+.tabs {
+    display: flex;
+    margin-bottom: 30px;
+    flex-wrap: wrap; /* Cho phép các tab xuống dòng */
+    gap: 10px; /* Khoảng cách giữa các tab */
+    padding-bottom: 5px;
+    border-bottom: none; /* Bỏ đường viền dưới */
+    overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+    width: 100%; /* Đảm bảo tabs chiếm toàn bộ chiều rộng container */
+}
+
+.tab-btn {
+    background: #fff;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: #6c757d;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 0; /* Loại bỏ min-width cố định để tab co giãn */
+    flex-grow: 1; /* Cho phép tab mở rộng để lấp đầy không gian */
+    max-width: 100%; /* Đảm bảo không vượt quá chiều rộng */
+    white-space: normal; /* Cho phép text xuống dòng nếu cần */
+    margin-bottom: 5px;
+}
+
+.tab-btn:hover {
+    color: #007bff;
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tab-btn.active {
+    color: #fff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border-color: #007bff;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .tab-btn {
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 992px) {
+    .tabs {
+        gap: 8px;
+    }
+    
+    .tab-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tabs {
+        gap: 6px;
+    }
+    
+    .tab-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+        min-width: calc(50% - 6px); /* 2 tab trên mỗi dòng */
+        flex-grow: 0; /* Ngăn không mở rộng quá mức */
+    }
+}
+
+@media (max-width: 480px) {
+    .tab-btn {
+        min-width: 100%; /* 1 tab trên mỗi dòng */
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .tabs {
+        gap: 5px;
+    }
+}
+/* === PAGINATION === */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 20px;
+    width: 100%;
+    flex-direction: row; /* Luôn nằm ngang */
+}
+
+.pagination a {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 36px;
+    text-align: center;
+    background: #fff;
+    margin: 0 3px; /* Khoảng cách giữa các nút */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .pagination {
+        flex-wrap: nowrap; /* Ngăn không cho xuống dòng */
+        overflow-x: auto; /* Cho phép cuộn ngang nếu cần */
+        padding-bottom: 10px; /* Tạo khoảng trống cho thanh cuộn */
+        -webkit-overflow-scrolling: touch; /* Cuộn mượt trên mobile */
+    }
+
+    .pagination a {
+        padding: 6px 10px;
+        font-size: 13px;
+        min-width: 32px;
+        flex-shrink: 0; /* Ngăn không bị co lại */
+    }
+}
+
+@media (max-width: 480px) {
+    .pagination {
+        gap: 3px;
+    }
+
+    .pagination a {
+        padding: 5px 8px;
+        font-size: 12px;
+        min-width: 28px;
+    }
+}
