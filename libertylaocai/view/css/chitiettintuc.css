@@ -132,7 +132,7 @@ body {
 .promotions-grid {
   display: flex;
   gap: var(--gap, 1%);
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
 }
 
@@ -239,78 +239,43 @@ body {
   transform: translateY(-1px);
 }
 
-/* Navigation Buttons - Updated to match room slider */
+/* Navigation Buttons - Updated to match duadonsanbay */
 .promotion-nav-btn {
-  width: 50px;
-  height: 50px;
-  border: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
-  background: linear-gradient(135deg, #2c5f2d, #1e4220);
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(44, 95, 45, 0.3);
-  display: flex;
+  display: none; /* Mặc định ẩn */
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   z-index: 10;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  color: #2c5f2d;
+  font-size: 1rem;
 }
 
 .promotion-nav-btn:hover {
-  background: linear-gradient(135deg, #1e4220, #2c5f2d);
-  transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(44, 95, 45, 0.4);
+  background: #2c5f2d;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
 }
 
 .promotion-nav-btn:active {
-  transform: scale(0.95);
+  transform: translateY(-50%) scale(0.95);
 }
 
 .promotion-nav-prev {
-  order: -1;
+  left: 5px;
 }
 
 .promotion-nav-next {
-  order: 1;
-}
-
-/* Dots Indicator - Updated to match room slider */
-.promotion-slider-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 30px;
-}
-
-.promotion-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #ddd;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.promotion-dot.active {
-  background: #2c5f2d;
-  transform: scale(1.2);
-}
-
-.promotion-dot:hover {
-  background: #1e4220;
-  transform: scale(1.1);
-}
-
-/* Focus states for accessibility */
-.promotion-nav-btn:focus {
-  outline: 2px solid #007bff;
-  outline-offset: 2px;
-}
-
-.promotion-dot:focus {
-  outline: 2px solid #007bff;
-  outline-offset: 2px;
+  right: 5px;
 }
 
 /* Responsive Styles */
@@ -338,9 +303,9 @@ body {
   }
 
   .promotion-nav-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 14px;
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
   }
 
   .promotion-button {

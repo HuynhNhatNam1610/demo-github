@@ -154,6 +154,7 @@ body {
     transform: translateY(0);
   }
 }
+
 /* Sections */
 .admin-sections {
   display: flex;
@@ -267,11 +268,13 @@ table tbody tr:hover {
   border: 1px solid #e2e8f0;
   transition: all 0.3s ease;
 }
+
 .admin-form {
   width: 100%;
   max-width: 100%; /* Giới hạn chiều rộng form */
   overflow: hidden; /* Ngăn nội dung tràn ra ngoài */
 }
+
 .admin-form:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
@@ -321,7 +324,11 @@ table tbody tr:hover {
   padding: 25px;
   border: 1px solid #e2e8f0;
   transition: all 0.3s ease;
-  overflow: hidden; /* Ngăn nội dung tràn ra ngoài */
+  overflow: hidden;
+  min-height: 400px; /* Đặt chiều cao tối thiểu cố định */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Đảm bảo nội dung trải đều */
 }
 
 .service-item:hover {
@@ -337,6 +344,7 @@ table tbody tr:hover {
   border: 1px solid #e2e8f0;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
+  overflow: hidden; /* Ensure content doesn't overflow */
 }
 
 .tour-item:hover {
@@ -347,29 +355,99 @@ table tbody tr:hover {
 .tour-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 15px;
   padding-bottom: 15px;
   border-bottom: 2px solid #f1f3f4;
+  width: 100%; /* Ensure header takes full width of container */
 }
 
 .tour-header h3 {
   color: #2d3748;
   font-size: 1.3rem;
   font-weight: 700;
-  flex: 1;
-  margin-right: 15px;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Prevent text wrapping */
+  max-width: 70%; /* Limit title width to allow space for actions */
 }
 
 .tour-actions {
   display: flex;
   gap: 8px;
+  flex-shrink: 0; /* Prevent actions from shrinking */
 }
 
 .tour-content p {
   color: #4a5568;
   line-height: 1.6;
   font-size: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Feature Items */
+.feature-item {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.feature-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  background: var(--light-bg);
+  border-bottom: 1px solid #e0e0e0;
+  min-height: 20px;
+  width: 100%; /* Ensure header takes full width of container */
+}
+
+.feature-header h3 {
+  color: #2d3748;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Prevent text wrapping */
+  max-width: 70%; /* Limit title width to allow space for actions */
+}
+
+.feature-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.feature-content p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-height: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.feature-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
 /* Modals */
@@ -412,6 +490,9 @@ table tbody tr:hover {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Ensure modal header title doesn't overflow */
 }
 
 .close {
@@ -503,6 +584,7 @@ table tbody tr:hover {
   }
 
   .services-grid,
+  .service-header,
   .tours-grid {
     grid-template-columns: 1fr;
   }
@@ -512,13 +594,22 @@ table tbody tr:hover {
     margin: 10% auto;
   }
 
-  .tour-header {
+  .tour-header,
+  .feature-header {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
   }
 
-  .tour-actions {
+  .tour-header h3,
+  .feature-header h3,
+  .service-header h3 {
+    max-width: 100%; /* Allow full width on small screens */
+  }
+
+  .tour-actions,
+  .feature-actions,
+  .service-actions {
     align-self: flex-end;
   }
 
@@ -554,6 +645,12 @@ table tbody tr:hover {
   .modal-header,
   .modal form {
     padding: 20px;
+  }
+
+  .tour-header h3,
+  .feature-header h3,
+  .service-header h3 {
+    font-size: 1.1rem; /* Smaller font size for very small screens */
   }
 }
 
@@ -604,14 +701,17 @@ table tbody tr:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: #2d3748;
 }
+
 .greeting-select-container {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .greeting-select-container select {
   flex-grow: 1;
 }
+
 /* Adjust tour image to prevent overflow */
 .tour-image-preview {
   max-width: 100%;
@@ -649,9 +749,11 @@ select {
     overflow-y: auto;
   }
 }
+
 #activeGreetingForm button[type="submit"] {
   margin-top: 15px; /* Khoảng cách cho nút trong form cụ thể */
 }
+
 /* Current Image Display */
 .current-image {
   margin-top: 10px;
@@ -710,19 +812,23 @@ select {
 .remove-preview:hover {
   background: rgba(255, 0, 0, 1);
 }
+
 .icon-preview {
   margin-left: 10px;
   font-size: 24px;
   vertical-align: middle;
 }
+
 .icon-select-container {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .icon-select-container select {
   flex: 1;
 }
+
 /* Thêm kiểu dáng cho lưu ý trong modal */
 .note {
   color: #dc3545;
@@ -740,16 +846,21 @@ select {
 }
 
 .service-item {
-  background: var(--white);
+  background: var(--white, #ffffff);
   border-radius: 15px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
+  padding: 25px;
+  border: 1px solid #e2e8f0;
   transition: all 0.3s ease;
+  overflow: hidden; /* Prevent content from spilling out */
+  min-height: 400px; /* Consistent minimum height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute content evenly */
 }
 
 .service-item:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover, 0 10px 30px rgba(0, 0, 0, 0.1));
 }
 
 .service-header {
@@ -757,35 +868,50 @@ select {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 1rem;
-  background: var(--light-bg);
+  background: var(--light-bg, #f6f9fc);
   border-bottom: 1px solid #e0e0e0;
+  min-height: 20px;
+  width: 100%; /* Ensure header takes full width of container */
 }
 
 .service-header h3 {
   font-size: 1.4rem;
   font-weight: 600;
-  color: var(--primary-color);
+  color: var(--primary-color, #2d3748);
   margin: 0;
-}
-
-.service-actions {
-  display: flex;
-  gap: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Prevent text wrapping */
+  max-width: 70%; /* Limit title width to allow space for actions */
 }
 
 .service-content {
   padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .service-content p {
   color: #666;
   line-height: 1.6;
   margin-bottom: 1rem;
+  max-height: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .service-image-preview {
   width: 100%;
-  max-height: 200px;
+  height: 200px;
   object-fit: cover;
   border-radius: 10px;
+  margin-top: auto;
+}
+
+.service-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0; /* Prevent actions from shrinking */
 }
