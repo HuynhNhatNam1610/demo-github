@@ -15,9 +15,12 @@ $terms_result = getActiveTerms($languageId);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Điều khoản và Chính sách - <?php echo htmlspecialchars($hotel_info['name'] ?? 'Liberty Hotel Lào Cai'); ?></title>
+    <title><?php echo $languageId == 1 ? 'Điều Khoản & Chính Sách - Khách Sạn Liberty Lào Cai' : 'Terms & Policies - Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Tìm hiểu các điều khoản và chính sách lưu trú tại khách sạn Liberty Lào Cai, đảm bảo trải nghiệm tuyệt vời.' : 'Learn about the terms and policies for staying at Liberty Hotel Lao Cai, ensuring a wonderful experience.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/dieukhoan.css">
 </head>
+
 
 <body>
     <?php include "header.php"; ?>

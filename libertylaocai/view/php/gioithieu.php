@@ -99,11 +99,14 @@ $rooms = getAllRoomTypesWithRandomImage($languageId);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giới thiệu - Khách sạn Liberty Lào Cai</title>
+    <title><?php echo $languageId == 1 ? 'Giới Thiệu - Khách Sạn Liberty Lào Cai' : 'About Us - Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Tìm hiểu về khách sạn Liberty Lào Cai với dịch vụ lưu trú, sự kiện, nhà hàng và tour du lịch đẳng cấp.' : 'Learn about Liberty Hotel Lao Cai with top-class accommodation, events, dining, and tour services.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/gioithieu.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
+
 
 <body>
     <?php include "header.php"; ?>

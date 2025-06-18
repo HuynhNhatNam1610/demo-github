@@ -18,10 +18,13 @@ $form_title = $form_info['title'] ?? ($languageId == 1 ? 'GỬI THÔNG TIN LIÊN
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo ($languageId == 1 ? 'Liên Hệ' : 'Contact'); ?> - <?php echo htmlspecialchars($hotel_short_name); ?></title>
+    <title><?php echo $languageId == 1 ? 'Liên Hệ - Khách Sạn Liberty Lào Cai' : 'Contact - Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Liên hệ khách sạn Liberty Lào Cai qua hotline, email hoặc form để được hỗ trợ nhanh chóng.' : 'Contact Liberty Hotel Lao Cai via hotline, email, or form for prompt assistance.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/lienhe.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 
 <body>
     <?php include "header.php"; ?>

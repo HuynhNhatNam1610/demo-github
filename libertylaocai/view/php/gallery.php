@@ -30,10 +30,13 @@ $videos = $data['videos'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
+    <title><?php echo $languageId == 1 ? 'Thư Viện Ảnh & Video - Khách Sạn Liberty Lào Cai' : 'Photo & Video Gallery - Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Khám phá thư viện ảnh và video tuyệt đẹp tại khách sạn Liberty Lào Cai, ghi lại những khoảnh khắc đáng nhớ.' : 'Explore the stunning photo and video gallery at Liberty Hotel Lao Cai, capturing memorable moments.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/gallery.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 
 <body>
     <?php include "header.php" ?>

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Nhập - Quản Trị Khách Sạn</title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/libertylaocai/view/css/login.css">
 </head>

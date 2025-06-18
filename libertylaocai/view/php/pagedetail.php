@@ -141,10 +141,13 @@ if (!empty($menuType)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sự kiện</title>
+    <title><?php echo htmlspecialchars($titleBanner ?? ($languageId == 1 ? 'Sự Kiện' : 'Event')); ?> - <?php echo $languageId == 1 ? 'Khách Sạn Liberty Lào Cai' : 'Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Tìm hiểu chi tiết về ' . htmlspecialchars($descriptionPagedetailTitle['content'] ?? 'sự kiện') . ' tại khách sạn Liberty Lào Cai với dịch vụ tổ chức chuyên nghiệp.' : 'Learn about details of ' . htmlspecialchars($descriptionPagedetailTitle['content'] ?? 'the event') . ' at Liberty Hotel Lao Cai with professional organization services.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/pagedetail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 
 <body>
     <?php include "header.php" ?>

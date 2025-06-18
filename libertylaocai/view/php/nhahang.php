@@ -28,10 +28,13 @@ $diningAreas = getDiningAreas($languageId);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhà hàng Liberty Hotel & Events</title>
+    <title><?php echo $languageId == 1 ? 'Nhà Hàng - Khách Sạn Liberty Lào Cai' : 'Restaurant - Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Khám phá nhà hàng tại khách sạn Liberty Lào Cai với thực đơn đa dạng và không gian sang trọng.' : 'Discover the restaurant at Liberty Hotel Lao Cai with a diverse menu and elegant ambiance.'; ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/libertylaocai/view/css/nhahang.css">
 </head>
+
 
 <body>
     <?php include "header.php"; ?>

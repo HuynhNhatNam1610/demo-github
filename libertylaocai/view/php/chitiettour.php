@@ -27,21 +27,14 @@ $thongtinkhachsan = getHotelInfoWithLanguage($languageId);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?php
-        $sql = "SELECT title FROM dichvu_ngonngu WHERE id_dichvu = ? AND id_ngonngu = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $id_dichvu, $languageId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $tour = $result->fetch_assoc();
-        echo htmlspecialchars($tour['title'] ?? ($languageId == 1 ? 'Tour Sapa - Liberty Lào Cai' : 'Sapa Tour - Liberty Lao Cai'));
-        ?>
-    </title>
+    <title><?php echo htmlspecialchars($tour['title'] ?? ($languageId == 1 ? 'Tour Sapa' : 'Sapa Tour')); ?> - Khách Sạn Liberty Lào Cai</title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Khám phá chi tiết tour ' . htmlspecialchars($tour['title'] ?? 'Sapa') . ' tại Liberty Lào Cai với hành trình thú vị và dịch vụ chuyên nghiệp.' : 'Discover details of the ' . htmlspecialchars($tour['title'] ?? 'Sapa') . ' tour at Liberty Hotel Lao Cai with exciting itineraries and professional services.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/chitiettour.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 
 <body>
     <?php include "header.php"; ?>

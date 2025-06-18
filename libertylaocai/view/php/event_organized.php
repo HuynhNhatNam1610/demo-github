@@ -16,7 +16,9 @@ $getEventOrganized = getEventOrganized($languageId);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sự kiện</title>
+    <title><?php echo $languageId == 1 ? 'Sự Kiện Đã Tổ Chức - Khách Sạn Liberty Lào Cai' : 'Organized Events - Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Xem các sự kiện đã tổ chức thành công tại khách sạn Liberty Lào Cai với hình ảnh và mô tả chi tiết.' : 'View successfully organized events at Liberty Hotel Lao Cai with detailed images and descriptions.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/event_organized.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>

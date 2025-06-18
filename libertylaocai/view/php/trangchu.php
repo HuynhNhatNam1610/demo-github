@@ -60,9 +60,9 @@ foreach ($roomTypes as $room) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $languageId == 1 ? 'Khách sạn Liberty Lào Cai' : 'Liberty Hotel Lao Cai'; ?></title>
+  <title><?php echo $languageId == 1 ? 'Khách Sạn Liberty Lào Cai - Đặt Phòng Sang Trọng' : 'Liberty Hotel Lao Cai - Book Luxurious Rooms'; ?></title>
   <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
-  <meta name="description" content="<?php echo $languageId == 1 ? 'Liberty Hotel & Events Khách sạn Liberty Lào Cai' : 'Liberty Hotel & Events Lao Cai'; ?>">
+  <meta name="description" content="<?php echo $languageId == 1 ? 'Khách sạn Liberty Lào Cai cung cấp dịch vụ lưu trú sang trọng, ẩm thực độc đáo và các tiện ích đẳng cấp tại Lào Cai.' : 'Liberty Hotel Lao Cai offers luxurious accommodations, unique cuisine, and top-class amenities in Lao Cai.'; ?>">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="/libertylaocai/view/css/trangchu.css">

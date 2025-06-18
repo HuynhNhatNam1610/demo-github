@@ -25,11 +25,15 @@ $informationHotel = getHotelInfoWithLanguage($language_id);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $language_id == 1 ? 'Dịch Vụ Du Lịch Liberty Lào Cai' : 'Liberty Lào Cai Travel Services'; ?></title>
+  <title><?php echo $language_id == 1 ? 'Dịch Vụ Du Lịch - Khách Sạn Liberty Lào Cai' : 'Travel Services - Liberty Hotel Lao Cai'; ?></title>
+  <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+  <meta name="description" content="<?php echo $language_id == 1 ? 'Khám phá các dịch vụ du lịch và tiện ích đẳng cấp tại khách sạn Liberty Lào Cai, từ tour du lịch đến dịch vụ khách sạn.' : 'Explore top-class travel services and amenities at Liberty Hotel Lao Cai, from tours to hotel services.'; ?>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="/libertylaocai/view/css/dichvu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
+
 
 <body>
   <?php include "header.php"; ?>

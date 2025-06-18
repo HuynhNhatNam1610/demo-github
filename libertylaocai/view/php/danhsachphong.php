@@ -78,10 +78,13 @@ $max_price = $price_range['max_price'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $text['page_title']; ?></title>
+    <title><?php echo $languageId == 1 ? 'Danh Sách Phòng - Khách Sạn Liberty Lào Cai' : 'Room List - Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Xem danh sách các loại phòng sang trọng tại khách sạn Liberty Lào Cai và đặt phòng với giá ưu đãi.' : 'View the list of luxurious room types at Liberty Hotel Lao Cai and book with exclusive offers.'; ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/libertylaocai/view/css/danhsachphong.css">
 </head>
+
 
 <body>
     <?php include "header.php"; ?>

@@ -20,6 +20,7 @@ if (!$admin_data) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tài Khoản Admin - Liberty Lào Cai Hotel</title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
     <link rel="stylesheet" href="/libertylaocai/view/css/taikhoan.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>

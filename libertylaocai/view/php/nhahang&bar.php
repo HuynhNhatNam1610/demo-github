@@ -28,9 +28,12 @@ $heroImages = getRandomHeroImages();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhà Hàng & Bar - Liberty Hotel</title>
+    <title><?php echo $languageId == 1 ? 'Nhà Hàng & Bar - Khách Sạn Liberty Lào Cai' : 'Restaurant & Bar - Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Thưởng thức ẩm thực Tây Bắc và thư giãn tại Sky Bar của khách sạn Liberty Lào Cai.' : 'Enjoy Northwest cuisine and relax at the Sky Bar of Liberty Hotel Lao Cai.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/nhahang&bar.css">
 </head>
+
 
 <body>
     <?php include "header.php" ?>

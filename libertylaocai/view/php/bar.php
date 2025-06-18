@@ -46,10 +46,13 @@ $text = $texts[$languageId];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky Bar - Tầng 7 PCA Hotel</title>
+    <title><?php echo $languageId == 1 ? 'Sky Bar Tầng 7 - Khách Sạn Liberty Lào Cai' : 'Sky Bar 7th Floor - Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Thư giãn tại Sky Bar tầng 7 Liberty Lào Cai với tầm nhìn toàn cảnh, đồ uống đa dạng và nhạc sống.' : 'Relax at Sky Bar on the 7th floor of Liberty Hotel Lao Cai with panoramic views, diverse drinks, and live music.'; ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/libertylaocai/view/css/bar.css">
 </head>
+
 
 <body>
     <?php include "header.php"; ?>

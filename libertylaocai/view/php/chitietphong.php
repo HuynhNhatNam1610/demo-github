@@ -177,11 +177,14 @@ $amenities = getRoomAmenities($room_id, $languageId);   /// lấy tiện tích c
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($room['name'] ?? $text['no_name_room']); ?> - The Liberty Lào Cai</title>
+    <title><?php echo htmlspecialchars($room['name'] ?? $text['no_name_room']); ?> - Khách Sạn Liberty Lào Cai</title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Khám phá chi tiết phòng ' . htmlspecialchars($room['name'] ?? $text['no_name_room']) . ' tại Liberty Lào Cai với tiện nghi sang trọng và đặt phòng ngay.' : 'Explore details of ' . htmlspecialchars($room['name'] ?? $text['no_name_room']) . ' at Liberty Hotel Lao Cai with luxurious amenities and book now.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/chitietphong.css">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 
 <body>
     <?php include "header.php"; ?>

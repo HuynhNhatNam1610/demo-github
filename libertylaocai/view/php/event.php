@@ -35,11 +35,12 @@ $halls = getConferenceHalls($languageId);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sự kiện</title>
+    <title><?php echo $languageId == 1 ? 'Hội Nghị & Sự Kiện - Khách Sạn Liberty Lào Cai' : 'Conferences & Events - Liberty Hotel Lao Cai'; ?></title>
     <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
-    <meta name="description" content="<?php echo $languageId == 1 ? 'Liberty Hotel & Events Khách sạn Liberty Lào Cai' : 'Liberty Hotel & Events Lao Cai'; ?>">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Tổ chức hội nghị và sự kiện chuyên nghiệp tại Liberty Lào Cai với hội trường hiện đại và dịch vụ đẳng cấp.' : 'Host professional conferences and events at Liberty Hotel Lao Cai with modern halls and top-class services.'; ?>">
     <link rel="stylesheet" href="/libertylaocai/view/css/event.css">
 </head>
+
 
 <body>
     <?php include "header.php" ?>

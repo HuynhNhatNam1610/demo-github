@@ -14,6 +14,7 @@ $services = getServices1(1);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý bình luận</title>
     <link rel="stylesheet" href="/libertylaocai/view/css/quanlybinhluan.css">
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

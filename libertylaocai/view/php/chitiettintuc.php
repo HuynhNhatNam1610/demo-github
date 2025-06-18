@@ -19,10 +19,13 @@ $getRelatedNews = getRelatedNews($languageId, $id_tintuc, 6);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHI TIẾT TIN TỨC</title>
+    <title><?php echo htmlspecialchars($getNewById['title'] ?? ($languageId == 1 ? 'Tin Tức' : 'News')); ?> - <?php echo $languageId == 1 ? 'Khách Sạn Liberty Lào Cai' : 'Liberty Hotel Lao Cai'; ?></title>
+    <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
+    <meta name="description" content="<?php echo $languageId == 1 ? 'Đọc chi tiết tin tức ' . htmlspecialchars($getNewById['title'] ?? 'tin tức') . ' tại khách sạn Liberty Lào Cai với thông tin cập nhật mới nhất.' : 'Read details of the news ' . htmlspecialchars($getNewById['title'] ?? 'news') . ' at Liberty Hotel Lao Cai with the latest updates.'; ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/libertylaocai/view/css/chitiettintuc.css">
 </head>
+
 
 <body>
     <?php include "header.php" ?>
