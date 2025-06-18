@@ -52,19 +52,15 @@
                 <div id="loginOtpTab" class="tab-content">
                     <h2 class="login-title">NHẬP MÃ OTP</h2>
                     <div id="loginOtpMessage" class="message"></div>
-                    <div class="email-info">
-                        <i class="bi bi-envelope-check"></i>
-                        Mã OTP đã được gửi đến email: <strong id="loginOtpEmail"></strong>
-                    </div>
                     <form id="loginOtpForm" class="login-form">
                         <div class="otp-container">
                             <div class="otp-inputs">
-                                <input type="text" class="otp-input" maxlength="1" data-index="0">
-                                <input type="text" class="otp-input" maxlength="1" data-index="1">
-                                <input type="text" class="otp-input" maxlength="1" data-index="2">
-                                <input type="text" class="otp-input" maxlength="1" data-index="3">
-                                <input type="text" class="otp-input" maxlength="1" data-index="4">
-                                <input type="text" class="otp-input" maxlength="1" data-index="5">
+                                <input type="text" id="otp-0" class="otp-input login-otp" maxlength="1" data-index="0">
+                                <input type="text" id="otp-1" class="otp-input login-otp" maxlength="1" data-index="1">
+                                <input type="text" id="otp-2" class="otp-input login-otp" maxlength="1" data-index="2">
+                                <input type="text" id="otp-3" class="otp-input login-otp" maxlength="1" data-index="3">
+                                <input type="text" id="otp-4" class="otp-input login-otp" maxlength="1" data-index="4">
+                                <input type="text" id="otp-5" class="otp-input login-otp" maxlength="1" data-index="5">
                             </div>
                             <div class="resend-otp">
                                 <a href="#" class="resend-link" id="resendLoginOtp">

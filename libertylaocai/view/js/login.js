@@ -18,11 +18,28 @@ const tabs = {
 // Khởi tạo
 document.addEventListener("DOMContentLoaded", function () {
   initializeEventListeners();
-  // initializeOtpInputs();
+  setupOtpInputs("login-otp");
+  setupOtpInputs("reset-otp");
 });
 
 // Event Listeners
 function initializeEventListeners() {
+  // Submit form OTP đăng nhập
+  document
+    .getElementById("loginOtpForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await handleLoginOtp();
+    });
+
+  // Resend OTP đăng nhập
+  document
+    .getElementById("resendLoginOtp")
+    .addEventListener("click", async (e) => {
+      e.preventDefault();
+      await handleResendLoginOtp();
+    });
+
   // Navigation links
   document
     .getElementById("forgotPasswordLink")
@@ -104,7 +121,6 @@ function initializeEventListeners() {
     });
 }
 
-// Chuyển đổi tab
 function switchTab(tabName) {
   // Ẩn tất cả tabs
   Object.values(tabs).forEach((tab) => {
@@ -118,11 +134,18 @@ function switchTab(tabName) {
   // Clear messages
   clearAllMessages();
 
-  // // Reset forms
-  // resetAllForms();
-
-  // // Clear timers
-  // clearResendTimers();
+  // Tự động focus ô OTP đầu tiên nếu là tab OTP
+  if (tabName === "loginOtpTab") {
+    const firstOtpInput = document.querySelector(".login-otp");
+    if (firstOtpInput) {
+      firstOtpInput.focus();
+    }
+  } else if (tabName === "resetOtpTab") {
+    const firstOtpInput = document.querySelector(".reset-otp");
+    if (firstOtpInput) {
+      firstOtpInput.focus();
+    }
+  }
 }
 
 // Thêm hàm clearOtpInputs
@@ -185,6 +208,92 @@ function shakeElement(elementId) {
   }, 500);
 }
 
+// async function handleLogin() {
+//   const form = document.getElementById("loginForm");
+//   const email = form.querySelector("#username").value.trim();
+//   const password = form.querySelector("#password").value.trim();
+//   const loginBtn = form.querySelector(".login-btn");
+
+//   if (!email || !password) {
+//     showMessage("loginMessage", "Vui lòng nhập email và mật khẩu.", "error");
+//     if (!email) shakeElement("email");
+//     if (!password) shakeElement("password");
+//     return;
+//   }
+
+//   loginBtn.disabled = true;
+//   loginBtn.innerHTML = '<span class="spinner"></span> Đang xử lý...';
+
+//   try {
+//     const formData = new FormData();
+//     formData.append("login", "1");
+//     formData.append("email", email);
+//     formData.append("password", password);
+
+//     const response = await fetch("/libertylaocai/user/submit", {
+//       method: "POST",
+//       headers: {
+//         "X-Requested-With": "XMLHttpRequest",
+//       },
+//       body: formData,
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
+
+//     const text = await response.text();
+//     console.log("Raw response:", text);
+
+//     let data;
+
+//     // Cải thiện phần xử lý JSON
+//     const cleanedText = text.trim().replace(/^\uFEFF/, "");
+
+//     // Kiểm tra xem response có phải JSON hợp lệ không
+//     if (!cleanedText.startsWith("{") && !cleanedText.startsWith("[")) {
+//       throw new Error("Server returned non-JSON response");
+//     }
+
+//     try {
+//       data = JSON.parse(cleanedText);
+//     } catch (parseError) {
+//       // Thay vì throw error generic, hiển thị lỗi cụ thể
+//       showMessage("loginMessage", "Lỗi định dạng phản hồi từ server.", "error");
+//       return; // Thoát sớm thay vì throw
+//     }
+
+//     // Xử lý response
+//     if (data.success) {
+//       showMessage(
+//         "loginMessage",
+//         data.message || "Đăng nhập thành công!",
+//         "success"
+//       );
+//       setTimeout(() => {
+//         window.location.href = "/libertylaocai/admin";
+//       }, 1000);
+//     } else {
+//       // Hiển thị thông báo lỗi từ server
+//       showMessage(
+//         "loginMessage",
+//         data.message || "Email hoặc mật khẩu không đúng.",
+//         "error"
+//       );
+//       shakeElement("username"); // Sửa từ "email" thành "username"
+//       shakeElement("password");
+//     }
+//   } catch (error) {
+//     showMessage(
+//       "loginMessage",
+//       "Không thể kết nối tới server. Vui lòng thử lại.",
+//       "error"
+//     );
+//   } finally {
+//     loginBtn.disabled = false;
+//     loginBtn.innerHTML = "ĐĂNG NHẬP";
+//   }
+// }
 async function handleLogin() {
   const form = document.getElementById("loginForm");
   const email = form.querySelector("#username").value.trim();
@@ -193,7 +302,7 @@ async function handleLogin() {
 
   if (!email || !password) {
     showMessage("loginMessage", "Vui lòng nhập email và mật khẩu.", "error");
-    if (!email) shakeElement("email");
+    if (!email) shakeElement("username");
     if (!password) shakeElement("password");
     return;
   }
@@ -223,11 +332,8 @@ async function handleLogin() {
     console.log("Raw response:", text);
 
     let data;
-
-    // Cải thiện phần xử lý JSON
     const cleanedText = text.trim().replace(/^\uFEFF/, "");
 
-    // Kiểm tra xem response có phải JSON hợp lệ không
     if (!cleanedText.startsWith("{") && !cleanedText.startsWith("[")) {
       throw new Error("Server returned non-JSON response");
     }
@@ -235,29 +341,45 @@ async function handleLogin() {
     try {
       data = JSON.parse(cleanedText);
     } catch (parseError) {
-      // Thay vì throw error generic, hiển thị lỗi cụ thể
       showMessage("loginMessage", "Lỗi định dạng phản hồi từ server.", "error");
-      return; // Thoát sớm thay vì throw
+      return;
     }
 
     // Xử lý response
     if (data.success) {
-      showMessage(
-        "loginMessage",
-        data.message || "Đăng nhập thành công!",
-        "success"
-      );
-      setTimeout(() => {
-        window.location.href = "/libertylaocai/admin";
-      }, 1000);
+      if (data.require_2fa) {
+        // Lưu email tạm thời để sử dụng trong tab OTP
+        sessionStorage.setItem("login_email", email);
+        // Chuyển sang tab OTP
+        switchTab("loginOtpTab");
+        showMessage(
+          "loginOtpMessage",
+          data.message || "Vui lòng nhập mã OTP.",
+          "success"
+        );
+        // Cập nhật email hiển thị trên form OTP
+        const otpEmailDisplay = document.getElementById("otpEmailDisplay");
+        if (otpEmailDisplay) {
+          otpEmailDisplay.textContent = email;
+        }
+        form.reset();
+      } else {
+        showMessage(
+          "loginMessage",
+          data.message || "Đăng nhập thành công!",
+          "success"
+        );
+        setTimeout(() => {
+          window.location.href = "/libertylaocai/admin";
+        }, 1000);
+      }
     } else {
-      // Hiển thị thông báo lỗi từ server
       showMessage(
         "loginMessage",
         data.message || "Email hoặc mật khẩu không đúng.",
         "error"
       );
-      shakeElement("username"); // Sửa từ "email" thành "username"
+      shakeElement("username");
       shakeElement("password");
     }
   } catch (error) {
@@ -266,9 +388,212 @@ async function handleLogin() {
       "Không thể kết nối tới server. Vui lòng thử lại.",
       "error"
     );
+    console.error("Login error:", error);
   } finally {
     loginBtn.disabled = false;
     loginBtn.innerHTML = "ĐĂNG NHẬP";
+  }
+}
+
+async function handleLoginOtp() {
+  const form = document.getElementById("loginOtpForm");
+  const otpInputs = form.querySelectorAll(".login-otp");
+  const submitBtn = form.querySelector(".submit-btn");
+
+  // Lấy OTP từ các input
+  let otp = "";
+  otpInputs.forEach((input) => {
+    otp += input.value.trim();
+  });
+
+  if (otp.length !== 6) {
+    showMessage(
+      "loginOtpMessage",
+      "Vui lòng nhập đầy đủ mã OTP 6 số.",
+      "error"
+    );
+    otpInputs.forEach((input, index) => {
+      if (!input.value.trim()) {
+        shakeElement(`login-otp-${index}`);
+      }
+    });
+    return;
+  }
+
+  // Kiểm tra OTP chỉ chứa số
+  if (!/^\d{6}$/.test(otp)) {
+    showMessage("loginOtpMessage", "Mã OTP phải là 6 chữ số.", "error");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span> Đang xác thực...';
+
+  try {
+    const formData = new FormData();
+    formData.append("verify_login_otp", "1");
+    formData.append("otp", otp);
+
+    // Lấy email từ sessionStorage
+    const email = sessionStorage.getItem("login_email");
+    if (!email) {
+      showMessage(
+        "loginOtpMessage",
+        "Không tìm thấy email. Vui lòng thử lại từ đầu.",
+        "error"
+      );
+      return;
+    }
+    formData.append("email", email);
+
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const text = await response.text();
+    console.log("Raw response:", text);
+
+    let data;
+    const cleanedText = text.trim().replace(/^\uFEFF/, "");
+
+    if (!cleanedText.startsWith("{") && !cleanedText.startsWith("[")) {
+      throw new Error("Server returned non-JSON response");
+    }
+
+    try {
+      data = JSON.parse(cleanedText);
+    } catch (parseError) {
+      showMessage(
+        "loginOtpMessage",
+        "Lỗi định dạng phản hồi từ server.",
+        "error"
+      );
+      return;
+    }
+
+    if (data.success) {
+      showMessage(
+        "loginOtpMessage",
+        data.message || "Xác thực OTP thành công!",
+        "success"
+      );
+      // Xóa email khỏi sessionStorage
+      sessionStorage.removeItem("login_email");
+      // Chuyển hướng đến trang admin
+      setTimeout(() => {
+        window.location.href = "/libertylaocai/admin";
+      }, 1000);
+      clearOtpInputs(".login-otp");
+    } else {
+      showMessage(
+        "loginOtpMessage",
+        data.message || "Mã OTP không đúng hoặc đã hết hạn.",
+        "error"
+      );
+      clearOtpInputs(".login-otp");
+      if (otpInputs[0]) {
+        otpInputs[0].focus();
+      }
+    }
+  } catch (error) {
+    showMessage(
+      "loginOtpMessage",
+      "Không thể kết nối tới server. Vui lòng thử lại.",
+      "error"
+    );
+    console.error("Login OTP error:", error);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = "XÁC NHẬN OTP";
+  }
+}
+
+async function handleResendLoginOtp() {
+  const form = document.getElementById("loginOtpForm");
+  const resendLink = document.getElementById("resendLoginOtp");
+  const countdown = document.getElementById("loginCountdown");
+
+  resendLink.style.display = "none";
+  const submitBtn = form.querySelector(".submit-btn");
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span> Đang xử lý...';
+
+  try {
+    const formData = new FormData();
+    formData.append("resend_login_otp", "1");
+
+    const email = sessionStorage.getItem("login_email");
+    if (!email) {
+      showMessage(
+        "loginOtpMessage",
+        "Không tìm thấy email. Vui lòng thử lại từ đầu.",
+        "error"
+      );
+      resendLink.style.display = "inline-block";
+      return;
+    }
+    formData.append("email", email);
+
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const text = await response.text();
+    const cleanedText = text.trim().replace(/^\uFEFF/, "");
+
+    let data;
+    try {
+      data = JSON.parse(cleanedText);
+    } catch (parseError) {
+      showMessage(
+        "loginOtpMessage",
+        "Lỗi định dạng phản hồi từ server.",
+        "error"
+      );
+      return;
+    }
+
+    if (data.success) {
+      showMessage(
+        "loginOtpMessage",
+        data.message || "Đã gửi lại mã OTP.",
+        "success"
+      );
+      startCountdown("loginCountdown", 60, () => {
+        resendLink.style.display = "inline-block";
+      });
+      clearOtpInputs(".login-otp");
+    } else {
+      showMessage(
+        "loginOtpMessage",
+        data.message || "Không thể gửi lại OTP.",
+        "error"
+      );
+      resendLink.style.display = "inline-block";
+    }
+  } catch (error) {
+    showMessage("loginOtpMessage", "Lỗi kết nối server.", "error");
+    resendLink.style.display = "inline-block";
+    console.error("Resend login OTP error:", error);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = "XÁC NHẬN OTP";
   }
 }
 
@@ -591,43 +916,75 @@ function clearOtpInputs(className) {
   });
 }
 
-// Hàm xử lý OTP input navigation
-function setupResetOtpInputs() {
-  const otpInputs = document.querySelectorAll(".reset-otp");
+// // Hàm xử lý OTP input navigation
+// function setupResetOtpInputs() {
+//   const otpInputs = document.querySelectorAll(".reset-otp");
+
+//   otpInputs.forEach((input, index) => {
+//     // Chỉ cho phép nhập số
+//     input.addEventListener("input", (e) => {
+//       const value = e.target.value;
+
+//       // Chỉ giữ lại số
+//       e.target.value = value.replace(/[^0-9]/g, "");
+
+//       // Auto focus đến ô tiếp theo
+//       if (e.target.value && index < otpInputs.length - 1) {
+//         otpInputs[index + 1].focus();
+//       }
+//     });
+
+//     // Xử lý phím Backspace
+//     input.addEventListener("keydown", (e) => {
+//       if (e.key === "Backspace" && !e.target.value && index > 0) {
+//         otpInputs[index - 1].focus();
+//       }
+//     });
+
+//     // Xử lý paste
+//     input.addEventListener("paste", (e) => {
+//       e.preventDefault();
+//       const paste = (e.clipboardData || window.clipboardData).getData("text");
+//       const numbers = paste.replace(/[^0-9]/g, "").slice(0, 6);
+
+//       // Điền numbers vào các ô
+//       for (let i = 0; i < numbers.length && i < otpInputs.length; i++) {
+//         otpInputs[i].value = numbers[i];
+//       }
+
+//       // Focus vào ô cuối cùng được điền
+//       const lastFilledIndex = Math.min(numbers.length, otpInputs.length) - 1;
+//       if (lastFilledIndex >= 0) {
+//         otpInputs[lastFilledIndex].focus();
+//       }
+//     });
+//   });
+// }
+function setupOtpInputs(className) {
+  const otpInputs = document.querySelectorAll(`.${className}`);
 
   otpInputs.forEach((input, index) => {
-    // Chỉ cho phép nhập số
     input.addEventListener("input", (e) => {
       const value = e.target.value;
-
-      // Chỉ giữ lại số
       e.target.value = value.replace(/[^0-9]/g, "");
-
-      // Auto focus đến ô tiếp theo
       if (e.target.value && index < otpInputs.length - 1) {
         otpInputs[index + 1].focus();
       }
     });
 
-    // Xử lý phím Backspace
     input.addEventListener("keydown", (e) => {
       if (e.key === "Backspace" && !e.target.value && index > 0) {
         otpInputs[index - 1].focus();
       }
     });
 
-    // Xử lý paste
     input.addEventListener("paste", (e) => {
       e.preventDefault();
       const paste = (e.clipboardData || window.clipboardData).getData("text");
       const numbers = paste.replace(/[^0-9]/g, "").slice(0, 6);
-
-      // Điền numbers vào các ô
       for (let i = 0; i < numbers.length && i < otpInputs.length; i++) {
         otpInputs[i].value = numbers[i];
       }
-
-      // Focus vào ô cuối cùng được điền
       const lastFilledIndex = Math.min(numbers.length, otpInputs.length) - 1;
       if (lastFilledIndex >= 0) {
         otpInputs[lastFilledIndex].focus();
@@ -663,8 +1020,8 @@ function startCountdown(elementId, seconds, callback) {
 
 // Event listeners
 document.addEventListener("DOMContentLoaded", function () {
-  // Setup OTP inputs
-  setupResetOtpInputs();
+  // // Setup OTP inputs
+  // setupResetOtpInputs();
 
   // Submit form OTP
   document

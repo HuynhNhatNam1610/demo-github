@@ -1630,7 +1630,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SĐT: $phone\n
             Email: $email\n
             Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
-sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message);
+            sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message);
             echo json_encode(['success' => true, 'message' => 'Thông tin liên hệ đã được gửi thành công']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Lỗi khi lưu dữ liệu: ' . $conn->error]);
@@ -1640,7 +1640,7 @@ sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $messa
 
     if (isset($_POST['login'])) {
         header('Content-Type: application/json; charset=utf-8');
-        $email = $_POST['email'] ?? '';
+        $email = $_POST['email'] ?? '';   ///username
         $password = $_POST['password'] ?? '';
 
         if (empty($email) || empty($password)) {
@@ -1651,7 +1651,7 @@ sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $messa
             exit;
         }
 
-        $user = checkUserLogin($email);
+        $user = checkUserLogin($email); //// check username
         if (empty($user)) {
             echo json_encode([
                 'success' => false,
@@ -1677,8 +1677,41 @@ sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $messa
             exit;
         }
 
+        // Kiểm tra nếu 2FA được bật
+        if ($user['active_2fa'] == 1) {
+            try {
+                $otp = generateOtp();
+                storeResetToken($user['email'], $otp); ///// lấy email để cập nhập
+                $subject = "Xác thực để đăng nhập";
+                $message = "Mã OTP của bạn là: $otp\nVui lòng nhập mã này để xác thực đăng nhập.\nMã có hiệu lực trong 5 phút.";
+                if (sendMail($admin['email'], $admin['mk_email'], $liberty, $user['email'], $subject, $message)) {
+                    echo json_encode([
+                        'success' => true,
+                        'require_2fa' => true,
+                        'message' => 'Mã OTP đã được gửi đến email của bạn.'
+                    ], JSON_UNESCAPED_UNICODE);
+                    exit;
+                } else {
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Lỗi khi gửi mail để xác thực.'
+                    ], JSON_UNESCAPED_UNICODE);
+                    exit;
+                }
+            } catch (Exception $e) {
+                error_log("Send OTP error: " . $e->getMessage());
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Lỗi hệ thống. Vui lòng thử lại sau.'
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+        }
+
+        // Nếu không cần 2FA, đăng nhập thành công
         echo json_encode([
             'success' => true,
+            'require_2fa' => false,
             'message' => 'Đăng nhập thành công!'
         ], JSON_UNESCAPED_UNICODE);
         exit;
@@ -1722,6 +1755,61 @@ sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $messa
             ], JSON_UNESCAPED_UNICODE);
             exit;
         }
+    }
+
+    
+    // Xử lý xác thực OTP reset password
+    if (isset($_POST['verify_login_otp']) ) {
+        ob_clean();
+        header('Content-Type: application/json; charset=utf-8');
+
+        $otp = $_POST['otp'] ?? '';
+        $username = $_POST['email'] ?? '';
+
+        if (empty($otp) || empty($username)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Thiếu thông tin OTP hoặc tài khoản.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        // Validate OTP format (6 digits)
+        if (!preg_match('/^\d{6}$/', $otp)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Mã OTP phải là 6 chữ số.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        try {
+
+            $user = getUserByToken($otp);
+
+            if ($user && $user['username'] === $username && strtotime($user['reset_expires']) > time()) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Xác thực OTP thành công!',
+                    'reset_token' => $otp
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'OTP không hợp lệ hoặc đã hết hạn.'
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+        } catch (Exception $e) {
+            error_log("Verify reset OTP error: " . $e->getMessage());
+            echo json_encode([
+                'success' => false,
+                'message' => 'Lỗi hệ thống. Vui lòng thử lại sau.'
+            ], JSON_UNESCAPED_UNICODE);
+        }
+
+        exit;
     }
 
     // Xử lý xác thực OTP reset password
@@ -1838,6 +1926,48 @@ sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $messa
             ], JSON_UNESCAPED_UNICODE);
         }
 
+        exit;
+    }
+
+    if (isset($_POST['resend_login_otp'])) {
+        ob_clean();
+        header('Content-Type: application/json; charset=utf-8');
+
+        $username = $_POST['email'] ?? '';
+        if (empty($username)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Thiếu thông tin.'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        try {
+            $user = checkUserLogin($username);
+            $otp = generateOtp();
+            storeResetToken($user['email'], $otp);
+            $subject = "Xác thực để đăng nhập";
+            $message = "Mã OTP của bạn là: $otp\nVui lòng nhập mã này để xác thực đăng nhập.\nMã có hiệu lực trong 5 phút.";
+            if (sendMail($admin['email'], $admin['mk_email'], $liberty, $user['email'], $subject, $message)) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Đã gửi OTP xác minh.'
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Lỗi khi gửi mail để xác thực.'
+                ], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+        } catch (Exception $e) {
+            error_log("Resend OTP error: " . $e->getMessage());
+            echo json_encode([
+                'success' => false,
+                'message' => 'Lỗi hệ thống. Vui lòng thử lại sau.'
+            ], JSON_UNESCAPED_UNICODE);
+        }
         exit;
     }
 
@@ -2302,15 +2432,15 @@ sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $messa
         ];
 
         $confirm_password = $_POST['hotel_password'];
-         if (isset($_FILES['logoFile']) && $_FILES['logoFile']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = '../../uploads/';
+        if (isset($_FILES['logoFile']) && $_FILES['logoFile']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = '/libertylaocai/view/img/uploads/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
-            
+
             $fileName = basename($_FILES['logoFile']['name']);
             $targetPath = $uploadDir . $fileName;
-            
+
             // Di chuyển file tải lên vào thư mục uploads
             if (move_uploaded_file($_FILES['logoFile']['tmp_name'], $targetPath)) {
                 $hotel_data['logo'] = $fileName;
