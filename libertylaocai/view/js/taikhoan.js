@@ -259,3 +259,20 @@ function toggleSidebar() {
       }
   }
 }
+function handleLogoUpload(input) {
+  const logoInput = document.getElementById('logo');
+  const logoPreview = document.getElementById('logoPreview');
+  
+  if (input.files && input.files[0]) {
+      const fileName = input.files[0].name;
+      logoInput.value = fileName;
+      
+      // Hiển thị preview ảnh
+      const reader = new FileReader();
+      reader.onload = function(e) {
+          logoPreview.innerHTML = `<img src="${e.target.result}" alt="Logo preview">`;
+          logoPreview.style.display = 'block';
+      }
+      reader.readAsDataURL(input.files[0]);
+  }
+}
