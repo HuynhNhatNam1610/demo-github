@@ -3,7 +3,9 @@ require_once "session.php";
 require_once "../../model/UserModel.php";
 
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
-
+if(!isset($_SESSION['authenticated'])){
+    header("location: /libertylaocai/dang-nhap");
+}
 // Lấy dữ liệu từ các hàm
 $restaurant_info = getAmThucNgonNgu($languageId, 1); // Nhà hàng (id_amthuc = 1)
 $bar_info = getAmThucNgonNgu($languageId, 2); // Bar (id_amthuc = 2)

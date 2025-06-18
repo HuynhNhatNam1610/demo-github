@@ -3,7 +3,9 @@
 $admin_id = 1;
 require_once "session.php";
 require_once "../../model/UserModel.php";
-
+if(!isset($_SESSION['authenticated'])){
+    header("location: /libertylaocai/dang-nhap");
+}
 $admin_data = getAdminData();
 $hotel_data = getHotelData($conn);
 $lang_data = getLangData($conn);
@@ -34,9 +36,6 @@ if (!$admin_data) {
                     <div class="header-content">
                         <div class="admin-info">
                             <span>Chào mừng, Admin</span>
-                            <button class="logout-btn" onclick="logout()">
-                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
-                            </button>
                         </div>
                     </div>
                 </header>

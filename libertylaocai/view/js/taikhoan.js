@@ -115,11 +115,7 @@ function validateProfileForm() {
   return true;
 }
 
-function logout() {
-  if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-    window.location.href = "/libertylaocai/login";
-  }
-}
+
 
 function handleFormSubmit(formId, action) {
   const form = document.getElementById(formId);

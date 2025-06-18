@@ -2,6 +2,9 @@
 error_reporting(E_ALL);
 require_once "session.php";
 require_once "../../model/UserModel.php";
+if(!isset($_SESSION['authenticated'])){
+    header("location: /libertylaocai/dang-nhap");
+}
 // Lấy dữ liệu ban đầu cho View
 $result = getBookings($conn);
 $bookings = $result['bookings'];

@@ -6,7 +6,9 @@ $icons = layDanhSachIcon();
 $features_result = getFeaturesByLanguage(1, 'dichvu');
 $services_result = getServices1();
 $tours_result = getTours();
-
+if(!isset($_SESSION['authenticated'])){
+    header("location: /libertylaocai/dang-nhap");
+}
 ob_start();
 ?>
 <!DOCTYPE html>

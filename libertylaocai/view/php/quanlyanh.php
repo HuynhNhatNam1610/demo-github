@@ -1,6 +1,9 @@
 <?php
 require_once '../../model/UserModel.php';
 require_once 'session.php';
+if(!isset($_SESSION['authenticated'])){
+    header("location: /libertylaocai/dang-nhap");
+}
 ?>
 
 <!DOCTYPE html>

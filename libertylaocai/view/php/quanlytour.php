@@ -1,8 +1,11 @@
 <?php
 require_once "session.php";
 require_once "../../model/UserModel.php";
-error_reporting(E_ALL);
-ini_set('error_log', 'debug.log');
+// error_reporting(E_ALL);
+// ini_set('error_log', 'debug.log');
+if(!isset($_SESSION['authenticated'])){
+    header("location: /libertylaocai/dang-nhap");
+}
 $id_ngonngu = 1; // Ngôn ngữ tiếng Việt
 $id_dichvu = isset($_SESSION['id_quanlytour']) ? (int)$_SESSION['id_quanlytour'] : 0;
 

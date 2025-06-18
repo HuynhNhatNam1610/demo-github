@@ -192,13 +192,6 @@ function clearAllMessages() {
   });
 }
 
-// // Reset tất cả forms
-// function resetAllForms() {
-//   const forms = document.querySelectorAll("form");
-//   forms.forEach((form) => form.reset());
-//   clearOtpInputs(".otp-input");
-// }
-
 // Shake animation
 function shakeElement(elementId) {
   const element = document.getElementById(elementId);
@@ -208,92 +201,6 @@ function shakeElement(elementId) {
   }, 500);
 }
 
-// async function handleLogin() {
-//   const form = document.getElementById("loginForm");
-//   const email = form.querySelector("#username").value.trim();
-//   const password = form.querySelector("#password").value.trim();
-//   const loginBtn = form.querySelector(".login-btn");
-
-//   if (!email || !password) {
-//     showMessage("loginMessage", "Vui lòng nhập email và mật khẩu.", "error");
-//     if (!email) shakeElement("email");
-//     if (!password) shakeElement("password");
-//     return;
-//   }
-
-//   loginBtn.disabled = true;
-//   loginBtn.innerHTML = '<span class="spinner"></span> Đang xử lý...';
-
-//   try {
-//     const formData = new FormData();
-//     formData.append("login", "1");
-//     formData.append("email", email);
-//     formData.append("password", password);
-
-//     const response = await fetch("/libertylaocai/user/submit", {
-//       method: "POST",
-//       headers: {
-//         "X-Requested-With": "XMLHttpRequest",
-//       },
-//       body: formData,
-//     });
-
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-
-//     const text = await response.text();
-//     console.log("Raw response:", text);
-
-//     let data;
-
-//     // Cải thiện phần xử lý JSON
-//     const cleanedText = text.trim().replace(/^\uFEFF/, "");
-
-//     // Kiểm tra xem response có phải JSON hợp lệ không
-//     if (!cleanedText.startsWith("{") && !cleanedText.startsWith("[")) {
-//       throw new Error("Server returned non-JSON response");
-//     }
-
-//     try {
-//       data = JSON.parse(cleanedText);
-//     } catch (parseError) {
-//       // Thay vì throw error generic, hiển thị lỗi cụ thể
-//       showMessage("loginMessage", "Lỗi định dạng phản hồi từ server.", "error");
-//       return; // Thoát sớm thay vì throw
-//     }
-
-//     // Xử lý response
-//     if (data.success) {
-//       showMessage(
-//         "loginMessage",
-//         data.message || "Đăng nhập thành công!",
-//         "success"
-//       );
-//       setTimeout(() => {
-//         window.location.href = "/libertylaocai/admin";
-//       }, 1000);
-//     } else {
-//       // Hiển thị thông báo lỗi từ server
-//       showMessage(
-//         "loginMessage",
-//         data.message || "Email hoặc mật khẩu không đúng.",
-//         "error"
-//       );
-//       shakeElement("username"); // Sửa từ "email" thành "username"
-//       shakeElement("password");
-//     }
-//   } catch (error) {
-//     showMessage(
-//       "loginMessage",
-//       "Không thể kết nối tới server. Vui lòng thử lại.",
-//       "error"
-//     );
-//   } finally {
-//     loginBtn.disabled = false;
-//     loginBtn.innerHTML = "ĐĂNG NHẬP";
-//   }
-// }
 async function handleLogin() {
   const form = document.getElementById("loginForm");
   const email = form.querySelector("#username").value.trim();

@@ -1,7 +1,9 @@
 <?php
 require_once "session.php";
 require_once "../../model/UserModel.php";
-
+if(!isset($_SESSION['authenticated'])){
+    header("location: /libertylaocai/dang-nhap");
+}
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
 $restaurant_items = getMenu(1, 1);
 $bar_food_items = getMenuBar(1, 'main');

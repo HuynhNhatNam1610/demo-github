@@ -1,7 +1,9 @@
 <?php
 require_once "session.php";
 require_once "../../model/UserModel.php";
-
+if(!isset($_SESSION['authenticated'])){
+    header("location: /libertylaocai/dang-nhap");
+}
 // Lấy dữ liệu ban đầu
 $room_types = getRoomTypes1($conn);
 ?>

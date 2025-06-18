@@ -1,9 +1,12 @@
 <?php
 require_once '../../model/UserModel.php';
 require_once 'session.php';
+if(!isset($_SESSION['authenticated'])){
+    header("location: /libertylaocai/dang-nhap");
+}
 $roomTypes = getRoomTypes(1);
 $customers = getCustomers();
-$services = getServices1(1);
+$services = getServices2(1);
 ?>
 
 <!DOCTYPE html>

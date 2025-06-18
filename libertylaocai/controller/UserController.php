@@ -1714,6 +1714,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'require_2fa' => false,
             'message' => 'Đăng nhập thành công!'
         ], JSON_UNESCAPED_UNICODE);
+
+        $_SESSION['authenticated'] = true;
         exit;
     }
 
@@ -1793,6 +1795,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'message' => 'Xác thực OTP thành công!',
                     'reset_token' => $otp
                 ], JSON_UNESCAPED_UNICODE);
+                $_SESSION['authenticated'] = true;
                 exit;
             } else {
                 echo json_encode([
