@@ -6752,10 +6752,12 @@ function getServicesWithLanguage($languageId)
     return $services;
 }
 
-function getAdminData($conn, $admin_id) {
-    $query = "SELECT * FROM taikhoan WHERE id = ?";
+// usermodel 
+function getAdminData() {
+    global $conn;
+    $query = "SELECT * FROM taikhoan";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $admin_id);
+    // $stmt->bind_param("i", $admin_id);
     $stmt->execute();
     $result = $stmt->get_result();
     return $result->fetch_assoc();
@@ -6831,7 +6833,7 @@ function updateHotelLangInfo($conn, $lang_data, $lang_id) {
 }
 
 function verifyPassword($conn, $admin_id, $password) {
-    $check_query = "SELECT password FROM taikhoan WHERE id = ?";
+$check_query = "SELECT password FROM taikhoan WHERE id = ?";
     $stmt = $conn->prepare($check_query);
     $stmt->bind_param("i", $admin_id);
     $stmt->execute();

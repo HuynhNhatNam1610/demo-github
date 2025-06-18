@@ -62,7 +62,7 @@
                 <span class="nav-icon"><i class="bi bi-graph-up"></i></span>
                 <span>Quản lý dịch vụ</span>
             </a>
-            <a href="/libertylaocai/admin/settings.php" class="nav-item" data-page="settings">
+            <a href="/libertylaocai/tai-khoan" class="nav-item" data-page="settings">
                 <span class="nav-icon"><i class="bi bi-gear"></i></span>
                 <span>Cài đặt</span>
             </a>

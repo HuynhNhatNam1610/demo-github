@@ -2,9 +2,9 @@
 require_once '../model/UserModel.php';
 require_once '../view/php/session.php';
 require_once '../model/mail/sendmail.php';
-// error_reporting(E_ALL);
-// // // ini_set('log_errors', 1);
-// ini_set('error_log', 'debug.log');
+error_reporting(E_ALL);
+// // ini_set('log_errors', 1);
+ini_set('error_log', 'debug.log');
 // Kiểm tra ngôn ngữ từ session, mặc định là 1 (tiếng Việt)
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
 $informationHotel = getHotelInfoWithLanguage($languageId);
@@ -438,14 +438,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
-    if ($action === 'update_service') {
-        $id = $_POST['service_id'] ?? 0;
-        $status = $_POST['status'] ?? '';
-        $result = updateContactRequest($conn, $id, $status);
-        echo json_encode($result, JSON_UNESCAPED_UNICODE);
-        exit;
-    }
-    if ($action === 'delete_service') {
+    // if ($action === 'update_service') {
+    //     $id = $_POST['service_id'] ?? 0;
+    //     $status = $_POST['status'] ?? '';
+    //     $result = updateContactRequest($conn, $id, $status);
+    //     echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    //     exit;
+    // }
+    if ($action === 'delete_service1') {
         $id = $_POST['service_id'] ?? 0;
         $result = deleteContactRequest($conn, $id);
         echo json_encode($result, JSON_UNESCAPED_UNICODE);
@@ -941,116 +941,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         exit;
     }
- // Xử lý bật/tắt 2FA
-      if (isset($_POST['toggle_2fa'])) {
-        $active_2fa = $_POST['active_2fa'] === 'true' ? 1 : 0;
-        
-        if (update2FAStatus($conn, $active_2fa, $admin_id)) {
-            echo json_encode(['success' => true, 'message' => 'Cập nhật trạng thái 2FA thành công!']);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Lỗi khi cập nhật trạng thái 2FA!']);
-        }
-        exit;
-    }
 
-    // Xử lý cập nhật thông tin cá nhân
-    if (isset($_POST['update_profile'])) {
-        $username = trim($_POST['username']);
-        $email = trim($_POST['email']);
-        $mk_email = !empty($_POST['mk_email']) ? trim($_POST['mk_email']) : null;
-        $confirm_password = $_POST['profile_password'];
-        
-        if (verifyPassword($conn, $admin_id, $confirm_password)) {
-            if ($mk_email !== null && strlen($mk_email) < 6) {
-                echo json_encode(['success' => false, 'message' => "Mật khẩu email phải có ít nhất 6 ký tự!"]);
-                exit;
-            }
-            if (updateProfile($conn, $username, $email, $mk_email, $admin_id)) {
-                $_SESSION['admin_username'] = $username;
-                echo json_encode([
-                    'success' => true, 
-                    'message' => "Thông tin đã được cập nhật thành công!",
-                    'username' => $username
-                ]);
-            } else {
-                echo json_encode(['success' => false, 'message' => "Lỗi khi cập nhật thông tin!"]);
-            }
-        } else {
-            echo json_encode(['success' => false, 'message' => "Mật khẩu xác nhận không đúng!"]);
-        }
-        exit;
-    }
-
-    // Xử lý đổi mật khẩu
-    if (isset($_POST['change_password'])) {
-        $current_password = $_POST['current_password'];
-        $new_password = $_POST['new_password'];
-        $confirm_password = $_POST['confirm_password'];
-        
-        if (verifyPassword($conn, $admin_id, $current_password)) {
-            if ($new_password === $confirm_password) {
-                if (strlen($new_password) >= 6) {
-                    $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
-                    
-                    if (updatePassword($conn, $hashed_password, $admin_id)) {
-                        echo json_encode(['success' => true, 'message' => "Mật khẩu đã được thay đổi thành công!"]);
-                    } else {
-                        echo json_encode(['success' => false, 'message' => "Lỗi khi thay đổi mật khẩu!"]);
-                    }
-                } else {
-                    echo json_encode(['success' => false, 'message' => "Mật khẩu mới phải có ít nhất 6 ký tự!"]);
-                }
-            } else {
-                echo json_encode(['success' => false, 'message' => "Xác nhận mật khẩu không khớp!"]);
-            }
-        } else {
-            echo json_encode(['success' => false, 'message' => "Mật khẩu hiện tại không đúng!"]);
-        }
-        exit;
-    }
-
-    // Xử lý cập nhật thông tin khách sạn
-    if (isset($_POST['update_hotel'])) {
-        $hotel_data = [
-            'name' => trim($_POST['name']),
-            'short_name' => trim($_POST['short_name']),
-            'phone' => trim($_POST['phone']),
-            'email' => trim($_POST['email']),
-            'facebook' => trim($_POST['facebook']),
-            'link_facebook' => trim($_POST['link_facebook']),
-            'logo' => trim($_POST['logo']),
-            'position' => trim($_POST['position']),
-            'website' => trim($_POST['website']),
-            'link_website' => trim($_POST['link_website']),
-            'iframe_ytb' => trim($_POST['iframe_ytb'])
-        ];
-
-        $lang_data_vi = [
-            'address' => trim($_POST['address_vi']),
-            'description' => trim($_POST['description_vi'])
-        ];
-
-        $lang_data_en = [
-            'address' => trim($_POST['address_en']),
-            'description' => trim($_POST['description_en'])
-        ];
-
-        $confirm_password = $_POST['hotel_password'];
-
-        if (verifyPassword($conn, $admin_id, $confirm_password)) {
-            if (updateHotelInfo($conn, $hotel_data)) {
-                updateHotelLangInfo($conn, $lang_data_vi, 1);
-                updateHotelLangInfo($conn, $lang_data_en, 2);
-                
-                echo json_encode(['success' => true, 'message' => "Thông tin khách sạn đã được cập nhật thành công!"]);
-            } else {
-                echo json_encode(['success' => false, 'message' => "Lỗi khi cập nhật thông tin khách sạn!"]);
-            }
-        } else {
-            echo json_encode(['success' => false, 'message' => "Mật khẩu xác nhận không đúng!"]);
-        }
-        exit;
-    }
     //danh mục header
     if (isset($_POST['category_code'])) {
         $categoryCode = $_POST['category_code'];
@@ -2311,6 +2202,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $result = updateTour1($id_dichvu, $title_vi, $title_en, $price);
         echo json_encode($result);
+        exit;
+    }
+
+    // usercontroller 
+    // Xử lý bật/tắt 2FA
+    if (isset($_POST['toggle_2fa'])) {
+        $active_2fa = $_POST['active_2fa'] === 'true' ? 1 : 0;
+
+        if (update2FAStatus($conn, $active_2fa, 1)) {
+            echo json_encode(['success' => true, 'message' => 'Cập nhật trạng thái 2FA thành công!']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Lỗi khi cập nhật trạng thái 2FA!']);
+        }
+        exit;
+    }
+
+    // Xử lý cập nhật thông tin cá nhân
+    if (isset($_POST['update_profile'])) {
+        $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
+        $mk_email = !empty($_POST['mk_email']) ? trim($_POST['mk_email']) : null;
+        $confirm_password = $_POST['profile_password'];
+
+        if (verifyPassword($conn, 1, $confirm_password)) {
+            if ($mk_email !== null && strlen($mk_email) < 6) {
+                echo json_encode(['success' => false, 'message' => "Mật khẩu email phải có ít nhất 6 ký tự!"]);
+                exit;
+            }
+            if (updateProfile($conn, $username, $email, $mk_email, 1)) {
+                $_SESSION['admin_username'] = $username;
+                echo json_encode([
+                    'success' => true,
+                    'message' => "Thông tin đã được cập nhật thành công!",
+                    'username' => $username
+                ]);
+            } else {
+                echo json_encode(['success' => false, 'message' => "Lỗi khi cập nhật thông tin!"]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => "Mật khẩu xác nhận không đúng!"]);
+        }
+        exit;
+    }
+
+    // Xử lý đổi mật khẩu
+    if (isset($_POST['change_password'])) {
+        $current_password = $_POST['current_password'];
+        $new_password = $_POST['new_password'];
+        $confirm_password = $_POST['confirm_password'];
+
+        if (verifyPassword($conn, 1, $current_password)) {
+            if ($new_password === $confirm_password) {
+                if (strlen($new_password) >= 6) {
+                    $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
+
+                    if (updatePassword($conn, $hashed_password, 1)) {
+                        echo json_encode(['success' => true, 'message' => "Mật khẩu đã được thay đổi thành công!"]);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => "Lỗi khi thay đổi mật khẩu!"]);
+                    }
+                } else {
+                    echo json_encode(['success' => false, 'message' => "Mật khẩu mới phải có ít nhất 6 ký tự!"]);
+                }
+            } else {
+                echo json_encode(['success' => false, 'message' => "Xác nhận mật khẩu không khớp!"]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => "Mật khẩu hiện tại không đúng!"]);
+        }
+        exit;
+    }
+
+    // Xử lý cập nhật thông tin khách sạn
+    if (isset($_POST['update_hotel'])) {
+        $hotel_data = [
+            'name' => trim($_POST['name']),
+            'short_name' => trim($_POST['short_name']),
+            'phone' => trim($_POST['phone']),
+            'email' => trim($_POST['email']),
+            'facebook' => trim($_POST['facebook']),
+            'link_facebook' => trim($_POST['link_facebook']),
+            'logo' => trim($_POST['logo']),
+            'position' => trim($_POST['position']),
+            'website' => trim($_POST['website']),
+            'link_website' => trim($_POST['link_website']),
+            'iframe_ytb' => trim($_POST['iframe_ytb'])
+        ];
+
+        $lang_data_vi = [
+            'address' => trim($_POST['address_vi']),
+            'description' => trim($_POST['description_vi'])
+        ];
+
+        $lang_data_en = [
+            'address' => trim($_POST['address_en']),
+            'description' => trim($_POST['description_en'])
+        ];
+
+        $confirm_password = $_POST['hotel_password'];
+
+        if (verifyPassword($conn, 1, $confirm_password)) {
+            if (updateHotelInfo($conn, $hotel_data)) {
+                updateHotelLangInfo($conn, $lang_data_vi, 1);
+                updateHotelLangInfo($conn, $lang_data_en, 2);
+
+                echo json_encode(['success' => true, 'message' => "Thông tin khách sạn đã được cập nhật thành công!"]);
+            } else {
+                echo json_encode(['success' => false, 'message' => "Lỗi khi cập nhật thông tin khách sạn!"]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => "Mật khẩu xác nhận không đúng!"]);
+        }
         exit;
     }
 }

@@ -224,8 +224,8 @@ $amenities = getRoomAmenities($room_id, $languageId);   /// lấy tiện tích c
                 <div class="room-info-grid">
                     <div class="room-details">
                         <div class="room-price">
-                            <h1><?php echo htmlspecialchars($room['name'] ?? $text['no_name_room']); ?> -  <span class="current-price"><?php echo  number_format($price_number, 0, '.', '.'); ?> <?php echo $languageId == 1 ? 'VNĐ' : 'VND'; ?>
-                        </span><span class="price-unit"><?php echo $text['price_per_night']; ?></span></h1>
+                            <h1><?php echo htmlspecialchars($room['name'] ?? $text['no_name_room']); ?> - <span class="current-price"><?php echo  number_format($price_number, 0, '.', '.'); ?> <?php echo $languageId == 1 ? 'VNĐ' : 'VND'; ?>
+                                </span><span class="price-unit"><?php echo $text['price_per_night']; ?></span></h1>
                         </div>
 
                         <?php if (!empty($amenities)): ?>
@@ -265,7 +265,7 @@ $amenities = getRoomAmenities($room_id, $languageId);   /// lấy tiện tích c
                                 </div>
                             </div>
                         </div>
-                        <button class="book-now-btn" onclick="switchTab('booking')">
+                        <button class="book-now-btn" onclick="switchToBookingTab()">
                             <?php echo $text['book_now']; ?>
                         </button>
                     </div>
@@ -294,7 +294,7 @@ $amenities = getRoomAmenities($room_id, $languageId);   /// lấy tiện tích c
                                                 <p>
                                                     <?php echo "Diện tích: " . $other_room['area']; ?>m² <br>
                                                     <?php echo !empty($other_room['bed_info']) ? htmlspecialchars($other_room['bed_info']) : ($languageId == 1 ? 'Không có thông tin giường' : 'No bed information'); ?>
-                                                    </p>
+                                                </p>
 
                                                 <div class="room-card-price"><?php echo number_format($other_price, 0, '.', '.'); ?> <?php echo $languageId == 1 ? 'VNĐ' : 'VND'; ?><?php echo $text['price_per_night']; ?></div>
                                                 <form action="/libertylaocai/user/submit" method="POST" style="display:inline;">

@@ -556,3 +556,15 @@
   border-color: rgb(102, 234, 172);
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
+/* Thêm vào cuối file */
+.twofa-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .twofa-container {
+      justify-content: center;
+  }
+}

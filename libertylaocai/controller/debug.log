@@ -1,20 +1,2 @@
-[16-Jun-2025 16:32:39 Asia/Ho_Chi_Minh] PHP Fatal error:  Uncaught Error: mysqli_stmt::bind_param(): Argument #2 cannot be passed by reference in C:\xampp\htdocs\libertylaocai\model\UserModel.php:4931
-Stack trace:
-#0 C:\xampp\htdocs\libertylaocai\controller\UserController.php(369): updateService(28, '\xC3\xA2cc\xC3\xA2ccacac', '<p>Chuy\xE1\xBA\xBFn \xC4\x91i...', '\xC3\xA2cca', '<p>Your trip wi...', 'Li\xC3\xAAn h\xE1\xBB\x87', Array)
-#1 {main}
-  thrown in C:\xampp\htdocs\libertylaocai\model\UserModel.php on line 4931
-[16-Jun-2025 19:57:28 Asia/Ho_Chi_Minh] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string is deprecated in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 71
-[16-Jun-2025 19:57:34 Asia/Ho_Chi_Minh] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string is deprecated in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 71
-[16-Jun-2025 19:58:34 Asia/Ho_Chi_Minh] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string is deprecated in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 71
-[16-Jun-2025 21:18:00 Asia/Ho_Chi_Minh] PHP Warning:  Undefined array key "content_vi" in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:18:00 Asia/Ho_Chi_Minh] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:18:32 Asia/Ho_Chi_Minh] PHP Warning:  Undefined array key "content_vi" in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:18:32 Asia/Ho_Chi_Minh] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:18:55 Asia/Ho_Chi_Minh] PHP Warning:  Undefined array key "content_vi" in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:18:55 Asia/Ho_Chi_Minh] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:19:15 Asia/Ho_Chi_Minh] PHP Warning:  Undefined array key "content_vi" in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:19:15 Asia/Ho_Chi_Minh] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:19:17 Asia/Ho_Chi_Minh] PHP Warning:  Undefined array key "content_vi" in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:19:17 Asia/Ho_Chi_Minh] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:19:32 Asia/Ho_Chi_Minh] PHP Warning:  Undefined array key "content_vi" in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
-[16-Jun-2025 21:19:32 Asia/Ho_Chi_Minh] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 260
+[18-Jun-2025 11:00:53 Asia/Ho_Chi_Minh] PHP Warning:  Undefined variable $admin_id in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 2213
+[18-Jun-2025 11:01:18 Asia/Ho_Chi_Minh] PHP Warning:  Undefined variable $admin_id in C:\xampp\htdocs\libertylaocai\controller\UserController.php on line 2213

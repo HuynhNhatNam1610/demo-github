@@ -589,7 +589,7 @@ $service_stats = getContactRequestStats($conn, 'dichvu');
 
         <!-- Form ẩn để xóa dịch vụ -->
         <form id="deleteServiceForm" method="POST" style="display: none;">
-            <input type="hidden" name="action" value="delete_service">
+            <input type="hidden" name="action" value="delete_service1">
             <input type="hidden" name="service_id" id="delete_service_id">
         </form>
         

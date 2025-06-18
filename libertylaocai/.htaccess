@@ -55,6 +55,8 @@ RewriteRule ^su-kien-da-to-chuc/([^/]+)$ view/php/chitietsukiendatochuc.php [QSA
 RewriteRule ^dich-vu/([^/]+)$ view/php/chitiettour.php [QSA,L]
 RewriteRule ^quan-ly-tour/([^/]+)$ view/php/quanlytour.php [QSA,L]
 
+RewriteRule ^$ view/php/trangchu.php [QSA,L]
+
 
 
 

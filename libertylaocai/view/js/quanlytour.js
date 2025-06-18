@@ -23,6 +23,13 @@ function initializeEventListeners() {
 }
 
 function initializeCKEditor() {
+  // Chỉ khởi tạo CKEditor nếu có id_dichvu hợp lệ
+  const idDichVu = document.querySelector('input[name="id_dichvu"]')?.value;
+  if (!idDichVu || idDichVu == "0") {
+    console.log("Chưa chọn dịch vụ, không khởi tạo CKEditor.");
+    return;
+  }
+
   // Khởi tạo CKEditor cho content_vi
   ClassicEditor.create(document.querySelector("#content_vi"), {
     ckfinder: {
@@ -242,7 +249,8 @@ function autoResizeTextarea(textarea) {
 
 document.addEventListener("DOMContentLoaded", function () {
   initializeEventListeners();
-  initializeCKEditor(); // Khởi tạo CKEditor khi tải trang
+  // Chỉ gọi initializeCKEditor khi có dịch vụ được chọn
+  initializeCKEditor();
   attachImageUploadListener();
 
   const tourItems = document.querySelectorAll(".tour-item");

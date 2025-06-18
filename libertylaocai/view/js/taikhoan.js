@@ -117,7 +117,7 @@ function validateProfileForm() {
 
 function logout() {
   if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-    window.location.href = "login.php";
+    window.location.href = "/libertylaocai/login";
   }
 }
 
@@ -136,7 +136,7 @@ function handleFormSubmit(formId, action) {
     formData.append(action, 'true');
     formData.append('ajax', 'true');
 
-    fetch(window.location.href, {
+    fetch('/libertylaocai/user/submit', {
       method: "POST",
       body: formData
     })
@@ -192,7 +192,7 @@ function setup2FAToggle() {
   twofaToggle.addEventListener("change", function() {
     const isChecked = this.checked;
 
-    fetch(window.location.href, {
+    fetch('/libertylaocai/user/submit', {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

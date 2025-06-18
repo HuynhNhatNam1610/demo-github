@@ -1,9 +1,10 @@
 <?php
 // Lấy dữ liệu cho view
 $admin_id = 1;
-require_once '../../controller/usercontroller.php';
+require_once "session.php";
+require_once "../../model/UserModel.php";
 
-$admin_data = getAdminData($conn, $admin_id);
+$admin_data = getAdminData();
 $hotel_data = getHotelData($conn);
 $lang_data = getLangData($conn);
 
@@ -14,6 +15,7 @@ if (!$admin_data) {
 ?>
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,37 +23,41 @@ if (!$admin_data) {
     <link rel="stylesheet" href="/libertylaocai/view/css/taikhoan.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
-<?php include "sidebar.php"; ?>
+    <?php include "sidebar.php"; ?>
     <div class="container">
         <main class="main-content" id="mainContent">
             <div class="account-section">
                 <header class="header">
                     <div class="header-content">
                         <div class="admin-info">
-                            <span>Chào mừng, <?php echo htmlspecialchars($admin_data['username']); ?></span>
+                            <span>Chào mừng, Admin</span>
                             <button class="logout-btn" onclick="logout()">
                                 <i class="fas fa-sign-out-alt"></i> Đăng xuất
                             </button>
                         </div>
                     </div>
                 </header>
-                
+
+                <!-- Phần header và tab navigation giữ nguyên -->
                 <div class="account-header" style="display: flex; justify-content: space-between; align-items: center;">
                     <h2><i class="fas fa-user-shield"></i> Quản Lý Tài Khoản Admin</h2>
-                    <div>
-                        <label class="twofa-toggle">
-                            <input type="checkbox" id="twofaToggle" <?php echo $admin_data['active_2fa'] ? 'checked' : ''; ?>>
-                            <span class="slider"></span>
-                            <span class="twofa-label">Bật 2FA</span>
-                        </label>
-                    </div>
                 </div>
 
                 <div class="tab-nav">
                     <button class="tab-button active" data-tab="profileTab">Thông Tin Cá Nhân</button>
                     <button class="tab-button" data-tab="passwordTab">Đổi Mật Khẩu</button>
                     <button class="tab-button" data-tab="hotelTab">Thông Tin Khách Sạn</button>
+                </div>
+
+                <!-- Thêm container mới cho 2FA toggle -->
+                <div class="twofa-container" style="margin: 20px 0; display: flex; justify-content: flex-end;">
+                    <label class="twofa-toggle">
+                        <input type="checkbox" id="twofaToggle" <?php echo $admin_data['active_2fa'] ? 'checked' : ''; ?>>
+                        <span class="slider"></span>
+                        <span class="twofa-label">Bật 2FA</span>
+                    </label>
                 </div>
 
                 <div id="profileTab" class="tab-content">
@@ -219,4 +225,5 @@ if (!$admin_data) {
     </div>
     <script src="/libertylaocai/view/js/taikhoan.js"></script>
 </body>
+
 </html>
