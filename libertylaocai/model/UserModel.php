@@ -5268,11 +5268,12 @@ function getBookings($conn, $search_term = '', $status = '', $page = 1, $per_pag
     $types = '';
 
     if ($search_term) {
-        $bookings_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $bookings_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ?)";
         $search_param = "%{$search_term}%";
         $params[] = $search_param;
         $params[] = $search_param;
-        $types .= 'ss';
+        $params[] = $search_param;
+        $types .= 'sss';
     }
 
     if ($status) {
@@ -5306,10 +5307,11 @@ function getBookings($conn, $search_term = '', $status = '', $page = 1, $per_pag
     $count_types = '';
 
     if ($search_term) {
-        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ?)";
         $count_params[] = $search_param;
         $count_params[] = $search_param;
-        $count_types .= 'ss';
+        $count_params[] = $search_param;
+        $count_types .= 'sss';
     }
 
     if ($status) {
@@ -5460,11 +5462,13 @@ function getEventBookings($conn, $search_term = '', $status = '', $page = 1, $pe
     $types = '';
 
     if ($search_term) {
-        $events_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $events_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ? OR dht.type_event LIKE ?)";
         $search_param = "%{$search_term}%";
         $params[] = $search_param;
         $params[] = $search_param;
-        $types .= 'ss';
+        $params[] = $search_param;
+        $params[] = $search_param;
+        $types .= 'ssss';
     }
 
     if ($status) {
@@ -5490,7 +5494,7 @@ function getEventBookings($conn, $search_term = '', $status = '', $page = 1, $pe
         $events[] = $row;
     }
 
-    // Đếm tổng số bản ghi để phân trang
+    // Đếm tổng số bản ghi
     $count_sql = "SELECT COUNT(*) as total FROM dathoitruong dht
         LEFT JOIN khachhang kh ON dht.id_khachhang = kh.id
         WHERE 1=1";
@@ -5498,10 +5502,12 @@ function getEventBookings($conn, $search_term = '', $status = '', $page = 1, $pe
     $count_types = '';
 
     if ($search_term) {
-        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ? OR dht.type_event LIKE ?)";
         $count_params[] = $search_param;
         $count_params[] = $search_param;
-        $count_types .= 'ss';
+        $count_params[] = $search_param;
+        $count_params[] = $search_param;
+        $count_types .= 'ssss';
     }
 
     if ($status) {
@@ -5644,11 +5650,12 @@ function getRestaurantBookings($conn, $search_term = '', $status = '', $page = 1
     $types = '';
 
     if ($search_term) {
-        $restaurants_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $restaurants_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ?)";
         $search_param = "%{$search_term}%";
         $params[] = $search_param;
         $params[] = $search_param;
-        $types .= 'ss';
+        $params[] = $search_param;
+        $types .= 'sss';
     }
 
     if ($status) {
@@ -5682,10 +5689,11 @@ function getRestaurantBookings($conn, $search_term = '', $status = '', $page = 1
     $count_types = '';
 
     if ($search_term) {
-        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ?)";
         $count_params[] = $search_param;
         $count_params[] = $search_param;
-        $count_types .= 'ss';
+        $count_params[] = $search_param;
+        $count_types .= 'sss';
     }
 
     if ($status) {
@@ -5819,11 +5827,12 @@ function getBarBookings($conn, $search_term = '', $status = '', $page = 1, $per_
     $types = '';
 
     if ($search_term) {
-        $bars_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $bars_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ?)";
         $search_param = "%{$search_term}%";
         $params[] = $search_param;
         $params[] = $search_param;
-        $types .= 'ss';
+        $params[] = $search_param;
+        $types .= 'sss';
     }
 
     if ($status) {
@@ -5857,10 +5866,11 @@ function getBarBookings($conn, $search_term = '', $status = '', $page = 1, $per_
     $count_types = '';
 
     if ($search_term) {
-        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ?)";
         $count_params[] = $search_param;
         $count_params[] = $search_param;
-        $count_types .= 'ss';
+        $count_params[] = $search_param;
+        $count_types .= 'sss';
     }
 
     if ($status) {
@@ -5883,7 +5893,6 @@ function getBarBookings($conn, $search_term = '', $status = '', $page = 1, $per_
         'current_page' => $page
     ];
 }
-
 // Hàm lấy thống kê đặt bàn bar
 function getBarBookingStats($conn)
 {
@@ -6000,11 +6009,12 @@ function getContactRequests($conn, $search_term = '', $status = '', $page = 1, $
     }
 
     if ($search_term) {
-        $contacts_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $contacts_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ?)";
         $search_param = "%{$search_term}%";
         $params[] = $search_param;
         $params[] = $search_param;
-        $types .= 'ss';
+        $params[] = $search_param;
+        $types .= 'sss';
     }
 
     if ($status) {
@@ -6044,10 +6054,11 @@ function getContactRequests($conn, $search_term = '', $status = '', $page = 1, $
     }
 
     if ($search_term) {
-        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ?)";
+        $count_sql .= " AND (kh.name LIKE ? OR kh.email LIKE ? OR kh.phone LIKE ?)";
         $count_params[] = $search_param;
         $count_params[] = $search_param;
-        $count_types .= 'ss';
+        $count_params[] = $search_param;
+        $count_types .= 'sss';
     }
 
     if ($status) {
@@ -6070,6 +6081,7 @@ function getContactRequests($conn, $search_term = '', $status = '', $page = 1, $
         'current_page' => $page
     ];
 }
+
 
 // Hàm lấy thống kê yêu cầu liên hệ/dịch vụ
 function getContactRequestStats($conn, $type)
