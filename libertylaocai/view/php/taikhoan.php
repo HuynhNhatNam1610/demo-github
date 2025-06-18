@@ -144,7 +144,7 @@ if (!$admin_data) {
                 <div id="hotelTab" class="tab-content" style="display: none;">
                     <div class="form-container">
                         <h3><i class="fas fa-hotel"></i> Thông Tin Khách Sạn</h3>
-                        <form method="POST" class="form" id="hotelForm">
+                            <form method="POST" class="form" id="hotelForm" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="name"><i class="fas fa-building"></i> Tên khách sạn</label>
                                 <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($hotel_data['name']); ?>" required>
@@ -169,9 +169,18 @@ if (!$admin_data) {
                                 <label for="link_facebook"><i class="fab fa-facebook"></i> Link Facebook</label>
                                 <input type="url" id="link_facebook" name="link_facebook" value="<?php echo htmlspecialchars($hotel_data['link_facebook']); ?>" required>
                             </div>
-                            <div class="form-group">
+                           <div class="form-group">
                                 <label for="logo"><i class="fas fa-image"></i> Logo</label>
-                                <input type="text" id="logo" name="logo" value="<?php echo htmlspecialchars($hotel_data['logo']); ?>" required>
+                                <div class="file-upload">
+                                    <input type="text" id="logo" name="logo" value="<?php echo htmlspecialchars($hotel_data['logo']); ?>" required readonly>
+                                    <button type="button" class="btn-upload" onclick="document.getElementById('logoFile').click()">Chọn ảnh</button>
+                                    <input type="file" id="logoFile" name="logoFile" accept="image/*" style="display: none;" onchange="handleLogoUpload(this)">
+                                </div>
+                                <div class="logo-preview" id="logoPreview" style="<?php echo !empty($hotel_data['logo']) ? 'display: block;' : 'display: none;' ?>">
+                                    <?php if (!empty($hotel_data['logo'])): ?>
+                                        <img src="/libertylaocai/uploads/<?php echo htmlspecialchars($hotel_data['logo']); ?>" alt="Logo hiện tại">
+                                    <?php endif; ?>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="position"><i class="fas fa-map-marker-alt"></i> Vị trí</label>
