@@ -40,10 +40,11 @@ h1 {
 /* Tabs */
 .tabs {
   display: flex;
+  flex-direction: row; /* Mặc định là hàng ngang */
+  flex-wrap: wrap; /* Cho phép các tab xuống dòng khi không đủ chỗ */
   border-bottom: 1px solid #ddd;
   margin-bottom: 20px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow-x: unset; /* Bỏ thanh cuộn ngang */
 }
 
 .tab-button {
@@ -1150,6 +1151,20 @@ h1 {
 }
 
 @media (max-width: 768px) {
+  .tabs {
+    flex-direction: column; /* Chuyển thành cột khi màn hình nhỏ */
+    align-items: flex-start; /* Căn trái các tab */
+  }
+
+  .tab-button {
+    width: 100%; /* Mỗi tab chiếm toàn bộ chiều rộng */
+    text-align: left; /* Căn trái chữ trong tab */
+    border-bottom: 1px solid #ddd; /* Thêm viền dưới để phân cách */
+  }
+
+  .tab-button.active {
+    border-bottom: 2px solid #66bb6a; /* Giữ viền dưới khi active */
+  }
   .price-item {
     grid-template-columns: 1fr 1fr auto;
     gap: 8px;
@@ -1227,7 +1242,6 @@ h1 {
   border-color: #66bb6a;
   box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.1);
 }
-
 
 /* Responsive Design */
 @media (max-width: 768px) {

@@ -160,12 +160,13 @@ body {
   border-radius: 2px;
 }
 
-/* Services Grid */
+/* Services Grid - Cập nhật để căn chỉnh nội dung */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 2rem;
   margin-top: 4rem;
+  align-items: stretch; /* Đảm bảo các thẻ có chiều cao bằng nhau */
 }
 
 .service-card {
@@ -178,9 +179,45 @@ body {
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(44, 85, 48, 0.1);
+  display: flex; /* Sử dụng flex để căn chỉnh nội dung */
+  flex-direction: column; /* Xếp nội dung theo cột */
+  height: 100%; /* Đảm bảo card chiếm toàn bộ chiều cao */
+}
+
+.service-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--gradient);
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  transition: var(--transition);
+  flex-shrink: 0; /* Không cho phép icon bị co lại */
+}
+
+.service-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  flex-shrink: 0; /* Không cho phép tiêu đề bị co lại */
+  height: 3.6rem; /* Đặt chiều cao cố định cho tiêu đề (đủ cho 2 dòng) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-card p {
+  color: #666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  flex-grow: 1; /* Nội dung mở rộng để lấp đầy không gian còn lại */
+  display: flex; /* Sử dụng flex để căn chỉnh nội dung */
+  align-items: flex-start; /* Căn nội dung lên trên */
+  margin: 0; /* Loại bỏ margin mặc định */
 }
 
 .service-card::before {
@@ -209,18 +246,6 @@ body {
   border-color: var(--accent-color);
 }
 
-.service-icon {
-  width: 80px;
-  height: 80px;
-  background: var(--gradient);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.5rem;
-  transition: var(--transition);
-}
-
 .service-card:hover .service-icon {
   transform: scale(1.1) rotate(5deg);
 }
@@ -236,22 +261,12 @@ body {
   color: var(--primary-color);
   margin-bottom: 1rem;
   line-height: 1.4;
-  min-height: 3.9rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .service-card p {
   color: #666;
   line-height: 1.6;
   font-size: 0.95rem;
-  min-height: 4.8rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Content Sections */
@@ -353,7 +368,8 @@ body {
   border: 1px solid rgba(44, 85, 48, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  height: 100%;
+  min-height: 420px;
 }
 
 .tour-card:hover {
@@ -366,6 +382,7 @@ body {
   position: relative;
   height: 250px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .tour-image img {
@@ -418,25 +435,15 @@ body {
   font-size: 1.4rem;
   font-weight: 600;
   color: var(--primary-color);
-  margin-bottom: 1rem;
   line-height: 1.4;
-  min-height: 4.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  flex-shrink: 0;
 }
 
 .tour-content p {
   color: #666;
   line-height: 1.6;
-  margin-bottom: 1.5rem;
   font-size: 0.95rem;
-  min-height: 4.8rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  flex-grow: 1;
 }
 
 .tour-highlights {
