@@ -6751,3 +6751,91 @@ function getServicesWithLanguage($languageId)
     $stmt->close();
     return $services;
 }
+
+function getAdminData($conn, $admin_id) {
+    $query = "SELECT * FROM taikhoan WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $admin_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+function getHotelData($conn) {
+    $hotel_query = "SELECT * FROM thongtinkhachsan WHERE id = 1";
+    $hotel_result = $conn->query($hotel_query);
+    return $hotel_result->fetch_assoc();
+}
+
+function getLangData($conn) {
+    $lang_query = "SELECT * FROM thongtinkhachsan_ngonngu WHERE id_thongtinkhachsan = 1";
+    $lang_result = $conn->query($lang_query);
+    $lang_data = [];
+    while ($row = $lang_result->fetch_assoc()) {
+        $lang_data[$row['id_ngonngu']] = $row;
+    }
+    return $lang_data;
+}
+
+function update2FAStatus($conn, $active_2fa, $admin_id) {
+    $update_2fa_query = "UPDATE taikhoan SET active_2fa = ? WHERE id = ?";
+    $stmt = $conn->prepare($update_2fa_query);
+    $stmt->bind_param("ii", $active_2fa, $admin_id);
+    return $stmt->execute();
+}
+
+function updateProfile($conn, $username, $email, $mk_email, $admin_id) {
+    $update_query = "UPDATE taikhoan SET username = ?, email = ?" . ($mk_email !== null ? ", mk_email = ?" : "") . " WHERE id = ?";
+    $stmt = $conn->prepare($update_query);
+    
+    if ($mk_email !== null) {
+        $stmt->bind_param("sssi", $username, $email, $mk_email, $admin_id);
+    } else {
+        $stmt->bind_param("ssi", $username, $email, $admin_id);
+    }
+    
+    return $stmt->execute();
+}
+
+function updatePassword($conn, $hashed_password, $admin_id) {
+    $update_query = "UPDATE taikhoan SET password = ? WHERE id = ?";
+    $stmt = $conn->prepare($update_query);
+    $stmt->bind_param("si", $hashed_password, $admin_id);
+    return $stmt->execute();
+}
+
+function updateHotelInfo($conn, $hotel_data) {
+    $update_query = "UPDATE thongtinkhachsan SET name = ?, short_name = ?, phone = ?, email = ?, facebook = ?, link_facebook = ?, logo = ?, position = ?, website = ?, link_website = ?, iframe_ytb = ? WHERE id = 1";
+    $stmt = $conn->prepare($update_query);
+    $stmt->bind_param("sssssssssss", 
+        $hotel_data['name'], 
+        $hotel_data['short_name'], 
+        $hotel_data['phone'], 
+        $hotel_data['email'], 
+        $hotel_data['facebook'], 
+        $hotel_data['link_facebook'], 
+        $hotel_data['logo'], 
+        $hotel_data['position'], 
+        $hotel_data['website'], 
+        $hotel_data['link_website'], 
+        $hotel_data['iframe_ytb']
+    );
+    return $stmt->execute();
+}
+
+function updateHotelLangInfo($conn, $lang_data, $lang_id) {
+    $update_lang = "UPDATE thongtinkhachsan_ngonngu SET address = ?, description = ? WHERE id_thongtinkhachsan = 1 AND id_ngonngu = ?";
+    $stmt = $conn->prepare($update_lang);
+    $stmt->bind_param("ssi", $lang_data['address'], $lang_data['description'], $lang_id);
+    return $stmt->execute();
+}
+
+function verifyPassword($conn, $admin_id, $password) {
+    $check_query = "SELECT password FROM taikhoan WHERE id = ?";
+    $stmt = $conn->prepare($check_query);
+    $stmt->bind_param("i", $admin_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $admin = $result->fetch_assoc();
+    return password_verify($password, $admin['password']);
+}
