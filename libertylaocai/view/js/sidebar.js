@@ -44,24 +44,76 @@ function setActiveNavItem(pageName) {
   });
 }
 
-// Auto-detect current page and set active nav item
+// Improved auto-detect current page and set active nav item
 function autoSetActiveNavItem() {
   const currentPath = window.location.pathname;
-  const fileName = currentPath.split("/").pop().split(".")[0]; // Get filename without extension
+  console.log("Current path:", currentPath); // Debug log
 
+  // Mapping URL paths to page names
   const pageMap = {
-    admin: "dashboard",
-    dashboard: "dashboard",
-    bookings: "bookings",
-    rooms: "rooms",
-    events: "events",
-    services: "services",
-    reports: "reports",
-    settings: "settings",
+    "/libertylaocai/quan-ly-anh": "dashboard",
+    "/libertylaocai/quan-ly-lich-dat": "bookings",
+    "/libertylaocai/quan-ly-phong": "rooms",
+    "/libertylaocai/quan-ly-thong-tin": "events",
+    "/libertylaocai/quan-ly-binh-luan": "comment",
+    "/libertylaocai/quan-ly-bai-viet": "tus",
+    "/libertylaocai/quan-ly-menu": "menu",
+    "/libertylaocai/quan-ly-dich-vu": "reports",
+    "/libertylaocai/admin/settings.php": "settings",
   };
 
-  const pageName = pageMap[fileName] || "dashboard";
+  // Find matching page
+  let pageName = null;
+  for (const [path, page] of Object.entries(pageMap)) {
+    if (currentPath.includes(path)) {
+      pageName = page;
+      break;
+    }
+  }
+
+  // Fallback to default
+  if (!pageName) {
+    pageName = "dashboard";
+  }
+
+  console.log("Setting active page:", pageName); // Debug log
   setActiveNavItem(pageName);
+}
+
+// Enhanced navigation click handler
+function handleNavigationClick(event) {
+  const clickedItem = event.currentTarget;
+  const pageName = clickedItem.getAttribute("data-page");
+
+  // Remove active class from all items and add to clicked item
+  if (pageName) {
+    setActiveNavItem(pageName);
+
+    // Store the active page in localStorage for persistence
+    localStorage.setItem("activeNavPage", pageName);
+  }
+
+  // Close sidebar on mobile after navigation
+  if (window.innerWidth <= 991) {
+    setTimeout(() => {
+      closeSidebar();
+    }, 150); // Small delay for better UX
+  }
+}
+
+// Set active item based on URL or stored preference
+function setActiveFromUrl() {
+  const currentPath = window.location.pathname;
+  const storedPage = localStorage.getItem("activeNavPage");
+
+  // Priority: URL-based detection, then stored preference
+  if (currentPath && currentPath !== "/") {
+    autoSetActiveNavItem();
+  } else if (storedPage) {
+    setActiveNavItem(storedPage);
+  } else {
+    setActiveNavItem("dashboard"); // Default
+  }
 }
 
 // Window resize handler
@@ -92,14 +144,6 @@ function handleSidebarResize() {
   }
 }
 
-// Handle navigation clicks
-function handleNavigationClick(event) {
-  // Close sidebar on mobile after navigation
-  if (window.innerWidth <= 991) {
-    closeSidebar();
-  }
-}
-
 // Keyboard shortcuts
 function handleKeyboardShortcuts(event) {
   // Ctrl + / to toggle sidebar
@@ -118,15 +162,15 @@ function handleKeyboardShortcuts(event) {
 function initializeSidebar() {
   console.log("Liberty Lào Cai Sidebar Component initialized");
 
-  // Set active navigation item based on current page
-  autoSetActiveNavItem();
+  // Set active navigation item based on current page or stored preference
+  setActiveFromUrl();
 
   // Add event listeners
   window.addEventListener("resize", handleSidebarResize);
   document.addEventListener("keydown", handleKeyboardShortcuts);
 
   // Add click handlers to navigation items
-  const navItems = document.querySelectorAll(".nav-item");
+  const navItems = document.querySelectorAll(".nav-item[data-page]");
   navItems.forEach((item) => {
     item.addEventListener("click", handleNavigationClick);
   });
@@ -141,6 +185,11 @@ function initializeSidebar() {
   handleSidebarResize();
 }
 
+// Listen for page changes (for SPA-like behavior)
+window.addEventListener("popstate", function () {
+  setActiveFromUrl();
+});
+
 // Auto-initialize when DOM is loaded
 document.addEventListener("DOMContentLoaded", initializeSidebar);
 
@@ -149,5 +198,6 @@ window.SidebarComponent = {
   toggle: toggleSidebar,
   close: closeSidebar,
   setActive: setActiveNavItem,
+  setActiveFromUrl: setActiveFromUrl,
   init: initializeSidebar,
 };
