@@ -518,7 +518,7 @@ function populateEditServiceForm(form, service) {
     currentImageDiv.innerHTML = `
             <div class="current-image">
                 <p>Hình ảnh hiện tại:</p>
-                <img src="/libertylaocai/view/img/uploads/dichvu/${service.image}" alt="Current Service" class="current-image-preview">
+                <img src="/libertylaocai/view/img/${service.image}" alt="Current Service" class="current-image-preview">
             </div>
         `;
   } else {
@@ -559,7 +559,7 @@ function populateServiceTourForm(form, tour) {
       currentImageDiv.innerHTML = `
                 <div class="current-image">
                     <p>Hình ảnh hiện tại:</p>
-                    <img src="/libertylaocai/view/img/uploads/dichvu/${tour.image}" alt="Current Tour" class="current-image-preview">
+                    <img src="/libertylaocai/view/img/${tour.image}" alt="Current Tour" class="current-image-preview">
                 </div>
             `;
     }
@@ -843,7 +843,7 @@ function editService(service) {
     currentImageDiv.innerHTML = `
             <div class="current-image">
                 <p>Hình ảnh hiện tại:</p>
-                <img src="/libertylaocai/view/img/uploads/dichvu/${service.image}" alt="Current Service" class="current-image-preview">
+                <img src="/libertylaocai/view/img/${service.image}" alt="Current Service" class="current-image-preview">
             </div>
         `;
   } else {

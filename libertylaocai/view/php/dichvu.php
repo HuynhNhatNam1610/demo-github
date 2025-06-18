@@ -70,7 +70,7 @@ $informationHotel = getHotelInfoWithLanguage($language_id);
       <div class="container">
         <div class="content-wrapper <?php echo $index % 2 == 1 ? 'reverse' : ''; ?>">
           <div class="service-image" data-aos="fade-<?php echo $index % 2 == 0 ? 'right' : 'left'; ?>">
-            <img src="<?php echo $service['image'] ? htmlspecialchars($service['image']) : '/libertylaocai/view/img/default-service-image.png'; ?>" alt="<?php echo htmlspecialchars($service['title']); ?>">
+            <img src="/libertylaocai/view/img/<?php echo $service['image'] ? htmlspecialchars($service['image']) : '/libertylaocai/view/img/default-service-image.png'; ?>" alt="<?php echo htmlspecialchars($service['title']); ?>">
           </div>
           <form action="/libertylaocai/user/submit" method="POST" style="display: inline;">
             <input type="hidden" name="chitietdichvu" value="<?php echo $service['id_dichvu']; ?>">
@@ -93,7 +93,7 @@ $informationHotel = getHotelInfoWithLanguage($language_id);
             <input type="hidden" name="chitietdichvu" value="<?php echo $tour['id_dichvu']; ?>">
             <div class="tour-card" data-aos="fade-up" data-aos-delay="<?php echo $index * 100; ?>">
               <div class="tour-image">
-                <img src="<?php echo $tour['image'] ? htmlspecialchars($tour['image']) : '/libertylaocai/view/img/default-tour-image.png'; ?>" alt="<?php echo htmlspecialchars($tour['title']); ?>">
+                <img src="/libertylaocai/view/img/<?php echo $tour['image'] ? htmlspecialchars($tour['image']) : '/libertylaocai/view/img/default-tour-image.png'; ?>" alt="<?php echo htmlspecialchars($tour['title']); ?>">
                 <div class="tour-overlay">
                   <span class="tour-price"><?php echo $language_id == 1 ? 'Liên hệ' : 'Contact'; ?></span>
                 </div>

@@ -196,7 +196,7 @@ ob_start();
                         <div class="image-grid">
                             <?php foreach ($images as $image): ?>
                                 <div class="image-item image-preview-item">
-                                    <img src="<?php echo htmlspecialchars($image['image']); ?>" alt="Service Image">
+                                    <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($image['image']); ?>" alt="Service Image">
                                     <div class="image-overlay">
                                         <span class="image-name"><?php echo htmlspecialchars($image['image']); ?></span>
                                         <button class="remove-btn" onclick="deleteImage(<?php echo $image['id']; ?>, '<?php echo htmlspecialchars($image['image']); ?>')">×</button>

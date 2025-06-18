@@ -1254,12 +1254,12 @@ function showEventDetailModal(event) {
             const slide = document.createElement('div');
             slide.className = 'swiper-slide';
             const aElement = document.createElement('a');
-            aElement.href = `/libertylaocai/view/img/uploads/${image}`;
+            aElement.href = `/libertylaocai/view/img/uploads/dattiec/${image}`;
             aElement.setAttribute('data-lightbox', 'event-images');
             aElement.setAttribute('data-title', `Hình ảnh sự kiện ${index + 1}`);
 
             const imgElement = document.createElement('img');
-            imgElement.src = `/libertylaocai/view/img/uploads/${image}`;
+            imgElement.src = `/libertylaocai/view/img/uploads/dattiec/${image}`;
             imgElement.alt = 'Hình ảnh sự kiện';
             imgElement.style.maxWidth = '150px';
             imgElement.style.maxHeight = '150px';

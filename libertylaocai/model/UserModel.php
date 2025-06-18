@@ -974,15 +974,6 @@ function getImageOrganizedEvents($type_serviced, $limit = null)
         return $events;
     }
 
-    // Xây dựng câu truy vấn SQL
-    // $sql = "SELECT 
-    //             skdt.type_serviced,
-    //             askdt.image
-    //         FROM sukiendatochuc skdt
-    //         LEFT JOIN anhsukiendatochuc askdt ON skdt.id = askdt.id_sukiendatochuc
-    //         WHERE skdt.active = 1 AND skdt.type_serviced = ?
-    //         GROUP BY skdt.type_serviced, askdt.image
-    //         ORDER BY skdt.id DESC";
     $sql = "SELECT 
                 skdt.type_serviced,
                 askdt.image
@@ -3511,7 +3502,7 @@ function addTourImage($conn, $id_dichvu, $id_topic, $is_primary, $images)
 
                 $imageName = uploadImage($file);
                 if ($imageName) {
-                    $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $imageName;
+                    $image_url = 'uploads/dichvu/' . $imageName;
                     // Nếu ảnh được chọn là ảnh chính, đặt các ảnh khác thành không chính
                     if ($is_primary && $success_count === 0) {
                         $reset_primary = $conn->prepare("UPDATE anhdichvu SET is_primary = 0 WHERE id_dichvu = ?");
@@ -4350,7 +4341,7 @@ function insertService($image, $id_dichvu)
 {
     global $conn;
     try {
-        $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $image;
+        $image_url = 'uploads/dichvu/' . $image;
         $sql = "INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("si", $image_url, $id_dichvu);
@@ -4921,7 +4912,7 @@ function updateTour($id_dichvu, $title_vi, $content_vi, $title_en, $content_en, 
         if ($image_file && isset($image_file['error']) && $image_file['error'] === 0) {
             $imageName = uploadImage($image_file);
             if ($imageName) {
-                $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $imageName;
+                $image_url = 'uploads/dichvu/' . $imageName;
                 // Xóa ảnh cũ
                 $old_image_query = "SELECT image FROM anhdichvu WHERE id_dichvu=? AND is_primary=1";
                 $stmt = $conn->prepare($old_image_query);
@@ -5051,7 +5042,7 @@ function addService($title_vi, $content_vi, $title_en, $content_en, $price_vi, $
         if ($image_file && isset($image_file['error']) && $image_file['error'] === 0) {
             $imageName = uploadImage($image_file);
             if ($imageName) {
-                $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $imageName;
+                $image_url = 'uploads/dichvu/' . $imageName;
                 $stmt = $conn->prepare("INSERT INTO anhdichvu (image, is_primary, id_dichvu, id_topic) VALUES (?, 1, ?, 3)");
                 $stmt->bind_param("si", $image_url, $id_dichvu);
                 if (!$stmt->execute()) {
@@ -5148,7 +5139,7 @@ function updateService($id_dichvu, $title_vi, $content_vi, $title_en, $content_e
             $imageName = uploadImage($image_file);
             if ($imageName) {
                 // Xóa ảnh cũ
-                $image_url = '/libertylaocai/view/img/uploads/dichvu/' . $imageName;
+                $image_url = 'uploads/dichvu/' . $imageName;
                 $old_image_query = "SELECT image FROM anhdichvu WHERE id_dichvu = ? AND is_primary = 1";
                 $stmt = $conn->prepare($old_image_query);
                 $stmt->bind_param("i", $id_dichvu);

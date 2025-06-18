@@ -963,10 +963,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    if (isset($_POST['datlichngay'])) {
-        $_SESSION['head_banner'] = getSelectedBanner('event', 'event-banner');
-        header("location: /libertylaocai/event");
-        exit();
+    if (isset($_POST['khamphadichvu'])) {
+        $_SESSION['head_banner'] = getSelectedBanner('dichvu', 'hero-background');
+        header("location: /libertylaocai/dich-vu");
     }
 
     if (isset($_POST['find_room'])) {
@@ -1120,7 +1119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Handle image uploads
         $images = [];
         if (!empty($_FILES['images']['name'])) {
-            $uploadDir = '../view/img/uploads/';
+            $uploadDir = '../view/img/uploads/dattiec/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
@@ -1719,6 +1718,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    if (isset($_POST['logout'])) {
+        unset($_SESSION['authenticated']);
+        header("location: /libertylaocai/trangchu");
+    }
+
     if (isset($_POST['forgot_password'])) {
         header('Content-Type: application/json; charset=utf-8');
         $email = $_POST['email'] ?? '';
@@ -1759,9 +1763,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    
+
     // Xử lý xác thực OTP reset password
-    if (isset($_POST['verify_login_otp']) ) {
+    if (isset($_POST['verify_login_otp'])) {
         ob_clean();
         header('Content-Type: application/json; charset=utf-8');
 
@@ -2436,7 +2440,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $confirm_password = $_POST['hotel_password'];
         if (isset($_FILES['logoFile']) && $_FILES['logoFile']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = '/libertylaocai/view/img/uploads/';
+            $uploadDir = '../view/img/uploads/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
@@ -2462,5 +2466,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => false, 'message' => "Mật khẩu xác nhận không đúng!"]);
         }
         exit;
+    }
+
+
+
+    //18_6
+    if (isset($_POST['datlichngay'])) {
+        $_SESSION['head_banner'] = getSelectedBanner('event', 'event-banner');
+        header("location: /libertylaocai/dich-vu");
+        exit();
+    }
+
+    if (isset($_POST['gioithieu'])) {
+        header("location: /libertylaocai/gioi-thieu");
+        exit();
     }
 }

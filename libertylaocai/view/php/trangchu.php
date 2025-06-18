@@ -151,7 +151,10 @@ foreach ($roomTypes as $room) {
             <h2><?php echo $descriptionFeatureText['title']; ?></h2>
             <p><?php echo $descriptionFeatureText['content']; ?></p>
           <?php endif; ?>
-          <a href="/libertylaocai/gioi-thieu" class="btn-more"><?php echo $languageId == 1 ? 'Tìm hiểu thêm' : 'Learn more'; ?></a>
+          <form action="/libertylaocai/user/submit" method="POST">
+            <input type="hidden" name="gioithieu">
+            <button href="/libertylaocai/gioi-thieu" class="btn-more"><?php echo $languageId == 1 ? 'Tìm hiểu thêm' : 'Learn more'; ?></button>
+          </form>
         </div>
       </div>
 
@@ -167,7 +170,10 @@ foreach ($roomTypes as $room) {
             <h2><?php echo $descriptionFeatureText1['title']; ?></h2>
             <p><?php echo $descriptionFeatureText1['content']; ?></p>
           <?php endif; ?>
-          <a href="/libertylaocai/dua-don" class="btn-more"><?php echo $languageId == 1 ? 'Khám phá' : 'Discover'; ?></a>
+          <form action="/libertylaocai/user/submit" method="POST">
+            <input type="hidden" name="khamphadichvu">
+            <button class="btn-more"><?php echo $languageId == 1 ? 'Khám phá' : 'Discover'; ?></button>
+          </form>
         </div>
       </div>
     </div>
@@ -280,7 +286,10 @@ foreach ($roomTypes as $room) {
               <h3><?php echo $descriptionServiceText['title']; ?></h3>
               <p><?php echo $descriptionServiceText['content']; ?></p>
             <?php endif; ?>
-            <a href="/libertylaocai/dich-vu" class="btn-more"><?php echo $languageId == 1 ? 'XEM THÊM' : 'VIEW MORE'; ?></a>
+            <form action="/libertylaocai/user/submit" method="POST">
+              <input type="hidden" name="khamphadichvu">
+              <button class="btn-more"><?php echo $languageId == 1 ? 'XEM THÊM' : 'VIEW MORE'; ?></button>
+            </form>
           </div>
 
           <!-- Carousel bên phải -->
@@ -291,7 +300,7 @@ foreach ($roomTypes as $room) {
               foreach ($carouselServices as $service):
               ?>
                 <div class="service-slide">
-                  <img src="<?php echo htmlspecialchars($service['image']); ?>" alt="<?php echo htmlspecialchars($service['title']); ?>" loading="lazy">
+                  <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($service['image']); ?>" alt="<?php echo htmlspecialchars($service['title']); ?>" loading="lazy">
                   <p><?php echo htmlspecialchars($service['title']); ?></p>
                 </div>
               <?php endforeach; ?>

@@ -46,13 +46,9 @@ $thongtinkhachsan = getHotelInfoWithLanguage($languageId);
                 <?php if (!empty($images)): ?>
                     <?php foreach ($images as $index => $image): ?>
                         <div class="slide <?php echo $index === 0 ? 'active' : ''; ?>">
-                            <img src="<?php echo $image['image']; ?>" alt="<?php echo $languageId == 1 ? 'Hình ảnh Tour ' . ($index + 1) : 'Tour Image ' . ($index + 1); ?>">
+                            <img src="/libertylaocai/view/img/<?php echo $image['image']; ?>" alt="<?php echo $languageId == 1 ? 'Hình ảnh Tour ' . ($index + 1) : 'Tour Image ' . ($index + 1); ?>">
                         </div>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="slide active">
-                        <img src="https://via.placeholder.com/1200x800/cccccc/666666?text=No+Image" alt="<?php echo $languageId == 1 ? 'Không có hình ảnh' : 'No Image'; ?>">
-                    </div>
                 <?php endif; ?>
             </div>
             <?php if (count($images) > 1): ?>
@@ -171,10 +167,6 @@ $thongtinkhachsan = getHotelInfoWithLanguage($languageId);
                                             <img src="/libertylaocai/view/img/<?php echo $image['image']; ?>" alt="<?php echo $languageId == 1 ? 'Hình ảnh Tour' : 'Tour Image'; ?>">
                                         </div>
                                     <?php endforeach; ?>
-                                <?php else: ?>
-                                    <div class="gallery-item">
-                                        <img src="https://via.placeholder.com/400x300/cccccc/666666?text=No+Image" alt="<?php echo $languageId == 1 ? 'Không có hình ảnh' : 'No Image'; ?>">
-                                    </div>
                                 <?php endif; ?>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-// let currentSlideIndex = 0;
+let currentSlideIndex = 0;
 let currentModalIndex = 0;
 let zoomLevel = 1;
 const maxZoom = 2;

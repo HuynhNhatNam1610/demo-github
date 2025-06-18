@@ -128,7 +128,7 @@ ob_start();
                             <div class="service-content">
                                 <p><strong>Giá:</strong> <?php echo htmlspecialchars($service['price']); ?></p>
                                 <?php if ($service['image']): ?>
-                                    <img src="<?php echo htmlspecialchars($service['image']); ?>" alt="<?php echo htmlspecialchars($service['title_vi']); ?>" class="service-image-preview">
+                                    <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($service['image']); ?>" alt="<?php echo htmlspecialchars($service['title_vi']); ?>" class="service-image-preview">
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -169,7 +169,7 @@ ob_start();
                                     <p><strong>Tiếng Anh:</strong> <?php echo $tour['content_en']; ?></p>
                                 <?php endif; ?>
                                 <?php if ($tour['image']): ?>
-                                    <img src="<?php echo htmlspecialchars($tour['image']); ?>" alt="<?php echo htmlspecialchars($tour['title_vi']); ?>" class="tour-image-preview">
+                                    <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($tour['image']); ?>" alt="<?php echo htmlspecialchars($tour['title_vi']); ?>" class="tour-image-preview">
                                 <?php endif; ?>
                             </div>
                         </div>
