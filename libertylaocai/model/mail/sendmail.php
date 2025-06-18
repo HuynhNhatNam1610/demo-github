@@ -8,7 +8,7 @@ require 'PHPMailer/src/OAuth.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-function sendMail($toEmail, $subject, $body)
+function sendMail($mail_cc, $pass_email, $name, $toEmail, $subject, $body)
 {
     $mail = new PHPMailer(true);
     try {
@@ -16,14 +16,14 @@ function sendMail($toEmail, $subject, $body)
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'nhatnam161005@gmail.com';
-        $mail->Password = 'yvqhroiprluiakmi';
+        $mail->Username = $mail_cc;
+        $mail->Password = $pass_email;
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
-        $mail->setFrom('nhatnam161005@gmail.com', 'NHL Sports');
+        $mail->setFrom($mail_cc, $name);
         $mail->addAddress($toEmail);
-        $mail->addCC('nhatnam161005@gmail.com');
+        $mail->addCC($mail_cc);
 
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
