@@ -2301,7 +2301,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         $confirm_password = $_POST['hotel_password'];
-
+         if (isset($_FILES['logoFile']) && $_FILES['logoFile']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = '../../uploads/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            $fileName = basename($_FILES['logoFile']['name']);
+            $targetPath = $uploadDir . $fileName;
+            
+            // Di chuyển file tải lên vào thư mục uploads
+            if (move_uploaded_file($_FILES['logoFile']['tmp_name'], $targetPath)) {
+                $hotel_data['logo'] = $fileName;
+            }
+        }
         if (verifyPassword($conn, 1, $confirm_password)) {
             if (updateHotelInfo($conn, $hotel_data)) {
                 updateHotelLangInfo($conn, $lang_data_vi, 1);
