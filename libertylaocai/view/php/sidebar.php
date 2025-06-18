@@ -66,13 +66,29 @@
                 <span class="nav-icon"><i class="bi bi-gear"></i></span>
                 <span>Cài đặt</span>
             </a>
-            <a href="/libertylaocai/trangchu" class="nav-item">
-                <span class="nav-icon"><i class="bi bi-box-arrow-right"></i></span>
-                <span>Đăng xuất</span>
-            </a>
+            <form action="/libertylaocai/user/submit" method="POST" style="display: inline;" id="logoutForm">
+                <input type="hidden" name="logout" value="1">
+                <a href="#" class="nav-item" id="logoutLink">
+                    <span class="nav-icon"><i class="bi bi-box-arrow-right"></i></span>
+                    <span>Đăng xuất</span>
+                </a>
+            </form>
         </div>
     </nav>
     <script src="/libertylaocai/view/js/sidebar.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const logoutLink = document.getElementById("logoutLink");
+            const logoutForm = document.getElementById("logoutForm");
+
+            if (logoutLink && logoutForm) {
+                logoutLink.addEventListener("click", function(e) {
+                    e.preventDefault(); // Ngăn hành vi mặc định của thẻ <a>
+                    logoutForm.submit(); // Gửi form
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
