@@ -2,9 +2,9 @@
 require_once '../model/UserModel.php';
 require_once '../view/php/session.php';
 require_once '../model/mail/sendmail.php';
-error_reporting(E_ALL);
-// // ini_set('log_errors', 1);
-ini_set('error_log', 'debug.log');
+// error_reporting(E_ALL);
+// // // ini_set('log_errors', 1);
+// ini_set('error_log', 'debug.log');
 // Kiểm tra ngôn ngữ từ session, mặc định là 1 (tiếng Việt)
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
 $informationHotel = getHotelInfoWithLanguage($languageId);
@@ -13,6 +13,7 @@ if (!empty($informationHotel)) {
         $liberty = $info['name'];
     }
 }
+$admin = getAdminData() ?? '';
 // Hàm trả về thông điệp đa ngôn ngữ
 function getMessage($key, $languageId)
 {
@@ -1076,17 +1077,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Sanitize input
-        $fullName = filter_var($_POST['fullName'], FILTER_SANITIZE_STRING);
-        $phone = filter_var($_POST['phone'], FILTER_SANITIZE_STRING);
+        $fullName = $_POST['fullName'] ?? '';
+        $phone = $_POST['phone'] ?? '';
         $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-        $eventType = filter_var($_POST['eventType'], FILTER_SANITIZE_STRING);
+        $eventType = $_POST['eventType'] ?? '';
         $guestCount = filter_var($_POST['guestCount'], FILTER_SANITIZE_NUMBER_INT);
         $eventDate = $_POST['eventDate'];
         $endDate = $_POST['endDate'];
         $startTime = $_POST['startTime'];
         $endTime = $_POST['endTime'];
         $venue = filter_var($_POST['venue'], FILTER_SANITIZE_NUMBER_INT);
-        $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
+        $description = $_POST['description'] ?? '';
         $budget = isset($_POST['budget']) ? preg_replace('/[^0-9]/', '', $_POST['budget']) : 0;
 
         // Validate email and phone
@@ -1165,7 +1166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SĐT: $phone\n
             Email: $email\n
             Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
-            sendMail($email, $subject, $message);
+            sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message);
             echo json_encode(['status' => 'success', 'message' => getMessage('booking_success', $languageId)]);
         } else {
             echo json_encode(['status' => 'error', 'message' => getMessage('booking_failed', $languageId)]);
@@ -1214,15 +1215,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Sanitize input
-        $customerName = filter_var($_POST['customerName'], FILTER_SANITIZE_STRING);
-        $phoneNumber = filter_var($_POST['phoneNumber'], FILTER_SANITIZE_STRING);
+        $customerName = $_POST['customerName'] ?? '';
+        $phoneNumber = $_POST['phoneNumber'] ?? '';
         $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '';
         $bookingDate = $_POST['bookingDate'];
         $startTime = $_POST['startTime'];
         $guestCount = filter_var($_POST['guestCount'], FILTER_SANITIZE_NUMBER_INT);
-        $diningArea = isset($_POST['diningArea']) ? filter_var($_POST['diningArea'], FILTER_SANITIZE_STRING) : '';
-        $occasion = isset($_POST['occasion']) && !empty($_POST['occasion']) ? filter_var($_POST['occasion'], FILTER_SANITIZE_STRING) : null;
-        $specialRequests = isset($_POST['specialRequests']) && !empty($_POST['specialRequests']) ? filter_var($_POST['specialRequests'], FILTER_SANITIZE_STRING) : null;
+        $diningArea = isset($_POST['diningArea']) ? $_POST['diningArea'] : '';
+        $occasion = isset($_POST['occasion']) && !empty($_POST['occasion']) ? $_POST['occasion'] : null;
+        $specialRequests = isset($_POST['specialRequests']) && !empty($_POST['specialRequests']) ? $_POST['specialRequests'] : null;
 
         // Validate email and phone
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -1265,7 +1266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SĐT: $phoneNumber\n
             Email: $email\n
             Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
-                sendMail($email, $subject, $message);
+                sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message);
                 echo json_encode(['status' => 'success', 'message' => getMessage('booking_success', $languageId)]);
             } else {
                 echo json_encode(['status' => 'error', 'message' => getMessage('booking_failed', $languageId)]);
@@ -1288,7 +1289,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SĐT: $phoneNumber\n
             Email: $email\n
             Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
-                sendMail($email, $subject, $message);
+                sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message);
                 echo json_encode(['status' => 'success', 'message' => getMessage('booking_success', $languageId)]);
             } else {
                 echo json_encode(['status' => 'error', 'message' => getMessage('booking_failed', $languageId)]);
@@ -1582,7 +1583,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SĐT: $phone\n
             Email: $email\n
             Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
-            sendMail($email, $subject, $message);
+            sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message);
             echo json_encode(['status' => 'success', 'message' => getMessage('booking_success', $languageId)]);
         } else {
             echo json_encode(['status' => 'error', 'message' => getMessage('booking_failed', $languageId)]);
@@ -1629,7 +1630,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SĐT: $phone\n
             Email: $email\n
             Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
-            sendMail($email, $subject, $message);
+sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message);
             echo json_encode(['success' => true, 'message' => 'Thông tin liên hệ đã được gửi thành công']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Lỗi khi lưu dữ liệu: ' . $conn->error]);
@@ -1708,7 +1709,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         storeResetToken($email, $token);
         $subject = "Xác thực để đăng nhập";
         $message = "Mã OTP của bạn là: $token\nVui lòng nhập mã này để xác thực đăng nhập.\nMã có hiệu lực trong 5 phút.";
-        if (sendMail($email, $subject, $message)) {
+        if (sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message)) {
             echo json_encode([
                 'success' => true,
                 'message' => 'Đã gửi OTP xác minh.'
@@ -1876,7 +1877,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             storeResetToken($email, $otp);
             $subject = "Xác thực để đăng nhập";
             $message = "Mã OTP của bạn là: $otp\nVui lòng nhập mã này để xác thực đăng nhập.\nMã có hiệu lực trong 5 phút.";
-            if (sendMail($email, $subject, $message)) {
+            if (sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message)) {
                 echo json_encode([
                     'success' => true,
                     'message' => 'Đã gửi OTP xác minh.'
@@ -1966,7 +1967,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SĐT: $phone\n
             Email: $email\n
             Chúng tôi sẽ liên hệ bạn ngay khi thấy email này.";
-            sendMail($email, $subject, $message);
+            sendMail($admin['email'], $admin['mk_email'], $liberty, $email, $subject, $message);
             echo json_encode([
                 'success' => true,
                 'message' => $languageId == 1 ? 'Yêu cầu của bạn đã được gửi thành công!' : 'Your request has been sent successfully!'
