@@ -60,7 +60,7 @@ function autoSetActiveNavItem() {
     "/libertylaocai/quan-ly-menu": "menu",
     "/libertylaocai/quan-ly-dich-vu": "reports",
     "/libertylaocai/quan-ly-tour": "reports", //thêm casi này
-    "/libertylaocai/admin/settings.php": "settings",
+    "/libertylaocai/tai_khoan": "settings",
   };
 
   // Find matching page
