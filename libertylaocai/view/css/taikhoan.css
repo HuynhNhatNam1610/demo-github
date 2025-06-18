@@ -4,16 +4,7 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(
-    135deg,
-    rgb(158, 213, 156) 0%,
-    rgb(157, 134, 180) 100%
-  );
-  min-height: 100vh;
-  color: #333;
-}
+
 
 .container {
   max-width: 1200px;
@@ -445,6 +436,39 @@ body {
   display: block;
 }
 
+.message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px; /* Chiều rộng cố định cho thông báo */
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1000; /* Đảm bảo thông báo nằm trên các phần tử khác */
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.message.hidden {
+  opacity: 0;
+  pointer-events: none; /* Ngăn tương tác khi thông báo ẩn */
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
@@ -513,4 +537,22 @@ body {
   .twofa-toggle input:checked + .slider::before {
     transform: translateX(20px);
   }
+}
+/* Thêm vào cuối file taikhoan.css */
+.form-group textarea {
+  min-height: 100px;
+  padding: 12px 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  resize: vertical; /* Cho phép kéo dọc */
+  width: 100%;
+}
+
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgb(102, 234, 172);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
