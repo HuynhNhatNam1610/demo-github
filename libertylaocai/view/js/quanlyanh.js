@@ -28,13 +28,10 @@ async function loadTopics() {
   try {
     const formData = new FormData();
     formData.append("action", "get_topics");
-    const response = await fetch(
-      "/libertylaocai/user/submit",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      body: formData,
+    });
     const topics = await response.json();
     displayTopics(topics);
   } catch (error) {
@@ -47,13 +44,10 @@ async function loadSukien() {
   try {
     const formData = new FormData();
     formData.append("action", "get_sukien");
-    const response = await fetch(
-      "/libertylaocai/user/submit",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      body: formData,
+    });
     sukienList = await response.json();
   } catch (error) {
     console.error("Error loading sukien:", error);
@@ -127,13 +121,10 @@ async function loadPages() {
   try {
     const formData = new FormData();
     formData.append("action", "get_pages");
-    const response = await fetch(
-      "/libertylaocai/user/submit",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      body: formData,
+    });
     pagesList = await response.json();
   } catch (error) {
     console.error("Error loading pages:", error);
@@ -217,13 +208,10 @@ async function loadImages(topicId, filterValue = "") {
         formData.append("id_sukien", event.id);
       }
     }
-    const response = await fetch(
-      "/libertylaocai/user/submit",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      body: formData,
+    });
     const data = await response.json();
     displayImages(data.images, data.topic_id);
   } catch (error) {
@@ -242,14 +230,6 @@ function displayImages(items, topicId) {
     return;
   }
 
-  // Ánh xạ tên area sang tên hiển thị thân thiện cho pagedetail
-  const areaNameMap = {
-    "pagedetail-banner-wedding": "Đám cưới",
-    "pagedetail-banner-birthday": "Sinh nhật",
-    "pagedetail-banner-conference": "Hội nghị",
-    "pagedetail-banner-gala": "Gala",
-  };
-
   items.forEach((item, index) => {
     const itemCard = document.createElement("div");
     itemCard.className = "item-card";
@@ -261,19 +241,18 @@ function displayImages(items, topicId) {
 
     if (item.video) {
       mediaHtml = `<video class="item-video" controls>
-                    <source src="/libertylaocai/view/video/${item.video}" type="video/mp4">
-                    Video không được hỗ trợ
-                </video>`;
+                          <source src="/libertylaocai/view/video/${item.video}" type="video/mp4">
+                          Video không được hỗ trợ
+                      </video>`;
       infoHtml = `<div class="item-info">
-                    ${item.extra_info ? item.extra_info : ""}
-                </div>`;
+                          ${item.extra_info ? item.extra_info : ""}
+                      </div>`;
       actionsHtml = `
-                    <button class="btn btn-danger" onclick="deleteItem(${item.id}, '${item.table}', '${item.video}')">
-                        <i class="fas fa-trash"></i> Xóa
-                    </button>
-                `;
+                          <button class="btn btn-danger" onclick="deleteItem(${item.id}, '${item.table}', '${item.video}')">
+                              <i class="fas fa-trash"></i> Xóa
+                          </button>
+                      `;
     } else {
-      // Thêm loading="lazy" vào thẻ img
       mediaHtml = `<img class="item-image" src="/libertylaocai/view/img/${item.image}" alt="Image" loading="lazy">`;
 
       currentImages.push({
@@ -290,58 +269,97 @@ function displayImages(items, topicId) {
           extraInfoParts[1]
         ) {
           const area = extraInfoParts[1].replace("Area: ", "");
+          const areaNameMap = {
+            "pagedetail-banner-wedding": "Đám cưới",
+            "pagedetail-banner-birthday": "Sinh nhật",
+            "pagedetail-banner-conference": "Hội nghị",
+            "pagedetail-banner-gala": "Gala",
+          };
           formattedInfo = areaNameMap[area] || area;
         }
         infoHtml = `<div class="item-info">
-                        ${
-                          item.created_at
-                            ? "Ngày tạo: " +
-                              formatDate(item.created_at) +
-                              "<br>"
-                            : ""
-                        }
-                        ${formattedInfo}
-                    </div>`;
+                                ${
+                                  item.created_at
+                                    ? "Ngày tạo: " +
+                                      formatDate(item.created_at) +
+                                      "<br>"
+                                    : ""
+                                }
+                                ${formattedInfo}
+                            </div>`;
         actionsHtml = `
-                    <button class="btn btn-primary" onclick="openEditModal(${item.id}, '${item.image}')">
-                        <i class="fas fa-edit"></i> Chỉnh sửa
-                    </button>
-                `;
-      } else if (topicId === "1" && item.chon_area) {
-        // Ảnh thuộc chon_anhtongquat
+                                <button class="btn btn-primary" onclick="openEditModal(${item.id}, '${item.image}')">
+                                    <i class="fas fa-edit"></i> Chỉnh sửa
+                                </button>
+                            `;
+      } else if (topicId === "1") {
         infoHtml = `<div class="item-info">
-                        ${
-                          item.created_at
-                            ? "Ngày tạo: " +
-                              formatDate(item.created_at) +
-                              "<br>"
-                            : ""
-                        }
-                        Khu vực: ${item.area_display}
-                    </div>`;
+                                ${
+                                  item.created_at
+                                    ? "Ngày tạo: " +
+                                      formatDate(item.created_at) +
+                                      "<br>"
+                                    : ""
+                                }
+                            </div>`;
+        statusHtml = `<span class="status-badge ${
+          item.active == 1 ? "status-active" : "status-inactive"
+        }">
+                                  ${
+                                    item.active == 1
+                                      ? "Đang hiển thị"
+                                      : "Đang ẩn"
+                                  }
+                              </span>`;
         actionsHtml = `
-                    <button class="btn btn-primary" onclick="openEditModal(${item.id}, '${item.image}')">
-                        <i class="fas fa-edit"></i> Chỉnh sửa
-                    </button>
-                `;
+                                <button class="btn ${
+                                  item.active == 1
+                                    ? "btn-secondary"
+                                    : "btn-success"
+                                }" 
+                                        onclick="toggleStatus(${item.id}, '${
+          item.table
+        }', 'active', ${item.active})">
+                                    <i class="fas ${
+                                      item.active == 1 ? "fa-pause" : "fa-play"
+                                    }"></i> 
+                                    ${item.active == 1 ? "Ẩn" : "Hiện"}
+                                </button>
+                                <button class="btn btn-primary" onclick="openEditModal(${
+                                  item.id
+                                }, '${item.image}')">
+                                    <i class="fas fa-edit"></i> Sửa
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteItem(${
+                                  item.id
+                                }, '${item.table}', '${
+          item.video || item.image
+        }')">
+                                    <i class="fas fa-trash"></i> Xóa
+                                </button>
+                            `;
       } else {
         infoHtml = `<div class="item-info">
-                        ${
-                          item.created_at
-                            ? "Ngày tạo: " +
-                              formatDate(item.created_at) +
-                              "<br>"
-                            : ""
-                        }
-                        ${item.extra_info ? item.extra_info : ""}
-                    </div>`;
+                                ${
+                                  item.created_at
+                                    ? "Ngày tạo: " +
+                                      formatDate(item.created_at) +
+                                      "<br>"
+                                    : ""
+                                }
+                                ${item.extra_info ? item.extra_info : ""}
+                            </div>`;
 
         if (item.hasOwnProperty("active")) {
           statusHtml += `<span class="status-badge ${
             item.active == 1 ? "status-active" : "status-inactive"
           }">
-                            ${item.active == 1 ? "Đang hiển thị" : "Đang ẩn"}
-                        </span>`;
+                                      ${
+                                        item.active == 1
+                                          ? "Đang hiển thị"
+                                          : "Đang ẩn"
+                                      }
+                                  </span>`;
         }
 
         if (item.hasOwnProperty("is_primary") && item.is_primary == 1) {
@@ -349,63 +367,77 @@ function displayImages(items, topicId) {
         }
 
         actionsHtml = `
-                    ${
-                      item.hasOwnProperty("active")
-                        ? `
-                        <button class="btn ${
-                          item.active == 1 ? "btn-secondary" : "btn-success"
-                        }" 
-                                onclick="toggleStatus(${item.id}, '${
-                            item.table
-                          }', 'active', ${item.active})">
-                            <i class="fas ${
-                              item.active == 1 ? "fa-pause" : "fa-play"
-                            }"></i> 
-                            ${item.active == 1 ? "Ẩn" : "Hiện"}
-                        </button>
-                    `
-                        : ""
-                    }
-                    ${
-                      item.hasOwnProperty("is_primary")
-                        ? `
-                        <button class="btn ${
-                          item.is_primary == 1 ? "btn-secondary" : "btn-success"
-                        }" 
-                                onclick="toggleStatus(${item.id}, '${
-                            item.table
-                          }', 'is_primary', ${item.is_primary})">
-                            <i class="fas ${
-                              item.is_primary == 1 ? "fa-star" : "fa-star-o"
-                            }"></i> 
-                            ${
-                              item.is_primary == 1
-                                ? "Bỏ làm chính"
-                                : "Làm ảnh chính"
-                            }
-                        </button>
-                    `
-                        : ""
-                    }
-                    <button class="btn btn-danger" onclick="deleteItem(${
-                      item.id
-                    }, '${item.table}', '${item.video || item.image}')">
-                        <i class="fas fa-trash"></i> Xóa
-                    </button>
-                `;
+                                ${
+                                  item.hasOwnProperty("active")
+                                    ? `
+                                    <button class="btn ${
+                                      item.active == 1
+                                        ? "btn-secondary"
+                                        : "btn-success"
+                                    }" 
+                                            onclick="toggleStatus(${
+                                              item.id
+                                            }, '${item.table}', 'active', ${
+                                        item.active
+                                      })">
+                                        <i class="fas ${
+                                          item.active == 1
+                                            ? "fa-pause"
+                                            : "fa-play"
+                                        }"></i> 
+                                        ${item.active == 1 ? "Ẩn" : "Hiện"}
+                                    </button>
+                                `
+                                    : ""
+                                }
+                                ${
+                                  item.hasOwnProperty("is_primary")
+                                    ? `
+                                    <button class="btn ${
+                                      item.is_primary == 1
+                                        ? "btn-secondary"
+                                        : "btn-success"
+                                    }" 
+                                            onclick="toggleStatus(${
+                                              item.id
+                                            }, '${item.table}', 'is_primary', ${
+                                        item.is_primary
+                                      })">
+                                        <i class="fas ${
+                                          item.is_primary == 1
+                                            ? "fa-star"
+                                            : "fa-star-o"
+                                        }"></i> 
+                                        ${
+                                          item.is_primary == 1
+                                            ? "Bỏ làm chính"
+                                            : "Làm ảnh chính"
+                                        }
+                                    </button>
+                                `
+                                    : ""
+                                }
+                                <button class="btn btn-danger" onclick="deleteItem(${
+                                  item.id
+                                }, '${item.table}', '${
+          item.video || item.image
+        }')">
+                                    <i class="fas fa-trash"></i> Xóa
+                                </button>
+                            `;
       }
     }
 
     itemCard.innerHTML = `
-                ${mediaHtml}
-                <div class="item-content">
-                    ${statusHtml}
-                    ${infoHtml}
-                    <div class="item-actions">
-                        ${actionsHtml}
+                    ${mediaHtml}
+                    <div class="item-content">
+                        ${statusHtml}
+                        ${infoHtml}
+                        <div class="item-actions">
+                            ${actionsHtml}
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
 
     itemsGrid.appendChild(itemCard);
   });
@@ -420,13 +452,10 @@ async function deleteItem(id, table, fileName) {
     formData.append("table", table);
     formData.append("image_name", fileName);
 
-    const response = await fetch(
-      "/libertylaocai/user/submit",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      body: formData,
+    });
     const result = await response.json();
 
     if (result.success) {
@@ -450,13 +479,10 @@ async function toggleStatus(id, table, field, currentStatus) {
     formData.append("field", field);
     formData.append("current_status", currentStatus);
 
-    const response = await fetch(
-      "/libertylaocai/user/submit",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      body: formData,
+    });
     const result = await response.json();
 
     if (result.success) {
@@ -814,6 +840,7 @@ function closeUploadModal() {
   if (uploadModal) {
     uploadModal.style.display = "none";
     document.body.style.overflow = "auto";
+    uploadModal.dataset.imageId = ""; // Reset imageId
   }
 }
 
@@ -996,13 +1023,16 @@ async function uploadImages() {
 
   try {
     const formData = new FormData();
+    const imageId = uploadModal.dataset.imageId;
+
     if (
-      currentTopicId === "4" ||
-      (currentTopicId === "1" && uploadModal.dataset.imageId)
+      (currentTopicId === "1" || currentTopicId === "4") &&
+      imageId &&
+      imageId !== ""
     ) {
-      // Chỉ gọi edit_image nếu đang chỉnh sửa ảnh (có imageId)
+      // Chỉ gọi edit_image nếu đang chỉnh sửa ảnh (có imageId hợp lệ)
       formData.append("action", "edit_image");
-      formData.append("id", uploadModal.dataset.imageId);
+      formData.append("id", imageId);
       formData.append("image", selectedFiles[0].file);
     } else {
       // Gọi upload_images cho thêm mới
@@ -1034,13 +1064,10 @@ async function uploadImages() {
 
     formData.append("topic_id", currentTopicId);
 
-    const response = await fetch(
-      "/libertylaocai/user/submit",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch("/libertylaocai/user/submit", {
+      method: "POST",
+      body: formData,
+    });
 
     const result = await response.json();
 
