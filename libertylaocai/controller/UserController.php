@@ -1719,6 +1719,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    if(isset($_POST['logout'])){
+        unset($_SESSION['authenticated']);
+        header("location: /libertylaocai/trangchu");
+    }
+
     if (isset($_POST['forgot_password'])) {
         header('Content-Type: application/json; charset=utf-8');
         $email = $_POST['email'] ?? '';
