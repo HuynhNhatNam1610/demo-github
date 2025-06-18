@@ -1,91 +1,16 @@
 <?php
-session_start();
-require_once '../../model/config/connect.php';
+// Lấy dữ liệu cho view
+$admin_id = 1;
+require_once '../../controller/usercontroller.php';
 
-// Kiểm tra đăng nhập (tạm thời bỏ qua session check)
-$admin_id = 1; 
-
-// Xử lý cập nhật thông tin cá nhân
-if (isset($_POST['update_profile'])) {
-    $username = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $phone = trim($_POST['phone']);
-    $position = trim($_POST['position']);
-    $confirm_password = $_POST['profile_password'];
-    
-    // Lấy thông tin hiện tại để verify password
-    $check_query = "SELECT password FROM taikhoan WHERE id = ?";
-    $stmt = $conn->prepare($check_query);
-    $stmt->bind_param("i", $admin_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $current_admin = $result->fetch_assoc();
-    
-    if ($current_admin['password'] === $confirm_password) {
-        // Cập nhật thông tin
-        $update_query = "UPDATE taikhoan SET username = ?, email = ?, phone = ?, position = ? WHERE id = ?";
-        $stmt = $conn->prepare($update_query);
-        $stmt->bind_param("ssssi", $username, $email, $phone, $position, $admin_id);
-        
-        if ($stmt->execute()) {
-            $success_message = "Thông tin đã được cập nhật thành công!";
-        } else {
-            $error_message = "Lỗi khi cập nhật thông tin!";
-        }
-    } else {
-        $error_message = "Mật khẩu xác nhận không đúng!";
-    }
-}
-
-// Xử lý đổi mật khẩu
-if (isset($_POST['change_password'])) {
-    $current_password = $_POST['current_password'];
-    $new_password = $_POST['new_password'];
-    $confirm_password = $_POST['confirm_password'];
-    
-    // Lấy mật khẩu hiện tại
-    $check_query = "SELECT password FROM taikhoan WHERE id = ?";
-    $stmt = $conn->prepare($check_query);
-    $stmt->bind_param("i", $admin_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $current_admin = $result->fetch_assoc();
-    
-    if ($current_admin['password'] === $current_password) {
-        if ($new_password === $confirm_password) {
-            if (strlen($new_password) >= 6) {
-                // Cập nhật mật khẩu mới
-                $update_query = "UPDATE taikhoan SET password = ? WHERE id = ?";
-                $stmt = $conn->prepare($update_query);
-                $stmt->bind_param("si", $new_password, $admin_id);
-                
-                if ($stmt->execute()) {
-                    $success_message = "Mật khẩu đã được thay đổi thành công!";
-                } else {
-                    $error_message = "Lỗi khi thay đổi mật khẩu!";
-                }
-            } else {
-                $error_message = "Mật khẩu mới phải có ít nhất 6 ký tự!";
-            }
-        } else {
-            $error_message = "Xác nhận mật khẩu không khớp!";
-        }
-    } else {
-        $error_message = "Mật khẩu hiện tại không đúng!";
-    }
-}
-
-// Lấy thông tin admin hiện tại
-$query = "SELECT * FROM taikhoan WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $admin_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$admin_data = $result->fetch_assoc();
+$admin_data = getAdminData($conn, $admin_id);
+$hotel_data = getHotelData($conn);
+$lang_data = getLangData($conn);
 
 if (!$admin_data) {
     die("Không tìm thấy thông tin admin!");
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -96,59 +21,43 @@ if (!$admin_data) {
     <link rel="stylesheet" href="/libertylaocai/view/css/taikhoan.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-
 <body>
+<?php include "sidebar.php"; ?>
     <div class="container">
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-hotel"></i>
-                    <h1>Liberty Lào Cai Hotel</h1>
-                </div>
-                <div class="admin-info">
-                    <span>Chào mừng, <?php echo htmlspecialchars($admin_data['username']); ?></span>
-                    <button class="logout-btn" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <main class="main-content">
+        <main class="main-content" id="mainContent">
             <div class="account-section">
+                <header class="header">
+                    <div class="header-content">
+                        <div class="admin-info">
+                            <span>Chào mừng, <?php echo htmlspecialchars($admin_data['username']); ?></span>
+                            <button class="logout-btn" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                
                 <div class="account-header" style="display: flex; justify-content: space-between; align-items: center;">
                     <h2><i class="fas fa-user-shield"></i> Quản Lý Tài Khoản Admin</h2>
-                    <!-- Tạm thời ẩn 2FA -->
-                    <label class="twofa-toggle">
-                        <input type="checkbox" id="twofaToggle" <?php echo $admin_data['active_2fa'] ? 'checked' : ''; ?>>
-                        <span class="slider"></span>
-                        <span class="twofa-label">Bật 2FA</span>
-                    </label>
+                    <div>
+                        <label class="twofa-toggle">
+                            <input type="checkbox" id="twofaToggle" <?php echo $admin_data['active_2fa'] ? 'checked' : ''; ?>>
+                            <span class="slider"></span>
+                            <span class="twofa-label">Bật 2FA</span>
+                        </label>
+                    </div>
                 </div>
-
-                <?php if (isset($success_message)): ?>
-                    <div class="message success">
-                        <i class="fas fa-check-circle"></i>
-                        <?php echo $success_message; ?>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (isset($error_message)): ?>
-                    <div class="message error">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <?php echo $error_message; ?>
-                    </div>
-                <?php endif; ?>
 
                 <div class="tab-nav">
                     <button class="tab-button active" data-tab="profileTab">Thông Tin Cá Nhân</button>
                     <button class="tab-button" data-tab="passwordTab">Đổi Mật Khẩu</button>
+                    <button class="tab-button" data-tab="hotelTab">Thông Tin Khách Sạn</button>
                 </div>
 
                 <div id="profileTab" class="tab-content">
                     <div class="form-container">
                         <h3><i class="fas fa-user"></i> Thông Tin Cá Nhân</h3>
-                        <form method="POST" class="form">
+                        <form method="POST" class="form" id="profileForm">
                             <div class="form-group">
                                 <label for="username"><i class="fas fa-user"></i> Tên đăng nhập</label>
                                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($admin_data['username']); ?>" required>
@@ -158,12 +67,13 @@ if (!$admin_data) {
                                 <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($admin_data['email']); ?>" required>
                             </div>
                             <div class="form-group">
-                                <label for="phone"><i class="fas fa-phone"></i> Số điện thoại</label>
-                                <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($admin_data['phone']); ?>" pattern="[0-9]{10,11}" title="Vui lòng nhập số điện thoại hợp lệ (10-11 số)">
-                            </div>
-                            <div class="form-group">
-                                <label for="position"><i class="fas fa-id-badge"></i> Chức vụ</label>
-                                <input type="text" id="position" name="position" value="<?php echo htmlspecialchars($admin_data['position']); ?>" required>
+                                <label for="mk_email"><i class="fas fa-lock"></i> Mật khẩu Email</label>
+                                <div class="password-input">
+                                    <input type="password" id="mk_email" name="mk_email" value="<?php echo htmlspecialchars($admin_data['mk_email']); ?>">
+                                    <button type="button" class="toggle-password" onclick="togglePassword('mk_email')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="profile_password"><i class="fas fa-lock"></i> Mật khẩu xác nhận</label>
@@ -184,7 +94,7 @@ if (!$admin_data) {
                 <div id="passwordTab" class="tab-content" style="display: none;">
                     <div class="form-container">
                         <h3><i class="fas fa-key"></i> Đổi Mật Khẩu</h3>
-                        <form method="POST" class="form">
+                        <form method="POST" class="form" id="passwordForm">
                             <div class="form-group">
                                 <label for="current_password"><i class="fas fa-lock"></i> Mật khẩu hiện tại</label>
                                 <div class="password-input">
@@ -225,50 +135,88 @@ if (!$admin_data) {
                     </div>
                 </div>
 
-                <div class="stats-container">
-                    <h3><i class="fas fa-chart-bar"></i> Thống Kê Tài Khoản</h3>
-                    <div class="stats-grid">
-                        <!-- <div class="stat-card">
-                            <div class="stat-icon"><i class="fas fa-user"></i></div>
-                            <div class="stat-info">
-                                <h4>Tên đăng nhập</h4>
-                                <p><?php echo htmlspecialchars($admin_data['username']); ?></p>
+                <div id="hotelTab" class="tab-content" style="display: none;">
+                    <div class="form-container">
+                        <h3><i class="fas fa-hotel"></i> Thông Tin Khách Sạn</h3>
+                        <form method="POST" class="form" id="hotelForm">
+                            <div class="form-group">
+                                <label for="name"><i class="fas fa-building"></i> Tên khách sạn</label>
+                                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($hotel_data['name']); ?>" required>
                             </div>
-                        </div> -->
-                        <div class="stat-card">
-                            <div class="stat-icon"><i class="fas fa-id-badge"></i></div>
-                            <div class="stat-info">
-                                <h4>Chức vụ</h4>
-                                <p><?php echo htmlspecialchars($admin_data['position']); ?></p>
+                            <div class="form-group">
+                                <label for="short_name"><i class="fas fa-building"></i> Tên viết tắt</label>
+                                <input type="text" id="short_name" name="short_name" value="<?php echo htmlspecialchars($hotel_data['short_name']); ?>" required>
                             </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon"><i class="fas fa-clock"></i></div>
-                            <div class="stat-info">
-                                <h4>Lần đăng nhập cuối</h4>
-                                <p><?php 
-                                    if ($admin_data['last_login']) {
-                                        echo date('d/m/Y H:i:s', strtotime($admin_data['last_login']));
-                                    } else {
-                                        echo 'Chưa có dữ liệu';
-                                    }
-                                ?></p>
+                            <div class="form-group">
+                                <label for="phone"><i class="fas fa-phone"></i> Số điện thoại</label>
+                                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($hotel_data['phone']); ?>" required>
                             </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
-                            <div class="stat-info">
-                                <h4>Trạng thái bảo mật</h4>
-                                <p class="security-status active">Hoạt động</p>
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($hotel_data['email']); ?>" required>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label for="facebook"><i class="fab fa-facebook"></i> Facebook</label>
+                                <input type="text" id="facebook" name="facebook" value="<?php echo htmlspecialchars($hotel_data['facebook']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="link_facebook"><i class="fab fa-facebook"></i> Link Facebook</label>
+                                <input type="url" id="link_facebook" name="link_facebook" value="<?php echo htmlspecialchars($hotel_data['link_facebook']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="logo"><i class="fas fa-image"></i> Logo</label>
+                                <input type="text" id="logo" name="logo" value="<?php echo htmlspecialchars($hotel_data['logo']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="position"><i class="fas fa-map-marker-alt"></i> Vị trí</label>
+                                <input type="url" id="position" name="position" value="<?php echo htmlspecialchars($hotel_data['position']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="website"><i class="fas fa-globe"></i> Website</label>
+                                <input type="text" id="website" name="website" value="<?php echo htmlspecialchars($hotel_data['website']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="link_website"><i class="fas fa-globe"></i> Link Website</label>
+                                <input type="url" id="link_website" name="link_website" value="<?php echo htmlspecialchars($hotel_data['link_website']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="iframe_ytb"><i class="fab fa-youtube"></i> Iframe YouTube</label>
+                                <textarea id="iframe_ytb" name="iframe_ytb" required><?php echo htmlspecialchars($hotel_data['iframe_ytb']); ?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="address_vi"><i class="fas fa-map-marker-alt"></i> Địa chỉ (Tiếng Việt)</label>
+                                <input type="text" id="address_vi" name="address_vi" value="<?php echo htmlspecialchars($lang_data[1]['address']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description_vi"><i class="fas fa-info-circle"></i> Mô tả (Tiếng Việt)</label>
+                                <textarea id="description_vi" name="description_vi" required><?php echo htmlspecialchars($lang_data[1]['description']); ?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="address_en"><i class="fas fa-map-marker-alt"></i> Địa chỉ (Tiếng Anh)</label>
+                                <input type="text" id="address_en" name="address_en" value="<?php echo htmlspecialchars($lang_data[2]['address']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description_en"><i class="fas fa-info-circle"></i> Mô tả (Tiếng Anh)</label>
+                                <textarea id="description_en" name="description_en" required><?php echo htmlspecialchars($lang_data[2]['description']); ?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="hotel_password"><i class="fas fa-lock"></i> Mật khẩu xác nhận</label>
+                                <div class="password-input">
+                                    <input type="password" id="hotel_password" name="hotel_password" required>
+                                    <button type="button" class="toggle-password" onclick="togglePassword('hotel_password')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="submit" name="update_hotel" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Cập nhật thông tin khách sạn
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-  <script src="/libertylaocai/view/js/taikhoan.js"></script>
-
-
+    <script src="/libertylaocai/view/js/taikhoan.js"></script>
 </body>
 </html>
