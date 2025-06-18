@@ -6283,33 +6283,21 @@ function getImages($conn, $topic_id, $page = '', $id_sukien = '')
         $images = [];
         switch ($topic_id) {
             case '1':
-                $sql = "SELECT atq.*, t.name AS hotel_name, ca.area AS chon_area 
+                $sql = "SELECT atq.*, t.name AS hotel_name 
                         FROM anhtongquat atq 
                         LEFT JOIN thongtinkhachsan t ON atq.id_thongtinhotel = t.id 
-                        LEFT JOIN chon_anhtongquat ca ON atq.id = ca.id_anhtongquat 
                         WHERE atq.id_topic = ? 
-                        ORDER BY ca.area IS NOT NULL DESC, atq.id DESC";
+                        ORDER BY atq.id DESC";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("i", $topic_id);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 while ($row = $result->fetch_assoc()) {
-                    $area_display = '';
-                    if ($row['chon_area']) {
-                        $area_map = [
-                            'feature-image-right' => 'Ảnh dịch vụ phải',
-                            'feature-image-left' => 'Ảnh dịch vụ trái',
-                            'banner-overlay' => 'Ảnh banner phủ'
-                        ];
-                        $area_display = $area_map[$row['chon_area']] ?? $row['chon_area'];
-                    }
                     $images[] = [
                         'id' => $row['id'],
                         'image' => $row['image'],
                         'table' => 'anhtongquat',
-                        'active' => $row['active'],
-                        'chon_area' => $row['chon_area'],
-                        'area_display' => $area_display
+                        'active' => $row['active']
                     ];
                 }
                 break;
@@ -6365,40 +6353,6 @@ function getImages($conn, $topic_id, $page = '', $id_sukien = '')
                         'table' => 'anhsukien',
                         'is_primary' => $row['is_primary'],
                         'extra_info' => 'Sự kiện: ' . ($row['event_title'] ?: $row['event_code'])
-                    ];
-                }
-                break;
-
-            case '12':
-                $sql = "SELECT * FROM anhnhahang WHERE id_topic = ? ORDER BY id DESC";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("i", $topic_id);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                while ($row = $result->fetch_assoc()) {
-                    $images[] = [
-                        'id' => $row['id'],
-                        'image' => $row['image'],
-                        'table' => 'anhnhahang',
-                        'active' => $row['active'],
-                        'created_at' => $row['created_at']
-                    ];
-                }
-                break;
-
-            case '13':
-                $sql = "SELECT * FROM anhbar WHERE id_topic = ? ORDER BY id DESC";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("i", $topic_id);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                while ($row = $result->fetch_assoc()) {
-                    $images[] = [
-                        'id' => $row['id'],
-                        'image' => $row['image'],
-                        'table' => 'anhbar',
-                        'active' => $row['active'],
-                        'created_at' => $row['created_at']
                     ];
                 }
                 break;
@@ -6489,22 +6443,6 @@ function uploadImages($conn, $topic_id, $files, $event_id = null, $service = nul
                                     VALUES (?, 0, ?, ?)";
                             $stmt = $conn->prepare($sql);
                             $stmt->bind_param("sii", $new_file_name, $topic_id, $event_id);
-                            $insert_success = $stmt->execute();
-                            break;
-
-                        case '12':
-                            $sql = "INSERT INTO anhnhahang (image, active, created_at, id_topic) 
-                                    VALUES (?, 1, NOW(), ?)";
-                            $stmt = $conn->prepare($sql);
-                            $stmt->bind_param("si", $new_file_name, $topic_id);
-                            $insert_success = $stmt->execute();
-                            break;
-
-                        case '13':
-                            $sql = "INSERT INTO anhbar (image, active, created_at, id_topic) 
-                                    VALUES (?, 1, NOW(), ?)";
-                            $stmt = $conn->prepare($sql);
-                            $stmt->bind_param("si", $new_file_name, $topic_id);
                             $insert_success = $stmt->execute();
                             break;
 
