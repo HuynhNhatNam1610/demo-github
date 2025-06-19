@@ -814,10 +814,11 @@ function openAddForm(type) {
     "/libertylaocai/view/img/uploads/new/place_holder.jpg";
   document.getElementById("outstanding").checked = false;
 
-  // Ẩn/hiện trường giá và checkbox dựa trên type
-  const priceGroup = document.getElementById("price-group");
+  // Ẩn/hiện nhóm giá và checkbox "Đặt làm nổi bật" dựa trên type
+  const priceOutstandingGroup = document.getElementById(
+    "price-outstanding-group"
+  );
   const priceInput = document.getElementById("price-input");
-  const outstandingCheckbox = document.getElementById("outstanding");
   const isTourMenu = [
     "tour",
     "hoinghi",
@@ -825,11 +826,13 @@ function openAddForm(type) {
     "gala",
     "tieccuoi",
   ].includes(type);
-  // Kiểm tra null trước khi truy cập style
-  if (priceGroup) priceGroup.style.display = isTourMenu ? "none" : "block";
-  if (priceInput) priceInput.required = !isTourMenu;
-  if (outstandingCheckbox)
-    outstandingCheckbox.style.display = isTourMenu ? "none" : "block"; // Thêm kiểm tra null
+
+  if (priceOutstandingGroup) {
+    priceOutstandingGroup.style.display = isTourMenu ? "none" : "flex";
+  }
+  if (priceInput) {
+    priceInput.required = !isTourMenu;
+  }
 
   document.getElementById("menu-modal").style.display = "block";
 }
@@ -856,9 +859,11 @@ function editItem(id, type) {
   document.getElementById("post-type").value = type;
   document.getElementById("primary-image").removeAttribute("required");
 
-  const priceGroup = document.getElementById("price-group");
+  // Ẩn/hiện nhóm giá và checkbox "Đặt làm nổi bật" dựa trên type
+  const priceOutstandingGroup = document.getElementById(
+    "price-outstanding-group"
+  );
   const priceInput = document.getElementById("price-input");
-  const outstandingCheckbox = document.getElementById("outstanding"); // Có thể null
   const isTourMenu = [
     "tour",
     "hoinghi",
@@ -867,11 +872,12 @@ function editItem(id, type) {
     "tieccuoi",
   ].includes(type);
 
-  // Kiểm tra null trước khi truy cập style
-  if (priceGroup) priceGroup.style.display = isTourMenu ? "none" : "block";
-  if (priceInput) priceInput.required = !isTourMenu;
-  if (outstandingCheckbox)
-    outstandingCheckbox.style.display = isTourMenu ? "none" : "block"; // Thêm kiểm tra null
+  if (priceOutstandingGroup) {
+    priceOutstandingGroup.style.display = isTourMenu ? "none" : "flex";
+  }
+  if (priceInput) {
+    priceInput.required = !isTourMenu;
+  }
 
   const endpoint = ["tour", "hoinghi", "sinhnhat", "gala", "tieccuoi"].includes(
     type
@@ -895,8 +901,8 @@ function editItem(id, type) {
         document.getElementById("image-preview").src = data.item.image
           ? `/libertylaocai/view/img/${data.item.image}`
           : "/libertylaocai/view/img/uploads/new/place_holder.jpg";
-        if (outstandingCheckbox)
-          outstandingCheckbox.checked = data.item.outstanding === 1; // Thêm kiểm tra null
+        document.getElementById("outstanding").checked =
+          data.item.outstanding === 1;
         document.getElementById("menu-modal").style.display = "block";
       } else {
         alert("Lỗi: " + data.message);
