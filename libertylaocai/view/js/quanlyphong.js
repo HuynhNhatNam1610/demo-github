@@ -141,57 +141,57 @@ function addAmenityInput() {
   container.appendChild(div);
 }
 
-// Hàm xử lý upload ảnh khi thêm loại phòng
-function attachRoomImageUploadListener() {
-  const imageUpload = document.getElementById("room_type_images");
-  const uploadArea = document.querySelector("#addRoomTypeModal .upload-area");
-  if (!imageUpload || !uploadArea) {
-    console.error("Không tìm thấy imageUpload hoặc uploadArea");
-    return;
-  }
+// // Hàm xử lý upload ảnh khi thêm loại phòng
+// function attachRoomImageUploadListener() {
+//   const imageUpload = document.getElementById("room_type_images");
+//   const uploadArea = document.querySelector("#addRoomTypeModal .upload-area");
+//   if (!imageUpload || !uploadArea) {
+//     console.error("Không tìm thấy imageUpload hoặc uploadArea");
+//     return;
+//   }
 
-  uploadArea.onclick = (e) => {
-    if (
-      e.target === uploadArea ||
-      e.target.closest(".upload-icon, .upload-text, .add-more-btn")
-    ) {
-      imageUpload.click();
-    }
-  };
+//   uploadArea.onclick = (e) => {
+//     if (
+//       e.target === uploadArea ||
+//       e.target.closest(".upload-icon, .upload-text, .add-more-btn")
+//     ) {
+//       imageUpload.click();
+//     }
+//   };
 
-  imageUpload.addEventListener("change", function (e) {
-    const files = e.target.files;
-    if (!files.length) return;
+//   imageUpload.addEventListener("change", function (e) {
+//     const files = e.target.files;
+//     if (!files.length) return;
 
-    const maxTotalFiles = 4;
-    let validNewFiles = Array.from(files).filter((file) => {
-      const isDuplicate = selectedRoomImages.some(
-        (f) => f.name === file.name && f.size === file.size
-      );
-      if (isDuplicate) {
-        showAlert("error", `Tệp ${file.name} đã được chọn.`);
-        return false;
-      }
-      return true;
-    });
+//     const maxTotalFiles = 4;
+//     let validNewFiles = Array.from(files).filter((file) => {
+//       const isDuplicate = selectedRoomImages.some(
+//         (f) => f.name === file.name && f.size === file.size
+//       );
+//       if (isDuplicate) {
+//         showAlert("error", `Tệp ${file.name} đã được chọn.`);
+//         return false;
+//       }
+//       return true;
+//     });
 
-    if (selectedRoomImages.length + validNewFiles.length > maxTotalFiles) {
-      const remainingSlots = maxTotalFiles - selectedRoomImages.length;
-      if (remainingSlots > 0) {
-        showAlert("error", `Chỉ có thể thêm ${remainingSlots} ảnh nữa.`);
-        validNewFiles = validNewFiles.slice(0, remainingSlots);
-      } else {
-        showAlert("error", `Đã đạt giới hạn tối đa ${maxTotalFiles} ảnh.`);
-        return;
-      }
-    }
+//     if (selectedRoomImages.length + validNewFiles.length > maxTotalFiles) {
+//       const remainingSlots = maxTotalFiles - selectedRoomImages.length;
+//       if (remainingSlots > 0) {
+//         showAlert("error", `Chỉ có thể thêm ${remainingSlots} ảnh nữa.`);
+//         validNewFiles = validNewFiles.slice(0, remainingSlots);
+//       } else {
+//         showAlert("error", `Đã đạt giới hạn tối đa ${maxTotalFiles} ảnh.`);
+//         return;
+//       }
+//     }
 
-    selectedRoomImages = [...selectedRoomImages, ...validNewFiles];
-    updateRoomTypeImageInput();
-    renderRoomTypeImagePreviews();
-    e.target.value = "";
-  });
-}
+//     selectedRoomImages = [...selectedRoomImages, ...validNewFiles];
+//     updateRoomTypeImageInput();
+//     renderRoomTypeImagePreviews();
+//     e.target.value = "";
+//   });
+// }
 
 function updateRoomTypeImageInput() {
   const imageUpload = document.getElementById("room_type_images");
@@ -512,11 +512,6 @@ function updateRoomTypeList(roomTypes) {
                 )})'>
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-danger btn-small" onclick="confirmDeleteRoomType(${
-                  type.id
-                }, '${type.languages[1].name}')">
-                    <i class="fas fa-trash"></i>
-                </button>
             </td>
         `;
     tbody.appendChild(row);
@@ -747,17 +742,17 @@ function closeModal(modalId) {
   }
 }
 
-function confirmDeleteRoomType(roomTypeId, roomTypeName) {
-  if (confirm(`Bạn có chắc chắn muốn xóa loại phòng "${roomTypeName}"?`)) {
-    const formData = new FormData();
-    formData.append("action", "delete_room_type");
-    formData.append("room_type_id", roomTypeId);
-    submitFormAjax(formData);
-  }
-}
+// function confirmDeleteRoomType(roomTypeId, roomTypeName) {
+//   if (confirm(`Bạn có chắc chắn muốn xóa loại phòng "${roomTypeName}"?`)) {
+//     const formData = new FormData();
+//     formData.append("action", "delete_room_type");
+//     formData.append("room_type_id", roomTypeId);
+//     submitFormAjax(formData);
+//   }
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
-  attachRoomImageUploadListener();
+  // attachRoomImageUploadListener();
   attachEditRoomImageUploadListener();
   fetchRoomTypes();
 
