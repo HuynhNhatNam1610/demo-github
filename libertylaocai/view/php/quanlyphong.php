@@ -59,9 +59,9 @@ $room_types = getRoomTypes1($conn);
                                         <button class="btn btn-warning btn-small" onclick="openEditRoomTypeModal(<?php echo htmlspecialchars(json_encode($type)); ?>)">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button class="btn btn-danger btn-small" onclick="confirmDeleteRoomType(<?php echo $type['id']; ?>, '<?php echo htmlspecialchars($type['name']); ?>')">
+                                        <!-- <button class="btn btn-danger btn-small" onclick="confirmDeleteRoomType(<?php  $type['id']; ?>, '<?php echo htmlspecialchars($type['name']); ?>')">
                                             <i class="fas fa-trash"></i>
-                                        </button>
+                                        </button> -->
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -72,7 +72,7 @@ $room_types = getRoomTypes1($conn);
         </div>
 
         <!-- Modal thêm loại phòng -->
-        <div id="addRoomTypeModal" class="modal">
+        <!-- <div id="addRoomTypeModal" class="modal">
             <div class="modal-content" style="max-width: 800px;">
                 <span class="close" onclick="closeModal('addRoomTypeModal')">×</span>
                 <h2><i class="fas fa-plus"></i> Thêm Loại Phòng Mới</h2>
@@ -137,7 +137,7 @@ $room_types = getRoomTypes1($conn);
                     </button>
                 </form>
             </div>
-        </div>
+        </div> -->
 
         <!-- Modal sửa loại phòng -->
         <div id="editRoomTypeModal" class="modal">
@@ -229,10 +229,10 @@ $room_types = getRoomTypes1($conn);
         </div>
 
         <!-- Form ẩn để xóa loại phòng -->
-        <form id="deleteRoomTypeForm" method="POST" style="display: none;">
+        <!-- <form id="deleteRoomTypeForm" method="POST" style="display: none;">
             <input type="hidden" name="action" value="delete_room_type">
             <input type="hidden" name="room_type_id" id="delete_room_type_id">
-        </form>
+        </form> -->
 
         <script src="/libertylaocai/view/js/quanlyphong.js"></script>
     </div>
