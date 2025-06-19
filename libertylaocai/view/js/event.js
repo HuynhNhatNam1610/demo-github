@@ -244,6 +244,10 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       e.stopImmediatePropagation();
 
+      // Hiển thị overlay loading toàn màn hình
+      const fullScreenLoader = document.getElementById("fullScreenLoader");
+      fullScreenLoader.style.display = "flex";
+
       // Kiểm tra các trường bắt buộc bằng HTML5 validation
       let isValid = bookingForm.checkValidity();
 
@@ -307,12 +311,6 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = false;
       }
 
-      // Hiển thị overlay loading toàn màn hình
-      const fullScreenLoader = document.getElementById("fullScreenLoader");
-      fullScreenLoader.style.display = "flex";
-
-      // [Các kiểm tra và xử lý form hiện tại...]
-
       if (isValid) {
         const formData = new FormData(bookingForm);
         formData.append("submit_booking", "true");
@@ -321,33 +319,44 @@ document.addEventListener("DOMContentLoaded", function () {
           formData.append(`images[]`, file);
         });
 
-        console.log("FormData entries:");
-        for (let [key, value] of formData.entries()) {
-          console.log(
-            key,
-            value instanceof File ? `File: ${value.name}` : value
-          );
-        }
-
         fetch("/libertylaocai/user/submit", {
           method: "POST",
           body: formData,
         })
           .then((response) => {
-            console.log("Fetch response status:", response.status);
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
             return response.json();
           })
           .then((data) => {
-            console.log("Server response:", data);
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
             if (data.status === "success") {
-              alert(
-                languageId == 1
-                  ? "Gửi yêu cầu thành công! Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất."
-                  : "Request sent successfully! We will contact you as soon as possible."
-              );
+              // Tạo thông báo động
+              const notification = document.createElement("div");
+              notification.className = "success-notification";
+              notification.innerHTML = `
+                <div class="notification-content">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h3>${languageId == 1 ? "Thành công!" : "Success!"}</h3>
+                    <p>${
+                      languageId == 1
+                        ? "Yêu cầu đặt lịch sự kiện đã được gửi thành công."
+                        : "Your event booking request has been sent successfully."
+                    }</p>
+                  </div>
+                </div>
+              `;
+              document.body.appendChild(notification);
+
+              // Tự động ẩn thông báo sau 3 giây
+              setTimeout(() => {
+                notification.style.animation = "slideOutRight 0.3s ease-in";
+                setTimeout(() => notification.remove(), 300);
+              }, 3000);
+
               bookingForm.reset();
               selectedFiles = [];
               clearImagePreviews();
@@ -359,18 +368,16 @@ document.addEventListener("DOMContentLoaded", function () {
                   : "Error: " + (data.message || "Please try again.")
               );
             }
-            // Ẩn overlay loading
-            fullScreenLoader.style.display = "none";
           })
           .catch((error) => {
-            console.error("Fetch error:", error);
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
+            console.error("Error:", error);
             alert(
               languageId == 1
                 ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
                 : "An error occurred while sending the request. Please try again."
             );
-            // Ẩn overlay loading
-            fullScreenLoader.style.display = "none";
           });
       } else {
         // Ẩn overlay loading nếu form không hợp lệ
@@ -402,14 +409,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
-  $(document).on("click", ".event-more", function (e) {
-    e.preventDefault();
-    var $form = $(this).closest("form");
-    if ($form.length) {
-      $form.submit();
-    }
-  });
 
   // Gắn sự kiện lần đầu khi tải trang
   attachImageUploadListener();

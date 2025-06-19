@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  const phoneInput = document.getElementById("phone");
+  const phoneInput = document.getElementById("phoneNumber");
   if (phoneInput) {
     phoneInput.addEventListener("input", function (e) {
       let value = e.target.value.replace(/\D/g, "");
@@ -393,48 +393,6 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = false;
       }
 
-      // if (isValid) {
-      //   const submitBtn = document.querySelector(".submit-booking-btn");
-      //   const originalText = submitBtn.innerHTML;
-      //   submitBtn.innerHTML =
-      //     '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-      //   submitBtn.disabled = true;
-
-      //   const formData = new FormData(bookingForm);
-      //   formData.append("submit_booking_restaurant", "true");
-
-      //   fetch("/libertylaocai/user/submit", {
-      //     method: "POST",
-      //     body: formData,
-      //   })
-      //     .then((response) => {
-      //       if (!response.ok) {
-      //         throw new Error(`HTTP error! Status: ${response.status}`);
-      //       }
-      //       return response.json();
-      //     })
-      //     .then((data) => {
-      //       submitBtn.innerHTML = originalText;
-      //       submitBtn.disabled = false;
-      //       if (data.status === "success") {
-      //         alert(data.message);
-      //         bookingForm.reset();
-      //         switchTab("description");
-      //       } else {
-      //         alert(data.message);
-      //       }
-      //     })
-      //     .catch((error) => {
-      //       submitBtn.innerHTML = originalText;
-      //       submitBtn.disabled = false;
-      //       console.error("Error:", error);
-      //       alert(
-      //         languageId == 1
-      //           ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
-      //           : "An error occurred while sending the request. Please try again."
-      //       );
-      //     });
-      // }
       if (isValid) {
         const formData = new FormData(bookingForm);
         formData.append("submit_booking_restaurant", "true");
@@ -453,11 +411,38 @@ document.addEventListener("DOMContentLoaded", function () {
             // Ẩn overlay loading
             fullScreenLoader.style.display = "none";
             if (data.status === "success") {
-              alert(data.message);
+              // Tạo thông báo động
+              const notification = document.createElement("div");
+              notification.className = "success-notification";
+              notification.innerHTML = `
+                <div class="notification-content">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h3>${languageId == 1 ? "Thành công!" : "Success!"}</h3>
+                    <p>${
+                      languageId == 1
+                        ? "Đặt bàn của bạn đã được gửi thành công, chúng tôi sẽ sớm liên hệ với bạn."
+                        : "Your booking has been sent successfully, we will contact you as soon as possible."
+                    }</p>
+                  </div>
+                </div>
+              `;
+              document.body.appendChild(notification);
+
+              // Tự động ẩn thông báo sau 3 giây
+              setTimeout(() => {
+                notification.style.animation = "slideOutRight 0.3s ease-in";
+                setTimeout(() => notification.remove(), 300);
+              }, 3000);
+
               bookingForm.reset();
               switchTab("description");
             } else {
-              alert(data.message);
+              alert(
+                languageId == 1
+                  ? "Lỗi: " + data.message
+                  : "Error: " + data.message
+              );
             }
           })
           .catch((error) => {
@@ -483,11 +468,11 @@ document.addEventListener("DOMContentLoaded", function () {
     input.addEventListener("change", function () {
       const rating = this.value;
       const ratingTexts = {
-        1: "Rất tệ",
-        2: "Tệ",
-        3: "Bình thường",
-        4: "Tốt",
-        5: "Xuất sắc",
+        1: languageId == 1 ? "Rất tệ" : "Very bad",
+        2: languageId == 1 ? "Tệ" : "Bad",
+        3: languageId == 1 ? "Bình thường" : "Average",
+        4: languageId == 1 ? "Tốt" : "Good",
+        5: languageId == 1 ? "Xuất sắc" : "Excellent",
       };
       ratingText.textContent = `${rating} sao - ${ratingTexts[rating]}`;
       ratingText.style.color = "#007bff";
@@ -572,7 +557,6 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(element);
   });
 });
-
 function toggleReviewForm() {
   const form = document.getElementById("reviewForm");
   const btn = document.querySelector(".write-review-btn");

@@ -964,18 +964,44 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
           })
           .then((data) => {
-            console.log("Server response:", data);
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
             if (data.status === "success") {
-              alert(data.message);
+              // Tạo thông báo động
+              const notification = document.createElement("div");
+              notification.className = "success-notification";
+              notification.innerHTML = `
+                <div class="notification-content">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h3>${languageId == 1 ? "Thành công!" : "Success!"}</h3>
+                    <p>${
+                      languageId == 1
+                        ? "Yêu cầu đặt lịch sự kiện đã được gửi thành công."
+                        : "Your event booking request has been sent successfully."
+                    }</p>
+                  </div>
+                </div>
+              `;
+              document.body.appendChild(notification);
+
+              // Tự động ẩn thông báo sau 3 giây
+              setTimeout(() => {
+                notification.style.animation = "slideOutRight 0.3s ease-in";
+                setTimeout(() => notification.remove(), 300);
+              }, 3000);
+
               quickBookingForm.reset();
               selectedFiles = [];
               clearImagePreviews();
               showTab("description");
             } else {
-              alert(data.message);
+              alert(
+                languageId == 1
+                  ? "Lỗi: " + (data.message || "Vui lòng thử lại.")
+                  : "Error: " + (data.message || "Please try again.")
+              );
             }
-            // Ẩn overlay loading
-            fullScreenLoader.style.display = "none";
           })
           .catch((error) => {
             console.error("Fetch error:", error);
@@ -1003,147 +1029,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
-
-  const eventDateInput = document.getElementById("quickEventDate");
-  const endDateInput = document.getElementById("quickEndDate");
-  if (eventDateInput && endDateInput) {
-    eventDateInput.min = new Date().toISOString().split("T")[0];
-    endDateInput.min = new Date().toISOString().split("T")[0];
-
-    eventDateInput.addEventListener("change", function () {
-      endDateInput.min = this.value;
-      if (endDateInput.value < this.value) {
-        endDateInput.value = this.value;
-      }
-    });
-  }
-
-  const slider = document.querySelector(".gallery-slider");
-  const items = document.querySelectorAll(".gallery-item");
-  const prevBtn = document.querySelector(".prev-btn");
-  const nextBtn = document.querySelector(".next-btn");
-  const dots = document.querySelectorAll(".dot");
-  let currentIndex = 0;
-
-  function updateSlider() {
-    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-    dots.forEach((dot, index) => {
-      dot.classList.toggle("active", index === currentIndex);
-    });
-  }
-
-  prevBtn.addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + items.length) % items.length;
-    updateSlider();
-  });
-
-  nextBtn.addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % items.length;
-    updateSlider();
-  });
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      currentIndex = index;
-      updateSlider();
-    });
-  });
-
-  updateSlider();
-
-  const specSliders = document.querySelectorAll(".spec-img");
-  specSliders.forEach((sliderContainer) => {
-    const slider = sliderContainer.querySelector(".spec-img-slider");
-    const items = sliderContainer.querySelectorAll(".spec-img-item");
-    const dots = sliderContainer.querySelectorAll(".spec-dot");
-    const prevBtn = sliderContainer.querySelector(".spec-prev-btn");
-    const nextBtn = sliderContainer.querySelector(".spec-next-btn");
-    let currentIndex = 0;
-
-    function updateSlider() {
-      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-      dots.forEach((dot, index) => {
-        dot.classList.toggle("active", index === currentIndex);
-      });
-    }
-
-    prevBtn.addEventListener("click", () => {
-      currentIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
-      updateSlider();
-    });
-
-    nextBtn.addEventListener("click", () => {
-      currentIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
-      updateSlider();
-    });
-
-    dots.forEach((dot) => {
-      dot.addEventListener("click", () => {
-        currentIndex = parseInt(dot.getAttribute("data-index"));
-        updateSlider();
-      });
-    });
-
-    updateSlider();
-  });
-
-  attachImageUploadListener();
-
-  // Menu Slider
-  const menuSliders = document.querySelectorAll(".menu-slider-container");
-  menuSliders.forEach((sliderContainer) => {
-    const slider = sliderContainer.querySelector(".menu-slider");
-    const items = sliderContainer.querySelectorAll(".menu-slide");
-    const prevBtn = sliderContainer.querySelector(".menu-prev-btn");
-    const nextBtn = sliderContainer.querySelector(".menu-next-btn");
-    const dots = sliderContainer.querySelectorAll(".menu-dot");
-    let currentIndex = 0;
-
-    function updateMenuSlider() {
-      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-      dots.forEach((dot, index) => {
-        dot.classList.toggle("active", index === currentIndex);
-      });
-    }
-
-    if (prevBtn) {
-      prevBtn.addEventListener("click", () => {
-        currentIndex = (currentIndex - 1 + items.length) % items.length;
-        updateMenuSlider();
-      });
-    }
-
-    if (nextBtn) {
-      nextBtn.addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % items.length;
-        updateMenuSlider();
-      });
-    }
-
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => {
-        currentIndex = index;
-        updateMenuSlider();
-      });
-    });
-
-    updateMenuSlider();
-  });
-
-  // Thêm sự kiện cho nút "Đặt Lịch Nhanh"
-  const quickBookingBtn = document.querySelector(".quick-booking-btn");
-  if (quickBookingBtn) {
-    quickBookingBtn.addEventListener("click", function () {
-      showTab("booking");
-      // Cuộn đến đầu tab booking
-      const bookingTab = document.getElementById("booking");
-      if (bookingTab) {
-        bookingTab.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    });
-  }
-
-  attachImageUploadListener();
 });
 
 document.getElementById("quickBudget").addEventListener("input", function (e) {

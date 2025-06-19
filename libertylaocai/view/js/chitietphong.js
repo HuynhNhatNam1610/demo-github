@@ -873,7 +873,30 @@ function submitBookingForm(event) {
       // Ẩn overlay loading
       fullScreenLoader.style.display = "none";
       if (data.status === "success") {
-        alert(data.message);
+        // Tạo thông báo động
+        const notification = document.createElement("div");
+        notification.className = "success-notification";
+        notification.innerHTML = `
+          <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <h3>${languageId == 1 ? "Thành công!" : "Success!"}</h3>
+              <p>${
+                languageId == 1
+                  ? "gửi yêu cầu thành công! chúng tôi sẽ sớm liên hệ"
+                  : "Request sent successful! we will contact you as soon as possible"
+              }</p>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(notification);
+
+        // Tự động ẩn thông báo sau 3 giây
+        setTimeout(() => {
+          notification.style.animation = "slideOutRight 0.3s ease-in";
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+
         form.reset();
         switchTab("description");
       } else {

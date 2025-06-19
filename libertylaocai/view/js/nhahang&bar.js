@@ -153,38 +153,6 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = false;
       }
 
-      // if (isValid) {
-      //   const formData = new FormData(bookingForm);
-      //   formData.append("submit_booking_restaurant", "true");
-
-      //   fetch("/libertylaocai/user/submit", {
-      //     method: "POST",
-      //     body: formData,
-      //   })
-      //     .then((response) => {
-      //       if (!response.ok) {
-      //         throw new Error(`HTTP error! Status: ${response.status}`);
-      //       }
-      //       return response.json();
-      //     })
-      //     .then((data) => {
-      //       if (data.status === "success") {
-      //         alert(data.message);
-      //         bookingForm.reset();
-      //         closeModal();
-      //       } else {
-      //         alert(data.message);
-      //       }
-      //     })
-      //     .catch((error) => {
-      //       console.error("Error:", error);
-      //       alert(
-      //         languageId == 1
-      //           ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
-      //           : "An error occurred while sending the request. Please try again."
-      //       );
-      //     });
-      // }
       if (isValid) {
         const formData = new FormData(bookingForm);
         formData.append("submit_booking_restaurant", "true");
@@ -200,25 +168,52 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
           })
           .then((data) => {
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
             if (data.status === "success") {
-              alert(data.message);
+              // Tạo thông báo động
+              const notification = document.createElement("div");
+              notification.className = "success-notification";
+              notification.innerHTML = `
+                <div class="notification-content">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h3>${languageId == 1 ? "Thành công!" : "Success!"}</h3>
+                    <p>${
+                      languageId == 1
+                        ? "Yêu cầu đặt bàn của bạn đã được gửi thành công."
+                        : "Your booking request has been sent successfully."
+                    }</p>
+                  </div>
+                </div>
+              `;
+              document.body.appendChild(notification);
+
+              // Tự động ẩn thông báo sau 3 giây
+              setTimeout(() => {
+                notification.style.animation = "slideOutRight 0.3s ease-in";
+                setTimeout(() => notification.remove(), 300);
+              }, 3000);
+
               bookingForm.reset();
               closeModal();
             } else {
-              alert(data.message);
+              alert(
+                languageId == 1
+                  ? "Lỗi: " + data.message
+                  : "Error: " + data.message
+              );
             }
-            // Ẩn overlay loading
-            fullScreenLoader.style.display = "none";
           })
           .catch((error) => {
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
             console.error("Error:", error);
             alert(
               languageId == 1
                 ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
                 : "An error occurred while sending the request. Please try again."
             );
-            // Ẩn overlay loading
-            fullScreenLoader.style.display = "none";
           });
       } else {
         // Ẩn overlay loading nếu form không hợp lệ
