@@ -366,7 +366,7 @@ function updateEventTable(events) {
             <td>${event.id}</td>
             <td>${event.customer_name || 'N/A'}</td>
             <td>${eventTypeMap[event.type_event] || event.type_event}</td> 
-            <td>${new Date(event.start_at).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
+            <td>${new Date(event.created_at).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
             <td>${event.is_read === 0 ? 'Chưa đọc' : 'Đã đọc'}</td>
             <td>
                 <button class="btn btn-info btn-small" onclick='openDetailEventModal(${JSON.stringify(event)})'><i class="fas fa-info-circle"></i></button>
@@ -535,7 +535,7 @@ function updateRestaurantTable(restaurants) {
         row.innerHTML = `
             <td>${restaurant.id}</td>
             <td>${restaurant.customer_name || 'N/A'}</td>
-            <td>${new Date(restaurant.start_at).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
+            <td>${new Date(restaurant.created_at).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
             <td>${restaurant.occasion || 'N/A'}</td> <!-- Thêm cột Dịp -->
             <td>${restaurant.is_read === 0 ? 'Chưa đọc' : 'Đã đọc'}</td> 
             <td>
@@ -706,7 +706,7 @@ function updateBarTable(bars) {
         row.innerHTML = `
             <td>${bar.id}</td>
             <td>${bar.customer_name || 'N/A'}</td>
-            <td>${new Date(bar.start_at).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
+            <td>${new Date(bar.created_at).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
             <td>${bar.is_read === 0 ? 'Chưa đọc' : 'Đã đọc'}</td> 
             <td>
                 <button class="btn btn-info btn-small" onclick='openDetailBarModal(${JSON.stringify(bar)})'><i class="fas fa-info-circle"></i></button>
@@ -1161,7 +1161,7 @@ function updateBarTable(bars) {
         row.innerHTML = `
             <td>${bar.id}</td>
             <td>${bar.customer_name || 'N/A'}</td>
-            <td>${new Date(bar.start_at).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
+            <td>${new Date(bar.created_at).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
             <td>${bar.is_read === 0 ? 'Chưa đọc' : 'Đã đọc'}</td> 
             <td>
                 <button class="btn btn-info btn-small" onclick='openDetailBarModal(${JSON.stringify(bar)})'><i class="fas fa-info-circle"></i></button>
@@ -1254,12 +1254,12 @@ function showEventDetailModal(event) {
             const slide = document.createElement('div');
             slide.className = 'swiper-slide';
             const aElement = document.createElement('a');
-            aElement.href = `/libertylaocai/view/img/uploads/dattiec/${image}`;
+            aElement.href = `/libertylaocai/view/img/uploads/${image}`;
             aElement.setAttribute('data-lightbox', 'event-images');
             aElement.setAttribute('data-title', `Hình ảnh sự kiện ${index + 1}`);
 
             const imgElement = document.createElement('img');
-            imgElement.src = `/libertylaocai/view/img/uploads/dattiec/${image}`;
+            imgElement.src = `/libertylaocai/view/img/uploads/${image}`;
             imgElement.alt = 'Hình ảnh sự kiện';
             imgElement.style.maxWidth = '150px';
             imgElement.style.maxHeight = '150px';
