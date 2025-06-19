@@ -41,7 +41,7 @@ $getSubsectionHeader = getSubsectionHeaderCategories($languageId);
                         </div>
                         <div class="right-align">
                             <div class="language">
-                                <img src="view/img/<?php echo $languageId == 1 ? 'vi.jpg' : 'en.jpg'; ?>" alt="<?php echo $languageId == 1 ? 'Vietnam Flag' : 'English Flag'; ?>" class="flag language-toggle" data-lang="<?php echo $languageId == 1 ? 2 : 1; ?>">
+                                <img src="/view/img/<?php echo $languageId == 1 ? 'vi.jpg' : 'en.jpg'; ?>" alt="<?php echo $languageId == 1 ? 'Vietnam Flag' : 'English Flag'; ?>" class="flag language-toggle" data-lang="<?php echo $languageId == 1 ? 2 : 1; ?>">
                             </div>
                             <div class="login"><a href="/libertylaocai/dang-nhap" class="login-icon"><i class="fas fa-user"></i></a></div>
                         </div>
@@ -51,7 +51,7 @@ $getSubsectionHeader = getSubsectionHeaderCategories($languageId);
                             <a class="home" href="/libertylaocai/trangchu">
                                 <div class="logo">
                                     <div class="logo-img">
-                                        <img src="view/img/<?php echo htmlspecialchars($info['logo']); ?>" alt="<?php echo htmlspecialchars($info['name']); ?>">
+                                        <img src="/view/img/<?php echo htmlspecialchars($info['logo']); ?>" alt="<?php echo htmlspecialchars($info['name']); ?>">
                                     </div>
                                     <div class="logo-text">
                                         Liberty
@@ -61,7 +61,7 @@ $getSubsectionHeader = getSubsectionHeaderCategories($languageId);
                         <?php endforeach; ?>
                         <div class="header-respon">
                             <div class="language1">
-                                <img src="view/img/<?php echo $languageId == 1 ? 'vi.jpg' : 'en.jpg'; ?>" alt="<?php echo $languageId == 1 ? 'Vietnam Flag' : 'English Flag'; ?>" class="flag language-toggle" data-lang="<?php echo $languageId == 1 ? 2 : 1; ?>">
+                                <img src="/view/img/<?php echo $languageId == 1 ? 'vi.jpg' : 'en.jpg'; ?>" alt="<?php echo $languageId == 1 ? 'Vietnam Flag' : 'English Flag'; ?>" class="flag language-toggle" data-lang="<?php echo $languageId == 1 ? 2 : 1; ?>">
                             </div>
                             <div class="header-list">
                                 <button class="menu-toggle"> <i class="bi bi-list"></i></button>
