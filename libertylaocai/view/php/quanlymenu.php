@@ -1,7 +1,7 @@
 <?php
 require_once "session.php";
 require_once "../../model/UserModel.php";
-if(!isset($_SESSION['authenticated'])){
+if (!isset($_SESSION['authenticated'])) {
     header("location: /libertylaocai/dang-nhap");
 }
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
@@ -198,12 +198,12 @@ $bar_drink_items = getMenuBar(1, 'cocktails');
                         </div>
 
                         <!-- Price and Outstanding Group -->
-                        <div class="price-outstanding-group">
-                            <div class="form-group price-group">
+                        <div class="price-outstanding-group" id="price-outstanding-group">
+                            <div class="form-group price-group" id="price-group">
                                 <label for="price-input">Giá (VNĐ)</label>
                                 <input type="text" id="price-input" name="price" class="price-input">
                             </div>
-                            <div class="form-group outstanding-group">
+                            <div class="form-group outstanding-group" id="outstanding-group">
                                 <label>
                                     <input type="checkbox" id="outstanding" name="outstanding" value="1">
                                     Đặt làm nổi bật
