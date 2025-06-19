@@ -966,6 +966,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((data) => {
             // Ẩn overlay loading
             fullScreenLoader.style.display = "none";
+            console.log("Server response:", data);
             if (data.status === "success") {
               // Tạo thông báo động
               const notification = document.createElement("div");
@@ -1004,14 +1005,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           })
           .catch((error) => {
+            // Ẩn overlay loading
+            fullScreenLoader.style.display = "none";
             console.error("Fetch error:", error);
             alert(
               languageId == 1
                 ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
                 : "An error occurred while sending the request. Please try again."
             );
-            // Ẩn overlay loading
-            fullScreenLoader.style.display = "none";
           });
       } else {
         // Ẩn overlay loading nếu form không hợp lệ
@@ -1029,6 +1030,147 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+
+  const eventDateInput = document.getElementById("quickEventDate");
+  const endDateInput = document.getElementById("quickEndDate");
+  if (eventDateInput && endDateInput) {
+    eventDateInput.min = new Date().toISOString().split("T")[0];
+    endDateInput.min = new Date().toISOString().split("T")[0];
+
+    eventDateInput.addEventListener("change", function () {
+      endDateInput.min = this.value;
+      if (endDateInput.value < this.value) {
+        endDateInput.value = this.value;
+      }
+    });
+  }
+
+  const slider = document.querySelector(".gallery-slider");
+  const items = document.querySelectorAll(".gallery-item");
+  const prevBtn = document.querySelector(".prev-btn");
+  const nextBtn = document.querySelector(".next-btn");
+  const dots = document.querySelectorAll(".dot");
+  let currentIndex = 0;
+
+  function updateSlider() {
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === currentIndex);
+    });
+  }
+
+  prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + items.length) % items.length;
+    updateSlider();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % items.length;
+    updateSlider();
+  });
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      currentIndex = index;
+      updateSlider();
+    });
+  });
+
+  updateSlider();
+
+  const specSliders = document.querySelectorAll(".spec-img");
+  specSliders.forEach((sliderContainer) => {
+    const slider = sliderContainer.querySelector(".spec-img-slider");
+    const items = sliderContainer.querySelectorAll(".spec-img-item");
+    const dots = sliderContainer.querySelectorAll(".spec-dot");
+    const prevBtn = sliderContainer.querySelector(".spec-prev-btn");
+    const nextBtn = sliderContainer.querySelector(".spec-next-btn");
+    let currentIndex = 0;
+
+    function updateSlider() {
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentIndex);
+      });
+    }
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+      updateSlider();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+      updateSlider();
+    });
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        currentIndex = parseInt(dot.getAttribute("data-index"));
+        updateSlider();
+      });
+    });
+
+    updateSlider();
+  });
+
+  attachImageUploadListener();
+
+  // Menu Slider
+  const menuSliders = document.querySelectorAll(".menu-slider-container");
+  menuSliders.forEach((sliderContainer) => {
+    const slider = sliderContainer.querySelector(".menu-slider");
+    const items = sliderContainer.querySelectorAll(".menu-slide");
+    const prevBtn = sliderContainer.querySelector(".menu-prev-btn");
+    const nextBtn = sliderContainer.querySelector(".menu-next-btn");
+    const dots = sliderContainer.querySelectorAll(".menu-dot");
+    let currentIndex = 0;
+
+    function updateMenuSlider() {
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentIndex);
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        updateMenuSlider();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % items.length;
+        updateMenuSlider();
+      });
+    }
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        currentIndex = index;
+        updateMenuSlider();
+      });
+    });
+
+    updateMenuSlider();
+  });
+
+  // Thêm sự kiện cho nút "Đặt Lịch Nhanh"
+  const quickBookingBtn = document.querySelector(".quick-booking-btn");
+  if (quickBookingBtn) {
+    quickBookingBtn.addEventListener("click", function () {
+      showTab("booking");
+      // Cuộn đến đầu tab booking
+      const bookingTab = document.getElementById("booking");
+      if (bookingTab) {
+        bookingTab.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  }
+
+  attachImageUploadListener();
 });
 
 document.getElementById("quickBudget").addEventListener("input", function (e) {

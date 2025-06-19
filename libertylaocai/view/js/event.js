@@ -244,10 +244,6 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       e.stopImmediatePropagation();
 
-      // Hiển thị overlay loading toàn màn hình
-      const fullScreenLoader = document.getElementById("fullScreenLoader");
-      fullScreenLoader.style.display = "flex";
-
       // Kiểm tra các trường bắt buộc bằng HTML5 validation
       let isValid = bookingForm.checkValidity();
 
@@ -311,6 +307,10 @@ document.addEventListener("DOMContentLoaded", function () {
         isValid = false;
       }
 
+      // Hiển thị overlay loading toàn màn hình
+      const fullScreenLoader = document.getElementById("fullScreenLoader");
+      fullScreenLoader.style.display = "flex";
+
       if (isValid) {
         const formData = new FormData(bookingForm);
         formData.append("submit_booking", "true");
@@ -319,11 +319,20 @@ document.addEventListener("DOMContentLoaded", function () {
           formData.append(`images[]`, file);
         });
 
+        console.log("FormData entries:");
+        for (let [key, value] of formData.entries()) {
+          console.log(
+            key,
+            value instanceof File ? `File: ${value.name}` : value
+          );
+        }
+
         fetch("/libertylaocai/user/submit", {
           method: "POST",
           body: formData,
         })
           .then((response) => {
+            console.log("Fetch response status:", response.status);
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -343,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <h3>${languageId == 1 ? "Thành công!" : "Success!"}</h3>
                     <p>${
                       languageId == 1
-                        ? "Yêu cầu đặt lịch sự kiện đã được gửi thành công."
+                        ? "Yêu cầu đặt lịch sự kiện của bạn đã được gửi thành công."
                         : "Your event booking request has been sent successfully."
                     }</p>
                   </div>
@@ -372,7 +381,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .catch((error) => {
             // Ẩn overlay loading
             fullScreenLoader.style.display = "none";
-            console.error("Error:", error);
+            console.error("Fetch error:", error);
             alert(
               languageId == 1
                 ? "Có lỗi khi gửi yêu cầu. Vui lòng thử lại."
@@ -410,10 +419,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  $(document).on("click", ".event-more", function (e) {
+    e.preventDefault();
+    var $form = $(this).closest("form");
+    if ($form.length) {
+      $form.submit();
+    }
+  });
+
   // Gắn sự kiện lần đầu khi tải trang
   attachImageUploadListener();
 });
-
 document.getElementById("budget").addEventListener("input", function (e) {
   let value = e.target.value.replace(/[^0-9]/g, ""); // Loại bỏ ký tự không phải số
   if (value === "") {
