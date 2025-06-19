@@ -61,7 +61,7 @@ $footerData = getFooterData($languageId);
                     <div class="end-footer">
                         <div class="footer-left">
                             <div class="logo1">
-                                <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($info['logo']); ?>" alt="Liberty Lào Cai">
+                                <img src="/libertylaocai/view/img/uploads/<?php echo htmlspecialchars($info['logo']); ?>" alt="Liberty Lào Cai">
                                 <span class="logo-text1"><?php echo htmlspecialchars($info['name']); ?></span>
                             </div>
                             <div class="text">
