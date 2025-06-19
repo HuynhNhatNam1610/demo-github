@@ -2,9 +2,9 @@
 require_once '../model/UserModel.php';
 require_once '../view/php/session.php';
 require_once '../model/mail/sendmail.php';
-// error_reporting(E_ALL);
+error_reporting(E_ALL);
 // // // ini_set('log_errors', 1);
-// ini_set('error_log', 'debug.log');
+ini_set('error_log', 'debug.log');
 // Kiểm tra ngôn ngữ từ session, mặc định là 1 (tiếng Việt)
 $languageId = isset($_SESSION['language_id']) ? $_SESSION['language_id'] : 1;
 $informationHotel = getHotelInfoWithLanguage($languageId);
@@ -923,16 +923,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Xử lý hành động delete_room_type
-    if ($action === 'delete_room_type') {
-        $id = $_POST['room_type_id'] ?? '';
-        $result = deleteRoomType($conn, $id);
-        echo json_encode(array_merge($result, [
-            'room_types' => getRoomTypes1($conn),
-            'room_type_stats' => getRoomTypeStats($conn),
-            'rooms' => getRooms($conn)
-        ]));
-        exit;
-    }
+    // if ($action === 'delete_room_type') {
+    //     $id = $_POST['room_type_id'] ?? '';
+    //     $result = deleteRoomType($conn, $id);
+    //     echo json_encode(array_merge($result, [
+    //         'room_types' => getRoomTypes1($conn),
+    //         'room_type_stats' => getRoomTypeStats($conn),
+    //         'rooms' => getRooms($conn)
+    //     ]));
+    //     exit;
+    // }
 
     // Xử lý hành động fetch_room_types
     if ($action === 'fetch_room_types') {
@@ -995,7 +995,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'room_id' => $room_id,
                 'images' => $images
             ];
-            header("location: /libertylaocai/" . to_slug($room_name));
+            header("location: /libertylaocai/dat-phong/" . to_slug($room_name));
             exit();
         } elseif ($subcategory_code === 'hoi-nghi') {            ///////////////// Pagedetail
             $_SESSION['head_banner'] = getSelectedBanner('pagedetail', 'pagedetail-banner-conference');
@@ -1311,7 +1311,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $customerId = getCustomerIdByEmail($email ?: $phone); // Sử dụng email hoặc phone làm key
         if (!$customerId) {
-            $customerId = createCustomer($fullname, $phone, $email);
+            $customerId = createCustomer($name, $phone, $email);
         }
 
         if (insertCommentRestaurant($customerId, $name, $email, $content, $rating)) {
@@ -1335,7 +1335,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $customerId = getCustomerIdByEmail($email ?: $phone); // Sử dụng email hoặc phone làm key
         if (!$customerId) {
-            $customerId = createCustomer($fullname, $phone, $email);
+            $customerId = createCustomer($name, $phone, $email);
         }
 
         if (insertCommentBar($customerId, $name, $email, $content, $rating)) {
@@ -1360,7 +1360,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $customerId = getCustomerIdByEmail($email ?: $phone); // Sử dụng email hoặc phone làm key
         if (!$customerId) {
-            $customerId = createCustomer($fullname, $phone, $email);
+            $customerId = createCustomer($name, $phone, $email);
         }
 
         if (insertRoomComment($customerId, $id_loaiphong, $name, $email, $content, $rating)) {
@@ -1380,10 +1380,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id_service = $_POST['id_service'] ?? '';
         $phone = null;
 
-        // if (!$name || !$email || !$content || !$rating || !$id_service) {
-        //     echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
-        //     exit;
-        // }
+        if (!$name || !$email || !$content || !$rating || !$id_service) {
+            echo json_encode(['status' => 'error', 'message' => 'Thiếu thông tin bắt buộc']);
+            exit;
+        }
 
         $customerId = getCustomerIdByEmail($email ?: $phone); // Sử dụng email hoặc phone làm key
         if (!$customerId) {
@@ -1447,8 +1447,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['head_banner'] = getSelectedBanner('nhahang&bar', 'service-banner');
         } elseif ($footer_category_code === 'dat-phong') {
             $_SESSION['head_banner'] = getSelectedBanner('dat-phong', 'hero-content');
-        } elseif ($footer_category_code === 'dich-vu') {
-            $_SESSION['head_banner'] = getSelectedBanner('dichvu', 'hero-background');
+        // } elseif ($footer_category_code === 'dich-vu') {
+        //     $_SESSION['head_banner'] = getSelectedBanner('dichvu', 'hero-background');
         }
 
         header("location: /libertylaocai/$footer_category_code");
@@ -1465,22 +1465,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("location: /libertylaocai/su-kien-da-to-chuc");
     }
 
-    // if (isset($_POST['id_sukiendatochuc'])) {
-    //     $id_sukiendatochuc = $_POST['id_sukiendatochuc'];
-    //     $getEventOrganizedById = getEventOrganizedById(1, $id_sukiendatochuc);
-    //     $_SESSION['id_sukiendatochuc'] = $id_sukiendatochuc;
-    //     $_SESSION['head_banner'] = getSelectedBanner('chi-tiet-su-kien-da-to-chuc', 'tintuc-detail-banner');
-    //     header("location: /libertylaocai/su-kien-da-to-chuc/" . to_short_slug($getEventOrganizedById['title'], 5));
-    // }
-
-    // //Ưu đãi liên quan
-    // if (isset($_POST['other_organized_id'])) {
-    //     $id_sukiendatochuc = $_POST['other_organized_id'];
-    //     $getEventOrganizedById = getEventOrganizedById(1, $id_sukiendatochuc);
-    //     $_SESSION['id_sukiendatochuc'] = $id_sukiendatochuc;
-    //     $_SESSION['head_banner'] = getSelectedBanner('chi-tiet-su-kien-da-to-chuc', 'tintuc-detail-banner');
-    //     header("location: /libertylaocai/su-kien-da-to-chuc/" . to_short_slug($getEventOrganizedById['title'], 5));
-    // }
     // Nhận ID sự kiện đã tổ chức (từ id_sukiendatochuc hoặc other_organized_id)
     if (isset($_POST['id_sukiendatochuc']) || isset($_POST['other_organized_id'])) {
         // Ưu tiên id_sukiendatochuc, nếu không có thì dùng other_organized_id
@@ -1507,7 +1491,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'room_id' => $room_id,
             'images' => $images
         ];
-        header("location: /libertylaocai/" . to_slug($room_name));
+        header("location: /libertylaocai/dat-phong/" . to_slug($room_name));
         exit();
     }
 
@@ -1520,7 +1504,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'room_id' => $room_id,
             'images' => $images
         ];
-        header("location: /libertylaocai/" . to_slug($orther_room_name));
+        header("location: /libertylaocai/dat-phong/" . to_slug($orther_room_name));
         exit();
     }
     if (isset($_POST['submit_booking_room'])) {
@@ -2445,7 +2429,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 mkdir($uploadDir, 0755, true);
             }
 
-            $fileName = basename($_FILES['logoFile']['name']);
+            $fileName = time() . '_' . basename($_FILES['logoFile']['name']);
             $targetPath = $uploadDir . $fileName;
 
             // Di chuyển file tải lên vào thư mục uploads
@@ -2471,7 +2455,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     //18_6
-    if (isset($_POST['datlichngay'])) {
+    if (isset($_POST['khamphadichvu'])) {
         $_SESSION['head_banner'] = getSelectedBanner('event', 'event-banner');
         header("location: /libertylaocai/dich-vu");
         exit();

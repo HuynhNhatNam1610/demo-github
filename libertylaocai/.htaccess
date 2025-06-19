@@ -15,7 +15,7 @@ RewriteRule ^su-kien-da-to-chuc$ view/php/event_organized.php [QSA,L]
 
 RewriteRule ^thu-vien$ view/php/gallery.php [QSA,L]
 RewriteRule ^bar$ view/php/bar.php [QSA,L]
-RewriteRule ^chitietphong$ view/php/chitietphong.php [QSA,L]
+
 RewriteRule ^chitiettour$ view/php/chitiettour.php [QSA,L]
 RewriteRule ^dich-vu$ view/php/dichvu.php [QSA,L]
 RewriteRule ^gioithieu$ view/php/gioithieu.php [QSA,L]
@@ -41,7 +41,6 @@ RewriteRule ^quan-ly-lich-dat$ view/php/quanlydatphong.php [QSA,L]
 
 RewriteRule ^user/submit$ controller/UserController.php  [QSA,L]
 
-RewriteRule ^(phong-don|phong-doi|phong-triple|phong-gia-dinh)$ view/php/chitietphong.php?room=$1 [QSA,L]
 RewriteRule ^(hoi-thao|hoi-nghi|hop-bao|tiec-cuoi|sinh-nhat|gala-dinner|su-kien-doanh-nghiep)$ view/php/pagedetail.php?page=$1 [QSA,L]
 RewriteRule ^(nha-hang)$ view/php/nhahang.php?page=$1 [QSA,L]
 RewriteRule ^(sky-bar)$ view/php/bar.php?page=$1 [QSA,L]
@@ -49,6 +48,7 @@ RewriteRule ^(dua-don|tour-sapa|tour-bac-ha|tour-y-ty|tour-ha-khau)$ view/php/ch
 RewriteRule ^admin$ view/php/admin.php [QSA,L]
 
 
+RewriteRule ^dat-phong/([^/]+)$ view/php/chitietphong.php [QSA,L]
 RewriteRule ^khuyen-mai/([^/]+)$ view/php/saledetail.php [QSA,L]
 RewriteRule ^tin-tuc/([^/]+)$ view/php/chitiettintuc.php [QSA,L]
 RewriteRule ^su-kien-da-to-chuc/([^/]+)$ view/php/chitietsukiendatochuc.php [QSA,L]

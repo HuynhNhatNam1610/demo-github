@@ -536,6 +536,7 @@ body {
   border: 2px solid #e2e8f0;
   transition: all 0.3s ease;
   aspect-ratio: 1;
+  z-index: 1;
 }
 
 .image-item:hover,
@@ -575,6 +576,7 @@ body {
   padding: 12px;
   opacity: 0;
   transition: opacity 0.3s ease;
+  z-index: 10;
 }
 
 .image-item:hover .image-overlay,
@@ -609,6 +611,7 @@ body {
   justify-content: center;
   transition: all 0.3s ease;
   opacity: 0;
+  z-index: 11;
 }
 
 .image-item:hover .remove-btn,

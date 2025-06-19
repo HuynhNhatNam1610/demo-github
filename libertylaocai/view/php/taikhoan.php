@@ -13,7 +13,6 @@ $lang_data = getLangData($conn);
 if (!$admin_data) {
     die("Không tìm thấy thông tin admin!");
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -25,6 +24,9 @@ if (!$admin_data) {
     <link rel="icon" type="image/png" href="/libertylaocai/view/img/logoliberty.jpg">
     <link rel="stylesheet" href="/libertylaocai/view/css/taikhoan.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- CKEditor CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script src="/libertylaocai/model/ckfinder/ckfinder.js"></script>
 </head>
 
 <body>
@@ -40,7 +42,6 @@ if (!$admin_data) {
                     </div>
                 </header>
 
-                <!-- Phần header và tab navigation giữ nguyên -->
                 <div class="account-header" style="display: flex; justify-content: space-between; align-items: center;">
                     <h2><i class="fas fa-user-shield"></i> Quản Lý Tài Khoản Admin</h2>
                 </div>
@@ -51,7 +52,6 @@ if (!$admin_data) {
                     <button class="tab-button" data-tab="hotelTab">Thông Tin Khách Sạn</button>
                 </div>
 
-                <!-- Thêm container mới cho 2FA toggle -->
                 <div class="twofa-container" style="margin: 20px 0; display: flex; justify-content: flex-end;">
                     <label class="twofa-toggle">
                         <input type="checkbox" id="twofaToggle" <?php echo $admin_data['active_2fa'] ? 'checked' : ''; ?>>

@@ -101,6 +101,10 @@ function toggleForm(formId) {
       if (firstInput) {
         setTimeout(() => firstInput.focus(), 100);
       }
+    } else if (formId === "imageForm") {
+      // Clear selected files and reset image previews when hiding the form
+      selectedFiles = [];
+      clearImagePreviews();
     }
   }
 }

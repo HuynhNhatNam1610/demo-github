@@ -30,8 +30,8 @@
 
 /* Global Styles */
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
+  /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6; */
   color: var(--text-color);
   background-color: #eff8f0;
   scroll-behavior: smooth;

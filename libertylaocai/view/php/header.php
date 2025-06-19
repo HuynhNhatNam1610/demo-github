@@ -51,10 +51,10 @@ $getSubsectionHeader = getSubsectionHeaderCategories($languageId);
                             <a class="home" href="/libertylaocai/trangchu">
                                 <div class="logo">
                                     <div class="logo-img">
-                                        <img src="view/img/<?php echo htmlspecialchars($info['logo']); ?>" alt="<?php echo htmlspecialchars($info['name']); ?>">
+                                        <img src="view/img/uploads/<?php echo htmlspecialchars($info['logo']); ?>" alt="<?php echo htmlspecialchars($info['name']); ?>">
                                     </div>
                                     <div class="logo-text">
-                                        Liberty
+                                        <?php echo htmlspecialchars($info['short_name']); ?>
                                     </div>
                                 </div>
                             </a>

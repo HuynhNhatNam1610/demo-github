@@ -85,7 +85,7 @@ $halls = getConferenceHalls($languageId);
                 ?>
                         <div class="event-organized-detail" data-date="📅 <?php echo htmlspecialchars($event['create_at']); ?>">
                             <div class="organized-img">
-                                <img src="<?php echo htmlspecialchars($event['image']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>">
+                                <img src="/libertylaocai/view/img/<?php echo htmlspecialchars($event['image']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>">
                             </div>
                             <div class="organized-content">
                                 <div class="organized-title">
