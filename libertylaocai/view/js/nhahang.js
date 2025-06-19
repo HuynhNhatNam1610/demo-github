@@ -788,35 +788,54 @@ function submitReview(event) {
   };
 
   if (!reviewData.rating) {
-    alert("Vui lòng chọn số sao đánh giá!");
+    alert(
+      languageId == 1
+        ? "Vui lòng chọn số sao đánh giá!"
+        : "Please select a star rating!"
+    );
     return;
   }
 
   if (!reviewData.name.trim()) {
-    alert("Vui lòng nhập họ và tên!");
+    alert(
+      languageId == 1 ? "Vui lòng nhập họ và tên!" : "Please enter your name!"
+    );
     return;
   }
 
   if (!reviewData.email.trim()) {
-    alert("Vui lòng nhập email!");
+    alert(
+      languageId == 1 ? "Vui lòng nhập email!" : "Please enter your email!"
+    );
     return;
   }
 
   if (!reviewData.content.trim()) {
-    alert("Vui lòng nhập nội dung đánh giá!");
+    alert(
+      languageId == 1
+        ? "Vui lòng nhập nội dung đánh giá!"
+        : "Please enter review content!"
+    );
     return;
   }
 
   const submitBtn = document.querySelector(".submit-review-btn");
   const originalText = submitBtn.innerHTML;
-  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
+  submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
+    languageId == 1 ? "Đang gửi..." : "Submitting..."
+  }`;
   submitBtn.disabled = true;
 
   fetch("/libertylaocai/user/submit", {
     method: "POST",
     body: formData,
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
@@ -826,19 +845,47 @@ function submitReview(event) {
         const reviewsList = document.querySelector(".reviews-list");
         reviewsList.insertBefore(newReview, reviewsList.firstChild);
         fetchReviews(currentPage, currentLimit);
-        alert(
-          "Cảm ơn bạn đã chia sẻ đánh giá! Đánh giá của bạn đã được thêm thành công."
-        );
+
+        // Tạo thông báo động
+        const notification = document.createElement("div");
+        notification.className = "success-notification";
+        notification.innerHTML = `
+          <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <h3>${languageId == 1 ? "Thành công!" : "Success!"}</h3>
+              <p>${
+                languageId == 1
+                  ? "Đánh giá của bạn đã được thêm thành công."
+                  : "Your review has been added successfully."
+              }</p>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(notification);
+
+        // Tự động ẩn thông báo sau 3 giây
+        setTimeout(() => {
+          notification.style.animation = "slideOutRight 0.3s ease-in";
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+
         toggleReviewForm();
         newReview.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
-        alert("Lỗi: " + data.message);
+        alert(
+          languageId == 1 ? "Lỗi: " + data.message : "Error: " + data.message
+        );
       }
     })
     .catch((error) => {
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
-      alert("Lỗi gửi đánh giá: " + error.message);
+      alert(
+        languageId == 1
+          ? "Lỗi gửi đánh giá: " + error.message
+          : "Error submitting review: " + error.message
+      );
     });
 }
 

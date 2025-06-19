@@ -471,19 +471,41 @@ function submitReview(event) {
     .then((data) => {
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
+      // Trong hàm submitReview, thay thế đoạn alert sau khi gửi đánh giá thành công
       if (data.status === "success") {
         const newReview = createReviewElement(reviewData);
         const reviewsList = document.querySelector(".reviews-list");
         reviewsList.insertBefore(newReview, reviewsList.firstChild);
         fetchReviews(currentPage, currentLimit);
-        alert(
-          languageId == 1
-            ? "Cảm ơn bạn đã chia sẻ đánh giá! Đánh giá của bạn đã được thêm thành công."
-            : "Thank you for sharing your review! Your review has been added successfully."
-        );
+
+        // Tạo thông báo động
+        const notification = document.createElement("div");
+        notification.className = "success-notification";
+        notification.innerHTML = `
+              <div class="notification-content">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                      <h3>${languageId == 1 ? "Thành công!" : "Success!"}</h3>
+                      <p>${
+                        languageId == 1
+                          ? "Đánh giá của bạn đã được thêm thành công."
+                          : "Your review has been added successfully."
+                      }</p>
+                  </div>
+              </div>
+          `;
+        document.body.appendChild(notification);
+
+        // Tự động ẩn thông báo sau 3 giây
+        setTimeout(() => {
+          notification.style.animation = "slideOutRight 0.3s ease-in";
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+
         toggleReviewForm();
         newReview.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
+        // Giữ nguyên alert cho lỗi
         alert(
           languageId == 1 ? "Lỗi: " + data.message : "Error: " + data.message
         );
