@@ -420,11 +420,9 @@ $amenities = getRoomAmenities($room_id, $languageId);   /// lấy tiện tích c
                             <textarea id="special-requests" name="special-requests" rows="3" placeholder="<?php echo $text['special_requests_placeholder']; ?>"></textarea>
                         </div>
 
-
-
                         <div class="terms-checkbox">
                             <input type="checkbox" id="terms" name="terms" required>
-                            <label for="terms"><?php echo $text['terms_label']; ?></label>
+                            <label for="terms"><?php echo $languageId == 1 ? 'Tôi đồng ý với <a href="/libertylaocai/dieu-khoan" target="_blank">điều khoản và điều kiện</a> của khách sạn' : 'I agree with the <a href="/libertylaocai/dieukhoan.php" target="_blank">terms and conditions</a> of the hotel'; ?></label>
                         </div>
 
                         <button type="submit" class="submit-booking-btn">
