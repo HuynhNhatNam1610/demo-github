@@ -342,7 +342,7 @@ body {
   padding-bottom: 15px;
 }
 .other-rooms h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -437,7 +437,6 @@ body {
 }
 
 .room-card-price::before {
-
   font-size: 1.5rem;
   margin-right: 5px;
 }
@@ -647,9 +646,6 @@ body {
   box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
 }
 
-
-
-
 /* Reviews Section */
 .reviews-section {
   background: #fff;
@@ -811,7 +807,7 @@ body {
 
 .show-more-reviews {
   width: 100%;
-  padding: 12px ;
+  padding: 12px;
   background: transparent;
   color: #274e3e;
   border: 2px solid #3a9271;
@@ -823,7 +819,6 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  
 }
 .write-review-btn {
   width: 100%;
@@ -858,7 +853,6 @@ body {
 .write-review-section {
   margin-top: 20px;
   border-top: 1px solid #e9ecef;
-
 }
 
 .room-card-beds {
@@ -1017,7 +1011,6 @@ body {
   transform: translateY(-1px);
   box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
 }
-
 
 /* Responsive cho form đánh giá */
 @media (max-width: 768px) {
@@ -1321,6 +1314,65 @@ body {
 .form-group label .required {
   color: #e74c3c;
 }
+/* Success Notification */
+.success-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  max-width: 300px;
+  width: 100%;
+  animation: slideInRight 0.3s ease-out;
+}
+
+.notification-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notification-content i {
+  font-size: 2rem;
+  color: #28a745;
+}
+
+.notification-content h3 {
+  color: #1e7255;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.notification-content p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
 
 @media (max-width: 768px) {
   .rooms-grid {
@@ -1402,7 +1454,6 @@ body {
   }
 }
 
-/* Thêm vào cuối file nhahang&bar.css */
 .full-screen-loader {
   display: flex;
   justify-content: center;
