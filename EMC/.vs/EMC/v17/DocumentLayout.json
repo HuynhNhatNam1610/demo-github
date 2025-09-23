@@ -1,0 +1,113 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\phongkinhdoanh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\phongkinhdoanh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\ui\\forms\\phongkinhdoanh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\phongkinhdoanh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\phongkinhdoanh.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\phongkinhdoanh.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\helpers\\uihelpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\helpers\\uihelpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAiwBoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T13:40:50.393Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UIHelpers.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Helpers\\UIHelpers.cs",
+              "RelativeDocumentMoniker": "UI\\Helpers\\UIHelpers.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Helpers\\UIHelpers.cs",
+              "RelativeToolTip": "UI\\Helpers\\UIHelpers.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T14:21:47.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PhongKinhDoanh.cs [Design]",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\PhongKinhDoanh.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.cs [Design]",
+              "RelativeToolTip": "UI\\Forms\\PhongKinhDoanh.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T09:16:51.849Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PhongKinhDoanh.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\PhongKinhDoanh.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.cs",
+              "RelativeToolTip": "UI\\Forms\\PhongKinhDoanh.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-22T14:29:18.943Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PhongKinhDoanh.Designer.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.Designer.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\PhongKinhDoanh.Designer.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.Designer.cs",
+              "RelativeToolTip": "UI\\Forms\\PhongKinhDoanh.Designer.cs",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAAALkAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-22T14:29:26.037Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

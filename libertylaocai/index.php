@@ -1,1 +1,0 @@
-<?php include "/libertylaocai/trangchu"; ?>
