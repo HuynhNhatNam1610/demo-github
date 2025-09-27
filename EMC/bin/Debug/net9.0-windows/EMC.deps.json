@@ -9,6 +9,7 @@
       "EMC/1.0.0": {
         "dependencies": {
           "Guna.UI2.WinForms": "2.0.4.7",
+          "Krypton.Toolkit": "95.25.8.235",
           "Microsoft.Data.SqlClient": "6.1.1"
         },
         "runtime": {
@@ -50,6 +51,14 @@
           "lib/net7.0-windows7.0/Guna.UI2.dll": {
             "assemblyVersion": "2.0.4.7",
             "fileVersion": "2.0.4.7"
+          }
+        }
+      },
+      "Krypton.Toolkit/95.25.8.235": {
+        "runtime": {
+          "lib/net9.0-windows7.0/Krypton.Toolkit.dll": {
+            "assemblyVersion": "95.25.8.235",
+            "fileVersion": "95.25.8.235"
           }
         }
       },
@@ -422,6 +431,13 @@
       "sha512": "sha512-8BdBYsfnntuICbFMHIZsd5morwURN8Ucsvq7wJeyLV1Z1ze6CAIxVKEirufgjGIiXfF0M0sCr9EVFloZSazWew==",
       "path": "guna.ui2.winforms/2.0.4.7",
       "hashPath": "guna.ui2.winforms.2.0.4.7.nupkg.sha512"
+    },
+    "Krypton.Toolkit/95.25.8.235": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BE6IgKwqp+etzigqM6lsesOvTnrRxVehaQ/nTXoSeKVlmpFjXic6tLysKUCmbMS8NnRoAoKq41xLCvhiTDoIEA==",
+      "path": "krypton.toolkit/95.25.8.235",
+      "hashPath": "krypton.toolkit.95.25.8.235.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/8.0.0": {
       "type": "package",

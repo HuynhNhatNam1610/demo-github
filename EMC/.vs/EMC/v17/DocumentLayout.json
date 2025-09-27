@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\fplanning.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\fplanning.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\phongkinhdoanh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\phongkinhdoanh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,16 +15,64 @@
       "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\phongkinhdoanh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\ui\\forms\\fplanning.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\fplanning.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\fplanning.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\fplanning.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\phongkinhdoanh.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\phongkinhdoanh.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\helpers\\uihelpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\helpers\\uihelpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\fadd\u0026editsample.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\fadd\u0026editsample.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\flogin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\flogin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\flogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\flogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\freview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\freview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\fadd\u0026editsample.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\fadd\u0026editsample.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\fadd\u0026editsample.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\fadd\u0026editsample.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\ui\\forms\\flogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:ui\\forms\\flogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\dto\\sample.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:dto\\sample.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\dao\\sampledao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:dao\\sampledao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\dao\\dataprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:dao\\dataprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|d:\\nam3_2025-2026\\nam1_hk1_2025-2026\\cnpm_hk1_2025-2026\\bao_cao\\emc\\emc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{E3D12FF0-4111-43C4-A655-0E38B3C45035}|EMC.csproj|solutionrelative:emc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,17 +82,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 15,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAiwBoAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAmwB0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-13T13:40:50.393Z",
               "IsPinned": true,
@@ -48,16 +100,27 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UIHelpers.cs",
-              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Helpers\\UIHelpers.cs",
-              "RelativeDocumentMoniker": "UI\\Helpers\\UIHelpers.cs",
-              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Helpers\\UIHelpers.cs",
-              "RelativeToolTip": "UI\\Helpers\\UIHelpers.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "fReview.cs [Design]",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fReview.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fReview.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fReview.cs [Design]",
+              "RelativeToolTip": "UI\\Forms\\fReview.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T14:21:47.058Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-27T13:47:28.363Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "fLogin.cs [Design]",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fLogin.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fLogin.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fLogin.cs [Design]",
+              "RelativeToolTip": "UI\\Forms\\fLogin.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-27T13:47:12.649Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Bookmark",
@@ -69,7 +132,157 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
+              "Title": "fLogin.Designer.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fLogin.Designer.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fLogin.Designer.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fLogin.Designer.cs",
+              "RelativeToolTip": "UI\\Forms\\fLogin.Designer.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-25T14:54:47.799Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "fLogin.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fLogin.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fLogin.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fLogin.cs",
+              "RelativeToolTip": "UI\\Forms\\fLogin.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAApwCYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-25T14:54:40.577Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "fAdd\u0026EditSample.Designer.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fAdd\u0026EditSample.Designer.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fAdd\u0026EditSample.Designer.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fAdd\u0026EditSample.Designer.cs",
+              "RelativeToolTip": "UI\\Forms\\fAdd\u0026EditSample.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-25T01:57:34.96Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "fAdd\u0026EditSample.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fAdd\u0026EditSample.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fAdd\u0026EditSample.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fAdd\u0026EditSample.cs",
+              "RelativeToolTip": "UI\\Forms\\fAdd\u0026EditSample.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAuwCQAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T14:11:34.919Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "fAdd\u0026EditSample.cs [Design]",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fAdd\u0026EditSample.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fAdd\u0026EditSample.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fAdd\u0026EditSample.cs [Design]",
+              "RelativeToolTip": "UI\\Forms\\fAdd\u0026EditSample.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T13:45:48.451Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "EMC.csproj",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\EMC.csproj",
+              "RelativeDocumentMoniker": "EMC.csproj",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\EMC.csproj",
+              "RelativeToolTip": "EMC.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-09-24T04:41:14.615Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DataProvider.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\DAO\\DataProvider.cs",
+              "RelativeDocumentMoniker": "DAO\\DataProvider.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\DAO\\DataProvider.cs",
+              "RelativeToolTip": "DAO\\DataProvider.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAYwDMAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T03:22:39.985Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "SampleDAO.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\DAO\\SampleDAO.cs",
+              "RelativeDocumentMoniker": "DAO\\SampleDAO.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\DAO\\SampleDAO.cs",
+              "RelativeToolTip": "DAO\\SampleDAO.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAmwBwAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T02:43:52.934Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Sample.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\DTO\\Sample.cs",
+              "RelativeDocumentMoniker": "DTO\\Sample.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\DTO\\Sample.cs",
+              "RelativeToolTip": "DTO\\Sample.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwEYAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T02:26:37.341Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "fPlanning.Designer.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fPlanning.Designer.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fPlanning.Designer.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fPlanning.Designer.cs",
+              "RelativeToolTip": "UI\\Forms\\fPlanning.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHQAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T15:57:45.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "fPlanning.cs",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fPlanning.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fPlanning.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fPlanning.cs*",
+              "RelativeToolTip": "UI\\Forms\\fPlanning.cs*",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAwCQAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T15:53:47.209Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "fPlanning.cs [Design]",
+              "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fPlanning.cs",
+              "RelativeDocumentMoniker": "UI\\Forms\\fPlanning.cs",
+              "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\fPlanning.cs [Design]*",
+              "RelativeToolTip": "UI\\Forms\\fPlanning.cs [Design]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T15:51:52.866Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "PhongKinhDoanh.cs [Design]",
               "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.cs",
               "RelativeDocumentMoniker": "UI\\Forms\\PhongKinhDoanh.cs",
@@ -81,26 +294,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "PhongKinhDoanh.cs",
               "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.cs",
               "RelativeDocumentMoniker": "UI\\Forms\\PhongKinhDoanh.cs",
               "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.cs",
               "RelativeToolTip": "UI\\Forms\\PhongKinhDoanh.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T14:29:18.943Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "PhongKinhDoanh.Designer.cs",
               "DocumentMoniker": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.Designer.cs",
               "RelativeDocumentMoniker": "UI\\Forms\\PhongKinhDoanh.Designer.cs",
               "ToolTip": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\UI\\Forms\\PhongKinhDoanh.Designer.cs",
               "RelativeToolTip": "UI\\Forms\\PhongKinhDoanh.Designer.cs",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAAALkAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAALcBAAAAAAAAAAApwMgBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T14:29:26.037Z",
               "EditorCaption": ""

@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[2.0.4.7, )"
             },
+            "Krypton.Toolkit": {
+              "target": "Package",
+              "version": "[95.25.8.235, )"
+            },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
               "version": "[6.1.1, )"

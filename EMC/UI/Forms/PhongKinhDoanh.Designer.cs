@@ -375,6 +375,7 @@
             roundedButton1.TabIndex = 1;
             roundedButton1.Text = "☰";
             roundedButton1.UseVisualStyleBackColor = false;
+            roundedButton1.Click += roundedButton1_Click;
             // 
             // line1
             // 

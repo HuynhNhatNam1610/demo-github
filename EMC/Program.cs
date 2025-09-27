@@ -15,13 +15,14 @@ namespace EMC
             ApplicationConfiguration.Initialize();
             //fReview f2 = new fReview();
             fLogin f1 = new fLogin();
-            fBusiness f3 = new fBusiness();
             fReview f2 = new fReview();
-            Form1 f4 = new Form1();
             PhongKinhDoanh f5 = new PhongKinhDoanh();
+            fPlanning f6 = new fPlanning();
+            fAdd_EditSample f7 = new fAdd_EditSample();
 
             //f1.Show();
-            f5.Show();
+            //f6.Show();
+            f6.Show();
             //f4.Show();
             //form1.Show();
             Application.Run();

@@ -74,7 +74,6 @@ D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\ne
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\Guna.UI2.dll
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\System.Management.dll
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\runtimes\win\lib\net7.0\System.Management.dll
-D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\obj\Debug\net9.0-windows\EMC.UI.Forms.fBusiness.resources
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\UI\Resources\icons\phone.png
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\UI\Resources\images\envir1.jpg
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\UI\Resources\images\envir2.jpg
@@ -88,7 +87,6 @@ D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\ne
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\UI\Resources\icons\microphone.png
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\UI\Resources\icons\audio.png
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\obj\Debug\net9.0-windows\EMC.UI.Forms.UserControl1.resources
-D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\obj\Debug\net9.0-windows\EMC.UI.Forms.Form1.resources
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\UI\Resources\icons\Search3.png
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\obj\Debug\net9.0-windows\EMC.UI.Forms.PhongKinhDoanh.resources
 D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\UI\Resources\icons\edit.png
@@ -289,3 +287,7 @@ D:\EMC23_9\EMC\obj\Debug\net9.0-windows\refint\EMC.dll
 D:\EMC23_9\EMC\obj\Debug\net9.0-windows\EMC.pdb
 D:\EMC23_9\EMC\obj\Debug\net9.0-windows\EMC.genruntimeconfig.cache
 D:\EMC23_9\EMC\obj\Debug\net9.0-windows\ref\EMC.dll
+D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\obj\Debug\net9.0-windows\EMC.UI.Forms.fPlanning.resources
+D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\Krypton.Toolkit.dll
+D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\obj\Debug\net9.0-windows\EMC.UI.Forms.fAdd_EditSample.resources
+D:\NAM3_2025-2026\NAM1_HK1_2025-2026\CNPM_HK1_2025-2026\BAO_CAO\EMC\bin\Debug\net9.0-windows\UI\Resources\images\xanhpastel.jpg

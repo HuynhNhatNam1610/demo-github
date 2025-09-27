@@ -54,6 +54,22 @@
           "Microsoft.WindowsDesktop.App.WindowsForms"
         ]
       },
+      "Krypton.Toolkit/95.25.8.235": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0-windows7.0/Krypton.Toolkit.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0-windows7.0/Krypton.Toolkit.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
       "Microsoft.Bcl.AsyncInterfaces/8.0.0": {
         "type": "package",
         "compile": {
@@ -729,6 +745,36 @@
         "lib/net6.0-windows7.0/Guna.UI2.dll",
         "lib/net7.0-windows7.0/Guna.UI2.dll",
         "lib/netcoreapp3.1/Guna.UI2.dll"
+      ]
+    },
+    "Krypton.Toolkit/95.25.8.235": {
+      "sha512": "BE6IgKwqp+etzigqM6lsesOvTnrRxVehaQ/nTXoSeKVlmpFjXic6tLysKUCmbMS8NnRoAoKq41xLCvhiTDoIEA==",
+      "type": "package",
+      "path": "krypton.toolkit/95.25.8.235",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Krypton Stable.png",
+        "License.md",
+        "README.md",
+        "krypton.toolkit.95.25.8.235.nupkg.sha512",
+        "krypton.toolkit.nuspec",
+        "lib/net462/Krypton.Toolkit.dll",
+        "lib/net462/Krypton.Toolkit.xml",
+        "lib/net47/Krypton.Toolkit.dll",
+        "lib/net47/Krypton.Toolkit.xml",
+        "lib/net471/Krypton.Toolkit.dll",
+        "lib/net471/Krypton.Toolkit.xml",
+        "lib/net472/Krypton.Toolkit.dll",
+        "lib/net472/Krypton.Toolkit.xml",
+        "lib/net48/Krypton.Toolkit.dll",
+        "lib/net48/Krypton.Toolkit.xml",
+        "lib/net481/Krypton.Toolkit.dll",
+        "lib/net481/Krypton.Toolkit.xml",
+        "lib/net8.0-windows7.0/Krypton.Toolkit.dll",
+        "lib/net8.0-windows7.0/Krypton.Toolkit.xml",
+        "lib/net9.0-windows7.0/Krypton.Toolkit.dll",
+        "lib/net9.0-windows7.0/Krypton.Toolkit.xml"
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/8.0.0": {
@@ -1703,6 +1749,7 @@
   "projectFileDependencyGroups": {
     "net9.0-windows7.0": [
       "Guna.UI2.WinForms >= 2.0.4.7",
+      "Krypton.Toolkit >= 95.25.8.235",
       "Microsoft.Data.SqlClient >= 6.1.1"
     ]
   },
@@ -1759,6 +1806,10 @@
           "Guna.UI2.WinForms": {
             "target": "Package",
             "version": "[2.0.4.7, )"
+          },
+          "Krypton.Toolkit": {
+            "target": "Package",
+            "version": "[95.25.8.235, )"
           },
           "Microsoft.Data.SqlClient": {
             "target": "Package",

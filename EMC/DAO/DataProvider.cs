@@ -49,6 +49,34 @@ namespace EMC.DAO
             return data;
         }
 
+        public DataTable ExecuteProcedureWithParameter(string procedureName, Dictionary<string, object> parameters = null)
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionSTR))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(procedureName, connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                if (parameters != null)
+                {
+                    foreach (var param in parameters)
+                    {
+                        command.Parameters.AddWithValue(param.Key, param.Value);
+                    }
+                }
+
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(data);
+
+                connection.Close();
+            }
+
+            return data;
+        }
+
         public int ExecuteNonQueryProcedure(string procedureName, object[] parameter = null, string[] paramNames = null)
         {
             int data = 0;

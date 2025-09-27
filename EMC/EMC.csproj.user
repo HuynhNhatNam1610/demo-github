@@ -28,13 +28,13 @@
     <Compile Update="UI\Controls\TransparentLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="UI\Forms\fBusiness.cs">
+    <Compile Update="UI\Forms\fAdd&amp;EditSample.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="UI\Forms\fLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UI\Forms\Form1.cs">
+    <Compile Update="UI\Forms\fPlanning.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="UI\Forms\fReview.cs">

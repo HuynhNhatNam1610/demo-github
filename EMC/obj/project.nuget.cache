@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "4xP0I2LEYZc=",
+  "dgSpecHash": "5LfSGwWzdOU=",
   "success": true,
   "projectFilePath": "D:\\NAM3_2025-2026\\NAM1_HK1_2025-2026\\CNPM_HK1_2025-2026\\BAO_CAO\\EMC\\EMC.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ADMIN\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\guna.ui2.winforms\\2.0.4.7\\guna.ui2.winforms.2.0.4.7.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\krypton.toolkit\\95.25.8.235\\krypton.toolkit.95.25.8.235.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\8.0.0\\microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.bcl.cryptography\\9.0.4\\microsoft.bcl.cryptography.9.0.4.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.data.sqlclient\\6.1.1\\microsoft.data.sqlclient.6.1.1.nupkg.sha512",

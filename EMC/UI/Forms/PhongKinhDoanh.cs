@@ -49,6 +49,59 @@ namespace EMC.UI.Forms
             dgvCustomers.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
         }
 
+        private void Sidebar_Resize(object sender, EventArgs e)
+        {
+            // Cập nhật vị trí và kích thước của CustomGradientPanel1
+            CustomGradientPanel1.Left = pSidebar.Width;
+            CustomGradientPanel1.Width = this.ClientSize.Width - pSidebar.Width;
+            CustomGradientPanel1.Height = this.ClientSize.Height;
+
+            if (!sidebarVisible)
+            {
+                roundedButton1.Location = new Point(11, 15); // Vị trí cố định
+                roundedButton1.BringToFront(); // Đưa nút lên trên cùng
+
+                // Cập nhật vị trí label5 (Quản lý hợp đồng) khi sidebar thu
+                label5.Left = pSidebar.Width + 30; // Tăng khoảng cách từ 10 lên 30
+                label5.Top = 11; // Cùng vị trí với thanh tìm kiếm
+                label5.Visible = true; // Vẫn hiển thị label5
+                CustomGradientPanel1.Width = this.ClientSize.Width - pSidebar.Width - 75;
+            }
+            else
+            {
+                label5.Visible = true; // Hiển thị lại label5 khi sidebar mở rộng
+                label5.Location = new Point(pSidebar.Width + 25, 11); // Đặt label5 cùng vị trí với thanh tìm kiếm
+                CustomGradientPanel1.Width = this.ClientSize.Width - pSidebar.Width;
+            }
+
+            // Cập nhật vị trí nút "Thêm hợp đồng"
+            int paddingRight = 20;
+            roundedButton2.Left = CustomGradientPanel1.ClientSize.Width - roundedButton2.Width - paddingRight;
+            roundedButton2.Top = 11;
+
+            // Cập nhật vị trí thanh tìm kiếm với padding khác nhau
+            int searchPadding = sidebarVisible ? 25 : 30; // Tăng từ 10 lên 30 khi thu gọn
+            roundedTextBox1.Left = searchPadding;
+            roundedTextBox1.Top = 11;
+
+            // Cập nhật kích thước DataGridView với padding bằng nhau hai bên
+            int gridPadding = 25; // Giữ nguyên padding hai bên
+            dgvCustomers.Left = gridPadding;
+            dgvCustomers.Width = CustomGradientPanel1.ClientSize.Width - (2 * gridPadding); // Trừ đi padding hai bên
+            dgvCustomers.Height = CustomGradientPanel1.ClientSize.Height - dgvCustomers.Top - gridPadding;
+
+            // Thiết lập các cột tự động giãn đều
+            dgvCustomers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Cố định chiều rộng cột ThaoTac
+            dgvCustomers.Columns["ThaoTac"].Width = 150;
+
+            // Ẩn đường viền
+            dgvCustomers.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dgvCustomers.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvCustomers.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+        }
+
         private void Thanhtimkiem_GotFocus(object sender, EventArgs e)
         {
             if (Thanhtimkiem.Text == "Tìm kiếm theo mã hợp đồng, tên khách hàng..." ||
@@ -413,6 +466,48 @@ namespace EMC.UI.Forms
 
         private void rbtnTrash_Click(object sender, EventArgs e)
         {
+        }
+
+        private void roundedButton1_Click(object sender, EventArgs e)
+        {
+            sidebarVisible = !sidebarVisible;
+
+            if (sidebarVisible)
+            {
+                // Mở rộng sidebar
+                pSidebar.Width = SIDEBAR_WIDTH;
+                cpbLogo.Visible = true;
+                line1.Visible = true;
+                label1.Visible = true;
+                label2.Visible = true;
+                label3.Visible = true;
+                label4.Visible = true;
+                roundedButton1.Text = "☰";
+                roundedButton1.BorderSize = 1;
+
+                // Hiện lại màu nền khi mở rộng
+                pSidebar.BackColor = Color.FromArgb(45, 55, 72);
+            }
+            else
+            {
+                // Thu sidebar - chỉ để lại nút menu
+                pSidebar.Width = SIDEBAR_COLLAPSED_WIDTH;
+                cpbLogo.Visible = false;
+                line1.Visible = false;
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                label4.Visible = false;
+                roundedButton1.Text = "☰";
+
+                // Xóa màu nền để chỉ còn nút menu
+                pSidebar.BackColor = Color.Transparent;
+                roundedButton1.BorderSize = 0;
+
+            }
+
+            // Gọi sự kiện Resize để cập nhật lại giao diện
+            Sidebar_Resize(sender, e);
         }
     }
 }

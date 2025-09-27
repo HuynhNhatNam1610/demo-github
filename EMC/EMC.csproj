@@ -10,8 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DAO\" />
-    <Folder Include="DTO\" />
     <Folder Include="Logs\" />
     <Folder Include="Config\" />
     <Folder Include="Service\" />
@@ -21,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="Guna.UI2.WinForms" Version="2.0.4.7" />
+    <PackageReference Include="Krypton.Toolkit" Version="95.25.8.235" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
   </ItemGroup>
 
@@ -137,6 +136,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UI\Resources\images\saveus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UI\Resources\images\xanhpastel.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UI\Resources\uploads\anhthe.jpg">

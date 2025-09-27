@@ -40,7 +40,6 @@ namespace EMC.UI.Forms
             ptbUsername = new PlaceholderTextBox();
             lBack = new Label();
             rpPassword = new RoundedPanel();
-            pbShow = new PictureBox();
             ptbPassword = new PlaceholderTextBox();
             lForgotPass = new Label();
             label5 = new Label();
@@ -55,6 +54,7 @@ namespace EMC.UI.Forms
             rpPhone = new RoundedPanel();
             ptbPhone = new PlaceholderTextBox();
             pbBanner = new PictureBox();
+            pbShow = new PictureBox();
             pbShow1 = new PictureBox();
             lblResendOtp = new Label();
             rpNewPassword = new RoundedPanel();
@@ -66,13 +66,13 @@ namespace EMC.UI.Forms
             ((System.ComponentModel.ISupportInitialize)pbFaceid).BeginInit();
             rpUsername.SuspendLayout();
             rpPassword.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pbShow).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbLeft).BeginInit();
             pbLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbRightCorner).BeginInit();
             rpPhone.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbBanner).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbShow).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbShow1).BeginInit();
             rpNewPassword.SuspendLayout();
             rpConfirmPassword.SuspendLayout();
@@ -93,6 +93,7 @@ namespace EMC.UI.Forms
             rpBanner.BorderColor = Color.Gray;
             rpBanner.BorderRadius = 20;
             rpBanner.Controls.Add(pbFaceid);
+            //rpBanner.Controls.Add(label1);
             rpBanner.Controls.Add(rpUsername);
             rpBanner.Controls.Add(lBack);
             rpBanner.Controls.Add(rpPassword);
@@ -182,15 +183,6 @@ namespace EMC.UI.Forms
             rpPassword.Size = new Size(352, 60);
             rpPassword.TabIndex = 38;
             // 
-            // pbShow
-            // 
-            pbShow.BackColor = Color.Transparent;
-            pbShow.Location = new Point(307, 18);
-            pbShow.Name = "pbShow";
-            pbShow.Size = new Size(27, 24);
-            pbShow.TabIndex = 37;
-            pbShow.TabStop = false;
-            // 
             // ptbPassword
             // 
             ptbPassword.AutoVerticalCenter = true;
@@ -273,8 +265,8 @@ namespace EMC.UI.Forms
             // 
             // pbLeft
             // 
-            pbLeft.Controls.Add(label2);
             pbLeft.Controls.Add(label1);
+            pbLeft.Controls.Add(label2);
             pbLeft.Controls.Add(label3);
             pbLeft.Location = new Point(0, 0);
             pbLeft.Name = "pbLeft";
@@ -301,7 +293,7 @@ namespace EMC.UI.Forms
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(103, 142, 65);
-            label1.Location = new Point(167, 238);
+            label1.Location = new Point(184, 238);
             label1.Name = "label1";
             label1.Size = new Size(181, 31);
             label1.TabIndex = 3;
@@ -370,6 +362,15 @@ namespace EMC.UI.Forms
             pbBanner.Size = new Size(1151, 797);
             pbBanner.TabIndex = 1;
             pbBanner.TabStop = false;
+            // 
+            // pbShow
+            // 
+            pbShow.BackColor = Color.Transparent;
+            pbShow.Location = new Point(307, 18);
+            pbShow.Name = "pbShow";
+            pbShow.Size = new Size(27, 24);
+            pbShow.TabIndex = 37;
+            pbShow.TabStop = false;
             // 
             // pbShow1
             // 
@@ -459,7 +460,6 @@ namespace EMC.UI.Forms
             ((System.ComponentModel.ISupportInitialize)pbFaceid).EndInit();
             rpUsername.ResumeLayout(false);
             rpPassword.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pbShow).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbLeft).EndInit();
             pbLeft.ResumeLayout(false);
@@ -467,6 +467,7 @@ namespace EMC.UI.Forms
             ((System.ComponentModel.ISupportInitialize)pbRightCorner).EndInit();
             rpPhone.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbBanner).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbShow).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbShow1).EndInit();
             rpNewPassword.ResumeLayout(false);
             rpConfirmPassword.ResumeLayout(false);
